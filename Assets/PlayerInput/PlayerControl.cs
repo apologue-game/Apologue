@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,15 @@ public class PlayerControl : MonoBehaviour
     private bool facingRight = true;
 
     //jump
-    public float jumpForce = 400f;
+    public float jumpForce = 25f;
+    public float doubleJumpForce = 15f;
+    public bool doubleJump = true;
     public bool grounded;
     private Transform groundCheck;
     private const float groundCheckRadius = .01f;
     private const float ceilingCheckRadius = .01f;
     public LayerMask whatIsGround;
+    //public Vector2 doubleJumpForceVector;
 
     //dash
     public float dashSpeed = 15000f;
@@ -45,6 +49,8 @@ public class PlayerControl : MonoBehaviour
         inputActions.Enable();
         rigidBody2D = GetComponent<Rigidbody2D>();
         dashSpeedVector = new Vector2(rigidBody2D.velocity.x * dashSpeed, rigidBody2D.velocity.y);
+        //doubleJumpForceVector = new Vector2(0, rigidBody2D.velocity.x * jumpForce / 2);
+
 
         inputActions.Player.Move.performed += ctx => { direction = ctx.ReadValue<float>(); };
 
@@ -62,7 +68,10 @@ public class PlayerControl : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
+            {
                 grounded = true;
+                doubleJump = true;
+            }             
         }
     }
 
@@ -77,9 +86,23 @@ public class PlayerControl : MonoBehaviour
         {
             Jump();
         }
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            DoubleJump();
+        }
         if (Keyboard.current.leftShiftKey.wasPressedThisFrame)
         {
             Dash();
+        }
+    }
+
+    private void DoubleJump()
+    {
+        if (grounded == false && doubleJump)
+        {
+            rigidBody2D.velocity = (Vector2.up * jumpForce);
+            //rigidBody2D.AddForce(Vector2.up * doubleJumpForce);
+            doubleJump = false;
         }
     }
 
@@ -130,9 +153,9 @@ public class PlayerControl : MonoBehaviour
         
         if (grounded)
         {
-            // Add a vertical force to the player.
+            
             grounded = false;
-
+            // Add a vertical force to the player.
             rigidBody2D.velocity = Vector2.up * jumpForce;
 
         }
