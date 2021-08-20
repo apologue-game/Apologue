@@ -26,7 +26,7 @@ public class PlayerControl : MonoBehaviour
     //public Vector2 doubleJumpForceVector;
 
     //dash
-    public float dashSpeed = 15000f;
+    public float dashSpeed = 150f;
     public enum DashState
     {
         Ready,
@@ -62,7 +62,7 @@ public class PlayerControl : MonoBehaviour
     {
         grounded = false;
 
-
+        Move();
         //colliders check to see if the player is currently on the ground
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
@@ -77,11 +77,17 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
+        
         if (!dashReady)
         {
             timePassedSinceDash += Time.deltaTime * 3f;
+            if (timePassedSinceDash >= dashCooldown)
+            {
+                dashState = DashState.Ready;
+                
+            }
         }
-        Move();
+        
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             Jump();
@@ -127,8 +133,17 @@ public class PlayerControl : MonoBehaviour
             case DashState.Ready:
                 {
                     Debug.Log("We're in the 'Dash is ready' case");
-                    rigidBody2D.AddForce(dashSpeedVector);
+                    //rigidBody2D.AddForce(dashSpeedVector);
+                    if (direction > 0)
+                    {
+                        rigidBody2D.AddForce(Vector2.right * dashSpeed);
+                    }
+                    else
+                    {
+                        rigidBody2D.AddForce(Vector2.left * dashSpeed);
+                    }
                     dashState = DashState.NotReady;
+                    timePassedSinceDash = 0;
                     dashReady = false;
                     break;
                 }
