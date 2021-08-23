@@ -8,61 +8,54 @@ public class PlayerControl : MonoBehaviour
 {
     ApologuePlayerInput_Actions inputActions;
     public Rigidbody2D rigidBody2D;
+    public Animator animator;
 
     //movement
-    private float direction = 0;
     public float movementSpeed = 2500f;
     private bool facingRight = true;
+    float inputX;
 
     //jump
     public float jumpForce = 25f;
-    public float doubleJumpForce = 15f;
-    public bool doubleJump = true;
     public bool grounded;
     private Transform groundCheck;
     private const float groundCheckRadius = .01f;
     private const float ceilingCheckRadius = .01f;
     public LayerMask whatIsGround;
-    //public Vector2 doubleJumpForceVector;
+
+    //double jump
+    public float doubleJumpForce = 20f;
+    public bool doubleJump;
 
     //dash
-    public float dashSpeed = 150f;
-    public enum DashState
-    {
-        Ready,
-        NotReady
-    }
-    private DashState dashState;
+    public float dashSpeed = 20000f;
     private bool dashReady = true;
     public float dashCooldown = 5f;
     public float timePassedSinceDash;
-    private Vector2 dashSpeedVector;
+    public bool dashDirectionIfStationary = true;
 
     //slide
     public float slideSpeed;
     private Transform ceilingCheck;
 
-
-    private void Awake()
+    void Awake()
     {
         inputActions = new ApologuePlayerInput_Actions();
         inputActions.Enable();
+
         rigidBody2D = GetComponent<Rigidbody2D>();
-        dashSpeedVector = new Vector2(rigidBody2D.velocity.x * dashSpeed, rigidBody2D.velocity.y);
-        //doubleJumpForceVector = new Vector2(0, rigidBody2D.velocity.x * jumpForce / 2);
-
-
-        inputActions.Player.Move.performed += ctx => { direction = ctx.ReadValue<float>(); };
+        animator = GetComponent<Animator>();
 
         groundCheck = transform.Find("GroundCheck");
         ceilingCheck = transform.Find("CeilingCheck");
+
+        dashDirectionIfStationary = true;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         grounded = false;
-
-        Move();
+        
         //colliders check to see if the player is currently on the ground
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
@@ -70,120 +63,123 @@ public class PlayerControl : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 grounded = true;
-                doubleJump = true;
             }             
         }
+        //move character
+        rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
+
+        //move animation
+        animator.SetFloat("animSpeed", Mathf.Abs(rigidBody2D.velocity.x));
+        //jump animation
+        animator.SetFloat("animvSpeed", Mathf.Abs(rigidBody2D.velocity.y));
     }
 
-    private void Update()
-    {
-        
+    void Update()
+    {      
         if (!dashReady)
         {
             timePassedSinceDash += Time.deltaTime * 3f;
             if (timePassedSinceDash >= dashCooldown)
             {
-                dashState = DashState.Ready;
-                
+                dashReady = true;
+                timePassedSinceDash = 0;
             }
         }
-        
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (inputX > 0)
         {
-            Jump();
+            dashDirectionIfStationary = true;
         }
-        if (Keyboard.current.gKey.wasPressedThisFrame)
+        else if (inputX < 0)
         {
-            DoubleJump();
+            dashDirectionIfStationary = false;
         }
-        if (Keyboard.current.leftShiftKey.wasPressedThisFrame)
-        {
-            Dash();
-        }
-    }
-
-    private void DoubleJump()
-    {
-        if (grounded == false && doubleJump)
-        {
-            rigidBody2D.velocity = (Vector2.up * jumpForce);
-            //rigidBody2D.AddForce(Vector2.up * doubleJumpForce);
-            doubleJump = false;
-        }
-    }
-
-    private void Move()
-    {
-        if(direction > 0 && !facingRight)
-        {
-            Flip();
-        }
-        else if (direction < 0 && facingRight)
-        {
-            Flip();
-        }
-        rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.deltaTime, rigidBody2D.velocity.y);
-    }
-
-    private void Dash()
-    {
-        Debug.Log("We're in the Dash function!");
-        switch (dashState)
-        {
-            case DashState.Ready:
-                {
-                    Debug.Log("We're in the 'Dash is ready' case");
-                    //rigidBody2D.AddForce(dashSpeedVector);
-                    if (direction > 0)
-                    {
-                        rigidBody2D.AddForce(Vector2.right * dashSpeed);
-                    }
-                    else
-                    {
-                        rigidBody2D.AddForce(Vector2.left * dashSpeed);
-                    }
-                    dashState = DashState.NotReady;
-                    timePassedSinceDash = 0;
-                    dashReady = false;
-                    break;
-                }
-            case DashState.NotReady:
-                {
-                    Debug.Log("We're in the 'Dash is on cooldown' case");
-                    if (timePassedSinceDash > dashCooldown)
-                    {
-                        Debug.Log("We're in setting dash to a ready state");
-                        timePassedSinceDash = 0;
-                        dashReady = true;
-                        dashState = DashState.Ready;
-                    }
-                    
-                    break;
-                }
-        }
-    }
-
-    private void Jump()
-    {
-        
         if (grounded)
         {
-            
-            grounded = false;
+            animator.SetBool("animDoubleJump", false);
+            doubleJump = true;
+        }
+    }
+
+    public void OnDoubleJump(InputAction.CallbackContext callbackContext)
+    {
+        if (!grounded && callbackContext.performed && doubleJump)
+        {
+            animator.SetBool("animDoubleJump", true);
+            rigidBody2D.velocity = (Vector2.up * doubleJumpForce);
+            doubleJump = false;
+        }    
+    }
+
+    public void OnJump(InputAction.CallbackContext callbackContext)
+    {
+        if (grounded && callbackContext.performed)
+        {
             // Add a vertical force to the player.
             rigidBody2D.velocity = Vector2.up * jumpForce;
+        }
+    }
 
+    public void OnMove(InputAction.CallbackContext callbackContext)
+    {
+        inputX = callbackContext.ReadValue<Vector2>().x;
+        if(inputX > 0 && !facingRight)
+        {
+            Flip();
+        }
+        else if (inputX < 0 && facingRight)
+        {
+            Flip();
+        }
+    }
+
+    public void OnDash(InputAction.CallbackContext callbackContext)
+    {
+        if (dashReady)
+        {
+            if (inputX > 0)
+            {
+                rigidBody2D.AddForce(Vector2.right * dashSpeed);
+                dashReady = false;
+            }
+            else if (inputX < 0)
+            {
+                rigidBody2D.AddForce(Vector2.left * dashSpeed);
+                dashReady = false;
+            }
+            else
+            {
+                if (dashDirectionIfStationary)
+                {
+                    rigidBody2D.AddForce(Vector2.right * dashSpeed);
+                    dashReady = false;
+                }
+                else if (!dashDirectionIfStationary)
+                {
+                    rigidBody2D.AddForce(Vector2.left * dashSpeed);
+                    dashReady = false;
+                }
+            }
         }
     }
 
     private void Flip()
     {
-        // Switch the way the player is labelled as facing.
+        // Switch the way the player is labeled as facing.
         facingRight = !facingRight;
 
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
     }
 }
