@@ -49,42 +49,41 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ArrowKeysMovement"",
+                    ""type"": ""Value"",
+                    ""id"": ""b0b788bc-774c-415f-8d99-daf56626ad7d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d964a69-039b-4573-a7b4-2660749e1bbb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6b52529-fb49-4e10-a1a3-eb56379a087a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""LightAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef4d892d-eec5-4c1c-baee-601dafbd0144"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""10bd9d2e-b4dc-4ebd-b7c5-7aa9ca6c3c5c"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""8b6cb14a-f765-4b1e-88dc-c33d1c1e4912"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""7e5d3c13-bc5a-41a1-a997-00066b174936"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""239b53af-91a2-42d2-8ce8-a39a529a90b1"",
@@ -203,6 +202,72 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""DoubleJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""4b08e400-8a65-4a90-813e-5d60baee1f9a"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArrowKeysMovement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""685c739c-900b-4c83-837d-4effc520743a"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ArrowKeysMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""50e3ec7a-94ad-492a-9ad8-02dacf3c905a"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ArrowKeysMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4290461-9ac0-40e1-9a0c-caa91bf65b2d"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40d3d53b-d58f-411b-847f-9030e891bfbb"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5bfca69a-d0bc-4af2-bd7b-7c94887d2e15"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""LightAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -784,6 +849,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_DoubleJump = m_Player.FindAction("DoubleJump", throwIfNotFound: true);
+        m_Player_ArrowKeysMovement = m_Player.FindAction("ArrowKeysMovement", throwIfNotFound: true);
+        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_LightAttack = m_Player.FindAction("LightAttack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -849,6 +918,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_DoubleJump;
+    private readonly InputAction m_Player_ArrowKeysMovement;
+    private readonly InputAction m_Player_Slide;
+    private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_LightAttack;
     public struct PlayerActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -857,6 +930,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @DoubleJump => m_Wrapper.m_Player_DoubleJump;
+        public InputAction @ArrowKeysMovement => m_Wrapper.m_Player_ArrowKeysMovement;
+        public InputAction @Slide => m_Wrapper.m_Player_Slide;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @LightAttack => m_Wrapper.m_Player_LightAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -878,6 +955,18 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @DoubleJump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleJump;
                 @DoubleJump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleJump;
                 @DoubleJump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleJump;
+                @ArrowKeysMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
+                @ArrowKeysMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
+                @ArrowKeysMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
+                @Slide.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
+                @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @LightAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
+                @LightAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
+                @LightAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -894,6 +983,18 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @DoubleJump.started += instance.OnDoubleJump;
                 @DoubleJump.performed += instance.OnDoubleJump;
                 @DoubleJump.canceled += instance.OnDoubleJump;
+                @ArrowKeysMovement.started += instance.OnArrowKeysMovement;
+                @ArrowKeysMovement.performed += instance.OnArrowKeysMovement;
+                @ArrowKeysMovement.canceled += instance.OnArrowKeysMovement;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @LightAttack.started += instance.OnLightAttack;
+                @LightAttack.performed += instance.OnLightAttack;
+                @LightAttack.canceled += instance.OnLightAttack;
             }
         }
     }
@@ -1054,6 +1155,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnDoubleJump(InputAction.CallbackContext context);
+        void OnArrowKeysMovement(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnLightAttack(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
