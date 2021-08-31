@@ -78,6 +78,7 @@ public class PlayerControl : MonoBehaviour
     {      
         if (!dashReady)
         {
+            
             timePassedSinceDash += Time.deltaTime * 3f;
             if (timePassedSinceDash >= dashCooldown)
             {
@@ -100,6 +101,8 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
+    //Movement
     public void OnDoubleJump(InputAction.CallbackContext callbackContext)
     {
         if (!grounded && callbackContext.performed && doubleJump)
@@ -138,28 +141,38 @@ public class PlayerControl : MonoBehaviour
         {
             if (inputX > 0)
             {
-                rigidBody2D.AddForce(Vector2.right * dashSpeed);
+                rigidBody2D.AddForce(Vector2.right * dashSpeed * Time.deltaTime * 350);
                 dashReady = false;
             }
             else if (inputX < 0)
             {
-                rigidBody2D.AddForce(Vector2.left * dashSpeed);
+                rigidBody2D.AddForce(Vector2.left * dashSpeed * Time.deltaTime * 350);
                 dashReady = false;
             }
             else
             {
                 if (dashDirectionIfStationary)
                 {
-                    rigidBody2D.AddForce(Vector2.right * dashSpeed);
+                    rigidBody2D.AddForce(Vector2.right * dashSpeed * Time.deltaTime * 350);
                     dashReady = false;
                 }
                 else if (!dashDirectionIfStationary)
                 {
-                    rigidBody2D.AddForce(Vector2.left * dashSpeed);
+                    rigidBody2D.AddForce(Vector2.left * dashSpeed * Time.deltaTime * 350);
                     dashReady = false;
                 }
             }
         }
+    }
+
+    public void OnCrouch(InputAction.CallbackContext callbackContext)
+    {
+
+    }
+
+    public void OnSlide(InputAction.CallbackContext callbackContext)
+    {
+
     }
 
     private void Flip()
@@ -173,6 +186,14 @@ public class PlayerControl : MonoBehaviour
         transform.localScale = theScale;
     }
 
+    //Combat system
+    public void OnLightAttack(InputAction.CallbackContext callbackContext)
+    {
+        //animator.Play("karasuLightAttackAnimation", 0, 3);
+        animator.SetBool("animLightAttack", true);
+    }
+
+    //Utilities
     private void OnEnable()
     {
         inputActions.Enable();
