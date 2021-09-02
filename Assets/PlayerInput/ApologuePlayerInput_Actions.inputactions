@@ -70,6 +70,14 @@
                     "interactions": "Hold"
                 },
                 {
+                    "name": "MediumAttack",
+                    "type": "Button",
+                    "id": "c3fdad25-471d-489b-8505-d05d5fe6de34",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold"
+                },
+                {
                     "name": "HeavyAttack",
                     "type": "Button",
                     "id": "f3b9dcb2-62e5-4987-b798-4b1ee0af19aa",
@@ -274,6 +282,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "HeavyAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9d43855-9314-4765-9c26-739c5a106b9b",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MediumAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

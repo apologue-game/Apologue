@@ -45,6 +45,8 @@ public class PlayerControl : MonoBehaviour
 
     //combat system
     public LayerMask enemiesLayers;
+    float globalAttackCooldown = 5f;
+    float nextGlobalAttack = 0f;
     //light attack
     public Transform swordCollider;
     public float attackRange = 0.5f;
@@ -53,6 +55,11 @@ public class PlayerControl : MonoBehaviour
     float nextAttackTime = 0f;
 
     //medium attack
+    public Transform spearCollider;
+    public float attackRangeSpear = 0.5f;
+    public int attackDamageSpear = 2;
+    public float attackSpeedSpear = 0.2f;
+    float nextAttackTimeSpear = 0f;
 
     //heavy attack
     public Transform axeCollider;
@@ -210,7 +217,7 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnLightAttack(InputAction.CallbackContext callbackContext)
     {
-        if (Time.time >= nextAttackTime)
+        if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
         {
             animator.SetTrigger("animLightAttack");
 
@@ -221,13 +228,32 @@ public class PlayerControl : MonoBehaviour
                 enemy.GetComponent<EnemyEntity>().TakeDamage(attackDamage);
             }
             nextAttackTime = Time.time + 1f / attackSpeed;
+            nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
+        }
+
+    }
+
+    public void OnMediumAttack(InputAction.CallbackContext callbackContext)
+    {
+        if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
+        {
+            animator.SetTrigger("animMediumAttack");
+
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(spearCollider.position, attackRangeSpear, enemiesLayers);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                Debug.Log("We hit " + enemy + " with a spaer");
+                enemy.GetComponent<EnemyEntity>().TakeDamage(attackDamageSpear);
+            }
+            nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
+            nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
         }
 
     }
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     {
-        if (Time.time >= nextAttackTimeAxe)
+        if (Time.time >= nextAttackTimeAxe && Time.time >= nextGlobalAttack)
         {
             animator.SetTrigger("animHeavyAttack");
 
@@ -238,6 +264,7 @@ public class PlayerControl : MonoBehaviour
                 enemy.GetComponent<EnemyEntity>().TakeDamage(attackDamageAxe);
             }
             nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
+            nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
         }
     }
 
@@ -254,10 +281,10 @@ public class PlayerControl : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (axeCollider == null)
+        if (spearCollider == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(axeCollider.position, attackRangeAxe);
+        Gizmos.DrawWireSphere(spearCollider.position, attackRangeSpear);
     }
 }
