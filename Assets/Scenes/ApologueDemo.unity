@@ -671,14 +671,14 @@ MonoBehaviour:
   rigidBody2D: {fileID: 204230027}
   animator: {fileID: 0}
   movementSpeed: 10
-  jumpForce: 25
+  jumpForce: 13.5
   grounded: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 2048
-  doubleJumpForce: 20
+  doubleJumpForce: 9
   doubleJump: 0
-  dashSpeed: 20000
+  dashSpeed: 5
   dashCooldown: 5
   timeUntilNextDash: 0
   dashDirectionIfStationary: 0

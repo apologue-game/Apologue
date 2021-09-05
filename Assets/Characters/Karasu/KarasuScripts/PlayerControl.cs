@@ -35,6 +35,7 @@ public class PlayerControl : MonoBehaviour
     public float dashCooldown = 5f;
     public float timeUntilNextDash;
     public bool dashDirectionIfStationary = true;
+    //private Transform playerPosition;
 
     //crouch
     public bool crouch;
@@ -76,6 +77,7 @@ public class PlayerControl : MonoBehaviour
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
+        //playerPosition = transform.Find("PlayerKarasu");
         groundCheck = transform.Find("GroundCheck");
         ceilingCheck = transform.Find("CeilingCheck");
 
@@ -160,17 +162,47 @@ public class PlayerControl : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext callbackContext)
     {
+        //if (Time.time > timeUntilNextDash)
+        //{
+        //    if (inputX > 0)
+        //    {
+        //        rigidBody2D.AddForce(Vector2.right * dashSpeed * Time.deltaTime * 350);
+        //        animator.SetTrigger("animDash");
+        //        timeUntilNextDash = Time.time + 2;
+        //    }
+        //    else if (inputX < 0)
+        //    {
+        //        rigidBody2D.AddForce(Vector2.left * dashSpeed * Time.deltaTime * 350);
+        //        animator.SetTrigger("animDash");
+        //        timeUntilNextDash = Time.time + 2;
+        //    }
+        //    else
+        //    {
+        //        if (dashDirectionIfStationary)
+        //        {
+        //            rigidBody2D.AddForce(Vector2.right * dashSpeed * Time.deltaTime * 350);
+        //            animator.SetTrigger("animDash");
+        //            timeUntilNextDash = Time.time + 2;
+        //        }
+        //        else if (!dashDirectionIfStationary)
+        //        {
+        //            rigidBody2D.AddForce(Vector2.left * dashSpeed * Time.deltaTime * 350);
+        //            animator.SetTrigger("animDash");
+        //            timeUntilNextDash = Time.time + 2;
+        //        }
+        //    }
+        //}
         if (Time.time > timeUntilNextDash)
         {
             if (inputX > 0)
             {
-                rigidBody2D.AddForce(Vector2.right * dashSpeed * Time.deltaTime * 350);
+                transform.Translate(dashSpeed, 0, 0);
                 animator.SetTrigger("animDash");
                 timeUntilNextDash = Time.time + 2;
             }
             else if (inputX < 0)
             {
-                rigidBody2D.AddForce(Vector2.left * dashSpeed * Time.deltaTime * 350);
+                transform.Translate(-dashSpeed, 0, 0);
                 animator.SetTrigger("animDash");
                 timeUntilNextDash = Time.time + 2;
             }
@@ -178,18 +210,18 @@ public class PlayerControl : MonoBehaviour
             {
                 if (dashDirectionIfStationary)
                 {
-                    rigidBody2D.AddForce(Vector2.right * dashSpeed * Time.deltaTime * 350);
+                    transform.Translate(dashSpeed, 0, 0);
                     animator.SetTrigger("animDash");
                     timeUntilNextDash = Time.time + 2;
                 }
                 else if (!dashDirectionIfStationary)
                 {
-                    rigidBody2D.AddForce(Vector2.left * dashSpeed * Time.deltaTime * 350);
+                    transform.Translate(-dashSpeed, 0, 0);
                     animator.SetTrigger("animDash");
                     timeUntilNextDash = Time.time + 2;
                 }
             }
-            
+
         }
     }
 
