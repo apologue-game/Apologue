@@ -337,6 +337,7 @@ ASALocalRun/
 # =============== #
 Temp/
 Library/
+Samples/
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
