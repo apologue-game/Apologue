@@ -21,10 +21,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
-                    ""id"": ""a70ea214-7dcc-4c0c-ad4c-b0534d62c7e8"",
+                    ""id"": ""dd45aca9-dcbf-416a-842f-a64bd752367c"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Jump"",
@@ -59,20 +59,20 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Slide"",
-                    ""type"": ""Button"",
-                    ""id"": ""9d964a69-039b-4573-a7b4-2660749e1bbb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""f6b52529-fb49-4e10-a1a3-eb56379a087a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d964a69-039b-4573-a7b4-2660749e1bbb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""LightAttack"",
@@ -101,72 +101,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""239b53af-91a2-42d2-8ce8-a39a529a90b1"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""34df912a-994a-404b-8262-82e65fe5c160"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""3148aff3-b559-43ef-9cf7-5d630cbcbe41"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""b74f7209-c821-4cc4-9c80-d110a59c6c4e"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""9ba72c1a-ff28-43ea-a298-754734dfebaf"",
-                    ""path"": ""<XInputController>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""bf067ab9-ff0c-4bfa-ae50-af64e0db9993"",
-                    ""path"": ""<XInputController>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""e1733bec-3511-4644-b32e-a773563f3023"",
                     ""path"": ""<Keyboard>/space"",
@@ -179,33 +113,11 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9fb66e4c-d954-44c9-9715-2aaa71e80c8f"",
-                    ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""3578041a-b68a-4e5d-851a-7137ba576818"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""96e09c57-9493-48db-a3fa-b993d408a508"",
-                    ""path"": ""<XInputController>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -256,17 +168,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b4290461-9ac0-40e1-9a0c-caa91bf65b2d"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Slide"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""40d3d53b-d58f-411b-847f-9030e891bfbb"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
@@ -306,6 +207,273 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""MediumAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""d206bd45-0d38-4991-8469-5955b44071f2"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""bf1bb3bd-9747-4d3c-8c2d-be79540807a9"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""22fd10f5-3a32-4937-a8bd-4bed93448c28"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4290461-9ac0-40e1-9a0c-caa91bf65b2d"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""PlayerGamepad"",
+            ""id"": ""b6927549-d1f8-480c-b280-f51791f745f9"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""b96949cf-2fdd-4948-9d84-745183e802f1"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""915520b8-4b48-4013-b307-8ab411846a80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""04d0f881-e5b9-4951-afad-f4defb6f09be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DoubleJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""b0018768-6856-4d1a-8d8c-c279e25b8052"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""fadb8f19-58fe-4a08-b703-c1e35977777d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""8026295d-335d-43fd-be58-6da618f0f314"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""LightAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6d7712a-aad8-4ed4-a219-f48520950132"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""MediumAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""3969e30b-e272-4496-8d43-a1beedfb12ed"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""HeavyAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a966dcea-d716-481f-af9e-677e38beb846"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""9f678c21-8b75-42fb-a6e9-8fe450b0ece8"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MediumAttack"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""17e69891-95b6-447b-a9a5-9f327cd99ee6"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""MediumAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""ef5ac0ed-a523-4135-8bb7-5a02e4dc3c5a"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""MediumAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""bf0c9502-6ab2-4124-ac02-e0ea9d36c0a3"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""cdc6b071-9aa8-43f6-9c1b-e0505f78d7c5"",
+                    ""path"": ""<XInputController>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""4e512156-539f-4951-a3df-7a84c62e9e19"",
+                    ""path"": ""<XInputController>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8be52cd6-e4e5-459a-aa81-34f53b4f36e4"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0534635b-eed6-4df1-b59a-7350310b8ecd"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""09aa443e-3699-4ce4-9b6f-1264665d173e"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd219cb7-daec-46dd-a464-47c8258ae970"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""LightAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2db2df13-6810-4b77-b6b2-4a75b1160c46"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""DoubleJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe620d8f-2143-4b54-9c41-9ade95365525"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1aadac4-392b-43d3-a427-d4cbe2b9b52e"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick;Gamepad"",
+                    ""action"": ""HeavyAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -888,11 +1056,22 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_DoubleJump = m_Player.FindAction("DoubleJump", throwIfNotFound: true);
         m_Player_ArrowKeysMovement = m_Player.FindAction("ArrowKeysMovement", throwIfNotFound: true);
-        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_LightAttack = m_Player.FindAction("LightAttack", throwIfNotFound: true);
         m_Player_MediumAttack = m_Player.FindAction("MediumAttack", throwIfNotFound: true);
         m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
+        // PlayerGamepad
+        m_PlayerGamepad = asset.FindActionMap("PlayerGamepad", throwIfNotFound: true);
+        m_PlayerGamepad_Move = m_PlayerGamepad.FindAction("Move", throwIfNotFound: true);
+        m_PlayerGamepad_Jump = m_PlayerGamepad.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerGamepad_Dash = m_PlayerGamepad.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerGamepad_DoubleJump = m_PlayerGamepad.FindAction("DoubleJump", throwIfNotFound: true);
+        m_PlayerGamepad_Crouch = m_PlayerGamepad.FindAction("Crouch", throwIfNotFound: true);
+        m_PlayerGamepad_Slide = m_PlayerGamepad.FindAction("Slide", throwIfNotFound: true);
+        m_PlayerGamepad_LightAttack = m_PlayerGamepad.FindAction("LightAttack", throwIfNotFound: true);
+        m_PlayerGamepad_MediumAttack = m_PlayerGamepad.FindAction("MediumAttack", throwIfNotFound: true);
+        m_PlayerGamepad_HeavyAttack = m_PlayerGamepad.FindAction("HeavyAttack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -959,8 +1138,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_DoubleJump;
     private readonly InputAction m_Player_ArrowKeysMovement;
-    private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_LightAttack;
     private readonly InputAction m_Player_MediumAttack;
     private readonly InputAction m_Player_HeavyAttack;
@@ -973,8 +1152,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @DoubleJump => m_Wrapper.m_Player_DoubleJump;
         public InputAction @ArrowKeysMovement => m_Wrapper.m_Player_ArrowKeysMovement;
-        public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @LightAttack => m_Wrapper.m_Player_LightAttack;
         public InputAction @MediumAttack => m_Wrapper.m_Player_MediumAttack;
         public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
@@ -1002,12 +1181,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @ArrowKeysMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
                 @ArrowKeysMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
                 @ArrowKeysMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
-                @Slide.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
-                @Slide.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
-                @Slide.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
                 @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Slide.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
                 @LightAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
                 @LightAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
                 @LightAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
@@ -1036,12 +1215,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @ArrowKeysMovement.started += instance.OnArrowKeysMovement;
                 @ArrowKeysMovement.performed += instance.OnArrowKeysMovement;
                 @ArrowKeysMovement.canceled += instance.OnArrowKeysMovement;
-                @Slide.started += instance.OnSlide;
-                @Slide.performed += instance.OnSlide;
-                @Slide.canceled += instance.OnSlide;
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
                 @LightAttack.started += instance.OnLightAttack;
                 @LightAttack.performed += instance.OnLightAttack;
                 @LightAttack.canceled += instance.OnLightAttack;
@@ -1055,6 +1234,103 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // PlayerGamepad
+    private readonly InputActionMap m_PlayerGamepad;
+    private IPlayerGamepadActions m_PlayerGamepadActionsCallbackInterface;
+    private readonly InputAction m_PlayerGamepad_Move;
+    private readonly InputAction m_PlayerGamepad_Jump;
+    private readonly InputAction m_PlayerGamepad_Dash;
+    private readonly InputAction m_PlayerGamepad_DoubleJump;
+    private readonly InputAction m_PlayerGamepad_Crouch;
+    private readonly InputAction m_PlayerGamepad_Slide;
+    private readonly InputAction m_PlayerGamepad_LightAttack;
+    private readonly InputAction m_PlayerGamepad_MediumAttack;
+    private readonly InputAction m_PlayerGamepad_HeavyAttack;
+    public struct PlayerGamepadActions
+    {
+        private @ApologuePlayerInput_Actions m_Wrapper;
+        public PlayerGamepadActions(@ApologuePlayerInput_Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_PlayerGamepad_Move;
+        public InputAction @Jump => m_Wrapper.m_PlayerGamepad_Jump;
+        public InputAction @Dash => m_Wrapper.m_PlayerGamepad_Dash;
+        public InputAction @DoubleJump => m_Wrapper.m_PlayerGamepad_DoubleJump;
+        public InputAction @Crouch => m_Wrapper.m_PlayerGamepad_Crouch;
+        public InputAction @Slide => m_Wrapper.m_PlayerGamepad_Slide;
+        public InputAction @LightAttack => m_Wrapper.m_PlayerGamepad_LightAttack;
+        public InputAction @MediumAttack => m_Wrapper.m_PlayerGamepad_MediumAttack;
+        public InputAction @HeavyAttack => m_Wrapper.m_PlayerGamepad_HeavyAttack;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerGamepad; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerGamepadActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerGamepadActions instance)
+        {
+            if (m_Wrapper.m_PlayerGamepadActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMove;
+                @Jump.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnJump;
+                @Dash.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDash;
+                @DoubleJump.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDoubleJump;
+                @DoubleJump.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDoubleJump;
+                @DoubleJump.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDoubleJump;
+                @Crouch.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
+                @Slide.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
+                @LightAttack.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnLightAttack;
+                @LightAttack.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnLightAttack;
+                @LightAttack.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnLightAttack;
+                @MediumAttack.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMediumAttack;
+                @MediumAttack.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMediumAttack;
+                @MediumAttack.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMediumAttack;
+                @HeavyAttack.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
+                @HeavyAttack.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
+                @HeavyAttack.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
+            }
+            m_Wrapper.m_PlayerGamepadActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @DoubleJump.started += instance.OnDoubleJump;
+                @DoubleJump.performed += instance.OnDoubleJump;
+                @DoubleJump.canceled += instance.OnDoubleJump;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
+                @LightAttack.started += instance.OnLightAttack;
+                @LightAttack.performed += instance.OnLightAttack;
+                @LightAttack.canceled += instance.OnLightAttack;
+                @MediumAttack.started += instance.OnMediumAttack;
+                @MediumAttack.performed += instance.OnMediumAttack;
+                @MediumAttack.canceled += instance.OnMediumAttack;
+                @HeavyAttack.started += instance.OnHeavyAttack;
+                @HeavyAttack.performed += instance.OnHeavyAttack;
+                @HeavyAttack.canceled += instance.OnHeavyAttack;
+            }
+        }
+    }
+    public PlayerGamepadActions @PlayerGamepad => new PlayerGamepadActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -1212,8 +1488,20 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnDoubleJump(InputAction.CallbackContext context);
         void OnArrowKeysMovement(InputAction.CallbackContext context);
-        void OnSlide(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
+        void OnLightAttack(InputAction.CallbackContext context);
+        void OnMediumAttack(InputAction.CallbackContext context);
+        void OnHeavyAttack(InputAction.CallbackContext context);
+    }
+    public interface IPlayerGamepadActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnDoubleJump(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
         void OnLightAttack(InputAction.CallbackContext context);
         void OnMediumAttack(InputAction.CallbackContext context);
         void OnHeavyAttack(InputAction.CallbackContext context);

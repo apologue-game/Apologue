@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-    ApologuePlayerInput_Actions inputActions;
-    public Rigidbody2D rigidBody2D;
-    public Animator animator;
+    ApologuePlayerInput_Actions playerinputActions;
+    private Rigidbody2D rigidBody2D;
+    private Animator animator;
 
     //movement system
     //move
@@ -32,10 +32,8 @@ public class PlayerControl : MonoBehaviour
 
     //dash
     public float dashSpeed = 20000f;
-    public float dashCooldown = 5f;
     public float timeUntilNextDash;
     public bool dashDirectionIfStationary = true;
-    //private Transform playerPosition;
 
     //crouch
     public bool crouch;
@@ -71,8 +69,8 @@ public class PlayerControl : MonoBehaviour
 
     void Awake()
     {
-        inputActions = new ApologuePlayerInput_Actions();
-        inputActions.Enable();
+        playerinputActions = new ApologuePlayerInput_Actions();
+        playerinputActions.Enable();
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -82,6 +80,8 @@ public class PlayerControl : MonoBehaviour
         ceilingCheck = transform.Find("CeilingCheck");
 
         dashDirectionIfStationary = true;
+
+        
     }
 
     void FixedUpdate()
@@ -99,7 +99,6 @@ public class PlayerControl : MonoBehaviour
         }
         //move character
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
-
         //move animation
         animator.SetFloat("animSpeed", Mathf.Abs(rigidBody2D.velocity.x));
         //jump animation
@@ -107,6 +106,7 @@ public class PlayerControl : MonoBehaviour
         animator.SetBool("animGrounded", grounded);
         //falling animation
         animator.SetFloat("animvSpeedFalling", rigidBody2D.velocity.y);
+        //dew();
     }
 
     void Update()
@@ -131,6 +131,7 @@ public class PlayerControl : MonoBehaviour
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
         inputX = callbackContext.ReadValue<Vector2>().x;
+        
         if (inputX > 0 && !facingRight)
         {
             Flip();
@@ -249,6 +250,10 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnLightAttack(InputAction.CallbackContext callbackContext)
     {
+        if (Gamepad.current.leftShoulder.isPressed)
+        {
+            return;
+        }
         if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
         {
             animator.SetTrigger("animLightAttack");
@@ -303,12 +308,29 @@ public class PlayerControl : MonoBehaviour
     //Utilities
     private void OnEnable()
     {
-        inputActions.Enable();
+        playerinputActions.Enable();
     }
 
     private void OnDisable()
     {
-        inputActions.Disable();
+        playerinputActions.Disable();
+    }
+
+    public void dew()
+    {
+        if (playerinputActions.Player.enabled == false && Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            playerinputActions.Player.Enable();
+            playerinputActions.PlayerGamepad.Disable();
+            Debug.Log("We're now using the " + playerinputActions.Player);
+        }
+        if (playerinputActions.PlayerGamepad.enabled == false && Gamepad.current.wasUpdatedThisFrame)
+        {
+            playerinputActions.Player.Disable();
+            playerinputActions.PlayerGamepad.Enable();
+            Debug.Log("We're now using the " + playerinputActions.PlayerGamepad);
+        }
+
     }
 
     private void OnDrawGizmosSelected()
@@ -319,4 +341,5 @@ public class PlayerControl : MonoBehaviour
         }
         Gizmos.DrawWireSphere(spearCollider.position, attackRangeSpear);
     }
+
 }
