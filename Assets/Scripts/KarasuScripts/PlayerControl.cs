@@ -279,7 +279,11 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnLightAttack(InputAction.CallbackContext callbackContext)
     {
-        if (Gamepad.current.leftShoulder.isPressed)
+        if (Gamepad.all.Count == 0)
+        {
+            
+        }
+        else if (Gamepad.current.leftShoulder.isPressed)
         {
             return;
         }
@@ -296,7 +300,6 @@ public class PlayerControl : MonoBehaviour
             nextAttackTime = Time.time + 1f / attackSpeed;
             nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
         }
-
     }
 
     public void OnMediumAttack(InputAction.CallbackContext callbackContext)
@@ -345,22 +348,22 @@ public class PlayerControl : MonoBehaviour
         playerinputActions.Disable();
     }
 
-    public void dew()
-    {
-        if (playerinputActions.Player.enabled == false && Keyboard.current.anyKey.wasPressedThisFrame)
-        {
-            playerinputActions.Player.Enable();
-            playerinputActions.PlayerGamepad.Disable();
-            Debug.Log("We're now using the " + playerinputActions.Player);
-        }
-        if (playerinputActions.PlayerGamepad.enabled == false && Gamepad.current.wasUpdatedThisFrame)
-        {
-            playerinputActions.Player.Disable();
-            playerinputActions.PlayerGamepad.Enable();
-            Debug.Log("We're now using the " + playerinputActions.PlayerGamepad);
-        }
+    //public void dew()
+    //{
+    //    if (playerinputActions.Player.enabled == false && Keyboard.current.anyKey.wasPressedThisFrame)
+    //    {
+    //        playerinputActions.Player.Enable();
+    //        playerinputActions.PlayerGamepad.Disable();
+    //        Debug.Log("We're now using the " + playerinputActions.Player);
+    //    }
+    //    if (playerinputActions.PlayerGamepad.enabled == false && Gamepad.current.wasUpdatedThisFrame)
+    //    {
+    //        playerinputActions.Player.Disable();
+    //        playerinputActions.PlayerGamepad.Enable();
+    //        Debug.Log("We're now using the " + playerinputActions.PlayerGamepad);
+    //    }
 
-    }
+    //}
 
     private void OnDrawGizmosSelected()
     {
