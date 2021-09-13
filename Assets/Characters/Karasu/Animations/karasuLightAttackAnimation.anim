@@ -20,17 +20,17 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 33fce2a7fba498d428f753aedcb9efd3, type: 3}
-    - time: 0.05
-      value: {fileID: 21300000, guid: c9c12259b9344854b82e7cb6313f1730, type: 3}
-    - time: 0.1
-      value: {fileID: 21300000, guid: d430b39431ca64d4799857169f1761e3, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 006876dc720ef1244acf38f33a9bbd5c, type: 3}
-    - time: 0.21666667
-      value: {fileID: 21300000, guid: c5e3d25b84005914fb54fb679399092f, type: 3}
-    - time: 0.26666668
-      value: {fileID: 21300000, guid: e6a8eef6838471044b958c12fb6f261a, type: 3}
+      value: {fileID: 21300000, guid: 353e2a3d10c880947a6000e9d699701e, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 36ce46b5dbdb26749af2cd04edf87d2f, type: 3}
+    - time: 0.2
+      value: {fileID: 21300000, guid: 6376e83db717aa84cad84a384e23471d, type: 3}
+    - time: 0.31666666
+      value: {fileID: 21300000, guid: 0e2ebcad485916a499c8254f5be3ed0f, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: 5f6ebc9a7744ac74fbe4b82d901fa8cb, type: 3}
+    - time: 0.53333336
+      value: {fileID: 21300000, guid: a53b6633849f8b545a7af8d5dc270571, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,18 +50,18 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 33fce2a7fba498d428f753aedcb9efd3, type: 3}
-    - {fileID: 21300000, guid: c9c12259b9344854b82e7cb6313f1730, type: 3}
-    - {fileID: 21300000, guid: d430b39431ca64d4799857169f1761e3, type: 3}
-    - {fileID: 21300000, guid: 006876dc720ef1244acf38f33a9bbd5c, type: 3}
-    - {fileID: 21300000, guid: c5e3d25b84005914fb54fb679399092f, type: 3}
-    - {fileID: 21300000, guid: e6a8eef6838471044b958c12fb6f261a, type: 3}
+    - {fileID: 21300000, guid: 353e2a3d10c880947a6000e9d699701e, type: 3}
+    - {fileID: 21300000, guid: 36ce46b5dbdb26749af2cd04edf87d2f, type: 3}
+    - {fileID: 21300000, guid: 6376e83db717aa84cad84a384e23471d, type: 3}
+    - {fileID: 21300000, guid: 0e2ebcad485916a499c8254f5be3ed0f, type: 3}
+    - {fileID: 21300000, guid: 5f6ebc9a7744ac74fbe4b82d901fa8cb, type: 3}
+    - {fileID: 21300000, guid: a53b6633849f8b545a7af8d5dc270571, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.28333336
+    m_StopTime: 0.55
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -80,4 +80,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.53333336
+    functionName: LightAttackUpwards
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

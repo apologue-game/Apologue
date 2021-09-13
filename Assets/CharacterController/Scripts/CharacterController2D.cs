@@ -15,7 +15,7 @@ public class CharacterController2D : MonoBehaviour {
     [SerializeField] private LayerMask dashLayerMask;
 
     private Character_Base characterBase;
-    private new Rigidbody2D rigidbody2D;
+    private Rigidbody2D rigidbody2D;
     private Vector3 moveDir;
     private Vector3 rollDir;
     private Vector3 lastMoveDir;

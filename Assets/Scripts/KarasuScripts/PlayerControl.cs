@@ -52,6 +52,10 @@ public class PlayerControl : MonoBehaviour
     public int attackDamage = 1;
     public float attackSpeed = 0.75f;
     float nextAttackTime = 0f;
+    //light attack combos
+    float comboTimeWindow = 0.2f;
+    public int numberOfAttacks = 0;
+    public bool firstAttack = false;
 
     //medium attack
     public Transform spearCollider;
@@ -66,6 +70,10 @@ public class PlayerControl : MonoBehaviour
     public int attackDamageAxe = 2;
     public float attackSpeedAxe = 0.2f;
     float nextAttackTimeAxe = 0f;
+
+    //Testing
+    public float animationLength;
+    int counter;
 
     void Awake()
     {
@@ -124,7 +132,6 @@ public class PlayerControl : MonoBehaviour
             animator.SetBool("animDoubleJump", false);
             doubleJump = true;
         }
-        //dashSpeed = 5;
     }
 
 
@@ -169,13 +176,13 @@ public class PlayerControl : MonoBehaviour
             if (inputX > 0)
             {
                 rigidBody2D.AddForce(Vector2.right * dashSpeed * 350);
-                animator.SetTrigger("animDash");
+                //animator.SetTrigger("animDash");
                 timeUntilNextDash = Time.time + 2;
             }
             else if (inputX < 0)
             {
                 rigidBody2D.AddForce(Vector2.left * dashSpeed * 350);
-                animator.SetTrigger("animDash");
+                //animator.SetTrigger("animDash");
                 timeUntilNextDash = Time.time + 2;
             }
             else
@@ -183,76 +190,17 @@ public class PlayerControl : MonoBehaviour
                 if (dashDirectionIfStationary)
                 {
                     rigidBody2D.AddForce(Vector2.right * dashSpeed * 350);
-                    animator.SetTrigger("animDash");
+                    //animator.SetTrigger("animDash");
                     timeUntilNextDash = Time.time + 2;
                 }
                 else if (!dashDirectionIfStationary)
                 {
                     rigidBody2D.AddForce(Vector2.left * dashSpeed * 350);
-                    animator.SetTrigger("animDash");
+                    //animator.SetTrigger("animDash");
                     timeUntilNextDash = Time.time + 2;
                 }
             }
         }
-        //if (Time.time > timeUntilNextDash)
-        //{
-        //    if (inputX > 0)
-        //    {
-        //        //transform.Translate(dashSpeed, 0, 0);
-        //        animator.SetTrigger("animDash");
-        //        timeUntilNextDash = Time.time + 2;
-        //        Vector3 dashPosition = transform.position * (inputX * dashSpeed);
-        //        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, Vector2.right, dashSpeed);
-        //        if (raycastHit2D.collider != null)
-        //        {
-        //            dashSpeed = raycastHit2D.point.x;
-        //        }
-        //        rigidBody2D.MovePosition(dashPosition);
-        //    }
-        //    else if (inputX < 0)
-        //    {
-        //        //transform.Translate(-dashSpeed, 0, 0);
-        //        animator.SetTrigger("animDash");
-        //        timeUntilNextDash = Time.time + 2;
-        //        Vector3 dashPosition = transform.position * (inputX * dashSpeed);
-        //        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, Vector2.left, dashSpeed);
-        //        if (raycastHit2D.collider != null)
-        //        {
-        //            dashSpeed = raycastHit2D.point.x;
-        //        }
-        //        rigidBody2D.MovePosition(dashPosition);
-        //    }
-        //    else
-        //    {
-        //        if (dashDirectionIfStationary)
-        //        {
-        //            //transform.Translate(dashSpeed, 0, 0);
-        //            animator.SetTrigger("animDash");
-        //            timeUntilNextDash = Time.time + 2;
-        //            Vector3 dashPosition = transform.position * (inputX * dashSpeed);
-        //            RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, Vector2.right, dashSpeed);
-        //            if (raycastHit2D.collider != null)
-        //            {
-        //                dashSpeed = raycastHit2D.point.x;
-        //            }
-        //            rigidBody2D.MovePosition(dashPosition);
-        //        }
-        //        else if (!dashDirectionIfStationary)
-        //        {
-        //            transform.Translate(-dashSpeed, 0, 0);
-        //            animator.SetTrigger("animDash");
-        //            timeUntilNextDash = Time.time + 2;
-        //            Vector3 dashPosition = transform.position * (inputX * dashSpeed);
-        //            RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, Vector2.left, dashSpeed);
-        //            if (raycastHit2D.collider != null)
-        //            {
-        //                dashSpeed = raycastHit2D.point.x;
-        //            }
-        //            rigidBody2D.MovePosition(dashPosition);
-        //        }
-        //    }
-
-        //}
     }
 
     public void OnCrouch(InputAction.CallbackContext callbackContext)
@@ -279,26 +227,52 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnLightAttack(InputAction.CallbackContext callbackContext)
     {
-        if (Gamepad.all.Count == 0)
+        if (callbackContext.control.IsPressed())
         {
-            
-        }
-        else if (Gamepad.current.leftShoulder.isPressed)
-        {
-            return;
-        }
-        if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
-        {
-            animator.SetTrigger("animLightAttack");
+            if (Gamepad.all.Count == 0)
+            {
 
+            }
+            else if (Gamepad.current.leftShoulder.isPressed)
+            {
+                return;
+            }
+            if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
+            {
+                numberOfAttacks = 0;
+                animator.SetTrigger("animLightAttack");
+
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
+                foreach (Collider2D enemy in hitEnemies)
+                {
+                    Debug.Log("We hit " + enemy + " with a sword");
+                    enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
+                }
+                nextAttackTime = Time.time + 1f / attackSpeed;
+                nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
+                comboTimeWindow = Time.time + attackSpeed / 2;
+                
+            }
+            else if (Time.time <= comboTimeWindow)
+            {
+                numberOfAttacks++;
+            }
+        }
+    }
+
+    void LightAttackUpwards()
+    {
+        if (numberOfAttacks == 1)
+        {
+            animator.SetTrigger("animLightAttackUpwards");
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("We hit " + enemy + " with a sword");
+                Debug.Log("We hit " + enemy + " with a sword uppercut");
                 enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
             }
-            nextAttackTime = Time.time + 1f / attackSpeed;
-            nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
+            numberOfAttacks++;
+            firstAttack = false;
         }
     }
 
@@ -348,22 +322,10 @@ public class PlayerControl : MonoBehaviour
         playerinputActions.Disable();
     }
 
-    //public void dew()
-    //{
-    //    if (playerinputActions.Player.enabled == false && Keyboard.current.anyKey.wasPressedThisFrame)
-    //    {
-    //        playerinputActions.Player.Enable();
-    //        playerinputActions.PlayerGamepad.Disable();
-    //        Debug.Log("We're now using the " + playerinputActions.Player);
-    //    }
-    //    if (playerinputActions.PlayerGamepad.enabled == false && Gamepad.current.wasUpdatedThisFrame)
-    //    {
-    //        playerinputActions.Player.Disable();
-    //        playerinputActions.PlayerGamepad.Enable();
-    //        Debug.Log("We're now using the " + playerinputActions.PlayerGamepad);
-    //    }
-
-    //}
+    IEnumerator WaitForAnimationToFinish(float animationDuration)
+    {
+        yield return new WaitForSeconds(animationDuration);
+    }
 
     private void OnDrawGizmosSelected()
     {
