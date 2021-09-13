@@ -13,12 +13,14 @@ public class AI_Soldier : MonoBehaviour
     private Rigidbody2D rigidBody2D;
     public Transform target;
     Path path;
+    public Vector3 offsetTargetPathLeft;
+    public Vector3 offsetTargetPathRight;
     int currentWaypoint = 0;
     bool endOfPath = false;
 
     //movement
     public float movementSpeed = 100f;
-    float nextWaypointDistance = 0.5f;
+    float nextWaypointDistance = 1.3f;
     bool facingLeft = true;
 
     //Ignore collision with player
@@ -31,6 +33,7 @@ public class AI_Soldier : MonoBehaviour
     float nextGlobalAttackSoldier = 0f;
     //Soldier basic attack
     public Transform swordColliderSoldier;
+    int numberOfAttacks = 0;
     public float attackRangeSoldier = 0.5f;
     int attackDamageSoldier = 3;
     float attackSpeedSoldier = 0.75f;
@@ -39,6 +42,8 @@ public class AI_Soldier : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        offsetTargetPathLeft = new Vector3(-0.75f, 0, 0);
+        offsetTargetPathRight = new Vector3(0.75f, 0, 0);
     }
 
     // Start is called before the first frame update
@@ -72,6 +77,7 @@ public class AI_Soldier : MonoBehaviour
         //Vector2 force = direction * movementSpeed * Time.deltaTime;
         //rigidBody2D.AddForce(force);
 
+        
         float direction = (path.vectorPath[currentWaypoint].x - rigidBody2D.position.x);
         rigidBody2D.velocity = new Vector2(direction * movementSpeed, rigidBody2D.velocity.y);
 
@@ -100,39 +106,90 @@ public class AI_Soldier : MonoBehaviour
         //check to see if there are enemies in attack range
         shouldIAttack = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
         int enemiesInRange = shouldIAttack.Length;
-        if (enemiesInRange > 0)
+        //if (enemiesInRange > 0 && Time.time >= nextAttackTimeSoldier && Time.time >= nextGlobalAttackSoldier && numberOfAttacks == 0)
+        //{
+        //    numberOfAttacks++;
+        //    StartCoroutine("WindUpAttackAnimation");
+        //    //SoldierAttack();
+        //}
+        if (enemiesInRange > 0 && Time.time >= nextAttackTimeSoldier && Time.time >= nextGlobalAttackSoldier && numberOfAttacks == 0)
         {
-            SoldierAttack();
+            numberOfAttacks++;
+            animator.SetTrigger("animSoldierAttack");
         }
     }
 
     //Combat system
     void SoldierAttack()
     {
-        if (Time.time >= nextAttackTimeSoldier && Time.time >= nextGlobalAttackSoldier)
+        //StartCoroutine("WindUpAttack");
+        Debug.Log("we're attacking");
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
+        foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Conditions for an attack passed");
-            animator.SetTrigger("animSoldierAttack");
-
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                Debug.Log("Soldier hit " + enemy + " with a sword");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
-            }
-            nextAttackTimeSoldier = Time.time + 1f / attackSpeedSoldier;
-            nextGlobalAttackSoldier = Time.time + 1f;
+            Debug.Log("Soldier hit " + enemy + " with a sword");
+            enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
         }
+        numberOfAttacks = 0;
+        nextAttackTimeSoldier = Time.time + 1f / attackSpeedSoldier;
+        nextGlobalAttackSoldier = Time.time + 1f;
     }
 
     //Utilities
     void UpdatePath()
     {
+        //float distance = Vector3.Distance(rigidBody2D.position, target.position);
+        ////If the soldier is walking from the left side to the right
+        //if (distance > 2)
+        //{
+        //    if (seeker.IsDone())
+        //    {
+        //        Debug.Log("we're going from left to right");
+        //        seeker.StartPath(rigidBody2D.position, target.position + offsetTargetPathRight, OnPathComplete);
+        //    }
+        //    //If the soldier is walking from the right side to the left
+        //    else if (seeker.IsDone())
+        //    {
+        //        Debug.Log("we're going from right to left");
+        //        seeker.StartPath(rigidBody2D.position, target.position + offsetTargetPathLeft, OnPathComplete);
+        //    }
+        //}
+        //else
+        //{
+        //    rigidBody2D.velocity = new Vector2(0, rigidBody2D.velocity.y);
+        //    if (facingLeft && distance > 0)
+        //    {
+        //        Flip();
+        //    }
+        //    else if (!facingLeft && distance < 0)
+        //    {
+        //        Flip();
+        //    }
+        //}
         if (seeker.IsDone())
         {
             seeker.StartPath(rigidBody2D.position, target.position, OnPathComplete);
         }
     }
+
+    //void WindUpAttack()
+    //{
+    //    animator.SetTrigger("animSoldierAttack");
+    //    Invoke("SoldierAttack", 3f);
+    //}
+
+    IEnumerator WindUpAttackAnimation()
+    {
+        animator.SetTrigger("animSoldierAttack");
+        yield return new WaitForSeconds(0.5f);
+        SoldierAttack();
+        //StopCoroutine("WindUpAttackAnimation");
+    }
+
+    //IEnumerator WindUpAttack()
+    //{
+    //    yield return new WaitForSecondsRealtime(1.5f);
+    //}
 
     void Flip()
     {
