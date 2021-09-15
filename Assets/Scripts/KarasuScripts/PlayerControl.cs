@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
 
     //movement system
     //move
-    public float movementSpeed = 2500f;
+    public float movementSpeed = 8f;
     private bool facingRight = true;
     public float inputX;
 
@@ -20,8 +20,8 @@ public class PlayerControl : MonoBehaviour
     public float jumpForce = 25f;
     public bool grounded;
     private Transform groundCheck;
-    private const float groundCheckRadius = .01f;
-    private const float ceilingCheckRadius = .01f;
+    private const float groundCheckRadius = .1f;
+    private const float ceilingCheckRadius = .1f;
     public LayerMask whatIsGround;
 
     //double jump
@@ -46,6 +46,7 @@ public class PlayerControl : MonoBehaviour
     public LayerMask enemiesLayers;
     float globalAttackCooldown = 5f;
     float nextGlobalAttack = 0f;
+
     //light attack
     public Transform swordCollider;
     public float attackRange = 0.5f;
@@ -71,9 +72,18 @@ public class PlayerControl : MonoBehaviour
     public float attackSpeedAxe = 0.2f;
     float nextAttackTimeAxe = 0f;
 
+    //parry and block
+    public Transform parryCollider;
+    public GameObject parryColliderGO;
+    public GameObject blockColliderGO;
+    public float parryBlockRange = 0.5f;
+    public bool blocking = false;
+    public float parryWindow = 0.4f;
+    public float parryWindowActual = 0;
+    float nextParry = 0;
+    public float parryCooldown = 6;
+
     //Testing
-    public float animationLength;
-    int counter;
 
     void Awake()
     {
@@ -114,7 +124,6 @@ public class PlayerControl : MonoBehaviour
         animator.SetBool("animGrounded", grounded);
         //falling animation
         animator.SetFloat("animvSpeedFalling", rigidBody2D.velocity.y);
-        //dew();
     }
 
     void Update()
@@ -132,6 +141,7 @@ public class PlayerControl : MonoBehaviour
             animator.SetBool("animDoubleJump", false);
             doubleJump = true;
         }
+
     }
 
 
@@ -237,78 +247,120 @@ public class PlayerControl : MonoBehaviour
             {
                 return;
             }
+            animator.SetTrigger("animLightAttack");
             if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
             {
                 numberOfAttacks = 0;
-                animator.SetTrigger("animLightAttack");
-
-                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
-                foreach (Collider2D enemy in hitEnemies)
-                {
-                    Debug.Log("We hit " + enemy + " with a sword");
-                    enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
-                }
-                nextAttackTime = Time.time + 1f / attackSpeed;
-                nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
-                comboTimeWindow = Time.time + attackSpeed / 2;
-                
             }
-            else if (Time.time <= comboTimeWindow)
+            else if (Time.time <= comboTimeWindow && Time.time <= nextAttackTime && Time.time <= nextGlobalAttack)
             {
                 numberOfAttacks++;
             }
         }
     }
 
-    void LightAttackUpwards()
+    void LightAttack()
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("We hit " + enemy + " with a sword");
+            enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
+        }
+        nextAttackTime = Time.time + 0.11f + 1f / attackSpeed;
+        nextGlobalAttack = Time.time + 0.11f + 1f / globalAttackCooldown;
+        comboTimeWindow = Time.time + attackSpeed / 2;
+    }
+
+    void LightAttackUpwardsAnimation()
     {
         if (numberOfAttacks == 1)
         {
             animator.SetTrigger("animLightAttackUpwards");
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                Debug.Log("We hit " + enemy + " with a sword uppercut");
-                enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
-            }
-            numberOfAttacks++;
-            firstAttack = false;
         }
+    }
+
+    void LightAttackUpwards()
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("We hit " + enemy + " with a sword uppercut");
+            enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
+        }
+        numberOfAttacks++;
     }
 
     public void OnMediumAttack(InputAction.CallbackContext callbackContext)
     {
-        if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
+        if (callbackContext.control.IsPressed())
         {
-            animator.SetTrigger("animMediumAttack");
-
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(spearCollider.position, attackRangeSpear, enemiesLayers);
-            foreach (Collider2D enemy in hitEnemies)
+            if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
             {
-                Debug.Log("We hit " + enemy + " with a spaer");
-                enemy.GetComponent<Soldier>().TakeDamage(attackDamageSpear);
+                animator.SetTrigger("animMediumAttack");
+
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(spearCollider.position, attackRangeSpear, enemiesLayers);
+                foreach (Collider2D enemy in hitEnemies)
+                {
+                    Debug.Log("We hit " + enemy + " with a spaer");
+                    enemy.GetComponent<Soldier>().TakeDamage(attackDamageSpear);
+                }
+                nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
+                nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
             }
-            nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
-            nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
         }
 
     }
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     {
-        if (Time.time >= nextAttackTimeAxe && Time.time >= nextGlobalAttack)
+        if (callbackContext.control.IsPressed())
         {
-            animator.SetTrigger("animHeavyAttack");
-
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
-            foreach (Collider2D enemy in hitEnemies)
+            if (Time.time >= nextAttackTimeAxe && Time.time >= nextGlobalAttack)
             {
-                Debug.Log("We hit " + enemy + " with an axe");
-                enemy.GetComponent<Soldier>().TakeDamage(attackDamageAxe);
+                animator.SetTrigger("animHeavyAttack");
+
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
+                foreach (Collider2D enemy in hitEnemies)
+                {
+                    Debug.Log("We hit " + enemy + " with an axe");
+                    enemy.GetComponent<Soldier>().TakeDamage(attackDamageAxe);
+                }
+                nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
+                nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
             }
-            nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
-            nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
         }
+    }
+
+    public void OnParry(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            if (Time.time > nextParry)
+            {
+                animator.SetTrigger("animParry");
+                StartCoroutine("ParryWindow");
+                nextParry = Time.time + 1f / parryCooldown;
+            }
+        }
+        
+    }
+
+    public void OnBlock(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            animator.SetBool("animBlock", true);
+            blockColliderGO.SetActive(true);
+            movementSpeed = 0;
+        }
+        else if (callbackContext.canceled)
+        {
+            blockColliderGO.SetActive(false);
+            animator.SetBool("animBlock", false);
+            movementSpeed = 8;
+        }
+        
     }
 
     //Utilities
@@ -327,13 +379,20 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(animationDuration);
     }
 
+    IEnumerator ParryWindow()
+    {
+        parryColliderGO.SetActive(true);
+        yield return new WaitForSeconds(parryWindow);
+        parryColliderGO.SetActive(false);
+    }
+
     private void OnDrawGizmosSelected()
     {
-        if (spearCollider == null)
+        if (swordCollider == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(spearCollider.position, attackRangeSpear);
+        Gizmos.DrawWireSphere(swordCollider.position, attackRange);
     }
 
 }

@@ -51,6 +51,5 @@ public class KarasuEntity : MonoBehaviour
         Debug.Log("Karasu died");
         spriteRenderer.color = normalColor;
         animator.SetTrigger("animDeath");
-        rigidBody2D.isKinematic = true;
     }
 }

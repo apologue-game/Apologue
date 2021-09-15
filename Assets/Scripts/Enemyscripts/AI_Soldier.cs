@@ -123,7 +123,6 @@ public class AI_Soldier : MonoBehaviour
     void SoldierAttack()
     {
         //StartCoroutine("WindUpAttack");
-        Debug.Log("we're attacking");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {

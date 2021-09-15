@@ -1,5 +1,99 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2922116141284790644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1919832363277656011}
+  - component: {fileID: 4420840707942835676}
+  m_Layer: 6
+  m_Name: ParryCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1919832363277656011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922116141284790644}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.81, y: 0.67, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6984563776060638098}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &4420840707942835676
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922116141284790644}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!1 &6094411650202629064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4920378350264399568}
+  - component: {fileID: 3304599153150985189}
+  m_Layer: 6
+  m_Name: BlockCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4920378350264399568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094411650202629064}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.81, y: 0.67, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6984563776060638098}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &3304599153150985189
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094411650202629064}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &6984563776060638100
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,6 +133,8 @@ Transform:
   - {fileID: 6984563777514602708}
   - {fileID: 6984563776747867224}
   - {fileID: 6984563777244776988}
+  - {fileID: 1919832363277656011}
+  - {fileID: 4920378350264399568}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,6 +171,8 @@ MonoBehaviour:
   attackRange: 0.26
   attackDamage: 1
   attackSpeed: 2
+  numberOfAttacks: 0
+  firstAttack: 0
   spearCollider: {fileID: 6984563777244776988}
   attackRangeSpear: 0.28
   attackDamageSpear: 1
@@ -83,6 +181,13 @@ MonoBehaviour:
   attackRangeAxe: 0.5
   attackDamageAxe: 2
   attackSpeedAxe: 0.75
+  parryCollider: {fileID: 0}
+  parryColliderGO: {fileID: 0}
+  blockColliderGO: {fileID: 0}
+  parryBlockRange: 0.34
+  blocking: 0
+  parryWindow: 0.15
+  parryWindowActual: 0
 --- !u!114 &6984563776060638096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +545,18 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a966dcea-d716-481f-af9e-677e38beb846
     m_ActionName: PlayerGamepad/HeavyAttack[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b3d4f02b-27cf-41ab-8b08-e5bd07aca939
+    m_ActionName: Player/Parry[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 28ad59ef-b4ee-47f1-8aae-734b8ac24fea
+    m_ActionName: PlayerGamepad/Parry[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f68c7aa-ed77-4242-9fda-80ba8bb474cd
+    m_ActionName: Player/Block[/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

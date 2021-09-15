@@ -97,6 +97,22 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""Parry"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3d4f02b-27cf-41ab-8b08-e5bd07aca939"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""5f68c7aa-ed77-4242-9fda-80ba8bb474cd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.2)""
                 }
             ],
             ""bindings"": [
@@ -253,6 +269,28 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4659b4a8-c3d8-467b-aa3e-15483a76b891"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Parry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9ffb277-e418-4137-9a67-5ff50fabb53d"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -331,6 +369,22 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""Parry"",
+                    ""type"": ""Button"",
+                    ""id"": ""28ad59ef-b4ee-47f1-8aae-734b8ac24fea"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""78e56375-a6c8-409d-8d62-c1268bb2e9bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -474,6 +528,28 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick;Gamepad"",
                     ""action"": ""HeavyAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0cd2b0ed-665d-434b-87dd-3b67fc7ed250"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Parry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b14e10a9-e03d-4a94-82d4-a319cdac1609"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": ""Hold(duration=0.2)"",
+                    ""processors"": """",
+                    ""groups"": ""Joystick;Gamepad"",
+                    ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1061,6 +1137,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_Player_LightAttack = m_Player.FindAction("LightAttack", throwIfNotFound: true);
         m_Player_MediumAttack = m_Player.FindAction("MediumAttack", throwIfNotFound: true);
         m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
+        m_Player_Parry = m_Player.FindAction("Parry", throwIfNotFound: true);
+        m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
         // PlayerGamepad
         m_PlayerGamepad = asset.FindActionMap("PlayerGamepad", throwIfNotFound: true);
         m_PlayerGamepad_Move = m_PlayerGamepad.FindAction("Move", throwIfNotFound: true);
@@ -1072,6 +1150,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerGamepad_LightAttack = m_PlayerGamepad.FindAction("LightAttack", throwIfNotFound: true);
         m_PlayerGamepad_MediumAttack = m_PlayerGamepad.FindAction("MediumAttack", throwIfNotFound: true);
         m_PlayerGamepad_HeavyAttack = m_PlayerGamepad.FindAction("HeavyAttack", throwIfNotFound: true);
+        m_PlayerGamepad_Parry = m_PlayerGamepad.FindAction("Parry", throwIfNotFound: true);
+        m_PlayerGamepad_Block = m_PlayerGamepad.FindAction("Block", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1143,6 +1223,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_LightAttack;
     private readonly InputAction m_Player_MediumAttack;
     private readonly InputAction m_Player_HeavyAttack;
+    private readonly InputAction m_Player_Parry;
+    private readonly InputAction m_Player_Block;
     public struct PlayerActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1157,6 +1239,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @LightAttack => m_Wrapper.m_Player_LightAttack;
         public InputAction @MediumAttack => m_Wrapper.m_Player_MediumAttack;
         public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
+        public InputAction @Parry => m_Wrapper.m_Player_Parry;
+        public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1196,6 +1280,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @HeavyAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
+                @Parry.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnParry;
+                @Parry.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnParry;
+                @Parry.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnParry;
+                @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1230,6 +1320,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @HeavyAttack.started += instance.OnHeavyAttack;
                 @HeavyAttack.performed += instance.OnHeavyAttack;
                 @HeavyAttack.canceled += instance.OnHeavyAttack;
+                @Parry.started += instance.OnParry;
+                @Parry.performed += instance.OnParry;
+                @Parry.canceled += instance.OnParry;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -1247,6 +1343,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerGamepad_LightAttack;
     private readonly InputAction m_PlayerGamepad_MediumAttack;
     private readonly InputAction m_PlayerGamepad_HeavyAttack;
+    private readonly InputAction m_PlayerGamepad_Parry;
+    private readonly InputAction m_PlayerGamepad_Block;
     public struct PlayerGamepadActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1260,6 +1358,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @LightAttack => m_Wrapper.m_PlayerGamepad_LightAttack;
         public InputAction @MediumAttack => m_Wrapper.m_PlayerGamepad_MediumAttack;
         public InputAction @HeavyAttack => m_Wrapper.m_PlayerGamepad_HeavyAttack;
+        public InputAction @Parry => m_Wrapper.m_PlayerGamepad_Parry;
+        public InputAction @Block => m_Wrapper.m_PlayerGamepad_Block;
         public InputActionMap Get() { return m_Wrapper.m_PlayerGamepad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1296,6 +1396,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @HeavyAttack.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
+                @Parry.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnParry;
+                @Parry.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnParry;
+                @Parry.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnParry;
+                @Block.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_PlayerGamepadActionsCallbackInterface = instance;
             if (instance != null)
@@ -1327,6 +1433,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @HeavyAttack.started += instance.OnHeavyAttack;
                 @HeavyAttack.performed += instance.OnHeavyAttack;
                 @HeavyAttack.canceled += instance.OnHeavyAttack;
+                @Parry.started += instance.OnParry;
+                @Parry.performed += instance.OnParry;
+                @Parry.canceled += instance.OnParry;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -1493,6 +1605,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnLightAttack(InputAction.CallbackContext context);
         void OnMediumAttack(InputAction.CallbackContext context);
         void OnHeavyAttack(InputAction.CallbackContext context);
+        void OnParry(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
     public interface IPlayerGamepadActions
     {
@@ -1505,6 +1619,8 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnLightAttack(InputAction.CallbackContext context);
         void OnMediumAttack(InputAction.CallbackContext context);
         void OnHeavyAttack(InputAction.CallbackContext context);
+        void OnParry(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

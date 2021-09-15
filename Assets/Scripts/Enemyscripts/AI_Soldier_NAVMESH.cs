@@ -20,6 +20,8 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
     public BoxCollider2D boxCollider2DKarasu;
+    public CircleCollider2D karasuParryCollider;
+    public CircleCollider2D karasuBlockCollider;
 
     //Combat system
     public LayerMask enemiesLayers;
@@ -32,6 +34,8 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
     int attackDamageSoldier = 3;
     float attackSpeedSoldier = 0.75f;
     float nextAttackTimeSoldier = 0f;
+    //Parry and block system
+    public bool parriedOrBlocked = false;
 
     private void Awake()
     {
@@ -59,6 +63,8 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
         }
 
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
+        Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
+        Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
 
         animator.SetFloat("animSoldierSpeed", Math.Abs(rigidBody2D.velocity.x));
     }
@@ -79,20 +85,33 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
     void SoldierAttack()
     {
         //StartCoroutine("WindUpAttack");
-        Debug.Log("we're attacking");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Soldier hit " + enemy + " with a sword");
-            enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
+            if (enemy.name == "ParryCollider")
+            {
+                Debug.Log("Successfully parried an attack");
+                parriedOrBlocked = true;
+            }
+            else if (enemy.name == "BlockCollider")
+            {
+                Debug.Log("Successfully blocked an attack");
+                parriedOrBlocked = true;
+            }
+            else if (!parriedOrBlocked)
+            {
+                Debug.Log("Soldier hit " + enemy + " with a sword");
+                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
+            }
+            Debug.Log(enemy);
         }
+        //parriedOrBlocked = false;
         numberOfAttacks = 0;
         nextAttackTimeSoldier = Time.time + 1f / attackSpeedSoldier;
         nextGlobalAttackSoldier = Time.time + 1f;
     }
 
     //Utilities
-    
     void Flip()
     {
         facingLeft = !facingLeft;
