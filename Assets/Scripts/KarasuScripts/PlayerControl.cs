@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour
     public float movementSpeed = 8f;
     private bool facingRight = true;
     public float inputX;
+    bool canMove = true;
 
     //jump
     public float jumpForce = 25f;
@@ -44,7 +45,7 @@ public class PlayerControl : MonoBehaviour
 
     //combat system
     public LayerMask enemiesLayers;
-    float globalAttackCooldown = 5f;
+    public float globalAttackCooldown = 5f;
     float nextGlobalAttack = 0f;
 
     //light attack
@@ -54,12 +55,15 @@ public class PlayerControl : MonoBehaviour
     public float attackSpeed = 0.75f;
     float nextAttackTime = 0f;
     //light attack combos
+    public Transform swordUppercutCollider;
+    public float attackRangeUppercut = 0.5f;
     float comboTimeWindow = 0.2f;
     public int numberOfAttacks = 0;
     public bool firstAttack = false;
 
     //medium attack
     public Transform spearCollider;
+    public Vector3 spearRange;
     public float attackRangeSpear = 0.5f;
     public int attackDamageSpear = 2;
     public float attackSpeedSpear = 0.2f;
@@ -99,7 +103,7 @@ public class PlayerControl : MonoBehaviour
 
         dashDirectionIfStationary = true;
 
-        
+        spearRange = new Vector3(2.44f, 0.34f, 0);
     }
 
     void FixedUpdate()
@@ -247,12 +251,16 @@ public class PlayerControl : MonoBehaviour
             {
                 return;
             }
-            animator.SetTrigger("animLightAttack");
             if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
             {
                 numberOfAttacks = 0;
+                animator.SetTrigger("animLightAttack");
+                nextAttackTime = Time.time + 0.11f + 1f / attackSpeed;
+                nextGlobalAttack = Time.time + 0.11f + 1f / globalAttackCooldown;
+                comboTimeWindow = Time.time + 1 + attackSpeed / 2;
+                
             }
-            else if (Time.time <= comboTimeWindow && Time.time <= nextAttackTime && Time.time <= nextGlobalAttack)
+            else if (Time.time <= comboTimeWindow)
             {
                 numberOfAttacks++;
             }
@@ -261,34 +269,34 @@ public class PlayerControl : MonoBehaviour
 
     void LightAttack()
     {
+        StartCoroutine("StopMovingWhileAttacking");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             Debug.Log("We hit " + enemy + " with a sword");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
         }
-        nextAttackTime = Time.time + 0.11f + 1f / attackSpeed;
-        nextGlobalAttack = Time.time + 0.11f + 1f / globalAttackCooldown;
-        comboTimeWindow = Time.time + attackSpeed / 2;
+
     }
 
     void LightAttackUpwardsAnimation()
     {
         if (numberOfAttacks == 1)
         {
+            numberOfAttacks++;
             animator.SetTrigger("animLightAttackUpwards");
         }
     }
 
     void LightAttackUpwards()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
+        StartCoroutine("StopMovingWhileAttacking");
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordUppercutCollider.position, attackRangeUppercut, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             Debug.Log("We hit " + enemy + " with a sword uppercut");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
-        }
-        numberOfAttacks++;
+        }  
     }
 
     public void OnMediumAttack(InputAction.CallbackContext callbackContext)
@@ -297,19 +305,23 @@ public class PlayerControl : MonoBehaviour
         {
             if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
             {
-                animator.SetTrigger("animMediumAttack");
-
-                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(spearCollider.position, attackRangeSpear, enemiesLayers);
-                foreach (Collider2D enemy in hitEnemies)
-                {
-                    Debug.Log("We hit " + enemy + " with a spaer");
-                    enemy.GetComponent<Soldier>().TakeDamage(attackDamageSpear);
-                }
                 nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
                 nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
+                animator.SetTrigger("animMediumAttack");
             }
         }
 
+    }
+
+    public void MediumAttack()
+    {
+        StartCoroutine("StopMovingWhileAttacking");
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearCollider.position, spearRange, 0, enemiesLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("We hit " + enemy + " with a spaer");
+            enemy.GetComponent<Soldier>().TakeDamage(attackDamageSpear);
+        }
     }
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
@@ -318,17 +330,21 @@ public class PlayerControl : MonoBehaviour
         {
             if (Time.time >= nextAttackTimeAxe && Time.time >= nextGlobalAttack)
             {
-                animator.SetTrigger("animHeavyAttack");
-
-                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
-                foreach (Collider2D enemy in hitEnemies)
-                {
-                    Debug.Log("We hit " + enemy + " with an axe");
-                    enemy.GetComponent<Soldier>().TakeDamage(attackDamageAxe);
-                }
                 nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
                 nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
+                animator.SetTrigger("animHeavyAttack");
             }
+        }
+    }
+
+    void HeavyAttack()
+    {
+        StartCoroutine("StopMovingWhileAttacking");
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("We hit " + enemy + " with an axe");
+            enemy.GetComponent<Soldier>().TakeDamage(attackDamageAxe);
         }
     }
 
@@ -356,8 +372,8 @@ public class PlayerControl : MonoBehaviour
         }
         else if (callbackContext.canceled)
         {
-            blockColliderGO.SetActive(false);
             animator.SetBool("animBlock", false);
+            blockColliderGO.SetActive(false);
             movementSpeed = 8;
         }
         
@@ -386,13 +402,24 @@ public class PlayerControl : MonoBehaviour
         parryColliderGO.SetActive(false);
     }
 
+    IEnumerator StopMovingWhileAttacking()
+    {
+        if (grounded)
+        {
+            movementSpeed = 0;
+            yield return new WaitForSeconds(0.3f);
+            movementSpeed = 8;
+        }
+    }
+
+
     private void OnDrawGizmosSelected()
     {
-        if (swordCollider == null)
+        if (axeCollider == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(swordCollider.position, attackRange);
+        Gizmos.DrawWireSphere(axeCollider.position, attackRangeAxe);
     }
 
 }

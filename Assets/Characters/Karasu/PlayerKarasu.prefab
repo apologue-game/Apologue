@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &4420840707942835676
 CircleCollider2D:
@@ -47,6 +47,36 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!1 &3222105942407216710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6130953115359749727}
+  m_Layer: 6
+  m_Name: SwordUppercutCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6130953115359749727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3222105942407216710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6984563776060638098}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6094411650202629064
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +106,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &3304599153150985189
 CircleCollider2D:
@@ -131,6 +161,7 @@ Transform:
   - {fileID: 6984563777629905096}
   - {fileID: 6984563776866466308}
   - {fileID: 6984563777514602708}
+  - {fileID: 6130953115359749727}
   - {fileID: 6984563776747867224}
   - {fileID: 6984563777244776988}
   - {fileID: 1919832363277656011}
@@ -167,6 +198,7 @@ MonoBehaviour:
   enemiesLayers:
     serializedVersion: 2
     m_Bits: 4096
+  globalAttackCooldown: 5
   swordCollider: {fileID: 6984563777514602708}
   attackRange: 0.26
   attackDamage: 1
@@ -188,6 +220,7 @@ MonoBehaviour:
   blocking: 0
   parryWindow: 0.15
   parryWindowActual: 0
+  parryCooldown: 6
 --- !u!114 &6984563776060638096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +590,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5f68c7aa-ed77-4242-9fda-80ba8bb474cd
     m_ActionName: Player/Block[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 78e56375-a6c8-409d-8d62-c1268bb2e9bb
+    m_ActionName: PlayerGamepad/Block[/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -720,7 +757,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6984563776866466315
 GameObject:
@@ -780,7 +817,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6984563777514602715
 GameObject:

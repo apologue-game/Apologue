@@ -535,7 +535,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""0cd2b0ed-665d-434b-87dd-3b67fc7ed250"",
                     ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Parry"",

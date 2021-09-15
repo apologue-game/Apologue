@@ -6,6 +6,7 @@ using UnityEngine;
 public class AI_Soldier_NAVMESH : MonoBehaviour
 {
     Animator animator;
+    public Animator karasuAnimator;
 
     //Pathseeking
     private Rigidbody2D rigidBody2D;
@@ -96,16 +97,19 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
             else if (enemy.name == "BlockCollider")
             {
                 Debug.Log("Successfully blocked an attack");
+                StartCoroutine("BlockedAndHitAnimation");
                 parriedOrBlocked = true;
             }
-            else if (!parriedOrBlocked)
+        }
+        if (!parriedOrBlocked && hitEnemies.Length > 0)
+        {
+            foreach(Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Soldier hit " + enemy + " with a sword");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
             }
-            Debug.Log(enemy);
         }
-        //parriedOrBlocked = false;
+        parriedOrBlocked = false;
         numberOfAttacks = 0;
         nextAttackTimeSoldier = Time.time + 1f / attackSpeedSoldier;
         nextGlobalAttackSoldier = Time.time + 1f;
@@ -119,6 +123,14 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    IEnumerator BlockedAndHitAnimation()
+    {
+        karasuAnimator.SetBool("animBlock", false);
+        karasuAnimator.SetTrigger("animBlockedAndHit");
+        yield return new WaitForSeconds(0.3f);
+        karasuAnimator.SetBool("animBlock", true);
     }
 
     private void OnDrawGizmosSelected()

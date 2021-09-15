@@ -6,7 +6,6 @@ public class KarasuEntity : MonoBehaviour
 {
     Animator animator;
     SpriteRenderer spriteRenderer;
-    Rigidbody2D rigidBody2D;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
@@ -23,7 +22,6 @@ public class KarasuEntity : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
