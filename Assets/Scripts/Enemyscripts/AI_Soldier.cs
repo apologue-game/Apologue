@@ -7,6 +7,8 @@ using System;
 public class AI_Soldier : MonoBehaviour
 {
     Animator animator;
+    public Animator karasuAnimator;
+    KarasuEntity karasuEntity;
 
     //Pathseeking
     Seeker seeker;
@@ -16,16 +18,20 @@ public class AI_Soldier : MonoBehaviour
     public Vector3 offsetTargetPathLeft;
     public Vector3 offsetTargetPathRight;
     int currentWaypoint = 0;
-    bool endOfPath = false;
+    public bool endOfPath = false;
 
     //movement
-    public float movementSpeed = 100f;
-    float nextWaypointDistance = 1.3f;
+    public float movementSpeed = 5f;
+    public float nextWaypointDistance = 1.3f;
     bool facingLeft = true;
+    bool grounded = true;
+    public bool test;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
     public BoxCollider2D boxCollider2DKarasu;
+    public CircleCollider2D karasuParryCollider;
+    public CircleCollider2D karasuBlockCollider;
 
     //Combat system
     public LayerMask enemiesLayers;
@@ -38,9 +44,12 @@ public class AI_Soldier : MonoBehaviour
     int attackDamageSoldier = 3;
     float attackSpeedSoldier = 0.75f;
     float nextAttackTimeSoldier = 0f;
+    //Parry and block system
+    public bool parriedOrBlocked = false;
 
     private void Awake()
     {
+        karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
         animator = GetComponent<Animator>();
         offsetTargetPathLeft = new Vector3(-0.75f, 0, 0);
         offsetTargetPathRight = new Vector3(0.75f, 0, 0);
@@ -51,16 +60,33 @@ public class AI_Soldier : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rigidBody2D = GetComponent<Rigidbody2D>();
+        Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
+        Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
+        Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
         InvokeRepeating("UpdatePath", 0f, 0.75f);
     }
 
     void FixedUpdate()
     {
+        test = karasuEntity.dead;
+        if (karasuEntity.dead == true)
+        {
+            movementSpeed = 0;
+            return;
+        }
+        else
+        {
+            movementSpeed = 5;
+        }
+        if (target == null)
+        {
+            StartCoroutine("SearchForPlayer");
+            return;
+        }
         if (path == null)
         {
             return;
         }
-
         if (currentWaypoint >= path.vectorPath.Count)
         {
             endOfPath = true;
@@ -70,17 +96,16 @@ public class AI_Soldier : MonoBehaviour
         {
             endOfPath = false;
         }
+        if (endOfPath)
+        {
+            //PathUtilities.IsPathPossible()
+            //GraphNode graphNode;
+            //AstarPath.GetNearest();
+            return;
+        }
 
-        //Using the commented code below, characters can fly
-        //Good for flying enemies
-        //Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rigidBody2D.position).normalized;
-        //Vector2 force = direction * movementSpeed * Time.deltaTime;
-        //rigidBody2D.AddForce(force);
-
-        
         float direction = (path.vectorPath[currentWaypoint].x - rigidBody2D.position.x);
         rigidBody2D.velocity = new Vector2(direction * movementSpeed, rigidBody2D.velocity.y);
-
         if (rigidBody2D.velocity.x > 0 && facingLeft)
         {
             Flip();
@@ -96,39 +121,65 @@ public class AI_Soldier : MonoBehaviour
             currentWaypoint++;
         }
 
-        Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-
+        if (boxCollider2DKarasu == null)
+        {
+            StartCoroutine("SearchForPlayerBoxCollider");
+        }
+        if (karasuParryCollider == null)
+        {
+            StartCoroutine("SearchForPlayerParryCollider");
+        }
+        if (karasuBlockCollider == null)
+        {
+            StartCoroutine("SearchForPlayerBlockCollider");
+        }
         animator.SetFloat("animSoldierSpeed", Math.Abs(rigidBody2D.velocity.x));
     }
 
     private void Update()
     {
+        if (karasuEntity.dead == true)
+        {
+            return;
+        }
         //check to see if there are enemies in attack range
         shouldIAttack = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
         int enemiesInRange = shouldIAttack.Length;
-        //if (enemiesInRange > 0 && Time.time >= nextAttackTimeSoldier && Time.time >= nextGlobalAttackSoldier && numberOfAttacks == 0)
-        //{
-        //    numberOfAttacks++;
-        //    StartCoroutine("WindUpAttackAnimation");
-        //    //SoldierAttack();
-        //}
         if (enemiesInRange > 0 && Time.time >= nextAttackTimeSoldier && Time.time >= nextGlobalAttackSoldier && numberOfAttacks == 0)
         {
             numberOfAttacks++;
             animator.SetTrigger("animSoldierAttack");
+            StartCoroutine("StopMovingWhileAttacking");
         }
     }
 
     //Combat system
     void SoldierAttack()
     {
-        //StartCoroutine("WindUpAttack");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Soldier hit " + enemy + " with a sword");
-            enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
+            if (enemy.name == "ParryCollider")
+            {
+                Debug.Log("Successfully parried an attack");
+                parriedOrBlocked = true;
+            }
+            else if (enemy.name == "BlockCollider")
+            {
+                Debug.Log("Successfully blocked an attack");
+                StartCoroutine("BlockedAndHitAnimation");
+                parriedOrBlocked = true;
+            }
         }
+        if (!parriedOrBlocked && hitEnemies.Length > 0)
+        {
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                Debug.Log("Soldier hit " + enemy + " with a sword");
+                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
+            }
+        }
+        parriedOrBlocked = false;
         numberOfAttacks = 0;
         nextAttackTimeSoldier = Time.time + 1f / attackSpeedSoldier;
         nextGlobalAttackSoldier = Time.time + 1f;
@@ -169,26 +220,92 @@ public class AI_Soldier : MonoBehaviour
         {
             seeker.StartPath(rigidBody2D.position, target.position, OnPathComplete);
         }
+        //seeker.pathCallback(path);
     }
 
-    //void WindUpAttack()
+
+    //utilities
+    //IEnumerator SearchForPlayer()
     //{
-    //    animator.SetTrigger("animSoldierAttack");
-    //    Invoke("SoldierAttack", 3f);
+    //    GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+    //    if (playerObject != null)
+    //    {
+    //        target = playerObject.transform;
+    //        yield break;
+    //    }
+    //    else if (playerObject == null)
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //        StartCoroutine("SearchForPlayer");
+    //    }
     //}
 
-    IEnumerator WindUpAttackAnimation()
+    //IEnumerator SearchForPlayerBoxCollider()
+    //{
+    //    GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+    //    if (playerObject != null)
+    //    {
+    //        boxCollider2DKarasu = playerObject.GetComponent<BoxCollider2D>();
+    //        yield break;
+    //    }
+    //    else if (playerObject == null)
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //        StartCoroutine("SearchForPlayer");
+    //    }
+    //}
+
+    //IEnumerator SearchForPlayerParryCollider()
+    //{
+    //    GameObject parry;
+    //    GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+    //    parry = playerObject.transform.Find("ParryCollider").gameObject;
+    //    if (parry != null)
+    //    {
+    //        parry.SetActive(true);
+    //        karasuParryCollider = parry.GetComponent<CircleCollider2D>();
+    //        parry.SetActive(false);
+    //    }
+    //    else if (parry == null)
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //        StartCoroutine("SearchForPlayerParryCollider");
+    //    }
+    //}
+
+    //IEnumerator SearchForPlayerBlockCollider()
+    //{
+    //    GameObject block = GameObject.Find("BlockCollider");
+    //    if (block != null)
+    //    {
+    //        block.SetActive(true);
+    //        karasuBlockCollider = block.GetComponent<CircleCollider2D>();
+    //        block.SetActive(false);
+    //    }
+    //    else if (block == null)
+    //    {
+    //        yield return new WaitForSeconds(0.5f);
+    //        StartCoroutine("SearchForPlayerBlockCollider");
+    //    }
+    //}
+
+    IEnumerator BlockedAndHitAnimation()
     {
-        animator.SetTrigger("animSoldierAttack");
-        yield return new WaitForSeconds(0.5f);
-        SoldierAttack();
-        //StopCoroutine("WindUpAttackAnimation");
+        karasuAnimator.SetBool("animBlock", false);
+        karasuAnimator.SetTrigger("animBlockedAndHit");
+        yield return new WaitForSeconds(0.3f);
+        karasuAnimator.SetBool("animBlock", true);
     }
 
-    //IEnumerator WindUpAttack()
-    //{
-    //    yield return new WaitForSecondsRealtime(1.5f);
-    //}
+    IEnumerator StopMovingWhileAttacking()
+    {
+        if (grounded)
+        {
+            movementSpeed = 0;
+            yield return new WaitForSeconds(1f);
+            movementSpeed = 5;
+        }
+    }
 
     void Flip()
     {

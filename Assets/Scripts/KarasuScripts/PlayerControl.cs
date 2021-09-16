@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-    ApologuePlayerInput_Actions playerinputActions;
+    public static ApologuePlayerInput_Actions playerinputActions;
+    static PlayerInput playerInput;
     private Rigidbody2D rigidBody2D;
     private Animator animator;
 
@@ -15,7 +16,6 @@ public class PlayerControl : MonoBehaviour
     public float movementSpeed = 8f;
     private bool facingRight = true;
     public float inputX;
-    bool canMove = true;
 
     //jump
     public float jumpForce = 25f;
@@ -93,6 +93,7 @@ public class PlayerControl : MonoBehaviour
     {
         playerinputActions = new ApologuePlayerInput_Actions();
         playerinputActions.Enable();
+        playerInput = GetComponent<PlayerInput>();
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -102,7 +103,7 @@ public class PlayerControl : MonoBehaviour
         ceilingCheck = transform.Find("CeilingCheck");
 
         dashDirectionIfStationary = true;
-
+        InputSystem.EnableDevice(Keyboard.current);
         spearRange = new Vector3(2.44f, 0.34f, 0);
     }
 
@@ -388,6 +389,17 @@ public class PlayerControl : MonoBehaviour
     private void OnDisable()
     {
         playerinputActions.Disable();
+    }
+
+    public static void TurnOffControlsOnDeath()
+    {
+        playerInput.currentActionMap.Disable();
+    }
+
+    public static void TurnOnControlsOnRespawn()
+    {
+        playerInput.currentActionMap.Enable();
+
     }
 
     IEnumerator WaitForAnimationToFinish(float animationDuration)

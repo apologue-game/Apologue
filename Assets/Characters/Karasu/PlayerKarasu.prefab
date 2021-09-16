@@ -203,9 +203,12 @@ MonoBehaviour:
   attackRange: 0.26
   attackDamage: 1
   attackSpeed: 2
+  swordUppercutCollider: {fileID: 6130953115359749727}
+  attackRangeUppercut: 0.5
   numberOfAttacks: 0
   firstAttack: 0
   spearCollider: {fileID: 6984563777244776988}
+  spearRange: {x: 0, y: 0, z: 0}
   attackRangeSpear: 0.28
   attackDamageSpear: 1
   attackSpeedSpear: 1
@@ -213,9 +216,9 @@ MonoBehaviour:
   attackRangeAxe: 0.5
   attackDamageAxe: 2
   attackSpeedAxe: 0.75
-  parryCollider: {fileID: 0}
-  parryColliderGO: {fileID: 0}
-  blockColliderGO: {fileID: 0}
+  parryCollider: {fileID: 1919832363277656011}
+  parryColliderGO: {fileID: 2922116141284790644}
+  blockColliderGO: {fileID: 6094411650202629064}
   parryBlockRange: 0.34
   blocking: 0
   parryWindow: 0.15

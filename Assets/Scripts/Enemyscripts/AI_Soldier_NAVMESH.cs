@@ -85,7 +85,6 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
     //Combat system
     void SoldierAttack()
     {
-        //StartCoroutine("WindUpAttack");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
