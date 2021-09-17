@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class KarasuEntity : MonoBehaviour
 {
-    PlayerControl playerControl;
     Animator animator;
     SpriteRenderer spriteRenderer;
 
@@ -16,8 +15,13 @@ public class KarasuEntity : MonoBehaviour
     public int currentHealth;
 
     //dying
-    float respawnDelay = 1.5f;
+    float respawnDelay = 3f;
     public bool dead = false;
+
+    //taking damage
+    float invincibilityWindow = 0.15f;
+    float nextTimeVulnerable;
+    bool invulnerable = false;
 
     // Update is called once per frame
     void Start()
@@ -41,14 +45,20 @@ public class KarasuEntity : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        spriteRenderer.color = takeDamageColor;
-        takeDamageTimer = Time.time + 0.3f;
+        if (Time.time > nextTimeVulnerable && !invulnerable)
+        {
+            invulnerable = true;
+            currentHealth -= damage;
+            spriteRenderer.color = takeDamageColor;
+            takeDamageTimer = Time.time + invincibilityWindow;
+            nextTimeVulnerable = Time.time + invincibilityWindow;
+        }
         if (currentHealth <= 0 && !dead)
         {
             dead = true;
             StartCoroutine("Death");
         }
+        invulnerable = false;
     }
 
     IEnumerator Death()
@@ -57,7 +67,7 @@ public class KarasuEntity : MonoBehaviour
         Debug.Log("Karasu died");
         spriteRenderer.color = normalColor;
         animator.SetTrigger("animDeath");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(respawnDelay);
         KillPlayer();
     }
 

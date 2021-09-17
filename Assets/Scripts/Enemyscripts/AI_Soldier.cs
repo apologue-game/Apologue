@@ -6,6 +6,8 @@ using System;
 
 public class AI_Soldier : MonoBehaviour
 {
+    System.Random rnd = new System.Random();
+
     Animator animator;
     public Animator karasuAnimator;
     KarasuEntity karasuEntity;
@@ -25,7 +27,6 @@ public class AI_Soldier : MonoBehaviour
     public float nextWaypointDistance = 1.3f;
     bool facingLeft = true;
     bool grounded = true;
-    public bool test;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -44,8 +45,15 @@ public class AI_Soldier : MonoBehaviour
     int attackDamageSoldier = 3;
     float attackSpeedSoldier = 0.75f;
     float nextAttackTimeSoldier = 0f;
-    //Parry and block system
+    //Parry and block system for Player
     public bool parriedOrBlocked = false;
+    //Soldier block
+    public Transform blockCollider;
+    public GameObject blockColliderGO;
+    public float blockColliderRange;
+    public bool blockedOrNot = false;
+    bool currentlyBlocking = false;
+    public int blockChance;
 
     private void Awake()
     {
@@ -57,26 +65,21 @@ public class AI_Soldier : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    { 
         seeker = GetComponent<Seeker>();
         rigidBody2D = GetComponent<Rigidbody2D>();
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
         Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
+        InvokeRepeating("GenerateRandomNumber", 0f, 0.3f);
         InvokeRepeating("UpdatePath", 0f, 0.75f);
     }
 
     void FixedUpdate()
     {
-        test = karasuEntity.dead;
-        if (karasuEntity.dead == true)
+        if (Soldier.soldierDead || karasuEntity.dead)
         {
-            movementSpeed = 0;
             return;
-        }
-        else
-        {
-            movementSpeed = 5;
         }
         if (target == null)
         {
@@ -104,13 +107,19 @@ public class AI_Soldier : MonoBehaviour
             return;
         }
 
+        //Vector2 direction1 = ((Vector2)path.vectorPath[currentWaypoint] - rigidBody2D.position).normalized;
+        //Vector2 force1 = direction1 * movementSpeed * Time.deltaTime;
+        //rigidBody2D.AddForce(force);
+
         float direction = (path.vectorPath[currentWaypoint].x - rigidBody2D.position.x);
-        rigidBody2D.velocity = new Vector2(direction * movementSpeed, rigidBody2D.velocity.y);
-        if (rigidBody2D.velocity.x > 0 && facingLeft)
+        Vector2 force = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+        //rigidBody2D.AddForce(force);
+        rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+        if (force.x > 0 && facingLeft)
         {
             Flip();
         }
-        else if (rigidBody2D.velocity.x < 0 && !facingLeft)
+        else if (force.x < 0 && !facingLeft)
         {
             Flip();
         }
@@ -121,26 +130,23 @@ public class AI_Soldier : MonoBehaviour
             currentWaypoint++;
         }
 
-        if (boxCollider2DKarasu == null)
-        {
-            StartCoroutine("SearchForPlayerBoxCollider");
-        }
-        if (karasuParryCollider == null)
-        {
-            StartCoroutine("SearchForPlayerParryCollider");
-        }
-        if (karasuBlockCollider == null)
-        {
-            StartCoroutine("SearchForPlayerBlockCollider");
-        }
         animator.SetFloat("animSoldierSpeed", Math.Abs(rigidBody2D.velocity.x));
     }
 
     private void Update()
     {
+        if (Soldier.soldierDead)
+        {
+            return;
+        }
         if (karasuEntity.dead == true)
         {
             return;
+        }
+        if (PlayerControl.currentlyAttacking && !currentlyBlocking)
+        {
+            currentlyBlocking = true;
+            SoldierBlock();
         }
         //check to see if there are enemies in attack range
         shouldIAttack = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
@@ -185,9 +191,28 @@ public class AI_Soldier : MonoBehaviour
         nextGlobalAttackSoldier = Time.time + 1f;
     }
 
+    void SoldierBlock()
+    {
+        if (blockChance == 1 || blockChance == 5)
+        {
+            animator.SetTrigger("animSoldierBlock");
+            blockColliderGO.SetActive(true);
+            StartCoroutine("SoldierBlockWindow");
+        }
+        else
+        {
+            currentlyBlocking = false;
+        }
+    }
+
+
     //Utilities
     void UpdatePath()
     {
+        if (Soldier.soldierDead)
+        {
+            return;
+        }
         //float distance = Vector3.Distance(rigidBody2D.position, target.position);
         ////If the soldier is walking from the left side to the right
         //if (distance > 2)
@@ -223,8 +248,11 @@ public class AI_Soldier : MonoBehaviour
         //seeker.pathCallback(path);
     }
 
+    void GenerateRandomNumber()
+    {
+        blockChance = rnd.Next(-1, 11);
+    }
 
-    //utilities
     //IEnumerator SearchForPlayer()
     //{
     //    GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
@@ -295,6 +323,13 @@ public class AI_Soldier : MonoBehaviour
         karasuAnimator.SetTrigger("animBlockedAndHit");
         yield return new WaitForSeconds(0.3f);
         karasuAnimator.SetBool("animBlock", true);
+    }
+
+    IEnumerator SoldierBlockWindow()
+    {
+        yield return new WaitForSeconds(1f);
+        blockColliderGO.SetActive(false);
+        currentlyBlocking = false;
     }
 
     IEnumerator StopMovingWhileAttacking()

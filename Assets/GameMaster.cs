@@ -29,4 +29,9 @@ public class GameMaster : MonoBehaviour
         karasuEntity.gameObject.transform.position = gameMaster.respawnLocation.position;
         //gameMaster.RespawnPlayer();
     }
+
+    public static void DestroyGameObject(GameObject gameObject)
+    {
+        Destroy(gameObject);
+    }
 }

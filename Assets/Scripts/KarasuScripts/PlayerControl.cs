@@ -86,7 +86,8 @@ public class PlayerControl : MonoBehaviour
     public float parryWindowActual = 0;
     float nextParry = 0;
     public float parryCooldown = 6;
-
+    //enemy blocking
+    public static bool currentlyAttacking = false;
     //Testing
 
     void Awake()
@@ -256,6 +257,7 @@ public class PlayerControl : MonoBehaviour
             {
                 numberOfAttacks = 0;
                 animator.SetTrigger("animLightAttack");
+                currentlyAttacking = true;
                 nextAttackTime = Time.time + 0.11f + 1f / attackSpeed;
                 nextGlobalAttack = Time.time + 0.11f + 1f / globalAttackCooldown;
                 comboTimeWindow = Time.time + 1 + attackSpeed / 2;
@@ -274,10 +276,15 @@ public class PlayerControl : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
+            if (enemy.name == "BlockColliderSoldier")
+            {
+                currentlyAttacking = false;
+                return;
+            }
             Debug.Log("We hit " + enemy + " with a sword");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
         }
-
+        currentlyAttacking = false;
     }
 
     void LightAttackUpwardsAnimation()
@@ -286,6 +293,7 @@ public class PlayerControl : MonoBehaviour
         {
             numberOfAttacks++;
             animator.SetTrigger("animLightAttackUpwards");
+            currentlyAttacking = true;
         }
     }
 
@@ -295,9 +303,15 @@ public class PlayerControl : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordUppercutCollider.position, attackRangeUppercut, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
+            if (enemy.name == "BlockColliderSoldier")
+            {
+                currentlyAttacking = false;
+                return;
+            }
             Debug.Log("We hit " + enemy + " with a sword uppercut");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
-        }  
+        }
+        currentlyAttacking = false;
     }
 
     public void OnMediumAttack(InputAction.CallbackContext callbackContext)
@@ -309,9 +323,9 @@ public class PlayerControl : MonoBehaviour
                 nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
                 nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
                 animator.SetTrigger("animMediumAttack");
+                currentlyAttacking = true;
             }
         }
-
     }
 
     public void MediumAttack()
@@ -320,9 +334,15 @@ public class PlayerControl : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearCollider.position, spearRange, 0, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
+            if (enemy.name == "BlockColliderSoldier")
+            {
+                currentlyAttacking = false;
+                return;
+            }
             Debug.Log("We hit " + enemy + " with a spaer");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamageSpear);
         }
+        currentlyAttacking = false;
     }
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
@@ -334,6 +354,7 @@ public class PlayerControl : MonoBehaviour
                 nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
                 nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
                 animator.SetTrigger("animHeavyAttack");
+                currentlyAttacking = true;
             }
         }
     }
@@ -344,9 +365,15 @@ public class PlayerControl : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
+            if (enemy.name == "BlockColliderSoldier")
+            {
+                currentlyAttacking = false;
+                return;
+            }
             Debug.Log("We hit " + enemy + " with an axe");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamageAxe);
         }
+        currentlyAttacking = false;
     }
 
     public void OnParry(InputAction.CallbackContext callbackContext)
@@ -419,7 +446,7 @@ public class PlayerControl : MonoBehaviour
         if (grounded)
         {
             movementSpeed = 0;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.43f);
             movementSpeed = 8;
         }
     }

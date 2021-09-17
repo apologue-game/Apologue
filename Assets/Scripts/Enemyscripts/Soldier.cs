@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Soldier : MonoBehaviour
 {
+    public Animator animator;
     SpriteRenderer spriteRenderer;
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
     int maxHealth = 5;
     int currentHealth;
+    public static bool soldierDead = false;
 
     // Update is called once per frame
     void Start()
@@ -32,21 +34,30 @@ public class Soldier : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        spriteRenderer.color = takeDamageColor;
-        takeDamageTimer = Time.time + 0.3f;
+        if (BlockCollider.blockedOrParried)
+        {
+            Debug.Log("Soldier blocked an attack!!");
+        }
+        else
+        {
+            currentHealth -= damage;
+            spriteRenderer.color = takeDamageColor;
+            takeDamageTimer = Time.time + 0.15f;
+        }
         if (currentHealth <= 0)
         {
-            Death();
+            StartCoroutine("Death");
         }
+
     }
 
-    void Death()
+    IEnumerator Death()
     {
-        Debug.Log("Enemy died");
+        soldierDead = true;
+        Debug.Log("Soldier died");
         spriteRenderer.color = normalColor;
-
-        GetComponent<BoxCollider2D>().enabled = false;
-        this.enabled = false;
+        animator.SetTrigger("animSoldierDeath");
+        yield return new WaitForSeconds(3.5f);
+        GameMaster.DestroyGameObject(gameObject);
     }
 }

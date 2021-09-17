@@ -177,6 +177,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &445117111 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8692415218869377866, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
+  m_PrefabInstance: {fileID: 8692415218353909025}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &459744115 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7816246401093050770, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
+  m_PrefabInstance: {fileID: 8692415218353909025}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &459744116
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459744115}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.084456444, y: 0.030000001}
+  serializedVersion: 2
+  m_Radius: 0.4321432
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +332,7 @@ GameObject:
   - component: {fileID: 524010132}
   - component: {fileID: 524010131}
   m_Layer: 13
-  m_Name: Square
+  m_Name: FallingCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5447,11 +5473,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6984563776060638098, guid: abc9fba97a69b5640a5218a0c8ca5f4d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 87.233
+      value: 98.2
       objectReference: {fileID: 0}
     - target: {fileID: 6984563776060638098, guid: abc9fba97a69b5640a5218a0c8ca5f4d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -4.6
       objectReference: {fileID: 0}
     - target: {fileID: 6984563776060638098, guid: abc9fba97a69b5640a5218a0c8ca5f4d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5557,6 +5583,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 204230030}
     - target: {fileID: 8692415218869377864, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
+      propertyPath: movementSpeed
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8692415218869377864, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
       propertyPath: karasuAnimator
       value: 
       objectReference: {fileID: 1730991470}
@@ -5576,17 +5606,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Soldier
       objectReference: {fileID: 0}
+    - target: {fileID: 8692415218869377869, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 445117111}
     - target: {fileID: 8692415218869377873, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8692415218869377873, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 121.27
+      value: 121.764
       objectReference: {fileID: 0}
     - target: {fileID: 8692415218869377873, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.48
+      value: -2.375
       objectReference: {fileID: 0}
     - target: {fileID: 8692415218869377873, guid: d7a39d0c3e6c64b4598904c2380ac7c3, type: 3}
       propertyPath: m_LocalPosition.z
