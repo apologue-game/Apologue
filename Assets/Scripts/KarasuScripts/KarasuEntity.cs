@@ -11,7 +11,7 @@ public class KarasuEntity : MonoBehaviour
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
-    int maxHealth = 5;
+    int maxHealth = 500;
     public int currentHealth;
 
     //dying
@@ -56,7 +56,7 @@ public class KarasuEntity : MonoBehaviour
         if (currentHealth <= 0 && !dead)
         {
             dead = true;
-            StartCoroutine("Death");
+            StartCoroutine(Death());
         }
         invulnerable = false;
     }

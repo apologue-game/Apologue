@@ -83,9 +83,8 @@ public class PlayerControl : MonoBehaviour
     public float parryBlockRange = 0.5f;
     public bool blocking = false;
     public float parryWindow = 0.4f;
-    public float parryWindowActual = 0;
     float nextParry = 0;
-    public float parryCooldown = 6;
+    public float parryCooldown = 4f;
     //enemy blocking
     public static bool currentlyAttacking = false;
     //Testing
@@ -272,7 +271,7 @@ public class PlayerControl : MonoBehaviour
 
     void LightAttack()
     {
-        StartCoroutine("StopMovingWhileAttacking");
+        StartCoroutine(StopMovingWhileAttacking());
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -280,6 +279,10 @@ public class PlayerControl : MonoBehaviour
             {
                 currentlyAttacking = false;
                 return;
+            }
+            if (enemy.name == "EnemiesInRange")
+            {
+                continue;
             }
             Debug.Log("We hit " + enemy + " with a sword");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
@@ -299,7 +302,7 @@ public class PlayerControl : MonoBehaviour
 
     void LightAttackUpwards()
     {
-        StartCoroutine("StopMovingWhileAttacking");
+        StartCoroutine(StopMovingWhileAttacking());
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordUppercutCollider.position, attackRangeUppercut, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -307,6 +310,10 @@ public class PlayerControl : MonoBehaviour
             {
                 currentlyAttacking = false;
                 return;
+            }
+            if (enemy.name == "EnemiesInRange")
+            {
+                continue;
             }
             Debug.Log("We hit " + enemy + " with a sword uppercut");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
@@ -330,7 +337,7 @@ public class PlayerControl : MonoBehaviour
 
     public void MediumAttack()
     {
-        StartCoroutine("StopMovingWhileAttacking");
+        StartCoroutine(StopMovingWhileAttacking());
         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearCollider.position, spearRange, 0, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -338,6 +345,10 @@ public class PlayerControl : MonoBehaviour
             {
                 currentlyAttacking = false;
                 return;
+            }
+            if (enemy.name == "EnemiesInRange")
+            {
+                continue;
             }
             Debug.Log("We hit " + enemy + " with a spaer");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamageSpear);
@@ -361,7 +372,7 @@ public class PlayerControl : MonoBehaviour
 
     void HeavyAttack()
     {
-        StartCoroutine("StopMovingWhileAttacking");
+        StartCoroutine(StopMovingWhileAttacking());
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -369,6 +380,10 @@ public class PlayerControl : MonoBehaviour
             {
                 currentlyAttacking = false;
                 return;
+            }
+            if (enemy.name == "EnemiesInRange")
+            {
+                continue;
             }
             Debug.Log("We hit " + enemy + " with an axe");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamageAxe);
@@ -383,11 +398,10 @@ public class PlayerControl : MonoBehaviour
             if (Time.time > nextParry)
             {
                 animator.SetTrigger("animParry");
-                StartCoroutine("ParryWindow");
+                StartCoroutine(ParryWindow());
                 nextParry = Time.time + 1f / parryCooldown;
             }
-        }
-        
+        }  
     }
 
     public void OnBlock(InputAction.CallbackContext callbackContext)
