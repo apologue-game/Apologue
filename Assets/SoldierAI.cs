@@ -11,6 +11,7 @@ public class SoldierAI : MonoBehaviour
     Animator animator;
     public Animator karasuAnimator;
     KarasuEntity karasuEntity;
+    PlayerControl playerControl;
 
     //Pathseeking
     private Rigidbody2D rigidBody2D;
@@ -58,6 +59,7 @@ public class SoldierAI : MonoBehaviour
     private void Awake()
     {
         karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
+        playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         animator = GetComponent<Animator>();
         soldierAI = this;
     }
@@ -179,7 +181,8 @@ public class SoldierAI : MonoBehaviour
             else if (enemy.name == "BlockCollider")
             {
                 Debug.Log("Successfully blocked an attack");
-                StartCoroutine(BlockedAndHitAnimation());
+                //StartCoroutine(BlockedAndHitAnimation());
+                playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
                 parriedOrBlocked = true;
             }
         }
@@ -227,10 +230,10 @@ public class SoldierAI : MonoBehaviour
 
     IEnumerator BlockedAndHitAnimation()
     {
-        karasuAnimator.SetBool("animBlock", false);
-        karasuAnimator.SetTrigger("animBlockedAndHit");
+        //karasuAnimator.SetBool("animBlock", false);
+        playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
         yield return new WaitForSeconds(0.3f);
-        karasuAnimator.SetBool("animBlock", true);
+        //karasuAnimator.SetBool("animBlock", true);
     }
 
     IEnumerator SoldierBlockWindow()

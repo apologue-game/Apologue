@@ -24,7 +24,6 @@ public class EnemiesInRange : MonoBehaviour
         {
             inRange = true;
             StartCoroutine("EnemiesInRangeCoroutine", collision);
-            StartCoroutine(help());
         }
     }
 

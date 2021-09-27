@@ -14,22 +14,32 @@ public class PlayerControl : MonoBehaviour
     //movement system
     //move
     public float movementSpeed = 8f;
+    float movementSpeedHelper;
     private bool facingRight = true;
     public float inputX;
 
     //jump
     public float jumpForce = 25f;
+    float verticalSpeedAbsolute;
+    float verticalSpeed;
     public bool grounded;
     private Transform groundCheck;
-    private const float groundCheckRadius = .1f;
-    private const float ceilingCheckRadius = .1f;
+    private const float groundCheckRadius = .3f;
+    private const float ceilingCheckRadius = .3f;
     public LayerMask whatIsGround;
 
     //double jump
     public float doubleJumpForce = 20f;
+    int jumpCounter = 0;
     public bool doubleJump;
 
+    //wall jump
+    public static bool hangingOnTheWall = false;
+    public static bool wallJump = false;
+    public static float hangingOnTheWallTimer = 2f;
+
     //falling
+    bool falling = false;
 
     //dash
     public float dashSpeed = 5f;
@@ -47,7 +57,17 @@ public class PlayerControl : MonoBehaviour
     public LayerMask enemiesLayers;
     public float globalAttackCooldown = 5f;
     float nextGlobalAttack = 0f;
-
+    enum AttackState
+    {
+        notAttacking,
+        lightAttack,
+        lightAttackUpwards,
+        mediumAttack,
+        heavyAttack
+    }
+    AttackState attackState;
+    bool combo;
+    bool comboFinished;
     //light attack
     public Transform swordCollider;
     public float attackRange = 0.5f;
@@ -89,6 +109,28 @@ public class PlayerControl : MonoBehaviour
     public static bool currentlyAttacking = false;
     //Testing
 
+    //Animation manager
+    string oldState;
+
+    //animation names
+    const string IDLEANIMATION = "karasuIdleAnimation";
+    const string WALKANIMATION = "karasuWalkAnimation";
+    const string JUMPANIMATION = "karasuJumpAnimation";
+    const string DOUBLEJUMPANIMATION = "karasuDoubleJumpAnimation";
+    const string WALLJUMPANIMATION = "karasuWallJumpAnimation";
+    const string WALLHANGINGANIMATION = "karasuWallHangingAnimation";
+    const string FALLINGANIMATION = "karasuFallingAnimation";
+    const string CROUCHANIMATION = "karasuCrouchAnimation";
+    const string DEATHANIMATION = "karasuDeathAnimation";
+    const string DASHANIMATION = "karasuDashAnimation";
+    const string PARRYANIMATION = "karasuParryAnimation";
+    const string BLOCKANIMATION = "karasuBlockAnimation";
+    const string BLOCKEDANDHITANIMATION = "karasuBlockedAndHitAnimation";
+    const string LIGHTATTACKANIMATION = "karasuLightAttackAnimation";
+    const string LIGHTATTACKUPWARDSANIMATION = "karasuLightAttackUpwardsAnimation";
+    const string MEDIUMATTACKANIMATION = "karasuMediumAttackAnimation";
+    const string HEAVYATTACKANIMATION = "karasuHeavyAttackAnimation";
+
     void Awake()
     {
         playerinputActions = new ApologuePlayerInput_Actions();
@@ -98,37 +140,68 @@ public class PlayerControl : MonoBehaviour
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        //playerPosition = transform.Find("PlayerKarasu");
         groundCheck = transform.Find("GroundCheck");
         ceilingCheck = transform.Find("CeilingCheck");
 
-        dashDirectionIfStationary = true;
-        InputSystem.EnableDevice(Keyboard.current);
+        movementSpeedHelper = movementSpeed;
         spearRange = new Vector3(2.44f, 0.34f, 0);
+
+        attackState = new AttackState();
     }
 
     void FixedUpdate()
     {
         grounded = false;
         
-        //colliders check to see if the player is currently on the ground
+        //colliders -> check to see if the player is currently on the ground
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
             {
                 grounded = true;
+                falling = false;
             }             
         }
         //move character
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
-        //move animation
-        animator.SetFloat("animSpeed", Mathf.Abs(rigidBody2D.velocity.x));
-        //jump animation
-        animator.SetFloat("animvSpeed", Mathf.Abs(rigidBody2D.velocity.y));
-        animator.SetBool("animGrounded", grounded);
-        //falling animation
-        animator.SetFloat("animvSpeedFalling", rigidBody2D.velocity.y);
+        verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
+        verticalSpeed = rigidBody2D.velocity.y;
+        if (!blocking && !parryColliderGO.activeSelf && attackState == AttackState.notAttacking)
+        {
+            if (!grounded && verticalSpeed < -6 && !falling)
+            {
+                falling = true;
+                AnimatorSwitchState(FALLINGANIMATION);
+            }
+            if (grounded && inputX != 0)
+            {
+                AnimatorSwitchState(WALKANIMATION);
+            }
+            else if (grounded && inputX == 0)
+            {
+                AnimatorSwitchState(IDLEANIMATION);
+            }
+            //jumping
+            else if (!grounded && verticalSpeedAbsolute > 0)
+            {
+                if (jumpCounter == 2)
+                {
+                    AnimatorSwitchState(DOUBLEJUMPANIMATION);
+                    goto DONE;
+                }
+                AnimatorSwitchState(JUMPANIMATION);
+            }
+        DONE:;
+        }
+        else if (parryColliderGO.activeSelf)
+        {
+            AnimatorSwitchState(PARRYANIMATION);
+        }
+        else if (blockColliderGO.activeSelf)
+        {
+            AnimatorSwitchState(BLOCKANIMATION);
+        }
     }
 
     void Update()
@@ -143,16 +216,18 @@ public class PlayerControl : MonoBehaviour
         }
         if (grounded)
         {
-            animator.SetBool("animDoubleJump", false);
             doubleJump = true;
         }
-
     }
 
 
     //Movement
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
+        if (hangingOnTheWall)
+        {
+            return;
+        }
         inputX = callbackContext.ReadValue<Vector2>().x;
         
         if (inputX > 0 && !facingRight)
@@ -167,37 +242,50 @@ public class PlayerControl : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
-        if (grounded && callbackContext.performed)
+        if (grounded && callbackContext.performed && !blocking)
         {
             // Add a vertical force to the player.
+            rigidBody2D.velocity = Vector2.up * jumpForce;
+            jumpCounter = 1;
+        }
+        if (hangingOnTheWall && wallJump)
+        {
+            hangingOnTheWall = false;
+            wallJump = false;
             rigidBody2D.velocity = Vector2.up * jumpForce;
         }
     }
 
     public void OnDoubleJump(InputAction.CallbackContext callbackContext)
     {
-        if (!grounded && callbackContext.performed && doubleJump)
+        if (hangingOnTheWall)
         {
-            animator.SetBool("animDoubleJump", true);
+            return;
+        }
+        if (!grounded && callbackContext.performed && jumpCounter == 1 && doubleJump)
+        {
             rigidBody2D.velocity = (Vector2.up * doubleJumpForce);
+            jumpCounter++;
             doubleJump = false;
         }
     }
 
     public void OnDash(InputAction.CallbackContext callbackContext)
     {
+        if (hangingOnTheWall)
+        {
+            return;
+        }
         if (Time.time > timeUntilNextDash)
         {
             if (inputX > 0)
             {
                 rigidBody2D.AddForce(Vector2.right * dashSpeed * 350);
-                //animator.SetTrigger("animDash");
                 timeUntilNextDash = Time.time + 2;
             }
             else if (inputX < 0)
             {
                 rigidBody2D.AddForce(Vector2.left * dashSpeed * 350);
-                //animator.SetTrigger("animDash");
                 timeUntilNextDash = Time.time + 2;
             }
             else
@@ -205,13 +293,11 @@ public class PlayerControl : MonoBehaviour
                 if (dashDirectionIfStationary)
                 {
                     rigidBody2D.AddForce(Vector2.right * dashSpeed * 350);
-                    //animator.SetTrigger("animDash");
                     timeUntilNextDash = Time.time + 2;
                 }
                 else if (!dashDirectionIfStationary)
                 {
                     rigidBody2D.AddForce(Vector2.left * dashSpeed * 350);
-                    //animator.SetTrigger("animDash");
                     timeUntilNextDash = Time.time + 2;
                 }
             }
@@ -220,28 +306,27 @@ public class PlayerControl : MonoBehaviour
 
     public void OnCrouch(InputAction.CallbackContext callbackContext)
     {
-
+        if (hangingOnTheWall)
+        {
+            return;
+        }
     }
 
     public void OnSlide(InputAction.CallbackContext callbackContext)
     {
-
-    }
-
-    private void Flip()
-    {
-        // Switch the way the player is labeled as facing.
-        facingRight = !facingRight;
-
-        // Multiply the player's x local scale by -1.
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+        if (hangingOnTheWall)
+        {
+            return;
+        }
     }
 
     //Combat system
     public void OnLightAttack(InputAction.CallbackContext callbackContext)
     {
+        if (hangingOnTheWall)
+        {
+            return;
+        }
         if (callbackContext.control.IsPressed())
         {
             if (Gamepad.all.Count == 0)
@@ -254,29 +339,36 @@ public class PlayerControl : MonoBehaviour
             }
             if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
             {
+                combo = false;
+                AnimatorSwitchState(LIGHTATTACKANIMATION);
                 numberOfAttacks = 0;
-                animator.SetTrigger("animLightAttack");
+                attackState = AttackState.lightAttack;
                 currentlyAttacking = true;
-                nextAttackTime = Time.time + 0.11f + 1f / attackSpeed;
-                nextGlobalAttack = Time.time + 0.11f + 1f / globalAttackCooldown;
+                nextAttackTime = Time.time + 0.11f + 1f;
+                nextGlobalAttack = Time.time + 0.11f + 1.5f / globalAttackCooldown;
                 comboTimeWindow = Time.time + 1 + attackSpeed / 2;
                 
             }
             else if (Time.time <= comboTimeWindow)
             {
                 numberOfAttacks++;
+                combo = true;
+            }
+            if (combo && numberOfAttacks > 1)
+            {
+                comboFinished = true;
             }
         }
     }
 
     void LightAttack()
     {
-        StartCoroutine(StopMovingWhileAttacking());
+        StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length));
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "BlockColliderSoldier")
-            {
+            {   
                 currentlyAttacking = false;
                 return;
             }
@@ -288,6 +380,7 @@ public class PlayerControl : MonoBehaviour
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
         }
         currentlyAttacking = false;
+        
     }
 
     void LightAttackUpwardsAnimation()
@@ -295,14 +388,15 @@ public class PlayerControl : MonoBehaviour
         if (numberOfAttacks == 1)
         {
             numberOfAttacks++;
-            animator.SetTrigger("animLightAttackUpwards");
+            attackState = AttackState.lightAttackUpwards;
             currentlyAttacking = true;
+            AnimatorSwitchState(LIGHTATTACKUPWARDSANIMATION);
         }
     }
 
     void LightAttackUpwards()
     {
-        StartCoroutine(StopMovingWhileAttacking());
+        StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length));
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordUppercutCollider.position, attackRangeUppercut, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -323,13 +417,18 @@ public class PlayerControl : MonoBehaviour
 
     public void OnMediumAttack(InputAction.CallbackContext callbackContext)
     {
+        if (hangingOnTheWall)
+        {
+            return;
+        }
         if (callbackContext.control.IsPressed())
         {
             if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
             {
+                AnimatorSwitchState(MEDIUMATTACKANIMATION);
                 nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
-                nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
-                animator.SetTrigger("animMediumAttack");
+                nextGlobalAttack = Time.time + 1.5f / globalAttackCooldown;
+                attackState = AttackState.mediumAttack;
                 currentlyAttacking = true;
             }
         }
@@ -337,7 +436,7 @@ public class PlayerControl : MonoBehaviour
 
     public void MediumAttack()
     {
-        StartCoroutine(StopMovingWhileAttacking());
+        StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length));
         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearCollider.position, spearRange, 0, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -358,13 +457,18 @@ public class PlayerControl : MonoBehaviour
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     {
+        if (hangingOnTheWall)
+        {
+            return;
+        }
         if (callbackContext.control.IsPressed())
         {
             if (Time.time >= nextAttackTimeAxe && Time.time >= nextGlobalAttack)
             {
+                AnimatorSwitchState(HEAVYATTACKANIMATION);
                 nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
-                nextGlobalAttack = Time.time + 1f / globalAttackCooldown;
-                animator.SetTrigger("animHeavyAttack");
+                nextGlobalAttack = Time.time + 1.5f / globalAttackCooldown;
+                attackState = AttackState.heavyAttack;
                 currentlyAttacking = true;
             }
         }
@@ -372,7 +476,7 @@ public class PlayerControl : MonoBehaviour
 
     void HeavyAttack()
     {
-        StartCoroutine(StopMovingWhileAttacking());
+        StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length));
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -393,11 +497,14 @@ public class PlayerControl : MonoBehaviour
 
     public void OnParry(InputAction.CallbackContext callbackContext)
     {
+        if (hangingOnTheWall)
+        {
+            return;
+        }
         if (callbackContext.performed)
         {
             if (Time.time > nextParry)
             {
-                animator.SetTrigger("animParry");
                 StartCoroutine(ParryWindow());
                 nextParry = Time.time + 1f / parryCooldown;
             }
@@ -406,19 +513,22 @@ public class PlayerControl : MonoBehaviour
 
     public void OnBlock(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed)
+        if (hangingOnTheWall)
         {
-            animator.SetBool("animBlock", true);
+            return;
+        }
+        if (callbackContext.performed && !blocking)
+        {
+            blocking = true;
             blockColliderGO.SetActive(true);
             movementSpeed = 0;
         }
         else if (callbackContext.canceled)
         {
-            animator.SetBool("animBlock", false);
+            blocking = false;
             blockColliderGO.SetActive(false);
-            movementSpeed = 8;
+            movementSpeed = movementSpeedHelper;
         }
-        
     }
 
     //Utilities
@@ -443,8 +553,19 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    IEnumerator WaitForAnimationToFinish(float animationDuration)
+    private void Flip()
     {
+        // Switch the way the player is labeled as facing.
+        facingRight = !facingRight;
+
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
+    IEnumerator WaitForAnimationToFinish(float animationDuration)
+    { 
         yield return new WaitForSeconds(animationDuration);
     }
 
@@ -455,16 +576,46 @@ public class PlayerControl : MonoBehaviour
         parryColliderGO.SetActive(false);
     }
 
-    IEnumerator StopMovingWhileAttacking()
+    IEnumerator StopMovingWhileAttackingCombos(float waitingDuration)
     {
         if (grounded)
         {
             movementSpeed = 0;
-            yield return new WaitForSeconds(0.43f);
-            movementSpeed = 8;
+            yield return new WaitForSeconds(waitingDuration - 0.05f);
+            movementSpeed = movementSpeedHelper;
+            if (!combo)
+            {
+                attackState = AttackState.notAttacking;
+            }
+            if (combo && attackState == AttackState.lightAttack && comboFinished)
+            {
+                attackState = AttackState.notAttacking;
+            }
+            else if (combo)
+            {
+                StartCoroutine(ComboWindow());
+            }
         }
     }
 
+    IEnumerator StopMovingWhileAttacking(float waitingDuration)
+    {
+        if (grounded)
+        {
+            movementSpeed = 0;
+            yield return new WaitForSeconds(waitingDuration - 0.05f);
+            movementSpeed = movementSpeedHelper;
+            attackState = AttackState.notAttacking;
+        }
+    }
+
+    IEnumerator ComboWindow()
+    {
+        yield return new WaitForSeconds(0.4f);
+        combo = false;
+        comboFinished = false;
+        attackState = AttackState.notAttacking;
+    }
 
     private void OnDrawGizmosSelected()
     {
@@ -475,4 +626,16 @@ public class PlayerControl : MonoBehaviour
         Gizmos.DrawWireSphere(axeCollider.position, attackRangeAxe);
     }
 
+    //Animation manager
+    public void AnimatorSwitchState(string newState)
+    {
+        if (oldState == newState)
+        {
+            return;
+        }
+
+        animator.Play(newState);
+
+        oldState = newState;
+    }
 }

@@ -184,7 +184,7 @@ public class AI_Soldier : MonoBehaviour
             else if (enemy.name == "BlockCollider")
             {
                 Debug.Log("Successfully blocked an attack");
-                StartCoroutine(BlockedAndHitAnimation());
+                //StartCoroutine(BlockedAndHitAnimation());
                 parriedOrBlocked = true;
             }
         }
