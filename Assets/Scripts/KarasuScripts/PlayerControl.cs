@@ -167,7 +167,7 @@ public class PlayerControl : MonoBehaviour
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeed = rigidBody2D.velocity.y;
-        if (!blocking && !parryColliderGO.activeSelf && attackState == AttackState.notAttacking)
+        if (!blocking && !parryColliderGO.activeSelf && attackState == AttackState.notAttacking && !hangingOnTheWall)
         {
             if (!grounded && verticalSpeed < -6 && !falling)
             {
@@ -193,6 +193,10 @@ public class PlayerControl : MonoBehaviour
                 AnimatorSwitchState(JUMPANIMATION);
             }
         DONE:;
+        }
+        else if (hangingOnTheWall)
+        {
+            AnimatorSwitchState(WALLHANGINGANIMATION);
         }
         else if (parryColliderGO.activeSelf)
         {

@@ -5,24 +5,21 @@ using UnityEngine;
 public class WallTilemaps : MonoBehaviour
 {
     GameObject playerKarasu;
-    Animator karasuAnimator;
-
 
     private void Awake()
     {
         playerKarasu = GameObject.FindGameObjectWithTag("Player");
-        karasuAnimator = playerKarasu.GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
         if (PlayerControl.hangingOnTheWall)
         {
-            //karasuAnimator.SetBool("animHangingOnTheWall", true);
+
         }
         else
         {
-            //karasuAnimator.SetBool("animHangingOnTheWall", false);
+
         }
     }
 
@@ -32,7 +29,7 @@ public class WallTilemaps : MonoBehaviour
         {
             PlayerControl.hangingOnTheWall = true;
             PlayerControl.wallJump = true;
-            playerKarasu.GetComponent<Rigidbody2D>().gravityScale = 0.2f;
+            playerKarasu.GetComponent<Rigidbody2D>().gravityScale = 3;
             StartCoroutine(HangingOnTheWall());
         }
     }
@@ -43,7 +40,7 @@ public class WallTilemaps : MonoBehaviour
         {
             PlayerControl.hangingOnTheWall = false;
             PlayerControl.wallJump = false;
-            playerKarasu.GetComponent<Rigidbody2D>().gravityScale = 3;
+            playerKarasu.GetComponent<Rigidbody2D>().gravityScale = 5;
         }
     }
 
@@ -52,7 +49,7 @@ public class WallTilemaps : MonoBehaviour
         yield return new WaitForSeconds(PlayerControl.hangingOnTheWallTimer);
         if (PlayerControl.hangingOnTheWall)
         {
-            playerKarasu.GetComponent<Rigidbody2D>().gravityScale = 3;
+            playerKarasu.GetComponent<Rigidbody2D>().gravityScale = 5;
             PlayerControl.hangingOnTheWall = false;
             PlayerControl.wallJump = false;
         }
