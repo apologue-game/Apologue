@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     static PlayerInput playerInput;
     private Rigidbody2D rigidBody2D;
     private Animator animator;
+    WallTilemaps wallTilemaps;
 
     //movement system
     //move
@@ -136,6 +137,7 @@ public class PlayerControl : MonoBehaviour
         playerinputActions = new ApologuePlayerInput_Actions();
         playerinputActions.Enable();
         playerInput = GetComponent<PlayerInput>();
+        wallTilemaps = GameObject.Find("WallTilemapTrigger").GetComponent<WallTilemaps>();
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -197,6 +199,7 @@ public class PlayerControl : MonoBehaviour
         else if (hangingOnTheWall)
         {
             AnimatorSwitchState(WALLHANGINGANIMATION);
+
         }
         else if (parryColliderGO.activeSelf)
         {
@@ -205,6 +208,10 @@ public class PlayerControl : MonoBehaviour
         else if (blockColliderGO.activeSelf)
         {
             AnimatorSwitchState(BLOCKANIMATION);
+        }
+        if (grounded)
+        {
+            wallTilemaps.oldPosition = wallTilemaps.newPosition - 50;
         }
     }
 
@@ -224,15 +231,14 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-
     //Movement
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
+        inputX = callbackContext.ReadValue<Vector2>().x;
         if (hangingOnTheWall)
         {
             return;
         }
-        inputX = callbackContext.ReadValue<Vector2>().x;
         
         if (inputX > 0 && !facingRight)
         {
@@ -252,11 +258,20 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = Vector2.up * jumpForce;
             jumpCounter = 1;
         }
-        if (hangingOnTheWall && wallJump)
+        if (hangingOnTheWall && wallJump && callbackContext.performed)
         {
             hangingOnTheWall = false;
             wallJump = false;
             rigidBody2D.velocity = Vector2.up * jumpForce;
+            rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if (inputX > 0 && !facingRight)
+            {
+                Flip();
+            }
+            else if (inputX < 0 && facingRight)
+            {
+                Flip();
+            }
         }
     }
 
