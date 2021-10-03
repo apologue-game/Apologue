@@ -47,10 +47,10 @@ public class Soldier : MonoBehaviour
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
-                StartCoroutine("Death");
+                StartCoroutine(Death());
                 return;
             }
-            StartCoroutine("SoldierStaggered");
+            StartCoroutine(SoldierStaggered());
             spriteRenderer.color = takeDamageColor;
             takeDamageTimer = Time.time + 0.15f;
         }

@@ -25,6 +25,9 @@ public class SoldierAI : MonoBehaviour
     bool facingLeft = true;
     bool grounded = true;
     int direction = 0;
+    //jumping
+    public float jumpForceSoldier = 50f;
+
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -127,7 +130,6 @@ public class SoldierAI : MonoBehaviour
         if (PlayerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking && distance < 0.75 && !Soldier.takingDamage)
         {
             currentlyBlocking = true;
-            //StartCoroutine(SoldierBlockConditions());
             SoldierBlock();
         }
 
@@ -137,12 +139,14 @@ public class SoldierAI : MonoBehaviour
         Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
     }
 
-    // Update is called once per frame
-    void Update()
+    //Movement
+    public static void Jump()
     {
-
+        soldierAI.rigidBody2D.AddForce(Vector2.up * soldierAI.jumpForceSoldier);
     }
 
+
+    //Combat system
     public void SoldierAttackConditions()
     {
         if (Time.time >= soldierAI.nextAttackTimeSoldier && Time.time >= soldierAI.nextGlobalAttackSoldier
@@ -167,7 +171,6 @@ public class SoldierAI : MonoBehaviour
         }
     }
 
-    //Combat system
     void SoldierAttack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
@@ -182,11 +185,11 @@ public class SoldierAI : MonoBehaviour
             {
                 Debug.Log("Successfully blocked an attack");
                 //StartCoroutine(BlockedAndHitAnimation());
-                playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
+                //playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
                 parriedOrBlocked = true;
             }
         }
-        if (!parriedOrBlocked && hitEnemies.Length > 0)
+        if (!parriedOrBlocked)
         {
             foreach (Collider2D enemy in hitEnemies)
             {
@@ -230,10 +233,9 @@ public class SoldierAI : MonoBehaviour
 
     IEnumerator BlockedAndHitAnimation()
     {
-        //karasuAnimator.SetBool("animBlock", false);
         playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
-        yield return new WaitForSeconds(0.3f);
-        //karasuAnimator.SetBool("animBlock", true);
+        yield return new WaitForSeconds(0);
+        playerControl.AnimatorSwitchState("karasuBlockAnimation");
     }
 
     IEnumerator SoldierBlockWindow()

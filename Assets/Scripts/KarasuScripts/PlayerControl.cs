@@ -171,11 +171,13 @@ public class PlayerControl : MonoBehaviour
         verticalSpeed = rigidBody2D.velocity.y;
         if (!blocking && !parryColliderGO.activeSelf && attackState == AttackState.notAttacking && !hangingOnTheWall)
         {
+            //falling
             if (!grounded && verticalSpeed < -6 && !falling)
             {
                 falling = true;
                 AnimatorSwitchState(FALLINGANIMATION);
             }
+            //walking and idle
             if (grounded && inputX != 0)
             {
                 AnimatorSwitchState(WALKANIMATION);
@@ -239,7 +241,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        
+
         if (inputX > 0 && !facingRight)
         {
             Flip();
@@ -252,7 +254,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
-        if (grounded && callbackContext.performed && !blocking)
+        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking)
         {
             // Add a vertical force to the player.
             rigidBody2D.velocity = Vector2.up * jumpForce;
@@ -359,12 +361,12 @@ public class PlayerControl : MonoBehaviour
             if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
             {
                 combo = false;
+                attackState = AttackState.lightAttack;
                 AnimatorSwitchState(LIGHTATTACKANIMATION);
                 numberOfAttacks = 0;
-                attackState = AttackState.lightAttack;
                 currentlyAttacking = true;
                 nextAttackTime = Time.time + 0.11f + 1f;
-                nextGlobalAttack = Time.time + 0.11f + 1.5f / globalAttackCooldown;
+                nextGlobalAttack = Time.time + 0.11f + 1.5f;
                 comboTimeWindow = Time.time + 1 + attackSpeed / 2;
                 
             }
@@ -444,10 +446,10 @@ public class PlayerControl : MonoBehaviour
         {
             if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
             {
+                attackState = AttackState.mediumAttack;
                 AnimatorSwitchState(MEDIUMATTACKANIMATION);
                 nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
-                nextGlobalAttack = Time.time + 1.5f / globalAttackCooldown;
-                attackState = AttackState.mediumAttack;
+                nextGlobalAttack = Time.time + 1.5f;
                 currentlyAttacking = true;
             }
         }
@@ -484,10 +486,10 @@ public class PlayerControl : MonoBehaviour
         {
             if (Time.time >= nextAttackTimeAxe && Time.time >= nextGlobalAttack)
             {
+                attackState = AttackState.heavyAttack;
                 AnimatorSwitchState(HEAVYATTACKANIMATION);
                 nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
-                nextGlobalAttack = Time.time + 1.5f / globalAttackCooldown;
-                attackState = AttackState.heavyAttack;
+                nextGlobalAttack = Time.time + 1.5f;
                 currentlyAttacking = true;
             }
         }
@@ -600,8 +602,24 @@ public class PlayerControl : MonoBehaviour
         if (grounded)
         {
             movementSpeed = 0;
-            yield return new WaitForSeconds(waitingDuration - 0.05f);
+            yield return new WaitForSeconds(waitingDuration - 0.15f);
             movementSpeed = movementSpeedHelper;
+            if (!combo)
+            {
+                attackState = AttackState.notAttacking;
+            }
+            if (combo && attackState == AttackState.lightAttack && comboFinished)
+            {
+                attackState = AttackState.notAttacking;
+            }
+            else if (combo)
+            {
+                StartCoroutine(ComboWindow());
+            }
+        }
+        else
+        {
+            yield return new WaitForSeconds(waitingDuration - 0.15f);
             if (!combo)
             {
                 attackState = AttackState.notAttacking;
@@ -622,8 +640,13 @@ public class PlayerControl : MonoBehaviour
         if (grounded)
         {
             movementSpeed = 0;
-            yield return new WaitForSeconds(waitingDuration - 0.05f);
+            yield return new WaitForSeconds(waitingDuration - 0.15f);
             movementSpeed = movementSpeedHelper;
+            attackState = AttackState.notAttacking;
+        }
+        else
+        {
+            yield return new WaitForSeconds(waitingDuration - 0.15f);
             attackState = AttackState.notAttacking;
         }
     }
