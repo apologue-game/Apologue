@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3675508596521052363
+--- !u!1 &174254041
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,58 +8,129 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1705263102095018217}
-  - component: {fileID: 2138289617272147793}
-  - component: {fileID: 7778696819698060784}
+  - component: {fileID: 174254042}
   m_Layer: 12
-  m_Name: EnemiesInRange
+  m_Name: GroundCheckSoldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1705263102095018217
+--- !u!4 &174254042
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3675508596521052363}
+  m_GameObject: {fileID: 174254041}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.04, y: -0.656, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8692415218869377873}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &2138289617272147793
-CircleCollider2D:
+--- !u!1 &956629118
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3675508596521052363}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 956629119}
+  - component: {fileID: 956629121}
+  - component: {fileID: 956629120}
+  m_Layer: 12
+  m_Name: SoldierSight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &956629119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956629118}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1677096277}
+  m_Father: {fileID: 8692415218869377873}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &956629121
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956629118}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04, y: 0.2}
+  m_Offset: {x: -0.64167786, y: 0.045834184}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.7887284
---- !u!114 &7778696819698060784
+  m_Size: {x: 1.4714355, y: 1.2226231}
+  m_EdgeRadius: 0
+--- !u!114 &956629120
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3675508596521052363}
+  m_GameObject: {fileID: 956629118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb132ab53775083448ddaf240c0f9ec6, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b515ee3323c3364faaec434de743679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1677096276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1677096277}
+  m_Layer: 12
+  m_Name: PlatformJumping
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1677096277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677096276}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 956629119}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7816246401093050770
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +162,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8692415218869377873}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2968113706462479725
 MonoBehaviour:
@@ -201,8 +272,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8692415218801239503}
-  - {fileID: 1705263102095018217}
   - {fileID: 842265696228538171}
+  - {fileID: 956629119}
+  - {fileID: 174254042}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -244,10 +316,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 496549353
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1176285643419477451, guid: 7b40e209d2a6b7e4e813a237090f5aa7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a6570e1b7a094c4ebc3f99a79ba7e96, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -274,8 +346,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.71875, y: 1.25}
+    pivot: {x: 0.5, y: 0.477}
+    oldSize: {x: 0.78125, y: 1.375}
     newSize: {x: 0.71875, y: 1.25}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -300,7 +372,7 @@ Rigidbody2D:
   m_LinearDrag: 0.1
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8c9701e0c6292e84f81cefc832fdb875, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -350,7 +422,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   karasuAnimator: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 2048
   target: {fileID: 0}
+  jumpForceSoldier: 5
   boxCollider2D: {fileID: 8692415218869377871}
   boxCollider2DKarasu: {fileID: 0}
   karasuParryCollider: {fileID: 0}
@@ -360,13 +436,13 @@ MonoBehaviour:
     m_Bits: 64
   parryLayer:
     serializedVersion: 2
-    m_Bits: 16384
+    m_Bits: 64
   blockLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 64
   nextGlobalAttackSoldier: 0
   currentlyAttacking: 0
-  swordColliderSoldier: {fileID: 0}
+  swordColliderSoldier: {fileID: 8692415218801239503}
   numberOfAttacks: 0
   nextAttackTimeSoldier: 0
   lastTimeAttack: 0

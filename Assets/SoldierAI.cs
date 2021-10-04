@@ -1,17 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SoldierAI : MonoBehaviour
 {
+    //Utilities
     System.Random rnd = new System.Random();
     static SoldierAI soldierAI;
 
+    //Animation control
     Animator animator;
     public Animator karasuAnimator;
     KarasuEntity karasuEntity;
     PlayerControl playerControl;
+
+    //Ground check
+    Transform groundCheckSoldier;
+    float groundCheckSoldierRadius = 0.2f;
+    public LayerMask whatIsGround;
+    public Transform isThereGroundAhead;
+    public float isThereGroundAheadRange = 0.25f;
+    bool onPlatform;
+    bool onGround;
 
     //Pathseeking
     private Rigidbody2D rigidBody2D;
@@ -25,9 +37,10 @@ public class SoldierAI : MonoBehaviour
     bool facingLeft = true;
     bool grounded = true;
     int direction = 0;
+    float hDistance;
+    float vDistance;
     //jumping
-    public float jumpForceSoldier = 50f;
-
+    public float jumpForceSoldier = 250f;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -39,13 +52,12 @@ public class SoldierAI : MonoBehaviour
     public LayerMask enemiesLayers;
     public LayerMask parryLayer;
     public LayerMask blockLayer;
-    Collider2D[] shouldIAttack;
     public float nextGlobalAttackSoldier = 0f;
     public bool currentlyAttacking = false;
     //Soldier basic attack
     public Transform swordColliderSoldier;
     public int numberOfAttacks = 0;
-    float attackRangeSoldier = 0.5f;
+    float swordRangeSoldier = 0.5f;
     int attackDamageSoldier = 3;
     float attackSpeedSoldier = 0.75f;
     public float nextAttackTimeSoldier = 0f;
@@ -65,6 +77,8 @@ public class SoldierAI : MonoBehaviour
         playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         animator = GetComponent<Animator>();
         soldierAI = this;
+
+        groundCheckSoldier = transform.Find("GroundCheckSoldier");
     }
 
     // Start is called before the first frame update
@@ -86,10 +100,64 @@ public class SoldierAI : MonoBehaviour
             return;
         }
 
-        ////Movement
-        float distance = Mathf.Abs(transform.position.x - target.position.x);
+        Collider2D[] isThereGroundAheadCheck = Physics2D.OverlapCircleAll(isThereGroundAhead.position, isThereGroundAheadRange, whatIsGround);
+        foreach (Collider2D collider in isThereGroundAheadCheck)
+        {
+            //if the target is too high up for the soldier, soldier should throw a rock at them and go mad
+            if (onPlatform && target.position.y > rigidBody2D.position.y && !SoldierSight.platformInJumpRange)
+            {
+                //go mad
+                return;
+            }
+            //if the target is directly beneath the soldier while the soldier is on a platform, next if teaches him how to come down and fight like a man
+            if (onPlatform && target.position.y < rigidBody2D.position.y && Enumerable.Range((int)rigidBody2D.position.x - 1, (int)rigidBody2D.position.x + 1).Contains((int)target.position.x))
+            {
+                //go down from the platform
+            }
+            if (collider.name == "PlatformsTilemap")
+            {
+                onGround = false;
+                onPlatform = true;
+            }
+            else if (collider.name == "GroundTilemap")
+            {
+                onPlatform = false;
+                onGround = true;
+            }
+        }
+        //if (isThereGroundAheadCheck.Length < 0)
+        //{
+        //    if (grounded && !SoldierSight.platformInJumpRange)
+        //    {
+        //        return;
+        //    }
+            
+        //}
 
-        if (distance > stoppingDistance)
+        grounded = false;
+
+        //colliders -> check to see if the player is currently on the ground
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckSoldier.position, groundCheckSoldierRadius, whatIsGround);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject != gameObject)
+            {
+                grounded = true;
+            }
+        }
+
+        if (grounded)
+        {
+            SoldierSight.jumpCounterSoldier = 0;
+        }
+
+        //Movement
+        hDistance = Mathf.Abs(transform.position.x - target.position.x);
+        vDistance = Mathf.Abs(transform.position.y - target.position.y);
+
+        //keep moving towards the target
+        //stopping distance from the target so the soldier won't try to go directly inside of them
+        if (hDistance > stoppingDistance)
         {
             if (transform.position.x > target.position.x)
             {
@@ -108,9 +176,10 @@ public class SoldierAI : MonoBehaviour
                 direction = 1;
             }
         }
+        //if the target is within stopping distance, but the soldier is turned the opposite way, flip him
         else
         {
-            if (distance > flipDistance)
+            if (hDistance > flipDistance)
             {
                 if (transform.position.x > target.position.x && !facingLeft && !currentlyAttacking)
                 {
@@ -124,17 +193,33 @@ public class SoldierAI : MonoBehaviour
             direction = 0;
         }
 
+        //acutal movement
         rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
 
         //Blocking interaction
-        if (PlayerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking && distance < 0.75 && !Soldier.takingDamage)
+        if (PlayerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking && hDistance < stoppingDistance && vDistance < stoppingDistance && !Soldier.takingDamage)
         {
             currentlyBlocking = true;
             SoldierBlock();
         }
-
+        //Attacking
+        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= soldierAI.nextAttackTimeSoldier && Time.time >= soldierAI.nextGlobalAttackSoldier
+        && soldierAI.numberOfAttacks == 0 && !soldierAI.currentlyBlocking && !soldierAI.currentlyAttacking && !Soldier.takingDamage)
+        {
+            currentlyAttacking = true;
+            Attack();
+        }
+        //If the target hits the soldier while he is winding up an attack, the soldier gets confused, so we gotta set his attack conditions manually
+        //if the soldier hasn't attacked within 1.75 seconds, he's probably stuck and needs some help
+        if (Time.time > lastTimeAttack + 1.75)
+        {
+            ManuallySetAttackConditions();
+        }
+        //animations
         animator.SetFloat("animSoldierSpeed", Math.Abs(rigidBody2D.velocity.x));
-
+        animator.SetFloat("animSoldiervSpeed", Math.Abs(rigidBody2D.velocity.y));
+        animator.SetBool("animSoldierGrounded", grounded);
+        //karasu parry and block colliders need to be ignored repeatedly because they're getting disable and enable multiple times
         Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
         Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
     }
@@ -142,38 +227,38 @@ public class SoldierAI : MonoBehaviour
     //Movement
     public static void Jump()
     {
-        soldierAI.rigidBody2D.AddForce(Vector2.up * soldierAI.jumpForceSoldier);
+        if (soldierAI.grounded && SoldierSight.jumpCounterSoldier == 0 && !soldierAI.currentlyAttacking && !soldierAI.currentlyBlocking )
+        {
+            //if the soldier's target is out of range vertically, but not horizontally and if soldier detects a platform ahead of him
+            //he will jump repeatedly. This stops him from doing that
+            if (soldierAI.vDistance > 1 && soldierAI.hDistance < 1)
+            {
+                return;
+            }
+            //if the target is ahead but on lower ground than soldier, but there is a platform on which the soldier can jump,
+            //the soldier will jump on the platform instead of chasing the target. This stops him from doing just that
+            if (soldierAI.transform.position.y > soldierAI.target.position.y && soldierAI.onPlatform)
+            {
+                return;
+            }
+            SoldierSight.jumpCounterSoldier++;
+            soldierAI.rigidBody2D.velocity = new Vector2 (soldierAI.rigidBody2D.velocity.x, soldierAI.jumpForceSoldier);
+        }
     }
 
 
     //Combat system
-    public void SoldierAttackConditions()
+    void Attack()
     {
-        if (Time.time >= soldierAI.nextAttackTimeSoldier && Time.time >= soldierAI.nextGlobalAttackSoldier
-            && soldierAI.numberOfAttacks == 0 && !soldierAI.currentlyBlocking && !soldierAI.currentlyAttacking && !Soldier.takingDamage)
-        {
-            lastTimeAttack = 0f;
-            currentlyAttacking = true;
-            soldierAI.numberOfAttacks++;
-            soldierAI.animator.SetTrigger("animSoldierAttack");
-            soldierAI.StartCoroutine(soldierAI.StopMovingWhileAttacking());
-        }
-        else
-        {
-            if (lastTimeAttack == 0f)
-            {
-                lastTimeAttack = Time.time + 2f;
-            }
-            else if (Time.time > lastTimeAttack)
-            {
-                ManuallySetAttackConditions();
-            }
-        }
+        lastTimeAttack = Time.time;
+        soldierAI.numberOfAttacks++;
+        soldierAI.animator.SetTrigger("animSoldierAttack");
+        soldierAI.StartCoroutine(soldierAI.StopMovingWhileAttacking());
     }
 
     void SoldierAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, attackRangeSoldier, enemiesLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, swordRangeSoldier, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "ParryCollider")
@@ -184,8 +269,6 @@ public class SoldierAI : MonoBehaviour
             else if (enemy.name == "BlockCollider")
             {
                 Debug.Log("Successfully blocked an attack");
-                //StartCoroutine(BlockedAndHitAnimation());
-                //playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
                 parriedOrBlocked = true;
             }
         }
@@ -256,7 +339,10 @@ public class SoldierAI : MonoBehaviour
         }
         else
         {
+            rigidBody2D.AddForce(Vector2.down * 250);
+            movementSpeed = 0;
             yield return new WaitForSeconds(1f);
+            movementSpeed = movementSpeedHelper;
             currentlyAttacking = false;
         }
     }
@@ -272,10 +358,10 @@ public class SoldierAI : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (swordColliderSoldier == null)
+        if (isThereGroundAhead == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(swordColliderSoldier.position, attackRangeSoldier);
+        Gizmos.DrawWireSphere(isThereGroundAhead.position, isThereGroundAheadRange);
     }
 }

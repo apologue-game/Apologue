@@ -393,15 +393,14 @@ public class PlayerControl : MonoBehaviour
                 currentlyAttacking = false;
                 return;
             }
-            if (enemy.name == "EnemiesInRange")
+            if (enemy.name == "SoldierSight")
             {
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a sword");
             enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
         }
-        currentlyAttacking = false;
-        
+        currentlyAttacking = false;     
     }
 
     void LightAttackUpwardsAnimation()
@@ -426,7 +425,7 @@ public class PlayerControl : MonoBehaviour
                 currentlyAttacking = false;
                 return;
             }
-            if (enemy.name == "EnemiesInRange")
+            if (enemy.name == "SoldierSight")
             {
                 continue;
             }
@@ -466,7 +465,7 @@ public class PlayerControl : MonoBehaviour
                 currentlyAttacking = false;
                 return;
             }
-            if (enemy.name == "EnemiesInRange")
+            if (enemy.name == "SoldierSight")
             {
                 continue;
             }
@@ -506,7 +505,7 @@ public class PlayerControl : MonoBehaviour
                 currentlyAttacking = false;
                 return;
             }
-            if (enemy.name == "EnemiesInRange")
+            if (enemy.name == "SoldierSight")
             {
                 continue;
             }
