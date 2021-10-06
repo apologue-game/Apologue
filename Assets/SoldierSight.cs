@@ -11,15 +11,14 @@ public class SoldierSight : MonoBehaviour
     public static bool platformInJumpRange = false;
     public static bool inCombat = false;
     public static int jumpCounterSoldier = 0;
+    public static int iDontWantToFightAnymoreCounter = 0;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "PlatformJumping") 
-        {
-            return;
-        }
         if (collision.name == "PlayerKarasu")
         {
+            iDontWantToFightAnymoreCounter = 0;
+            StopCoroutine(IDontWantToFightAnymore());
             inCombat = true;
         }
         if (collision.name == "GroundTilemap" || collision.name == "WallTilemap" || collision.name == "PlatformsTilemap")
@@ -49,10 +48,18 @@ public class SoldierSight : MonoBehaviour
         if (collision.name == "PlayerKarasu")
         {
             inCombat = false;
+            StartCoroutine(IDontWantToFightAnymore());
         }
         if (collision.name == "PlatformsTilemap")
         {
             platformInJumpRange = false;
         }
+    }
+
+    IEnumerator IDontWantToFightAnymore()
+    {
+        yield return new WaitForSeconds(1f);
+        iDontWantToFightAnymoreCounter++;
+        StartCoroutine(IDontWantToFightAnymore());
     }
 }
