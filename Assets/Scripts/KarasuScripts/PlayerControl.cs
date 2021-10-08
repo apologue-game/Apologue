@@ -8,18 +8,18 @@ public class PlayerControl : MonoBehaviour
 {
     public static ApologuePlayerInput_Actions playerinputActions;
     static PlayerInput playerInput;
-    private Rigidbody2D rigidBody2D;
-    private Animator animator;
+    Rigidbody2D rigidBody2D;
+    Animator animator;
     WallTilemaps wallTilemaps;
 
-    //movement system
-    //move
+    //Movement system
+    //Move
     public float movementSpeed = 8f;
     float movementSpeedHelper;
-    private bool facingRight = true;
-    public float inputX;
+    bool facingRight = true;
+    float inputX;
 
-    //jump
+    //Jump
     public float jumpForce = 25f;
     float verticalSpeedAbsolute;
     float verticalSpeed;
@@ -29,30 +29,30 @@ public class PlayerControl : MonoBehaviour
     private const float ceilingCheckRadius = .3f;
     public LayerMask whatIsGround;
 
-    //double jump
+    //Double jump
     public float doubleJumpForce = 20f;
     int jumpCounter = 0;
-    public bool doubleJump;
+    bool doubleJump;
 
-    //wall jump
+    //Wall jump
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 2f;
 
-    //falling
+    //Falling
     bool falling = false;
 
-    //dash
+    //Dash
     public float dashSpeed = 5f;
-    public float timeUntilNextDash;
-    public bool dashDirectionIfStationary = true;
+    float timeUntilNextDash;
+    bool dashDirectionIfStationary = true;
 
-    //crouch
+    //Crouch
     public bool crouch;
 
     //slide
     public float slideSpeed;
-    private Transform ceilingCheck;
+    Transform ceilingCheck;
 
     //combat system
     public LayerMask enemiesLayers;
@@ -78,9 +78,8 @@ public class PlayerControl : MonoBehaviour
     //light attack combos
     public Transform swordUppercutCollider;
     public float attackRangeUppercut = 0.5f;
-    float comboTimeWindow = 0.2f;
+    float comboTimeWindow = 0f;
     public int numberOfAttacks = 0;
-    public bool firstAttack = false;
 
     //medium attack
     public Transform spearCollider;
@@ -101,11 +100,11 @@ public class PlayerControl : MonoBehaviour
     public Transform parryCollider;
     public GameObject parryColliderGO;
     public GameObject blockColliderGO;
-    public float parryBlockRange = 0.5f;
-    public bool blocking = false;
-    public float parryWindow = 0.4f;
+    float parryBlockRange = 0.5f;
+    bool blocking = false;
+    float parryWindow = 0.4f;
     float nextParry = 0;
-    public float parryCooldown = 4f;
+    float parryCooldown = 4f;
     //enemy blocking
     public static bool currentlyAttacking = false;
     //Testing
@@ -155,7 +154,7 @@ public class PlayerControl : MonoBehaviour
     {
         grounded = false;
         
-        //colliders -> check to see if the player is currently on the ground
+        //Colliders -> check to see if the player is currently on the ground
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -165,19 +164,19 @@ public class PlayerControl : MonoBehaviour
                 falling = false;
             }             
         }
-        //move character
+        //Move character
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeed = rigidBody2D.velocity.y;
         if (!blocking && !parryColliderGO.activeSelf && attackState == AttackState.notAttacking && !hangingOnTheWall)
         {
-            //falling
+            //Falling
             if (!grounded && verticalSpeed < -6 && !falling)
             {
                 falling = true;
                 AnimatorSwitchState(FALLINGANIMATION);
             }
-            //walking and idle
+            //Walking and idle
             if (grounded && inputX != 0)
             {
                 AnimatorSwitchState(WALKANIMATION);
@@ -186,7 +185,7 @@ public class PlayerControl : MonoBehaviour
             {
                 AnimatorSwitchState(IDLEANIMATION);
             }
-            //jumping
+            //Jumping
             else if (!grounded && verticalSpeedAbsolute > 0)
             {
                 if (jumpCounter == 2)
@@ -256,7 +255,6 @@ public class PlayerControl : MonoBehaviour
     {
         if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking)
         {
-            // Add a vertical force to the player.
             rigidBody2D.velocity = Vector2.up * jumpForce;
             jumpCounter = 1;
         }
@@ -575,10 +573,10 @@ public class PlayerControl : MonoBehaviour
 
     private void Flip()
     {
-        // Switch the way the player is labeled as facing.
+        //Switch the way the player is labeled as facing.
         facingRight = !facingRight;
 
-        // Multiply the player's x local scale by -1.
+        //Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;

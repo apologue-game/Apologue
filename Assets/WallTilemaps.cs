@@ -19,7 +19,7 @@ public class WallTilemaps : MonoBehaviour
         if (collision.name == "PlayerKarasu")
         {
             newPosition = (int)playerKarasu.transform.position.x;
-            if (newPosition == oldPosition /*|| Enumerable.Range(oldPosition - 1, oldPosition + 1).Contains(newPosition)*/)
+            if (newPosition == oldPosition)
             {
                 return;
             }

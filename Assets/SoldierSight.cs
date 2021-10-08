@@ -12,6 +12,8 @@ public class SoldierSight : MonoBehaviour
     public static bool inCombat = false;
     public static int jumpCounterSoldier = 0;
     public static int iDontWantToFightAnymoreCounter = 0;
+    bool counterStarted = false;
+    public int counterr;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,6 +37,11 @@ public class SoldierSight : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        counterr = iDontWantToFightAnymoreCounter;
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!inCombat && jumpCounterSoldier == 0)
@@ -48,7 +55,11 @@ public class SoldierSight : MonoBehaviour
         if (collision.name == "PlayerKarasu")
         {
             inCombat = false;
-            StartCoroutine(IDontWantToFightAnymore());
+            if (!counterStarted)
+            {
+                StartCoroutine(IDontWantToFightAnymore());
+                counterStarted = true;
+            }
         }
         if (collision.name == "PlatformsTilemap")
         {
