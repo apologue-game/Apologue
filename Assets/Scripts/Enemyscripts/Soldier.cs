@@ -6,18 +6,18 @@ public class Soldier : MonoBehaviour
 {
     public Animator animator;
     SpriteRenderer spriteRenderer;
+    SoldierAI soldierAI;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
 
     private float takeDamageTimer;
-    readonly int maxHealth = 50;
+    readonly int maxHealth = 5;
     int currentHealth;
 
-    public static bool soldierDead = false;
-    public static bool takingDamage = false;
+    public bool soldierDead = false;
+    public bool takingDamage = false;
 
-    // Update is called once per frame
     void Start()
     {
         currentHealth = maxHealth;
@@ -26,6 +26,7 @@ public class Soldier : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        soldierAI = GetComponent<SoldierAI>();
     }
 
     private void Update()
@@ -72,5 +73,6 @@ public class Soldier : MonoBehaviour
         animator.SetTrigger("animSoldierDeath");
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
+        GameMaster.DestroyGameObject(soldierAI.spawn);
     }
 }

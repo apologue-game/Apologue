@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class SoldierSight : MonoBehaviour
 {
+    SoldierAI soldierAI;
     public LayerMask platformsLayers;
     public Transform platformJumping;
     float platformJumpingRange =  0.79f;
 
-    public static bool platformInJumpRange = false;
-    public static bool inCombat = false;
-    public static int jumpCounterSoldier = 0;
-    public static int iDontWantToFightAnymoreCounter = 0;
+    public bool platformInJumpRange = false;
+    public bool inCombat = false;
+    public int jumpCounterSoldier = 0;
+    public int iDontWantToFightAnymoreCounter = 0;
     bool counterStarted = false;
     public int counterr;
 
+    private void Start()
+    {
+        soldierAI = GetComponentInParent<SoldierAI>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "PlayerKarasu")
+        if (collision.name == "PlayerKarasu" || collision.name == "ParryCollider" || collision.name == "BlockCollider")
         {
             iDontWantToFightAnymoreCounter = 0;
             StopCoroutine(IDontWantToFightAnymore());
@@ -31,7 +37,7 @@ public class SoldierSight : MonoBehaviour
                 if (platforms.Length > 0)
                 {
                     platformInJumpRange = true;
-                    SoldierAI.Jump();
+                    soldierAI.Jump();
                 }
             }
         }
@@ -46,7 +52,7 @@ public class SoldierSight : MonoBehaviour
     {
         if (!inCombat && jumpCounterSoldier == 0)
         {
-            SoldierAI.Jump();
+            soldierAI.Jump();
         }
     }
 

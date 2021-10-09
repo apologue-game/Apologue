@@ -10,6 +10,9 @@ public class GameMaster : MonoBehaviour
     public GameObject karasuPlayerPrefab;
     public Transform respawnLocation;
 
+    //Enemy identification needed for destroying spawn locations object
+    public static int enemyID = 0;
+
     private void Start()
     {
         if (gameMaster == null)
@@ -18,20 +21,22 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-    public void RespawnPlayer()
-    {
-        //Instantiate(karasuPlayerPrefab, respawnLocation.position, respawnLocation.rotation);
-    }
-    
     public static void KillPlayer(KarasuEntity karasuEntity)
     {
-        //Destroy(karasuEntity.gameObject);
         karasuEntity.gameObject.transform.position = gameMaster.respawnLocation.position;
-        //gameMaster.RespawnPlayer();
     }
 
     public static void DestroyGameObject(GameObject gameObject)
     {
+        if (gameObject.name == "Soldier0_SpawnLocation")
+        {
+            Debug.Log("Destroyed spawn location");
+        }
         Destroy(gameObject);
+    }
+
+    public static void InstantiateGameObject(GameObject gameObject)
+    {
+        Instantiate(gameObject);
     }
 }

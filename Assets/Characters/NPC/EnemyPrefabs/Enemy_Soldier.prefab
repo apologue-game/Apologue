@@ -76,7 +76,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.64167786, y: 0.045834184}
+  m_Offset: {x: -0.64167786, y: 0.19132364}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -87,7 +87,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4714355, y: 1.2226231}
+  m_Size: {x: 1.4714355, y: 0.91936564}
   m_EdgeRadius: 0
 --- !u!114 &956629120
 MonoBehaviour:
@@ -101,6 +101,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b515ee3323c3364faaec434de743679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformsLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  platformJumping: {fileID: 1677096277}
+  counterr: 0
+--- !u!1 &1145009574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1145009575}
+  m_Layer: 12
+  m_Name: IsThereGroundAhead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1145009575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145009574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.581, y: -0.542, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8692415218869377873}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1677096276
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677096276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.77, y: 0.583, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 956629119}
@@ -275,6 +310,7 @@ Transform:
   - {fileID: 842265696228538171}
   - {fileID: 956629119}
   - {fileID: 174254042}
+  - {fileID: 1145009575}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -343,7 +379,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.028995514, y: 0.014439583}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.477}
@@ -354,7 +390,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.71875, y: 1.25}
+  m_Size: {x: 0.59937286, y: 1.2825174}
   m_EdgeRadius: 0
 --- !u!50 &8692415218869377868
 Rigidbody2D:
@@ -421,12 +457,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa68fab479ef3345a5e4062fef493ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTarget: {fileID: 0}
   karasuAnimator: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 2048
-  target: {fileID: 0}
-  jumpForceSoldier: 5
+    m_Bits: 67584
+  isThereGroundAhead: {fileID: 1145009575}
+  isThereGroundAheadRange: 0.1
+  goingDownFromAPlatform: 0
+  hDistance: 0
+  jumpForceSoldier: 6
   boxCollider2D: {fileID: 8692415218869377871}
   boxCollider2DKarasu: {fileID: 0}
   karasuParryCollider: {fileID: 0}
@@ -440,14 +480,6 @@ MonoBehaviour:
   blockLayer:
     serializedVersion: 2
     m_Bits: 64
-  nextGlobalAttackSoldier: 0
-  currentlyAttacking: 0
   swordColliderSoldier: {fileID: 8692415218801239503}
-  numberOfAttacks: 0
-  nextAttackTimeSoldier: 0
-  lastTimeAttack: 0
-  parriedOrBlocked: 0
   blockCollider: {fileID: 842265696228538171}
   blockColliderGO: {fileID: 7816246401093050770}
-  currentlyBlocking: 0
-  blockChance: 0

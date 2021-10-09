@@ -61,6 +61,7 @@ public class PlayerControl : MonoBehaviour
     enum AttackState
     {
         notAttacking,
+        cannotAttack,
         lightAttack,
         lightAttackUpwards,
         mediumAttack,
@@ -100,7 +101,6 @@ public class PlayerControl : MonoBehaviour
     public Transform parryCollider;
     public GameObject parryColliderGO;
     public GameObject blockColliderGO;
-    float parryBlockRange = 0.5f;
     bool blocking = false;
     float parryWindow = 0.4f;
     float nextParry = 0;
@@ -168,32 +168,35 @@ public class PlayerControl : MonoBehaviour
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeed = rigidBody2D.velocity.y;
-        if (!blocking && !parryColliderGO.activeSelf && attackState == AttackState.notAttacking && !hangingOnTheWall)
+        if (!blocking && !parryColliderGO.activeSelf && !hangingOnTheWall)
         {
-            //Falling
-            if (!grounded && verticalSpeed < -6 && !falling)
+            if (attackState == AttackState.notAttacking || attackState == AttackState.cannotAttack)
             {
-                falling = true;
-                AnimatorSwitchState(FALLINGANIMATION);
-            }
-            //Walking and idle
-            if (grounded && inputX != 0)
-            {
-                AnimatorSwitchState(WALKANIMATION);
-            }
-            else if (grounded && inputX == 0)
-            {
-                AnimatorSwitchState(IDLEANIMATION);
-            }
-            //Jumping
-            else if (!grounded && verticalSpeedAbsolute > 0)
-            {
-                if (jumpCounter == 2)
+                //Falling
+                if (!grounded && verticalSpeed < -6 && !falling)
                 {
-                    AnimatorSwitchState(DOUBLEJUMPANIMATION);
-                    goto DONE;
+                    falling = true;
+                    AnimatorSwitchState(FALLINGANIMATION);
                 }
-                AnimatorSwitchState(JUMPANIMATION);
+                //Walking and idle
+                if (grounded && inputX != 0)
+                {
+                    AnimatorSwitchState(WALKANIMATION);
+                }
+                else if (grounded && inputX == 0)
+                {
+                    AnimatorSwitchState(IDLEANIMATION);
+                }
+                //Jumping
+                else if (!grounded && verticalSpeedAbsolute > 0)
+                {
+                    if (jumpCounter == 2)
+                    {
+                        AnimatorSwitchState(DOUBLEJUMPANIMATION);
+                        goto DONE;
+                    }
+                    AnimatorSwitchState(JUMPANIMATION);
+                }
             }
         DONE:;
         }
@@ -213,6 +216,10 @@ public class PlayerControl : MonoBehaviour
         if (grounded)
         {
             wallTilemaps.oldPosition = wallTilemaps.newPosition - 50;
+            if (attackState == AttackState.cannotAttack)
+            {
+                attackState = AttackState.notAttacking;
+            }
         }
     }
 
@@ -264,6 +271,7 @@ public class PlayerControl : MonoBehaviour
             wallJump = false;
             rigidBody2D.velocity = Vector2.up * jumpForce;
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            attackState = AttackState.cannotAttack;
             if (inputX > 0 && !facingRight)
             {
                 Flip();
@@ -342,7 +350,7 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnLightAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack)
         {
             return;
         }
@@ -435,7 +443,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnMediumAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack)
         {
             return;
         }
@@ -475,7 +483,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack)
         {
             return;
         }
