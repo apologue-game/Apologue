@@ -6,6 +6,7 @@ public class SoldierSight : MonoBehaviour
 {
     SoldierAI soldierAI;
     public LayerMask platformsLayers;
+    public LayerMask ignoreCollisionsForJumping;
     public Transform platformJumping;
     float platformJumpingRange =  0.79f;
 
@@ -23,6 +24,10 @@ public class SoldierSight : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.IsTouchingLayers(ignoreCollisionsForJumping))
+        {
+            return;
+        }
         if (collision.name == "PlayerKarasu" || collision.name == "ParryCollider" || collision.name == "BlockCollider")
         {
             iDontWantToFightAnymoreCounter = 0;
@@ -50,6 +55,10 @@ public class SoldierSight : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (collision.IsTouchingLayers(ignoreCollisionsForJumping))
+        {
+            return;
+        }
         if (!inCombat && jumpCounterSoldier == 0)
         {
             soldierAI.Jump();

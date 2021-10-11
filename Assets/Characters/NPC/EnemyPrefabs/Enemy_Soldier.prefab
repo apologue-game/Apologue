@@ -104,7 +104,14 @@ MonoBehaviour:
   platformsLayers:
     serializedVersion: 2
     m_Bits: 0
+  ignoreCollisionsForJumping:
+    serializedVersion: 2
+    m_Bits: 135168
   platformJumping: {fileID: 1677096277}
+  platformInJumpRange: 0
+  inCombat: 0
+  jumpCounterSoldier: 0
+  iDontWantToFightAnymoreCounter: 0
   counterr: 0
 --- !u!1 &1145009574
 GameObject:
@@ -290,7 +297,7 @@ GameObject:
   - component: {fileID: 1301313094}
   m_Layer: 12
   m_Name: Enemy_Soldier
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407,7 +414,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0.1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 8c9701e0c6292e84f81cefc832fdb875, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -425,7 +432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b464ea58bd10e914da594cd83df0f6d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8692415218869377866}
 --- !u!95 &8692415218869377866
 Animator:
   serializedVersion: 3
@@ -457,20 +463,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa68fab479ef3345a5e4062fef493ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTarget: {fileID: 0}
-  karasuAnimator: {fileID: 0}
+  spawn: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 67584
   isThereGroundAhead: {fileID: 1145009575}
   isThereGroundAheadRange: 0.1
   goingDownFromAPlatform: 0
+  onPlatform: 0
+  onGround: 0
+  movementSpeed: 150
+  direction: 0
+  goingDownDirection: 0
   hDistance: 0
+  vDistance: 0
   jumpForceSoldier: 6
   boxCollider2D: {fileID: 8692415218869377871}
-  boxCollider2DKarasu: {fileID: 0}
-  karasuParryCollider: {fileID: 0}
-  karasuBlockCollider: {fileID: 0}
   enemiesLayers:
     serializedVersion: 2
     m_Bits: 64

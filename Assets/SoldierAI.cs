@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class SoldierAI : MonoBehaviour
 {
@@ -18,7 +15,7 @@ public class SoldierAI : MonoBehaviour
     GameObject karasu;
     Transform karasuTransform;
     Vector3 spawnLocation;
-    public Transform currentTarget;
+    Transform currentTarget;
     public GameObject spawn;
 
     //Animation control
@@ -40,14 +37,8 @@ public class SoldierAI : MonoBehaviour
     private Rigidbody2D rigidBody2D;
     SoldierSight soldierSight;
 
-    //Tilemaps
-    Tilemap platformsTilemap;
-    //Tilemap groundTilemap; -> maybe i will need this
-    public int leftCounter = 0;
-    public int rightCounter = 0;
-
     //Movement
-    float movementSpeed = 150f;
+    public float movementSpeed = 150f;
     float movementSpeedHelper;
     readonly float stoppingDistance = 0.75f;
     readonly float flipDistance = 0.2f;
@@ -116,11 +107,9 @@ public class SoldierAI : MonoBehaviour
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
 
-        platformsTilemap = GameObject.Find("PlatformsTilemap").GetComponent<Tilemap>();
-        //groundTilemap = GameObject.Find("GroundTilemap").GetComponent<Tilemap>();
-
         groundCheckSoldier = transform.Find("GroundCheckSoldier");
     }
+
     void Start()
     {
         movementSpeedHelper = movementSpeed;
@@ -135,11 +124,15 @@ public class SoldierAI : MonoBehaviour
     private void FixedUpdate()
     {
         //Exceptions
-        if (soldier.takingDamage || soldier.soldierDead || karasuEntity.dead)
+        if (soldier.isDead)
+        {
+            rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
+        if (soldier.isTakingDamage || karasuEntity.dead)
         {
             return;
         }
-
 
         grounded = false;
 
@@ -311,14 +304,14 @@ public class SoldierAI : MonoBehaviour
         rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
 
         //Blocking interaction
-        if (PlayerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking && hDistance < stoppingDistance && vDistance < stoppingDistance && !soldier.takingDamage)
+        if (PlayerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking && hDistance < stoppingDistance && vDistance < stoppingDistance && !soldier.isTakingDamage)
         {
             currentlyBlocking = true;
             SoldierBlock();
         }
         //Attacking
         if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= soldierAI.nextAttackTimeSoldier && Time.time >= soldierAI.nextGlobalAttackSoldier
-        && soldierAI.numberOfAttacks == 0 && !soldierAI.currentlyBlocking && !soldierAI.currentlyAttacking && !soldier.takingDamage && currentTarget == karasuTransform)
+        && soldierAI.numberOfAttacks == 0 && !soldierAI.currentlyBlocking && !soldierAI.currentlyAttacking && !soldier.isTakingDamage && currentTarget == karasuTransform)
         {
             currentlyAttacking = true;
             Attack();
@@ -492,7 +485,8 @@ public class SoldierAI : MonoBehaviour
         else if (hDistance > 25 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
-            //heal soldier when he's out of combat
+            //heal soldier if target gets out of range
+            soldier.currentHealth = soldier.maxHealth;
         }
     }
 
