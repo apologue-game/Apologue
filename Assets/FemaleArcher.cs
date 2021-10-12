@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Soldier : MonoBehaviour, IEnemy
+public class FemaleArcher : MonoBehaviour, IEnemy
 {
-    SoldierAI soldierAI;
+    FemaleArcherAI femaleArcherAI;
 
     public Animator animator { get; set; }
 
@@ -20,11 +20,11 @@ public class Soldier : MonoBehaviour, IEnemy
 
     private void Awake()
     {
-        soldierAI = GetComponent<SoldierAI>();
+        femaleArcherAI = GetComponent<FemaleArcherAI>();
         animator = GetComponent<Animator>();
         isDead = false;
         maxHealth = 5;
-        enemyType = IEnemy.EnemyType.normal;
+        enemyType = IEnemy.EnemyType.ranged;
     }
 
     void Start()
@@ -38,10 +38,6 @@ public class Soldier : MonoBehaviour, IEnemy
         {
             return;
         }
-        if (BlockCollider.blockedOrParried)
-        {
-            Debug.Log("Soldier blocked an attack!!");
-        }
         else
         {
             currentHealth -= damage;
@@ -50,25 +46,25 @@ public class Soldier : MonoBehaviour, IEnemy
                 StartCoroutine(Death());
                 return;
             }
-            StartCoroutine(SoldierStaggered());
+            //StartCoroutine(ArcherStaggered());
         }
     }
 
-    IEnumerator SoldierStaggered()
-    {
-        isTakingDamage = true;
-        animator.SetTrigger("animSoldierTakingDamage");
-        yield return new WaitForSeconds(0.35f);
-        isTakingDamage = false;
-    }
+    //IEnumerator ArcherStaggered()
+    //{
+    //    isTakingDamage = true;
+    //    animator.SetTrigger("animSoldierTakingDamage");
+    //    yield return new WaitForSeconds(0.35f);
+    //    isTakingDamage = false;
+    //}
 
     public IEnumerator Death()
     {
         isDead = true;
-        Debug.Log("Soldier died");
-        animator.SetTrigger("animSoldierDeath");
+        Debug.Log("Archer died");
+        animator.SetTrigger("animArcherDeath");
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
-        GameMaster.DestroyGameObject(soldierAI.spawn);
+        GameMaster.DestroyGameObject(femaleArcherAI.spawn);
     }
 }

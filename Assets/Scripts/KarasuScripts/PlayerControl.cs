@@ -404,7 +404,7 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a sword");
-            enemy.GetComponent<Soldier>().TakeDamage(attackDamage);
+            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage);
         }
         currentlyAttacking = false;     
     }

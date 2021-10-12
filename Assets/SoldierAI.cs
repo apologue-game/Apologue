@@ -6,7 +6,6 @@ public class SoldierAI : MonoBehaviour
 {
     //Utilities
     System.Random rnd = new System.Random();
-    SoldierAI soldierAI;
     int myID;
     string myName = "";
     Soldier soldier;
@@ -48,6 +47,7 @@ public class SoldierAI : MonoBehaviour
     public int goingDownDirection;
     public float hDistance;
     public float vDistance;
+    float spawnHorizontalDistance;
     //Jumping
     public float jumpForceSoldier = 250f;
 
@@ -88,9 +88,9 @@ public class SoldierAI : MonoBehaviour
         playerControl = karasu.GetComponent<PlayerControl>();
         karasuTransform = karasu.transform;
 
-        //Own references and initializations
+        //Self references and initializations
         animator = GetComponent<Animator>();
-        soldierAI = this;
+        rigidBody2D = GetComponent<Rigidbody2D>();
         soldier = GetComponent<Soldier>();
         soldierSight = GetComponentInChildren<SoldierSight>();
 
@@ -113,10 +113,7 @@ public class SoldierAI : MonoBehaviour
     void Start()
     {
         movementSpeedHelper = movementSpeed;
-        rigidBody2D = GetComponent<Rigidbody2D>();
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
-        Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
         InvokeRepeating("GenerateRandomNumber", 0f, 0.2f);
         InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
     }
@@ -154,100 +151,17 @@ public class SoldierAI : MonoBehaviour
         //Movement
         hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
-        float spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
+        spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
         //Keep moving towards the target
         //Stopping distance from the target so the soldier won't try to go directly inside of them
         if (currentTarget == karasuTransform)
         {
-            if (hDistance > stoppingDistance)
-            {
-                if (transform.position.x > currentTarget.position.x)
-                {
-                    if (!facingLeft && !currentlyAttacking)
-                    {
-                        Flip();
-                    }
-                    direction = -1;
-                    if (goingDownFromAPlatform && goingDownDirection == 0)
-                    {
-                        goingDownDirection = direction;
-                    }
-                }
-                else if (transform.position.x < currentTarget.position.x)
-                {
-                    if (facingLeft && !currentlyAttacking)
-                    {
-                        Flip();
-                    }
-                    direction = 1;
-                    if (goingDownFromAPlatform && goingDownDirection == 0)
-                    {
-                        goingDownDirection = direction;
-                    }
-                }
-            }
-            //If the target is within stopping distance, but the soldier is turned the opposite way, flip the soldier
-            else
-            {
-                if (hDistance > flipDistance)
-                {
-                    if (transform.position.x > currentTarget.position.x && !facingLeft && !currentlyAttacking)
-                    {
-                        Flip();
-                        if (goingDownFromAPlatform && goingDownDirection == 0)
-                        {
-                            goingDownDirection = direction;
-                        }
-                    }
-                    else if (transform.position.x < currentTarget.position.x && facingLeft && !currentlyAttacking)
-                    {
-                        Flip(); 
-                        if (goingDownFromAPlatform && goingDownDirection == 0)
-                        {
-                            goingDownDirection = direction;
-                        }
-                    }
-                }
-                if (!goingDownFromAPlatform)
-                {
-                    direction = 0;
-                }
-            }
+            CalculateDirection(hDistance);
         }
         else
         {
-            if (spawnHorizontalDistance > stoppingDistance)
-            {
-                if (transform.position.x > currentTarget.position.x)
-                {
-                    if (!facingLeft && !currentlyAttacking)
-                    {
-                        Flip();
-                    }
-                    direction = -1;
-                }
-                else if (transform.position.x < currentTarget.position.x)
-                {
-                    if (facingLeft && !currentlyAttacking)
-                    {
-                        Flip();
-                    }
-                    direction = 1;
-                }
-            }
-            //If the target is within stopping distance, but the soldier is turned the opposite way, flip the soldier
-            else
-            {
-                if (spawnHorizontalDistance > flipDistance)
-                {
-                    if (!facingLeft && grounded)
-                    {
-                        Flip();
-                    }
-                }
-                direction = 0;
-            }
+            CalculateDirection(spawnHorizontalDistance);
         }
 
         if (currentTarget == karasuTransform)
@@ -310,8 +224,8 @@ public class SoldierAI : MonoBehaviour
             SoldierBlock();
         }
         //Attacking
-        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= soldierAI.nextAttackTimeSoldier && Time.time >= soldierAI.nextGlobalAttackSoldier
-        && soldierAI.numberOfAttacks == 0 && !soldierAI.currentlyBlocking && !soldierAI.currentlyAttacking && !soldier.isTakingDamage && currentTarget == karasuTransform)
+        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= nextAttackTimeSoldier && Time.time >= nextGlobalAttackSoldier
+        && numberOfAttacks == 0 && !currentlyBlocking && !currentlyAttacking && !soldier.isTakingDamage && currentTarget == karasuTransform)
         {
             currentlyAttacking = true;
             Attack();
@@ -334,25 +248,83 @@ public class SoldierAI : MonoBehaviour
         }
     }
 
+    void CalculateDirection(float distanceFromTarget)
+    {
+        if (distanceFromTarget > stoppingDistance)
+        {
+            if (transform.position.x > currentTarget.position.x)
+            {
+                if (!facingLeft && !currentlyAttacking)
+                {
+                    Flip();
+                }
+                direction = -1;
+                if (goingDownFromAPlatform && goingDownDirection == 0)
+                {
+                    goingDownDirection = direction;
+                }
+            }
+            else if (transform.position.x < currentTarget.position.x)
+            {
+                if (facingLeft && !currentlyAttacking)
+                {
+                    Flip();
+                }
+                direction = 1;
+                if (goingDownFromAPlatform && goingDownDirection == 0)
+                {
+                    goingDownDirection = direction;
+                }
+            }
+        }
+        //If the target is within stopping distance, but the soldier is turned the opposite way, flip the soldier
+        else
+        {
+            if (distanceFromTarget > flipDistance)
+            {
+                if (transform.position.x > currentTarget.position.x && !facingLeft && !currentlyAttacking)
+                {
+                    Flip();
+                    if (goingDownFromAPlatform && goingDownDirection == 0)
+                    {
+                        goingDownDirection = direction;
+                    }
+                }
+                else if (transform.position.x < currentTarget.position.x && facingLeft && !currentlyAttacking)
+                {
+                    Flip();
+                    if (goingDownFromAPlatform && goingDownDirection == 0)
+                    {
+                        goingDownDirection = direction;
+                    }
+                }
+            }
+            if (!goingDownFromAPlatform)
+            {
+                direction = 0;
+            }
+        }
+    }
+
     //Movement
     public void Jump()
     {
-        if (grounded && soldierSight.jumpCounterSoldier == 0 && !soldierAI.currentlyAttacking && !soldierAI.currentlyBlocking )
+        if (grounded && soldierSight.jumpCounterSoldier == 0 && !currentlyAttacking && !currentlyBlocking )
         {
             //If the soldier's target is out of range vertically, but not horizontally and if soldier detects a platform ahead of him
             //He will jump repeatedly. This stops him from doing that
-            if (soldierAI.vDistance > 1 && soldierAI.hDistance < 1)
+            if (vDistance > 1 && hDistance < 1)
             {
                 return;
             }
             //If the target is ahead but on lower ground than soldier, but there is a platform on which the soldier can jump,
             //The soldier will jump on the platform instead of chasing the target. This stops him from doing just that
-            if (soldierAI.transform.position.y > soldierAI.currentTarget.position.y && soldierAI.onPlatform)
+            if (transform.position.y > currentTarget.position.y && onPlatform)
             {
                 return;
             }
             soldierSight.jumpCounterSoldier++;
-            soldierAI.rigidBody2D.velocity = new Vector2 (soldierAI.rigidBody2D.velocity.x, soldierAI.jumpForceSoldier);
+            rigidBody2D.velocity = new Vector2 (rigidBody2D.velocity.x, jumpForceSoldier);
         }
     }
 
@@ -380,9 +352,9 @@ public class SoldierAI : MonoBehaviour
     void Attack()
     {
         lastTimeAttack = Time.time;
-        soldierAI.numberOfAttacks++;
-        soldierAI.animator.SetTrigger("animSoldierAttack");
-        soldierAI.StartCoroutine(soldierAI.StopMovingWhileAttacking());
+        numberOfAttacks++;
+        animator.SetTrigger("animSoldierAttack");
+        StartCoroutine(StopMovingWhileAttacking());
     }
 
     void SoldierAttack()

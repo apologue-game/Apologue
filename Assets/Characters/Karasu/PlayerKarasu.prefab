@@ -71,7 +71,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3222105942407216710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.711, y: 0.953, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
@@ -182,48 +182,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 8
-  inputX: 0
-  jumpForce: 13.5
+  jumpForce: 16
   grounded: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 67584
   doubleJumpForce: 15
-  doubleJump: 0
   dashSpeed: 30
-  timeUntilNextDash: 0
-  dashDirectionIfStationary: 0
   crouch: 0
   slideSpeed: 0
   enemiesLayers:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 397312
   globalAttackCooldown: 5
   swordCollider: {fileID: 6984563777514602708}
-  attackRange: 0.26
+  attackRange: 0.56
   attackDamage: 1
   attackSpeed: 2
   swordUppercutCollider: {fileID: 6130953115359749727}
-  attackRangeUppercut: 0.5
+  attackRangeUppercut: 0.56
   numberOfAttacks: 0
-  firstAttack: 0
   spearCollider: {fileID: 6984563777244776988}
-  spearRange: {x: 0, y: 0, z: 0}
-  attackRangeSpear: 0.28
+  spearRange: {x: 2.44, y: 0.34, z: 0}
+  attackRangeSpear: 0.32
   attackDamageSpear: 1
   attackSpeedSpear: 1
   axeCollider: {fileID: 6984563776747867224}
-  attackRangeAxe: 0.5
+  attackRangeAxe: 0.71
   attackDamageAxe: 2
   attackSpeedAxe: 0.75
   parryCollider: {fileID: 1919832363277656011}
   parryColliderGO: {fileID: 2922116141284790644}
   blockColliderGO: {fileID: 6094411650202629064}
-  parryBlockRange: 0.34
-  blocking: 0
-  parryWindow: 0.15
-  parryWindowActual: 0
-  parryCooldown: 6
 --- !u!114 &6984563776060638096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,19 +572,67 @@ MonoBehaviour:
     m_ActionId: a966dcea-d716-481f-af9e-677e38beb846
     m_ActionName: PlayerGamepad/HeavyAttack[/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnParry
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b3d4f02b-27cf-41ab-8b08-e5bd07aca939
     m_ActionName: Player/Parry[/Keyboard/r]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnParry
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 28ad59ef-b4ee-47f1-8aae-734b8ac24fea
     m_ActionName: PlayerGamepad/Parry[/XInputControllerWindows/rightShoulder]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnBlock
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5f68c7aa-ed77-4242-9fda-80ba8bb474cd
     m_ActionName: Player/Block[/Keyboard/r]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnBlock
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 78e56375-a6c8-409d-8d62-c1268bb2e9bb
     m_ActionName: PlayerGamepad/Block[/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
@@ -636,18 +674,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.058715373, y: 0.6375601}
+  m_Offset: {x: 0.047504425, y: 0.6375601}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.84375, y: 1.375}
-    newSize: {x: 0.0023923444, y: 0.004086922}
+    newSize: {x: 0.25, y: 0.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23072809, y: 1.2813449}
+  m_Size: {x: 0.4969101, y: 1.2813449}
   m_EdgeRadius: 0
 --- !u!212 &6984563776060638092
 SpriteRenderer:
@@ -689,13 +727,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 496549353
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 22c6e6b89283eb845bcca4b82fe44319, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.0023923444, y: 0.004086922}
+  m_Size: {x: 0.25, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -711,7 +749,7 @@ Animator:
   m_GameObject: {fileID: 6984563776060638100}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 81fe37a1b270d0849a2975737dcfa4b4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0d2bb5bcf8d5a544ba4b9bb52b9e4659, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -732,6 +770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a291d182888949444b8b3910496804da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHealth: 0
+  dead: 0
 --- !u!1 &6984563776747867231
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +796,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6984563776747867231}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.88, y: 0.76, z: 0}
+  m_LocalPosition: {x: 0.529, y: 1.213, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
@@ -816,7 +856,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6984563777244777955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 0.55, z: 0}
+  m_LocalPosition: {x: 1.362, y: 0.812, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
@@ -846,7 +886,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6984563777514602715}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.57, y: 0.59, z: 0}
+  m_LocalPosition: {x: 0.331, y: 0.749, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}

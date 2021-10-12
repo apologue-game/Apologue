@@ -15,7 +15,6 @@ public class SoldierSight : MonoBehaviour
     public int jumpCounterSoldier = 0;
     public int iDontWantToFightAnymoreCounter = 0;
     bool counterStarted = false;
-    public int counterr;
 
     private void Start()
     {
@@ -46,11 +45,6 @@ public class SoldierSight : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void Update()
-    {
-        counterr = iDontWantToFightAnymoreCounter;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
