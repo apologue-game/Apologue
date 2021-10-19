@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameMaster
   - Enemy
+  - Archer
   layers:
   - Default
   - TransparentFX

@@ -15,6 +15,8 @@ public class FemaleArcherAI : MonoBehaviour
     public float hDistance;
     public float vDistance;
     public bool facingLeft = true;
+    public bool targetBeneathArcher = false;
+    public bool targetInLine = false;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -95,10 +97,22 @@ public class FemaleArcherAI : MonoBehaviour
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
         if (transform.position.x > karasuTransform.position.x && !facingLeft && !currentlyAttacking)
         {
+            foreach (Transform child in transform)
+            {
+                Vector3 childScale = transform.localScale;
+                childScale.x *= -1;
+                child.localScale = childScale;
+            }
             Flip();
         }
         else if (transform.position.x < karasuTransform.position.x && facingLeft && !currentlyAttacking)
         {
+            foreach (Transform child in transform)
+            {
+                Vector3 childScale = transform.localScale;
+                childScale.x *= -1;
+                child.localScale = childScale;
+            }
             Flip();
         }
         if (currentTarget == null)
@@ -127,7 +141,8 @@ public class FemaleArcherAI : MonoBehaviour
     {
         nextAttack = Time.time + attackCooldown;
         currentlyAttacking = true;
-        if (GameMaster.Utilities.IsFloatInRange(transform.position.y - 1.5f, transform.position.y + 1.5f, karasuTransform.position.y + 0.51f))
+        targetInLine = GameMaster.Utilities.IsFloatInRange(transform.position.y - 1.7f, transform.position.y + 1.7f, karasuTransform.position.y + 0.51f);
+        if (targetInLine)
         {
             AnimatorSwitchState(ATTACKANIMATION);
         }
@@ -137,6 +152,14 @@ public class FemaleArcherAI : MonoBehaviour
         //}
         else
         {
+            if (currentTarget != null && transform.position.y > currentTarget.position.y + 1)
+            {
+                targetBeneathArcher = true;
+            }
+            else
+            {
+                targetBeneathArcher = false;
+            }
             AnimatorSwitchState(ATTACKUPWARDSANIMATION);
         }
     }
@@ -148,6 +171,7 @@ public class FemaleArcherAI : MonoBehaviour
     
     void Shoot(int position)
     {
+        //No need for the projectiles to have parents :(
         if (position == 0)
         {
             Instantiate(arrowPrefab, arrowPointMiddle.position, arrowPointMiddle.rotation, arrowPointMiddle);
@@ -171,11 +195,11 @@ public class FemaleArcherAI : MonoBehaviour
     //Utilities
     void InCombat()
     {
-        if (hDistance < 15 && currentTarget != karasuTransform)
+        if (hDistance <= 17 && hDistance >= 4 && currentTarget != karasuTransform)
         {
             currentTarget = karasuTransform;
         }
-        else if (hDistance > 15 && currentTarget != null)
+        else if (hDistance > 17 || hDistance <= 4 && currentTarget != null)
         {
             currentTarget = null;
             //Heal archer if target gets out of range
