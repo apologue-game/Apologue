@@ -39,4 +39,17 @@ public class GameMaster : MonoBehaviour
     {
         Instantiate(gameObject);
     }
+
+    public static class Utilities
+    {
+        public static bool IsFloatInRange(float min, float max, float valueToCheck)
+        {
+            if (valueToCheck >= min && valueToCheck <= max)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
 }

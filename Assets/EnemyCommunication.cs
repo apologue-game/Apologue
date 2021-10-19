@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyCommunication : MonoBehaviour
 {
     EnemyCluster enemyCluster;
-    int counter = 0;
+    //int counter = 0;
     List<IEnemy> enemies = new List<IEnemy>();
 
     // Start is called before the first frame update

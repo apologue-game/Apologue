@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: attackAnimation
+  m_Name: archerAttackUpwardsAnimation
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -23,14 +23,14 @@ AnimationClip:
       value: {fileID: 21300000, guid: fea78f453be1acc479d37f9f2541ae23, type: 3}
     - time: 0.1
       value: {fileID: 21300000, guid: d9559a3028a75e142834b0a0844cc799, type: 3}
-    - time: 0.2
+    - time: 0.18333334
       value: {fileID: 21300000, guid: a55482757de50c649b159572b131f428, type: 3}
-    - time: 0.31666666
+    - time: 0.28333333
       value: {fileID: 21300000, guid: 4c72ed919dee89e46b63925025f5ff07, type: 3}
-    - time: 0.41666666
-      value: {fileID: 21300000, guid: 9b4c347a820e39445b9d12b76d1cbe31, type: 3}
+    - time: 0.38333333
+      value: {fileID: 21300000, guid: 6ebf07e341ef33444b458aa206af5c52, type: 3}
     - time: 0.75
-      value: {fileID: 21300000, guid: 9f4c89b5112e3324bb4b8cc97ceb0618, type: 3}
+      value: {fileID: 21300000, guid: 233df8122afc16f4b82f8901c545bfbd, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -54,8 +54,8 @@ AnimationClip:
     - {fileID: 21300000, guid: d9559a3028a75e142834b0a0844cc799, type: 3}
     - {fileID: 21300000, guid: a55482757de50c649b159572b131f428, type: 3}
     - {fileID: 21300000, guid: 4c72ed919dee89e46b63925025f5ff07, type: 3}
-    - {fileID: 21300000, guid: 9b4c347a820e39445b9d12b76d1cbe31, type: 3}
-    - {fileID: 21300000, guid: 9f4c89b5112e3324bb4b8cc97ceb0618, type: 3}
+    - {fileID: 21300000, guid: 6ebf07e341ef33444b458aa206af5c52, type: 3}
+    - {fileID: 21300000, guid: 233df8122afc16f4b82f8901c545bfbd, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -86,7 +86,7 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 0
+    intParameter: 1
     messageOptions: 0
   - time: 0.81666666
     functionName: Reload

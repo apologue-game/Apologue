@@ -15,6 +15,7 @@ public class SoldierAI : MonoBehaviour
     Transform karasuTransform;
     Vector3 spawnLocation;
     Transform currentTarget;
+    [HideInInspector]
     public GameObject spawn;
 
     //Animation control
@@ -471,14 +472,6 @@ public class SoldierAI : MonoBehaviour
         transform.localScale = theScale;
     }
 
-    static bool IsFloatInRange(float min, float max, float valueToCheck)
-    {
-        if (valueToCheck >= min && valueToCheck <= max)
-        {
-            return true;
-        }
-        return false;
-    }
 
     private void OnDrawGizmosSelected()
     {
