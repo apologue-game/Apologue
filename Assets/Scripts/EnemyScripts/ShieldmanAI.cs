@@ -1,15 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeavyEnemyAI : MonoBehaviour
+public class ShieldmanAI : MonoBehaviour
 {
     //Utilities
     System.Random rnd = new System.Random();
     int myID;
     string myName = "";
-    HeavyEnemy heavyEnemy;
+    Shieldman shieldman;
 
     //Targeting
     GameObject karasu;
@@ -46,23 +45,17 @@ public class HeavyEnemyAI : MonoBehaviour
 
     //Combat system
     public LayerMask enemiesLayers;
-    float nextGlobalAttackHeavyEnemy = 0f;
+    float nextGlobalAttackShieldman = 0f;
     bool currentlyAttacking = false;
     int numberOfAttacks = 0;
     float lastTimeAttack = 0f;
     float globalAttackCooldown = 0f;
-    //Heavy enemy overhead attack
-    public Transform axeOverheadAttack;
-    float axeOverheadAttackRange = 0.5f;
-    int attackDamageOverheadAttack = 3;
-    float attackSpeedOverheadAttack = 0.75f;
-    float nextOverheadAttackTime = 0f;
-    //Heavy enemy sideslash attack
-    public Transform axeSideslashAttack;
-    float axeSideslashAttackRange = 0.5f;
-    int attackDamageSideslashAttack = 3;
-    float attackSpeedSideslashAttack = 0.75f;
-    float nextSideslashAttackTime = 0f;
+    //Shieldman overhead attack
+    public Transform spearAttackShieldman;
+    float spearAttackShieldmanRange = 0.5f;
+    int attackDamageSpearAttackShieldman = 3;
+    float attackSpeedSpearAttackShieldman = 0.75f;
+    float nextspearAttackShieldman = 0f;
     //Parry and block system for Player
     bool parriedOrBlocked = false;
 
@@ -77,7 +70,7 @@ public class HeavyEnemyAI : MonoBehaviour
         //Self references and initializations
         animator = GetComponent<Animator>();
         rigidBody2D = GetComponent<Rigidbody2D>();
-        heavyEnemy = GetComponent<HeavyEnemy>();
+        shieldman = GetComponent<Shieldman>();
 
         //Ignore collider collisions
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
@@ -86,7 +79,7 @@ public class HeavyEnemyAI : MonoBehaviour
 
         //Spawn location references
         myID = GameMaster.enemyID++;
-        myName = "HeavyEnemy" + myID + "_SpawnLocation";
+        myName = "Shieldman" + myID + "_SpawnLocation";
         spawnLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
@@ -103,12 +96,12 @@ public class HeavyEnemyAI : MonoBehaviour
     private void FixedUpdate()
     {
         //Exceptions
-        if (heavyEnemy.isDead)
+        if (shieldman.isDead)
         {
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (heavyEnemy.isTakingDamage || karasuEntity.dead)
+        if (shieldman.isTakingDamage || karasuEntity.dead)
         {
             return;
         }
@@ -133,33 +126,10 @@ public class HeavyEnemyAI : MonoBehaviour
         rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
 
         //Attacking
-        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= nextGlobalAttackHeavyEnemy
-        && numberOfAttacks == 0 && !currentlyAttacking && !heavyEnemy.isTakingDamage && currentTarget == karasuTransform)
+        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= nextGlobalAttackShieldman
+        && numberOfAttacks == 0 && !currentlyAttacking && !shieldman.isTakingDamage && currentTarget == karasuTransform)
         {
-            if (Time.time >= nextSideslashAttackTime && Time.time >= nextOverheadAttackTime)
-            {
-                int chooseAttack = rnd.Next(0, 20);
-                if (chooseAttack < 10)
-                {
-                    OverheadAttack();
-                }
-                else
-                {
-                    SideslashAttack();
-                }
-            }
-            else if (Time.time >= nextSideslashAttackTime || Time.time >= nextOverheadAttackTime)
-            {
-                if (Time.time >= nextSideslashAttackTime)
-                {
-                    SideslashAttack();
-                }
-                else
-                {
-                    OverheadAttack();
-                }
-            }
-            
+
         }
         //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
         //If the enemy hasn't attacked within 1.75 seconds, they're probably stuck and need some help
@@ -218,9 +188,9 @@ public class HeavyEnemyAI : MonoBehaviour
             direction = 0;
         }
     }
-    
+
     //Combat system
-    void OverheadAttack()
+    void Attack()
     {
         lastTimeAttack = Time.time;
         numberOfAttacks++;
@@ -228,9 +198,9 @@ public class HeavyEnemyAI : MonoBehaviour
         StartCoroutine(StopMovingWhileAttacking());
     }
 
-    void HeavyEnemyOverheadAttack()
+    void ShieldmanAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeOverheadAttack.position, axeOverheadAttackRange, enemiesLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(spearAttackShieldman.position, spearAttackShieldmanRange, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "ParryCollider")
@@ -249,60 +219,21 @@ public class HeavyEnemyAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Heavy hit " + enemy + " with a sword");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageOverheadAttack);
+                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman);
             }
         }
         parriedOrBlocked = false;
         numberOfAttacks = 0;
-        nextOverheadAttackTime = Time.time + 1f / attackSpeedOverheadAttack;
-        nextGlobalAttackHeavyEnemy = Time.time + 2f;
+        nextspearAttackShieldman = Time.time + 1f / attackSpeedSpearAttackShieldman;
+        nextGlobalAttackShieldman = Time.time + 2f;
     }
-
-    void SideslashAttack()
-    {
-        lastTimeAttack = Time.time;
-        numberOfAttacks++;
-        //animator.SetTrigger("animSoldierAttack");
-        StartCoroutine(StopMovingWhileAttacking());
-    }
-
-    void HeavyEnemySideslashAttack()
-    {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeSideslashAttack.position, axeSideslashAttackRange, enemiesLayers);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if (enemy.name == "ParryCollider")
-            {
-                Debug.Log("Successfully parried an attack");
-                parriedOrBlocked = true;
-            }
-            else if (enemy.name == "BlockCollider")
-            {
-                Debug.Log("Successfully blocked an attack");
-                parriedOrBlocked = true;
-            }
-        }
-        if (!parriedOrBlocked)
-        {
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                Debug.Log("Heavy hit " + enemy + " with a sword");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSideslashAttack);
-            }
-        }
-        parriedOrBlocked = false;
-        numberOfAttacks = 0;
-        nextSideslashAttackTime = Time.time + 1f / attackSpeedSideslashAttack;
-        nextGlobalAttackHeavyEnemy = Time.time + 2f;
-    }
-
     //Utilities
     void ManuallySetAttackConditions()
     {
         parriedOrBlocked = false;
         numberOfAttacks = 0;
-        nextOverheadAttackTime = 0;
-        nextGlobalAttackHeavyEnemy = 0;
+        nextspearAttackShieldman = 0;
+        nextGlobalAttackShieldman = 0;
     }
 
     IEnumerator BlockedAndHitAnimation()
@@ -330,7 +261,7 @@ public class HeavyEnemyAI : MonoBehaviour
         {
             currentTarget = spawn.transform;
             //heal soldier if target gets out of range
-            heavyEnemy.currentHealth = heavyEnemy.maxHealth;
+            shieldman.currentHealth = shieldman.maxHealth;
         }
     }
 
@@ -346,10 +277,10 @@ public class HeavyEnemyAI : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (axeOverheadAttack == null)
+        if (spearAttackShieldman == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(axeOverheadAttack.position, axeOverheadAttackRange);
+        Gizmos.DrawWireSphere(spearAttackShieldman.position, spearAttackShieldmanRange);
     }
 }

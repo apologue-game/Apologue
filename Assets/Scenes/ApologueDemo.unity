@@ -14625,7 +14625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &2127385641
 Rigidbody2D:
   serializedVersion: 4
@@ -14706,7 +14706,8 @@ MonoBehaviour:
   enemiesLayers:
     serializedVersion: 2
     m_Bits: 64
-  axeColliderHeavyEnemy: {fileID: 0}
+  axeOverheadAttack: {fileID: 0}
+  axeSideslashAttack: {fileID: 0}
 --- !u!212 &2127385645
 SpriteRenderer:
   m_ObjectHideFlags: 0
