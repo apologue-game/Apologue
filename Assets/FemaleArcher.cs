@@ -32,8 +32,9 @@ public class FemaleArcher : MonoBehaviour, IEnemy
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool? arrowDamage)
     {
+        Debug.Log(arrowDamage);
         if (isDead)
         {
             return;
@@ -43,6 +44,11 @@ public class FemaleArcher : MonoBehaviour, IEnemy
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
+                if (arrowDamage == true)
+                {
+                    StartCoroutine(DeathByArrow());
+                    return;
+                }
                 StartCoroutine(Death());
                 return;
             }
@@ -62,7 +68,17 @@ public class FemaleArcher : MonoBehaviour, IEnemy
     {
         isDead = true;
         Debug.Log("Archer died");
-        animator.SetTrigger("animArcherDeath");
+        animator.Play("deathAnimation");
+        yield return new WaitForSeconds(3.5f);
+        GameMaster.DestroyGameObject(gameObject);
+        GameMaster.DestroyGameObject(femaleArcherAI.spawn);
+    }
+
+    public IEnumerator DeathByArrow()
+    {
+        isDead = true;
+        Debug.Log("Archer died by deflection");
+        animator.Play("deathByArrowAnimation");
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(femaleArcherAI.spawn);

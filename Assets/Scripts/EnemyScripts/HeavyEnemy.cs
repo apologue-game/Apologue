@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Soldier : MonoBehaviour, IEnemy
+public class HeavyEnemy : MonoBehaviour, IEnemy
 {
-    SoldierAI soldierAI;
+    HeavyEnemyAI heavyEnemyAI;
 
     public Animator animator { get; set; }
 
@@ -20,11 +20,11 @@ public class Soldier : MonoBehaviour, IEnemy
 
     private void Awake()
     {
-        soldierAI = GetComponent<SoldierAI>();
+        heavyEnemyAI = GetComponent<HeavyEnemyAI>();
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 5;
-        enemyType = IEnemy.EnemyType.normal;
+        maxHealth = 10;
+        enemyType = IEnemy.EnemyType.elite;
     }
 
     void Start()
@@ -38,10 +38,6 @@ public class Soldier : MonoBehaviour, IEnemy
         {
             return;
         }
-        if (BlockCollider.blockedOrParried)
-        {
-            Debug.Log("Soldier blocked an attack!!");
-        }
         else
         {
             currentHealth -= damage;
@@ -50,14 +46,14 @@ public class Soldier : MonoBehaviour, IEnemy
                 StartCoroutine(Death());
                 return;
             }
-            StartCoroutine(SoldierStaggered());
+            StartCoroutine(HeavyEnemyStaggered());
         }
     }
 
-    IEnumerator SoldierStaggered()
+    IEnumerator HeavyEnemyStaggered()
     {
         isTakingDamage = true;
-        animator.SetTrigger("animSoldierTakingDamage");
+        //play stagger animation
         yield return new WaitForSeconds(0.35f);
         isTakingDamage = false;
     }
@@ -65,10 +61,9 @@ public class Soldier : MonoBehaviour, IEnemy
     public IEnumerator Death()
     {
         isDead = true;
-        Debug.Log("Soldier died");
-        animator.SetTrigger("animSoldierDeath");
+        //play death animation
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
-        GameMaster.DestroyGameObject(soldierAI.spawn);
+        GameMaster.DestroyGameObject(heavyEnemyAI.spawn);
     }
 }

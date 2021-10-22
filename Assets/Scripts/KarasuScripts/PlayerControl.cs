@@ -404,7 +404,7 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a sword");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage);
+            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
         }
         currentlyAttacking = false;     
     }
@@ -436,7 +436,7 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a sword uppercut");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage);
+            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
         }
         currentlyAttacking = false;
     }
@@ -476,7 +476,7 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a spaer");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamageSpear);
+            enemy.GetComponent<IEnemy>().TakeDamage(attackDamageSpear, null);
         }
         currentlyAttacking = false;
     }
@@ -516,7 +516,7 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with an axe");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe);
+            enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, null);
         }
         currentlyAttacking = false;
     }

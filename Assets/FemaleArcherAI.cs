@@ -93,26 +93,18 @@ public class FemaleArcherAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (femaleArcher.isDead)
+        {
+            return;
+        }
         hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
         if (transform.position.x > karasuTransform.position.x && !facingLeft && !currentlyAttacking)
         {
-            foreach (Transform child in transform)
-            {
-                Vector3 childScale = transform.localScale;
-                childScale.x *= -1;
-                child.localScale = childScale;
-            }
             Flip();
         }
         else if (transform.position.x < karasuTransform.position.x && facingLeft && !currentlyAttacking)
         {
-            foreach (Transform child in transform)
-            {
-                Vector3 childScale = transform.localScale;
-                childScale.x *= -1;
-                child.localScale = childScale;
-            }
             Flip();
         }
         if (currentTarget == null)
@@ -174,15 +166,15 @@ public class FemaleArcherAI : MonoBehaviour
         //No need for the projectiles to have parents :(
         if (position == 0)
         {
-            Instantiate(arrowPrefab, arrowPointMiddle.position, arrowPointMiddle.rotation, arrowPointMiddle);
+            Instantiate(arrowPrefab, arrowPointMiddle.position, arrowPointMiddle.rotation);
         }
         else if(position == 1)
         {
-            Instantiate(arrowPrefab, arrowPointUp.position, arrowPointUp.rotation, arrowPointUp);
+            Instantiate(arrowPrefab, arrowPointUp.position, arrowPointUp.rotation);
         }
         else 
         {
-            Instantiate(arrowPrefab, arrowPointDown.position, arrowPointDown.rotation, arrowPointDown);
+            Instantiate(arrowPrefab, arrowPointDown.position, arrowPointDown.rotation);
         }
     }
 
@@ -203,7 +195,7 @@ public class FemaleArcherAI : MonoBehaviour
         {
             currentTarget = null;
             //Heal archer if target gets out of range
-            femaleArcher.currentHealth = femaleArcher.maxHealth;
+            //femaleArcher.currentHealth = femaleArcher.maxHealth;
         }
     }
 

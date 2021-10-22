@@ -60,8 +60,6 @@ public class SoldierAI : MonoBehaviour
 
     //Combat system
     public LayerMask enemiesLayers;
-    public LayerMask parryLayer;
-    public LayerMask blockLayer;
     float nextGlobalAttackSoldier = 0f;
     bool currentlyAttacking = false;
     //Soldier basic attack
@@ -165,6 +163,7 @@ public class SoldierAI : MonoBehaviour
             CalculateDirection(spawnHorizontalDistance);
         }
 
+        //Logic for soldier movement on the platforms
         if (currentTarget == karasuTransform)
         {
             Collider2D[] isThereGroundAheadCheck = Physics2D.OverlapCircleAll(isThereGroundAhead.position, isThereGroundAheadRange, whatIsGround);
@@ -231,8 +230,8 @@ public class SoldierAI : MonoBehaviour
             currentlyAttacking = true;
             Attack();
         }
-        //If the target hits the soldier while he is winding up an attack, the soldier gets confused, so we gotta set his attack conditions manually
-        //If the soldier hasn't attacked within 1.75 seconds, he's probably stuck and needs some help
+        //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
+        //If the enemy hasn't attacked within 1.75 seconds, they're probably stuck and need some help
         if (Time.time > lastTimeAttack + 1.75 && currentTarget == karasuTransform)
         {
             ManuallySetAttackConditions();
@@ -278,7 +277,7 @@ public class SoldierAI : MonoBehaviour
                 }
             }
         }
-        //If the target is within stopping distance, but the soldier is turned the opposite way, flip the soldier
+        //If the target is within stopping distance, but the enemy is turned the opposite way, flip the enemy
         else
         {
             if (distanceFromTarget > flipDistance)
