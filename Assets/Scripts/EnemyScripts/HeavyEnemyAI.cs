@@ -30,13 +30,14 @@ public class HeavyEnemyAI : MonoBehaviour
     //Movement
     public float movementSpeed = 150f;
     float movementSpeedHelper;
-    readonly float stoppingDistance = 0.75f;
+    readonly float stoppingDistance = 1.3f;
     readonly float flipDistance = 0.2f;
     bool facingLeft = true;
     public int direction = 0;
     public float hDistance;
     public float vDistance;
     float spawnHorizontalDistance;
+    public float speed;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -53,18 +54,27 @@ public class HeavyEnemyAI : MonoBehaviour
     float globalAttackCooldown = 0f;
     //Heavy enemy overhead attack
     public Transform axeOverheadAttack;
-    float axeOverheadAttackRange = 0.5f;
+    public float axeOverheadAttackRange = 0.5f;
     int attackDamageOverheadAttack = 3;
     float attackSpeedOverheadAttack = 0.75f;
     float nextOverheadAttackTime = 0f;
     //Heavy enemy sideslash attack
     public Transform axeSideslashAttack;
-    float axeSideslashAttackRange = 0.5f;
+    public float axeSideslashAttackRange = 0.5f;
     int attackDamageSideslashAttack = 3;
     float attackSpeedSideslashAttack = 0.75f;
     float nextSideslashAttackTime = 0f;
     //Parry and block system for Player
     bool parriedOrBlocked = false;
+
+    //Animations manager
+    string oldState = "";
+
+    const string IDLEANIMATION = "idleAnimation";
+    const string WALKANIMATION = "walkAnimation";
+    const string OVERHEADATTACKANIMATION = "overheadAttackAnimation";
+    const string SIDESLASHATTACKANIMATION = "sideslashAttackAnimation";
+
 
     private void Awake()
     {
@@ -141,10 +151,12 @@ public class HeavyEnemyAI : MonoBehaviour
                 int chooseAttack = rnd.Next(0, 20);
                 if (chooseAttack < 10)
                 {
+                    currentlyAttacking = true;
                     OverheadAttack();
                 }
                 else
                 {
+                    currentlyAttacking = true;
                     SideslashAttack();
                 }
             }
@@ -152,10 +164,12 @@ public class HeavyEnemyAI : MonoBehaviour
             {
                 if (Time.time >= nextSideslashAttackTime)
                 {
+                    currentlyAttacking = true;
                     SideslashAttack();
                 }
                 else
                 {
+                    currentlyAttacking = true;
                     OverheadAttack();
                 }
             }
@@ -167,9 +181,21 @@ public class HeavyEnemyAI : MonoBehaviour
         {
             ManuallySetAttackConditions();
         }
+
         //Animations
-        //animator.SetFloat("animSoldierSpeed", Math.Abs(rigidBody2D.velocity.x));
-        //animator.SetFloat("animSoldiervSpeed", Math.Abs(rigidBody2D.velocity.y));
+        speed = Mathf.Abs(rigidBody2D.velocity.x);
+
+        if (!currentlyAttacking && !heavyEnemy.isTakingDamage)
+        {
+            if (speed > 0)
+            {
+                AnimatorSwitchState(WALKANIMATION);
+            }
+            else
+            {
+                AnimatorSwitchState(IDLEANIMATION);
+            }
+        }
 
         //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
         if (currentTarget == karasuTransform)
@@ -224,7 +250,7 @@ public class HeavyEnemyAI : MonoBehaviour
     {
         lastTimeAttack = Time.time;
         numberOfAttacks++;
-        //animator.SetTrigger("animSoldierAttack");
+        AnimatorSwitchState(OVERHEADATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
 
@@ -262,7 +288,7 @@ public class HeavyEnemyAI : MonoBehaviour
     {
         lastTimeAttack = Time.time;
         numberOfAttacks++;
-        //animator.SetTrigger("animSoldierAttack");
+        AnimatorSwitchState(SIDESLASHATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
 
@@ -343,13 +369,25 @@ public class HeavyEnemyAI : MonoBehaviour
         transform.localScale = theScale;
     }
 
-
     private void OnDrawGizmosSelected()
     {
-        if (axeOverheadAttack == null)
+        if (axeSideslashAttack == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(axeOverheadAttack.position, axeOverheadAttackRange);
+        Gizmos.DrawWireSphere(axeSideslashAttack.position, axeSideslashAttackRange);
+    }
+
+    //Animation manager
+    public void AnimatorSwitchState(string newState)
+    {
+        if (oldState == newState)
+        {
+            return;
+        }
+
+        animator.Play(newState);
+
+        oldState = newState;
     }
 }

@@ -32,7 +32,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage, bool? arrowDamage)
+    public void TakeDamage(int damage, bool? specialInteraction)
     {
         if (isDead)
         {
@@ -43,7 +43,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
-                if (arrowDamage == true)
+                if (specialInteraction == true)
                 {
                     StartCoroutine(DeathByArrow());
                     return;

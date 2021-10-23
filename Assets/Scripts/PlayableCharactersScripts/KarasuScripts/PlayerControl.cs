@@ -50,11 +50,11 @@ public class PlayerControl : MonoBehaviour
     //Crouch
     public bool crouch;
 
-    //slide
+    //Slide
     public float slideSpeed;
     Transform ceilingCheck;
 
-    //combat system
+    //Combat system
     public LayerMask enemiesLayers;
     public float globalAttackCooldown = 5f;
     float nextGlobalAttack = 0f;
@@ -70,19 +70,19 @@ public class PlayerControl : MonoBehaviour
     AttackState attackState;
     bool combo;
     bool comboFinished;
-    //light attack
+    //Light attack
     public Transform swordCollider;
     public float attackRange = 0.5f;
     public int attackDamage = 1;
     public float attackSpeed = 0.75f;
     float nextAttackTime = 0f;
-    //light attack combos
+    //Light attack combos
     public Transform swordUppercutCollider;
     public float attackRangeUppercut = 0.5f;
     float comboTimeWindow = 0f;
     public int numberOfAttacks = 0;
 
-    //medium attack
+    //Medium attack
     public Transform spearCollider;
     public Vector3 spearRange;
     public float attackRangeSpear = 0.5f;
@@ -90,14 +90,14 @@ public class PlayerControl : MonoBehaviour
     public float attackSpeedSpear = 0.2f;
     float nextAttackTimeSpear = 0f;
 
-    //heavy attack
+    //Heavy attack
     public Transform axeCollider;
     public float attackRangeAxe = 0.5f;
     public int attackDamageAxe = 2;
     public float attackSpeedAxe = 0.2f;
     float nextAttackTimeAxe = 0f;
 
-    //parry and block
+    //Parry and block
     public Transform parryCollider;
     public GameObject parryColliderGO;
     public GameObject blockColliderGO;
@@ -105,14 +105,14 @@ public class PlayerControl : MonoBehaviour
     float parryWindow = 0.4f;
     float nextParry = 0;
     float parryCooldown = 4f;
-    //enemy blocking
+    //Enemy blocking
     public static bool currentlyAttacking = false;
     //Testing
 
     //Animation manager
     string oldState;
 
-    //animation names
+    //Animation names
     const string IDLEANIMATION = "karasuIdleAnimation";
     const string WALKANIMATION = "karasuWalkAnimation";
     const string JUMPANIMATION = "karasuJumpAnimation";
@@ -130,6 +130,13 @@ public class PlayerControl : MonoBehaviour
     const string LIGHTATTACKUPWARDSANIMATION = "karasuLightAttackUpwardsAnimation";
     const string MEDIUMATTACKANIMATION = "karasuMediumAttackAnimation";
     const string HEAVYATTACKANIMATION = "karasuHeavyAttackAnimation";
+
+    //Teleportation
+    public Transform location1;
+    public Transform location2;
+    bool location = false;
+    public GameObject heavyPrefab;
+    public GameObject shieldmanPrefab;
 
     void Awake()
     {
@@ -153,7 +160,7 @@ public class PlayerControl : MonoBehaviour
     void FixedUpdate()
     {
         grounded = false;
-        
+
         //Colliders -> check to see if the player is currently on the ground
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, whatIsGround);
         for (int i = 0; i < colliders.Length; i++)
@@ -162,7 +169,7 @@ public class PlayerControl : MonoBehaviour
             {
                 grounded = true;
                 falling = false;
-            }             
+            }
         }
         //Move character
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
@@ -224,7 +231,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     void Update()
-    {      
+    {
         if (inputX > 0)
         {
             dashDirectionIfStationary = true;
@@ -374,7 +381,7 @@ public class PlayerControl : MonoBehaviour
                 nextAttackTime = Time.time + 0.11f + 1f;
                 nextGlobalAttack = Time.time + 0.11f + 1.5f;
                 comboTimeWindow = Time.time + 1 + attackSpeed / 2;
-                
+
             }
             else if (Time.time <= comboTimeWindow)
             {
@@ -405,7 +412,7 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("We hit " + enemy + " with a sword");
             enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
         }
-        currentlyAttacking = false;     
+        currentlyAttacking = false;
     }
 
     void LightAttackUpwardsAnimation()
@@ -511,8 +518,15 @@ public class PlayerControl : MonoBehaviour
             {
                 continue;
             }
-            Debug.Log("We hit " + enemy + " with an axe");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, null);
+            if (enemy.name.Contains("Shieldman"))
+            {
+                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, true);
+            }
+            else
+            {
+                Debug.Log("We hit " + enemy + " with an axe");
+                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, null);
+            }
         }
         currentlyAttacking = false;
     }
@@ -530,7 +544,7 @@ public class PlayerControl : MonoBehaviour
                 StartCoroutine(ParryWindow());
                 nextParry = Time.time + 1f / parryCooldown;
             }
-        }  
+        }
     }
 
     public void OnBlock(InputAction.CallbackContext callbackContext)
@@ -587,7 +601,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     IEnumerator WaitForAnimationToFinish(float animationDuration)
-    { 
+    {
         yield return new WaitForSeconds(animationDuration);
     }
 
@@ -658,6 +672,42 @@ public class PlayerControl : MonoBehaviour
         combo = false;
         comboFinished = false;
         attackState = AttackState.notAttacking;
+    }
+
+    public void Teleport(InputAction.CallbackContext callbackContext)
+    {
+        if (location && callbackContext.performed)
+        {
+            location = false;
+            transform.position = location2.position;
+        }
+        else if (!location && callbackContext.performed)
+        {
+            location = true;
+            transform.position = location1.position;
+        }
+    }
+
+    public void SpawnHeavy(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
+            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            Instantiate(heavyPrefab, spawnPosition, spawnRotation);
+        }
+    }
+
+    public void SpawnShieldman(InputAction.CallbackContext callbackContext)
+    {
+        Debug.Log("Yes");
+        if (callbackContext.performed)
+        {
+            Debug.Log("yesyes");
+            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
+            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            Instantiate(shieldmanPrefab, spawnPosition, spawnRotation);
+        }
     }
 
     private void OnDrawGizmosSelected()

@@ -14,7 +14,7 @@ public class ShieldmanAI : MonoBehaviour
     GameObject karasu;
     Transform karasuTransform;
     Vector3 spawnLocation;
-    Transform currentTarget;
+    public Transform currentTarget;
     [HideInInspector]
     public GameObject spawn;
 
@@ -29,36 +29,49 @@ public class ShieldmanAI : MonoBehaviour
     //Movement
     public float movementSpeed = 150f;
     float movementSpeedHelper;
-    readonly float stoppingDistance = 0.75f;
+    readonly float stoppingDistance = 1.2f;
     readonly float flipDistance = 0.2f;
     bool facingLeft = true;
     public int direction = 0;
     public float hDistance;
     public float vDistance;
     float spawnHorizontalDistance;
+    public float speed;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
-    BoxCollider2D boxCollider2DKarasu;
     CircleCollider2D karasuParryCollider;
     CircleCollider2D karasuBlockCollider;
 
     //Combat system
     public LayerMask enemiesLayers;
-    float nextGlobalAttackShieldman = 0f;
-    bool currentlyAttacking = false;
-    int numberOfAttacks = 0;
-    float lastTimeAttack = 0f;
-    float globalAttackCooldown = 0f;
+    public float nextGlobalAttackShieldman = 0f;
+    public bool currentlyAttacking = false;
+    public int numberOfAttacks = 0;
+    public float lastTimeAttack = 0f;
+    public float globalAttackCooldown = 0f;
     //Shieldman overhead attack
     public Transform spearAttackShieldman;
-    float spearAttackShieldmanRange = 0.5f;
-    int attackDamageSpearAttackShieldman = 3;
+    //public float spearAttackShieldmanRange = 0.5f;
+    public Vector3 spearAttackShieldmanRange;
+    public int attackDamageSpearAttackShieldman = 3;
     float attackSpeedSpearAttackShieldman = 0.75f;
     float nextspearAttackShieldman = 0f;
     //Parry and block system for Player
     bool parriedOrBlocked = false;
 
+    //Animations manager
+    string oldState = "";
+
+    const string IDLEANIMATION = "idleAnimation";
+    const string RUNANIMATION = "runAnimation";
+    const string ATTACKANIMATION = "attackAnimation";
+    const string IDLEANIMATIONNOSHIELD = "idleAnimationNoShield";
+    const string RUNANIMATIONNOSHIELD = "runAnimationNoShield";
+    const string ATTACKANIMATIONNOSHIELD = "attackAnimationNoShield";
+
+
+    public float currentTime = 0;
     private void Awake()
     {
         //Neccessary references for targeting
@@ -73,7 +86,6 @@ public class ShieldmanAI : MonoBehaviour
         shieldman = GetComponent<Shieldman>();
 
         //Ignore collider collisions
-        boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
         karasuParryCollider = karasu.transform.Find("ParryCollider").GetComponent<CircleCollider2D>();
         karasuBlockCollider = karasu.transform.Find("BlockCollider").GetComponent<CircleCollider2D>();
 
@@ -89,7 +101,6 @@ public class ShieldmanAI : MonoBehaviour
     void Start()
     {
         movementSpeedHelper = movementSpeed;
-        Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
     }
 
@@ -101,7 +112,7 @@ public class ShieldmanAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (shieldman.isTakingDamage || karasuEntity.dead)
+        if (shieldman.isTakingDamage || karasuEntity.dead || shieldman.isBlocking)
         {
             return;
         }
@@ -126,27 +137,52 @@ public class ShieldmanAI : MonoBehaviour
         rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
 
         //Attacking
-        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= nextspearAttackShieldman && Time.time >= nextGlobalAttackShieldman
+        if (hDistance < stoppingDistance && vDistance < 3 && Time.time >= nextspearAttackShieldman && Time.time >= nextGlobalAttackShieldman
         && numberOfAttacks == 0 && !currentlyAttacking && !shieldman.isTakingDamage && currentTarget == karasuTransform)
         {
+            currentlyAttacking = true;
             Attack();
         }
-        //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
+        //If the target hits the enemy while they're winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
         //If the enemy hasn't attacked within 1.75 seconds, they're probably stuck and need some help
         if (Time.time > lastTimeAttack + 1.75 && currentTarget == karasuTransform)
         {
             ManuallySetAttackConditions();
         }
-        //Animations
-        //animator.SetFloat("animSoldierSpeed", Math.Abs(rigidBody2D.velocity.x));
-        //animator.SetFloat("animSoldiervSpeed", Math.Abs(rigidBody2D.velocity.y));
 
+        //Animations
+        speed = Mathf.Abs(rigidBody2D.velocity.x);
+        if (!shieldman.shieldBroken && !currentlyAttacking && !shieldman.isBlocking)
+        {
+            if (speed > 0)
+            {
+                AnimatorSwitchState(RUNANIMATION);
+            }
+            else
+            {
+                AnimatorSwitchState(IDLEANIMATION);
+            }
+
+        }
+        else if(shieldman.shieldBroken && !currentlyAttacking && !shieldman.isBlocking)
+        {
+            if (speed > 0)
+            {
+                AnimatorSwitchState(RUNANIMATIONNOSHIELD);
+            }
+            else
+            {
+                AnimatorSwitchState(IDLEANIMATIONNOSHIELD);
+            }
+
+        }
         //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
         if (currentTarget == karasuTransform)
         {
             Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
             Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
         }
+        currentTime = Time.time;
     }
 
     //Movement
@@ -192,15 +228,26 @@ public class ShieldmanAI : MonoBehaviour
     //Combat system
     void Attack()
     {
-        lastTimeAttack = Time.time;
-        numberOfAttacks++;
-        //animator.SetTrigger("animSoldierAttack");
-        StartCoroutine(StopMovingWhileAttacking());
+        if (shieldman.shieldBroken)
+        {
+            Debug.Log("no");
+            lastTimeAttack = Time.time;
+            numberOfAttacks++;
+            AnimatorSwitchState(ATTACKANIMATIONNOSHIELD);
+            StartCoroutine(StopMovingWhileAttacking());
+        }
+        else
+        {
+            lastTimeAttack = Time.time;
+            numberOfAttacks++;
+            AnimatorSwitchState(ATTACKANIMATION);
+            StartCoroutine(StopMovingWhileAttacking());
+        }
     }
 
     void ShieldmanAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(spearAttackShieldman.position, spearAttackShieldmanRange, enemiesLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearAttackShieldman.position, spearAttackShieldmanRange, 0, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "ParryCollider")
@@ -247,7 +294,7 @@ public class ShieldmanAI : MonoBehaviour
     IEnumerator StopMovingWhileAttacking()
     {
         movementSpeed = 0;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.6f);
         movementSpeed = movementSpeedHelper;
         currentlyAttacking = false;
     }
@@ -282,6 +329,19 @@ public class ShieldmanAI : MonoBehaviour
         {
             return;
         }
-        Gizmos.DrawWireSphere(spearAttackShieldman.position, spearAttackShieldmanRange);
+        Gizmos.DrawWireCube(spearAttackShieldman.position, spearAttackShieldmanRange);
+    }
+
+    //Animation manager
+    public void AnimatorSwitchState(string newState)
+    {
+        if (oldState == newState)
+        {
+            return;
+        }
+
+        animator.Play(newState);
+
+        oldState = newState;
     }
 }

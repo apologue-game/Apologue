@@ -61,7 +61,7 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
     public IEnumerator Death()
     {
         isDead = true;
-        //play death animation
+        animator.Play("deathAnimation");
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(heavyEnemyAI.spawn);

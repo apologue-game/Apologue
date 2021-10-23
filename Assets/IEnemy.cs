@@ -28,6 +28,6 @@ public interface IEnemy
     
     EnemyType enemyType { get; set; }
 
-    public void TakeDamage(int damage, bool? arrowDamage);
+    public void TakeDamage(int damage, bool? specialInteraction);
     IEnumerator Death();
 }

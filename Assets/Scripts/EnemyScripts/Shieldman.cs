@@ -6,6 +6,9 @@ public class Shieldman : MonoBehaviour, IEnemy
 {
     ShieldmanAI shieldmanAI;
 
+    BoxCollider2D boxCollider2D;
+    BoxCollider2D boxCollider2DKarasu;
+
     public Animator animator { get; set; }
 
     public bool isDead { get; set; }
@@ -18,7 +21,8 @@ public class Shieldman : MonoBehaviour, IEnemy
     public int currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
 
-    bool shieldBroken = false;
+    public bool shieldBroken = false;
+    public bool isBlocking = false;
 
     private void Awake()
     {
@@ -27,6 +31,9 @@ public class Shieldman : MonoBehaviour, IEnemy
         isDead = false;
         maxHealth = 5;
         enemyType = IEnemy.EnemyType.normal;
+
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        boxCollider2DKarasu = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
     }
 
     void Start()
@@ -34,13 +41,27 @@ public class Shieldman : MonoBehaviour, IEnemy
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage, bool? arrowDamage)
+    public void TakeDamage(int damage, bool? specialInteraction)
     {
         if (isDead)
         {
             return;
         }
-        else if (!shieldBroken)
+        if (!shieldBroken)
+        {
+            if (specialInteraction == true)
+            {
+                shieldBroken = true;
+                Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
+                StartCoroutine(ShieldmanStaggered());
+                animator.Play("shieldbreakAnimation");
+            }
+            else
+            {
+                StartCoroutine(ShieldmanBlock());
+            }
+        }
+        else
         {
             currentHealth -= damage;
             if (currentHealth <= 0)
@@ -52,13 +73,21 @@ public class Shieldman : MonoBehaviour, IEnemy
         }
     }
 
+    //staggered only if the shield is broken
     IEnumerator ShieldmanStaggered()
     {
-        //staggered only if the shield is broken
         isTakingDamage = true;
-        animator.SetTrigger("animSoldierTakingDamage");
+        //TODO: shieldman stagger animation
         yield return new WaitForSeconds(0.35f);
         isTakingDamage = false;
+    }
+
+    IEnumerator ShieldmanBlock()
+    {
+        isBlocking = true;
+        animator.Play("blockAnimation");
+        yield return new WaitForSeconds(0.383f);
+        isBlocking = false;
     }
 
     public IEnumerator Death()
@@ -66,9 +95,8 @@ public class Shieldman : MonoBehaviour, IEnemy
         isDead = true;
         Debug.Log("Shieldman died");
         animator.Play("deathAnimation");
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(3.83f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(shieldmanAI.spawn);
     }
-
 }

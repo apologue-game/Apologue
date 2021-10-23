@@ -113,6 +113,30 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=0.2)""
+                },
+                {
+                    ""name"": ""SpawnHeavy"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a2f9757-be16-4f95-bffa-5556f20e0a3f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SpawnShieldman"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba39a5f3-5284-4507-a6ff-fe4d85f3b9f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Teleport"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd039bb5-ec50-4f70-b232-2cf9d512e4b4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -289,6 +313,39 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39f617a2-bacb-495e-a0bf-838e8b72ac8f"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad;Joystick"",
+                    ""action"": ""SpawnHeavy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50acd098-00ed-4e1c-8741-56365a9ae1b4"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad;Joystick"",
+                    ""action"": ""SpawnShieldman"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b34c3c4c-3d59-4c5c-a4df-48d317187fe5"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Joystick;Gamepad"",
+                    ""action"": ""Teleport"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1139,6 +1196,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
         m_Player_Parry = m_Player.FindAction("Parry", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
+        m_Player_SpawnHeavy = m_Player.FindAction("SpawnHeavy", throwIfNotFound: true);
+        m_Player_SpawnShieldman = m_Player.FindAction("SpawnShieldman", throwIfNotFound: true);
+        m_Player_Teleport = m_Player.FindAction("Teleport", throwIfNotFound: true);
         // PlayerGamepad
         m_PlayerGamepad = asset.FindActionMap("PlayerGamepad", throwIfNotFound: true);
         m_PlayerGamepad_Move = m_PlayerGamepad.FindAction("Move", throwIfNotFound: true);
@@ -1225,6 +1285,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_HeavyAttack;
     private readonly InputAction m_Player_Parry;
     private readonly InputAction m_Player_Block;
+    private readonly InputAction m_Player_SpawnHeavy;
+    private readonly InputAction m_Player_SpawnShieldman;
+    private readonly InputAction m_Player_Teleport;
     public struct PlayerActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1241,6 +1304,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
         public InputAction @Parry => m_Wrapper.m_Player_Parry;
         public InputAction @Block => m_Wrapper.m_Player_Block;
+        public InputAction @SpawnHeavy => m_Wrapper.m_Player_SpawnHeavy;
+        public InputAction @SpawnShieldman => m_Wrapper.m_Player_SpawnShieldman;
+        public InputAction @Teleport => m_Wrapper.m_Player_Teleport;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1286,6 +1352,15 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @SpawnHeavy.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnHeavy;
+                @SpawnHeavy.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnHeavy;
+                @SpawnHeavy.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnHeavy;
+                @SpawnShieldman.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnShieldman;
+                @SpawnShieldman.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnShieldman;
+                @SpawnShieldman.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnShieldman;
+                @Teleport.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleport;
+                @Teleport.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleport;
+                @Teleport.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleport;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1326,6 +1401,15 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
+                @SpawnHeavy.started += instance.OnSpawnHeavy;
+                @SpawnHeavy.performed += instance.OnSpawnHeavy;
+                @SpawnHeavy.canceled += instance.OnSpawnHeavy;
+                @SpawnShieldman.started += instance.OnSpawnShieldman;
+                @SpawnShieldman.performed += instance.OnSpawnShieldman;
+                @SpawnShieldman.canceled += instance.OnSpawnShieldman;
+                @Teleport.started += instance.OnTeleport;
+                @Teleport.performed += instance.OnTeleport;
+                @Teleport.canceled += instance.OnTeleport;
             }
         }
     }
@@ -1607,6 +1691,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
+        void OnSpawnHeavy(InputAction.CallbackContext context);
+        void OnSpawnShieldman(InputAction.CallbackContext context);
+        void OnTeleport(InputAction.CallbackContext context);
     }
     public interface IPlayerGamepadActions
     {

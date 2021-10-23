@@ -230,7 +230,7 @@ public class SoldierAI : MonoBehaviour
             currentlyAttacking = true;
             Attack();
         }
-        //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
+        //If the target hits the enemy while they're winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
         //If the enemy hasn't attacked within 1.75 seconds, they're probably stuck and need some help
         if (Time.time > lastTimeAttack + 1.75 && currentTarget == karasuTransform)
         {
