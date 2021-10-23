@@ -34,7 +34,6 @@ public class FemaleArcher : MonoBehaviour, IEnemy
 
     public void TakeDamage(int damage, bool? arrowDamage)
     {
-        Debug.Log(arrowDamage);
         if (isDead)
         {
             return;

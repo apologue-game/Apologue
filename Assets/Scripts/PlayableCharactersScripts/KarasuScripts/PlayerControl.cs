@@ -395,9 +395,8 @@ public class PlayerControl : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "BlockColliderSoldier")
-            {   
-                currentlyAttacking = false;
-                return;
+            {
+                continue;
             }
             if (enemy.name == "SoldierSight")
             {
@@ -428,8 +427,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (enemy.name == "BlockColliderSoldier")
             {
-                currentlyAttacking = false;
-                return;
+                continue;
             }
             if (enemy.name == "SoldierSight")
             {
@@ -468,8 +466,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (enemy.name == "BlockColliderSoldier")
             {
-                currentlyAttacking = false;
-                return;
+                continue;
             }
             if (enemy.name == "SoldierSight")
             {
@@ -508,8 +505,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (enemy.name == "BlockColliderSoldier")
             {
-                currentlyAttacking = false;
-                return;
+                continue;
             }
             if (enemy.name == "SoldierSight")
             {

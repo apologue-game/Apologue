@@ -18,6 +18,8 @@ public class Shieldman : MonoBehaviour, IEnemy
     public int currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
 
+    bool shieldBroken = false;
+
     private void Awake()
     {
         shieldmanAI = GetComponent<ShieldmanAI>();
@@ -34,12 +36,11 @@ public class Shieldman : MonoBehaviour, IEnemy
 
     public void TakeDamage(int damage, bool? arrowDamage)
     {
-        Debug.Log(arrowDamage);
         if (isDead)
         {
             return;
         }
-        else
+        else if (!shieldBroken)
         {
             currentHealth -= damage;
             if (currentHealth <= 0)

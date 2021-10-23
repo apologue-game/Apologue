@@ -126,10 +126,10 @@ public class ShieldmanAI : MonoBehaviour
         rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
 
         //Attacking
-        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= nextGlobalAttackShieldman
+        if (hDistance < stoppingDistance && vDistance < stoppingDistance && Time.time >= nextspearAttackShieldman && Time.time >= nextGlobalAttackShieldman
         && numberOfAttacks == 0 && !currentlyAttacking && !shieldman.isTakingDamage && currentTarget == karasuTransform)
         {
-
+            Attack();
         }
         //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
         //If the enemy hasn't attacked within 1.75 seconds, they're probably stuck and need some help
@@ -227,6 +227,7 @@ public class ShieldmanAI : MonoBehaviour
         nextspearAttackShieldman = Time.time + 1f / attackSpeedSpearAttackShieldman;
         nextGlobalAttackShieldman = Time.time + 2f;
     }
+
     //Utilities
     void ManuallySetAttackConditions()
     {
