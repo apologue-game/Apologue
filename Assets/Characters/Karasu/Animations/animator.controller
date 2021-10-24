@@ -778,6 +778,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-2470385257731349185
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: karasuCrouchMoveAnimation
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: d5afa966f0d87fa4891ca646e2e6f403, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &-2329803458546813617
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1157,52 +1183,61 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -8913465819998974261}
-    m_Position: {x: -560, y: 0, z: 0}
+    m_Position: {x: -560, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2504668870662445848}
-    m_Position: {x: -560, y: 70, z: 0}
+    m_Position: {x: -560, y: 50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5809436451807300472}
-    m_Position: {x: -560, y: 140, z: 0}
+    m_Position: {x: -560, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3790633291079882847}
-    m_Position: {x: -560, y: 210, z: 0}
+    m_Position: {x: -560, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3196900847436175512}
-    m_Position: {x: -300, y: 280, z: 0}
+    m_Position: {x: -300, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2533655431098403848}
-    m_Position: {x: -560, y: 420, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3776571758553922155}
-    m_Position: {x: -300, y: 490, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4997530132059539330}
-    m_Position: {x: -300, y: 420, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1265663079285438086}
-    m_Position: {x: -300, y: 0, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7436713610454721469}
-    m_Position: {x: -300, y: 140, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7481681157833804360}
-    m_Position: {x: -300, y: 210, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -6403214247230953348}
-    m_Position: {x: -300, y: 70, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 304230611022714407}
-    m_Position: {x: -560, y: 490, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1269892107426851341}
     m_Position: {x: -560, y: 350, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: 3776571758553922155}
+    m_Position: {x: -300, y: 410, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4997530132059539330}
+    m_Position: {x: -300, y: 350, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1265663079285438086}
+    m_Position: {x: -300, y: -10, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7436713610454721469}
+    m_Position: {x: -300, y: 110, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7481681157833804360}
+    m_Position: {x: -300, y: 170, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6403214247230953348}
+    m_Position: {x: -300, y: 50, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1269892107426851341}
+    m_Position: {x: -560, y: 290, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: 7372583241350756734}
-    m_Position: {x: -560, y: 280, z: 0}
+    m_Position: {x: -560, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4301434954674143756}
-    m_Position: {x: -300, y: 350, z: 0}
+    m_Position: {x: -300, y: 290, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2993764927109456552}
+    m_Position: {x: -560, y: 470, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2470385257731349185}
+    m_Position: {x: -560, y: 410, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 8748022385585804755}
+    m_Position: {x: -525, y: 475, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 8174424404265968498}
+    m_Position: {x: -490, y: 540, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1372,32 +1407,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &304230611022714407
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: karasuCrouch animation
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 09ac277e5dc1f794c8795de84526d388, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1101 &603906826643098985
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1600,6 +1609,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &1216492691789984852
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: slideAnimation
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: d7c36ab70bbf0444092fbebce7b40343, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1265663079285438086
 AnimatorState:
   serializedVersion: 6
@@ -1954,6 +1989,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &2993764927109456552
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: karasuSlideAnimation
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: aac9d960deef1cd4098a45f6195bb283, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &3389596722285206245
 AnimatorState:
   serializedVersion: 6
@@ -2800,6 +2861,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &8174424404265968498
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: karasuCrouchRollAnimation
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: cddbef176565baf4aaf4fb1489296c7a, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &8560597524725580911
 AnimatorState:
   serializedVersion: 6
@@ -2826,6 +2913,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 1ebd8c7c3ea4f5248b223577923cb499, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &8748022385585804755
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: karasuCrouchIdleAnimation
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: c5b39e35407c9f04ca6c7d906b8b1e7b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

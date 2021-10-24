@@ -32,7 +32,7 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage, bool? arrowDamage)
+    public void TakeDamage(int damage, bool? specialInteraction)
     {
         if (isDead)
         {

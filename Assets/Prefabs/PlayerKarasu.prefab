@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &4420840707942835676
 CircleCollider2D:
@@ -75,8 +75,65 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4199343300576427114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772370739400331639}
+  - component: {fileID: 6016804249471704080}
+  m_Layer: 6
+  m_Name: SlideCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1772370739400331639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4199343300576427114}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6984563776060638098}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6016804249471704080
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4199343300576427114}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.06018448, y: 0.250782}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.3811874, y: 0.49843597}
+  m_EdgeRadius: 0
 --- !u!1 &6094411650202629064
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +163,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &3304599153150985189
 CircleCollider2D:
@@ -160,6 +217,7 @@ Transform:
   m_Children:
   - {fileID: 6984563777629905096}
   - {fileID: 6984563776866466308}
+  - {fileID: 1772370739400331639}
   - {fileID: 6984563777514602708}
   - {fileID: 6130953115359749727}
   - {fileID: 6984563776747867224}
@@ -184,12 +242,17 @@ MonoBehaviour:
   movementSpeed: 8
   jumpForce: 16
   grounded: 0
+  groundCheck: {fileID: 6984563777629905096}
+  groundCheckRange: {x: 0.59, y: 0.03, z: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 67584
   doubleJumpForce: 15
   dashSpeed: 30
-  crouch: 0
+  regularCollider: {fileID: 0}
+  slideCollider: {fileID: 0}
+  isCrouching: 0
+  isSliding: 0
   slideSpeed: 0
   enemiesLayers:
     serializedVersion: 2
@@ -214,6 +277,10 @@ MonoBehaviour:
   parryCollider: {fileID: 1919832363277656011}
   parryColliderGO: {fileID: 2922116141284790644}
   blockColliderGO: {fileID: 6094411650202629064}
+  location1: {fileID: 0}
+  location2: {fileID: 0}
+  heavyPrefab: {fileID: 7030720028982195910, guid: 081da37490f365a4481e9119e5bd3d18, type: 3}
+  shieldmanPrefab: {fileID: 3110526791298617290, guid: f6e91865cdafc8442b560b391aa0b006, type: 3}
 --- !u!114 &6984563776060638096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,6 +702,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 78e56375-a6c8-409d-8d62-c1268bb2e9bb
     m_ActionName: PlayerGamepad/Block[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: SpawnHeavy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0a2f9757-be16-4f95-bffa-5556f20e0a3f
+    m_ActionName: Player/SpawnHeavy[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: SpawnShieldman
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ba39a5f3-5284-4507-a6ff-fe4d85f3b9f2
+    m_ActionName: Player/SpawnShieldman[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: Teleport
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bd039bb5-ec50-4f70-b232-2cf9d512e4b4
+    m_ActionName: Player/Teleport[/Keyboard/g]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -800,7 +915,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6984563776866466315
 GameObject:
@@ -860,7 +975,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6984563777514602715
 GameObject:
@@ -890,7 +1005,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6984563777629905103
 GameObject:
@@ -916,7 +1031,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6984563777629905103}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.006, y: -0, z: 0}
+  m_LocalPosition: {x: 0.062, y: 0.001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6984563776060638098}

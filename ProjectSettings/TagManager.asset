@@ -7,6 +7,7 @@ TagManager:
   - GameMaster
   - Enemy
   - Archer
+  - Box
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - PlatformsLayer
   - EliteEnemy
   - Archer
-  - 
+  - Box
   - 
   - 
   - 

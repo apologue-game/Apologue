@@ -24,7 +24,8 @@ public class PlayerControl : MonoBehaviour
     float verticalSpeedAbsolute;
     float verticalSpeed;
     public bool grounded;
-    private Transform groundCheck;
+    public Transform groundCheck;
+    public Vector3 groundCheckRange;
     private const float groundCheckRadius = .3f;
     private const float ceilingCheckRadius = .3f;
     public LayerMask whatIsGround;
@@ -48,11 +49,20 @@ public class PlayerControl : MonoBehaviour
     bool dashDirectionIfStationary = true;
 
     //Crouch
-    public bool crouch;
+    Transform ceilingCheck;
+    public BoxCollider2D regularCollider;
+    public BoxCollider2D slideCollider;
+    public bool isCrouching = false;
+    public bool canStandUp;
+    public float crouchSpeedMultiplier = 0.5f;
+    //Crouch roll
+    public bool isRolling = false;
+    public float rollDirection;
 
     //Slide
-    public float slideSpeed;
-    Transform ceilingCheck;
+    public bool isSliding = false;
+    public float slideDirection;
+    public float slideSpeed = 15f;
 
     //Combat system
     public LayerMask enemiesLayers;
@@ -120,7 +130,10 @@ public class PlayerControl : MonoBehaviour
     const string WALLJUMPANIMATION = "karasuWallJumpAnimation";
     const string WALLHANGINGANIMATION = "karasuWallHangingAnimation";
     const string FALLINGANIMATION = "karasuFallingAnimation";
-    const string CROUCHANIMATION = "karasuCrouchAnimation";
+    const string CROUCHMOVEANIMATION = "karasuCrouchMoveAnimation";
+    const string CROUCHIDLEANIMATION = "karasuCrouchIdleAnimation";
+    const string SLIDEANIMATION = "karasuSlideAnimation";
+    const string CROUCHROLLANIMATION = "karasuCrouchRollAnimation";
     const string DEATHANIMATION = "karasuDeathAnimation";
     const string DASHANIMATION = "karasuDashAnimation";
     const string PARRYANIMATION = "karasuParryAnimation";
@@ -135,8 +148,12 @@ public class PlayerControl : MonoBehaviour
     public Transform location1;
     public Transform location2;
     bool location = false;
+
+    //Spawning
     public GameObject heavyPrefab;
     public GameObject shieldmanPrefab;
+    public GameObject metalBox;
+    public GameObject woodenBox;
 
     void Awake()
     {
@@ -154,25 +171,80 @@ public class PlayerControl : MonoBehaviour
         movementSpeedHelper = movementSpeed;
         spearRange = new Vector3(2.44f, 0.34f, 0);
 
+        groundCheckRange = new Vector3(2.44f, 0.34f, 0);
+
         attackState = new AttackState();
     }
 
     void FixedUpdate()
     {
+        if (isSliding)
+        {
+            if (slideDirection == inputX)
+            {
+                AnimatorSwitchState(SLIDEANIMATION);
+                return;
+            }
+            else
+            {
+                isSliding = false;
+            }
+        }
+        else if (isRolling)
+        {
+            if (rollDirection == inputX)
+            {
+                AnimatorSwitchState(CROUCHROLLANIMATION);
+                return;
+            }
+            else
+            {
+                isRolling = false;
+            }
+        }
         grounded = false;
 
-        //Colliders -> check to see if the player is currently on the ground
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, whatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
+        //Colliders->check to see if the player is currently on the ground
+        Collider2D[] collidersGround = Physics2D.OverlapBoxAll(groundCheck.position, groundCheckRange, whatIsGround);
+        for (int i = 0; i < collidersGround.Length; i++)
         {
-            if (colliders[i].gameObject != gameObject)
+            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].tag == "Box")
             {
                 grounded = true;
                 falling = false;
             }
         }
+        canStandUp = true;
+        //Check to see if there is a ceiling above the player so they can get up from the crouching state
+        Collider2D[] collidersCeiling = Physics2D.OverlapCircleAll(ceilingCheck.position, ceilingCheckRadius, whatIsGround);
+        for (int i = 0; i < collidersCeiling.Length; i++)
+        {
+            if (collidersCeiling[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap")
+            {
+                canStandUp = false;
+            }
+        }
+
+        if (!isCrouching)
+        {
+            regularCollider.enabled = true;
+            slideCollider.enabled = false;
+        }
+        else
+        {
+            regularCollider.enabled = false;
+            slideCollider.enabled = true;
+        }
+
         //Move character
-        rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
+        if (!isCrouching)
+        {
+            rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
+        }
+        else
+        {
+            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
+        }
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeed = rigidBody2D.velocity.y;
         if (!blocking && !parryColliderGO.activeSelf && !hangingOnTheWall)
@@ -186,13 +258,21 @@ public class PlayerControl : MonoBehaviour
                     AnimatorSwitchState(FALLINGANIMATION);
                 }
                 //Walking and idle
-                if (grounded && inputX != 0)
+                if (grounded && inputX != 0 && !isCrouching)
                 {
                     AnimatorSwitchState(WALKANIMATION);
                 }
-                else if (grounded && inputX == 0)
+                else if (grounded && inputX == 0 && !isCrouching)
                 {
                     AnimatorSwitchState(IDLEANIMATION);
+                }
+                else if (grounded && inputX != 0 && isCrouching)
+                {
+                    AnimatorSwitchState(CROUCHMOVEANIMATION);
+                }
+                else if (grounded && inputX == 0 && isCrouching)
+                {
+                    AnimatorSwitchState(CROUCHIDLEANIMATION);
                 }
                 //Jumping
                 else if (!grounded && verticalSpeedAbsolute > 0)
@@ -310,7 +390,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (Time.time > timeUntilNextDash)
+        if (Time.time > timeUntilNextDash && !isCrouching)
         {
             if (inputX > 0)
             {
@@ -338,11 +418,35 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void OnCrouchRoll(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed && isCrouching && inputX != 0)
+        {
+            isRolling = true;
+            rollDirection = inputX;
+            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 1.2f, rigidBody2D.velocity.y);
+            StartCoroutine(IsRolling());
+        }
+    }
+
     public void OnCrouch(InputAction.CallbackContext callbackContext)
     {
         if (hangingOnTheWall)
         {
             return;
+        }
+        if (callbackContext.performed && inputX == 0 && grounded && !isCrouching)
+        {
+            Debug.Log("Crouch");
+            isCrouching = true;
+        }
+        else if (callbackContext.performed && isCrouching && !isSliding)
+        {
+            if (canStandUp)
+            {
+                Debug.Log("Stand up");
+                isCrouching = false;
+            }
         }
     }
 
@@ -352,6 +456,30 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
+        if (callbackContext.performed && inputX != 0 && grounded && !isCrouching)
+        {
+            Debug.Log("Slide");
+            isCrouching = true;
+            slideDirection = inputX;
+            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2f, rigidBody2D.velocity.y);
+            regularCollider.enabled = false;
+            slideCollider.enabled = true;
+            StartCoroutine(IsSliding());
+        }
+    }
+
+    IEnumerator IsSliding()
+    {
+        isSliding = true;
+        yield return new WaitForSeconds(0.35f);
+        isSliding = false;
+    }
+
+    IEnumerator IsRolling()
+    {
+        isRolling = true;
+        yield return new WaitForSeconds(0.35f);
+        isRolling = false;
     }
 
     //Combat system
@@ -409,8 +537,15 @@ public class PlayerControl : MonoBehaviour
             {
                 continue;
             }
+            if (enemy.tag == "Box")
+            {
+                enemy.GetComponent<Box>().MoveOrDestroy(true);
+            }
             Debug.Log("We hit " + enemy + " with a sword");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+            if (enemy.GetComponent<IEnemy>() != null)
+            {
+                enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+            }
         }
         currentlyAttacking = false;
     }
@@ -441,7 +576,10 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a sword uppercut");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+            if (enemy.GetComponent<IEnemy>() != null)
+            {
+                enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+            }
         }
         currentlyAttacking = false;
     }
@@ -480,7 +618,10 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a spaer");
-            enemy.GetComponent<IEnemy>().TakeDamage(attackDamageSpear, null);
+            if (enemy.GetComponent<IEnemy>() != null)
+            {
+                enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+            }
         }
         currentlyAttacking = false;
     }
@@ -518,6 +659,10 @@ public class PlayerControl : MonoBehaviour
             {
                 continue;
             }
+            if (enemy.tag == "Box")
+            {
+                enemy.GetComponent<Box>().MoveOrDestroy(false);
+            }
             if (enemy.name.Contains("Shieldman"))
             {
                 enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, true);
@@ -525,7 +670,10 @@ public class PlayerControl : MonoBehaviour
             else
             {
                 Debug.Log("We hit " + enemy + " with an axe");
-                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, null);
+                if (enemy.GetComponent<IEnemy>() != null)
+                {
+                    enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+                }
             }
         }
         currentlyAttacking = false;
@@ -700,23 +848,41 @@ public class PlayerControl : MonoBehaviour
 
     public void SpawnShieldman(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("Yes");
         if (callbackContext.performed)
         {
-            Debug.Log("yesyes");
             Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
             Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
             Instantiate(shieldmanPrefab, spawnPosition, spawnRotation);
         }
     }
 
+    public void SpawnMetalBox(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
+            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            Instantiate(metalBox, spawnPosition, spawnRotation);
+        }
+    }
+
+    public void SpawnWoodenBox(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
+            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            Instantiate(woodenBox, spawnPosition, spawnRotation);
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
-        if (axeCollider == null)
+        if (groundCheck == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(axeCollider.position, attackRangeAxe);
+        Gizmos.DrawWireCube(groundCheck.position, groundCheckRange);
     }
 
     //Animation manager

@@ -457,7 +457,7 @@ public class SoldierAI : MonoBehaviour
         else if (hDistance > 25 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
-            //heal soldier if target gets out of range
+            //heal enemy if target gets out of range
             soldier.currentHealth = soldier.maxHealth;
         }
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class ShieldmanAI : MonoBehaviour
 {
     //Utilities
-    System.Random rnd = new System.Random();
     int myID;
     string myName = "";
     Shieldman shieldman;
@@ -70,8 +69,6 @@ public class ShieldmanAI : MonoBehaviour
     const string RUNANIMATIONNOSHIELD = "runAnimationNoShield";
     const string ATTACKANIMATIONNOSHIELD = "attackAnimationNoShield";
 
-
-    public float currentTime = 0;
     private void Awake()
     {
         //Neccessary references for targeting
@@ -123,7 +120,7 @@ public class ShieldmanAI : MonoBehaviour
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
         //Keep moving towards the target
-        //Stopping distance from the target so the soldier won't try to go directly inside of them
+        //Stopping distance from the target so the enemy won't try to go directly inside of them
         if (currentTarget == karasuTransform)
         {
             CalculateDirection(hDistance);
@@ -182,7 +179,6 @@ public class ShieldmanAI : MonoBehaviour
             Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
             Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
         }
-        currentTime = Time.time;
     }
 
     //Movement
@@ -265,7 +261,7 @@ public class ShieldmanAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with a sword");
+                Debug.Log("Shieldman hit " + enemy + " with a sword");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman);
             }
         }
@@ -308,7 +304,7 @@ public class ShieldmanAI : MonoBehaviour
         else if (hDistance > 25 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
-            //heal soldier if target gets out of range
+            //heal enemy if target gets out of range
             shieldman.currentHealth = shieldman.maxHealth;
         }
     }

@@ -129,7 +129,7 @@ public class HeavyEnemyAI : MonoBehaviour
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
         //Keep moving towards the target
-        //Stopping distance from the target so the soldier won't try to go directly inside of them
+        //Stopping distance from the target so the enemy won't try to go directly inside of them
         if (currentTarget == karasuTransform)
         {
             CalculateDirection(hDistance);
@@ -355,7 +355,7 @@ public class HeavyEnemyAI : MonoBehaviour
         else if (hDistance > 25 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
-            //heal soldier if target gets out of range
+            //heal enemy if target gets out of range
             heavyEnemy.currentHealth = heavyEnemy.maxHealth;
         }
     }
