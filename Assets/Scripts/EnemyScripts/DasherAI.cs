@@ -26,7 +26,7 @@ public class DasherAI : MonoBehaviour
     private Rigidbody2D rigidBody2D;
 
     //Movement
-    public float movementSpeed = 150f;
+    public float movementSpeed = 10f;
     float movementSpeedHelper;
     readonly float stoppingDistance = 1.3f;
     public bool stopMoving;
@@ -43,12 +43,14 @@ public class DasherAI : MonoBehaviour
     //Combat system
     public LayerMask enemiesLayers;
     bool currentlyAttacking = false;
+    bool attacked = false;
     float lastTimeAttack = 0f;
     float globalAttackCooldown = 0f;
     //Dasher attack
     public Transform dashAttack;
     public float dashAttackRange;
     public float nextDashAttackTime;
+    int dashAttackDamage = 3;
     //Parry and block system for Player
     bool parriedOrBlocked = false;
 
@@ -94,6 +96,7 @@ public class DasherAI : MonoBehaviour
     {
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
+        InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
     }
 
     private void FixedUpdate()
@@ -114,21 +117,40 @@ public class DasherAI : MonoBehaviour
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
+        float speed = Mathf.Abs(rigidBody2D.velocity.x);
+
+        bool isDashing = false;
         //Keep moving towards the target
         //Stopping distance from the target so the enemy won't try to go directly inside of them
-        //Actual movement
-        if (!stopMoving && vDistance < 1.2f && Time.time > lastTimeAttack)
+        //Actual movement -> dash close to target
+        if (hDistance > stoppingDistance && vDistance < stoppingDistance && Time.time > lastTimeAttack && Time.time > nextDashAttackTime && !currentlyAttacking && !attacked)
         {
-            rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+            isDashing = true;
+            AnimatorSwitchState(DASHANIMATION);
+            rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 50 * -1f, rigidBody2D.velocity.y);
         }
 
         //Attacking
-        if (hDistance < stoppingDistance && vDistance < stoppingDistance && !currentlyAttacking && !dasher.isTakingDamage && currentTarget == karasuTransform)
+        if (hDistance < stoppingDistance && !currentlyAttacking && !dasher.isTakingDamage && currentTarget == karasuTransform && !attacked)
         {
-
+            isDashing = false;
+            currentlyAttacking = true;
+            rigidBody2D.velocity = Vector2.zero;
+            Attack();
         }
 
-        //Animations
+        //Actual movement -> dash back to spawn
+        if (attacked && !dasher.isTakingDamage)
+        {
+            AnimatorSwitchState(RECOVERYANIMATION);
+            rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 30 * 1f, rigidBody2D.velocity.y);
+        }
+
+        if (spawnHorizontalDistance < stoppingDistance && !isDashing)
+        {
+            AnimatorSwitchState(IDLEANIMATION);
+            attacked = false;
+        }
 
         //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
         if (currentTarget == karasuTransform)
@@ -143,12 +165,41 @@ public class DasherAI : MonoBehaviour
     //Combat system
     void Attack()
     {
-
+        lastTimeAttack = Time.time;
+        AnimatorSwitchState(ATTACKANIMATION);
+        StartCoroutine(StopMovingWhileAttacking());
     }
 
     void DasherAttack()
     {
-
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(dashAttack.position, dashAttackRange, enemiesLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            if (enemy.name == "ParryCollider")
+            {
+                Debug.Log("Successfully parried an attack");
+                parriedOrBlocked = true;
+                dasher.Stagger();
+            }
+            else if (enemy.name == "BlockCollider")
+            {
+                continue;
+            }
+        }
+        if (!parriedOrBlocked)
+        {
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                Debug.Log("Dasher hit " + enemy + " with a sword");
+                if (enemy.name == "BlockCollider")
+                {
+                    continue;
+                }
+                enemy.GetComponent<KarasuEntity>().TakeDamage(dashAttackDamage);
+            }
+        }
+        parriedOrBlocked = false;
+        nextDashAttackTime = Time.time + 5f;
     }
 
     //Utilities
@@ -162,9 +213,24 @@ public class DasherAI : MonoBehaviour
     IEnumerator StopMovingWhileAttacking()
     {
         movementSpeed = 0;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.6f);
         movementSpeed = movementSpeedHelper;
         currentlyAttacking = false;
+        attacked = true;
+    }
+
+    void InCombatOrGoBackToSpawn()
+    {
+        if (hDistance < 25 && currentTarget != karasuTransform)
+        {
+            currentTarget = karasuTransform;
+        }
+        else if (hDistance > 25 && currentTarget != spawn.transform)
+        {
+            currentTarget = spawn.transform;
+            //heal enemy if target gets out of range
+            dasher.currentHealth = dasher.maxHealth;
+        }
     }
 
     private void OnDrawGizmosSelected()

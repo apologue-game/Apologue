@@ -9,6 +9,7 @@ public class Dasher : MonoBehaviour
     public Animator animator { get; set; }
 
     public bool isDead { get; set; }
+    
     public bool isTakingDamage { get; set; }
 
     public bool isPartOfCluster { get; set; }
@@ -50,18 +51,23 @@ public class Dasher : MonoBehaviour
         }
     }
 
-    IEnumerator DasherStaggered()
+    public void Stagger()
+    {
+        StartCoroutine(DasherStaggered());
+    }
+
+    public IEnumerator DasherStaggered()
     {
         isTakingDamage = true;
-        //play stagger animation
-        yield return new WaitForSeconds(0.35f);
+        animator.Play("stagger");
+        yield return new WaitForSeconds(1.5f);
         isTakingDamage = false;
     }
 
     public IEnumerator Death()
     {
         isDead = true;
-        animator.Play("deathAnimation");
+        animator.Play("death");
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(dasherAI.spawn);

@@ -208,7 +208,7 @@ public class PlayerControl : MonoBehaviour
         Collider2D[] collidersGround = Physics2D.OverlapBoxAll(groundCheck.position, groundCheckRange, whatIsGround);
         for (int i = 0; i < collidersGround.Length; i++)
         {
-            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].tag == "Box")
+            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].CompareTag("Box"))
             {
                 grounded = true;
                 falling = false;
@@ -537,7 +537,7 @@ public class PlayerControl : MonoBehaviour
             {
                 continue;
             }
-            if (enemy.tag == "Box")
+            if (enemy.CompareTag("Box"))
             {
                 enemy.GetComponent<Box>().MoveOrDestroy(true);
             }
@@ -659,7 +659,7 @@ public class PlayerControl : MonoBehaviour
             {
                 continue;
             }
-            if (enemy.tag == "Box")
+            if (enemy.CompareTag("Box"))
             {
                 enemy.GetComponent<Box>().MoveOrDestroy(false);
             }

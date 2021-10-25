@@ -274,7 +274,7 @@ public class HeavyEnemyAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with a sword");
+                Debug.Log("Heavy hit " + enemy + " with an overhead attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageOverheadAttack);
             }
         }
@@ -312,7 +312,7 @@ public class HeavyEnemyAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with a sword");
+                Debug.Log("Heavy hit " + enemy + " with a sideslash attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSideslashAttack);
             }
         }

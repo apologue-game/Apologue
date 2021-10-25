@@ -123,12 +123,12 @@ public class ArrowProjectile : MonoBehaviour
             karasuEntity.TakeDamage(1);
             //particle effects
         }
-        if (collision.tag == "Enemy")
+        if (collision.CompareTag("Enemy"))
         {
             collision.GetComponent<IEnemy>().TakeDamage(1, null);
             GameMaster.DestroyGameObject(gameObject);
         }
-        if (collision.tag == "Archer")
+        if (collision.CompareTag("Archer"))
         {
             collision.GetComponent<IEnemy>().TakeDamage(1, true);
             GameMaster.DestroyGameObject(gameObject);
