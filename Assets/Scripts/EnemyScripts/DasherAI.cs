@@ -61,9 +61,6 @@ public class DasherAI : MonoBehaviour
     const string DASHANIMATION = "dash";
     const string ATTACKANIMATION = "attack";
     const string RECOVERYANIMATION = "recovery";
-    const string STAGGERANIMATION = "stagger";
-    const string DEATHANIMATION = "death";
-
 
     private void Awake()
     {
@@ -116,8 +113,6 @@ public class DasherAI : MonoBehaviour
         hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
-
-        float speed = Mathf.Abs(rigidBody2D.velocity.x);
 
         bool isDashing = false;
         //Keep moving towards the target

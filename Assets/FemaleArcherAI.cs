@@ -110,8 +110,7 @@ public class FemaleArcherAI : MonoBehaviour
         if (currentTarget == null)
         {
             AnimatorSwitchState(IDLEANIMATION);
-        }
-        //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
+        }   
         if (currentTarget != null)
         {
             if (Time.time > nextAttack)
@@ -122,7 +121,7 @@ public class FemaleArcherAI : MonoBehaviour
             {
                 AnimatorSwitchState(IDLEANIMATION);
             }
-
+            //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
             Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
             Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
         }
@@ -138,10 +137,6 @@ public class FemaleArcherAI : MonoBehaviour
         {
             AnimatorSwitchState(ATTACKANIMATION);
         }
-        //else if (transform.position.y > karasuTransform.position.y)
-        //{
-        //    AnimatorSwitchState(ATTACKDOWNWARDSANIMATION);
-        //}
         else
         {
             if (currentTarget != null && transform.position.y > currentTarget.position.y + 1)

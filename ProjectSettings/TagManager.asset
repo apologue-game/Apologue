@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Archer
   - Box
+  - Hwacha
   layers:
   - Default
   - TransparentFX
