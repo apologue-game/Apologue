@@ -186,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 456495467}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LungeAttackBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 827787164}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &478755111
 GameObject:
@@ -5115,8 +5115,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 635295999}
-  m_Layer: 0
-  m_Name: AttackBoss
+  m_Layer: 12
+  m_Name: BasicAttackBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5362,7 +5362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 743145443}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LungeDownAttackBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5381,7 +5381,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 827787164}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &797848858
 GameObject:
@@ -5442,9 +5442,9 @@ GameObject:
   - component: {fileID: 827787160}
   - component: {fileID: 827787166}
   - component: {fileID: 827787165}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5469,7 +5469,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &827787161
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5575,14 +5575,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827787159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 106.45, y: -23.964, z: 0}
+  m_LocalPosition: {x: 106.253, y: -24.968, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 635295999}
-  - {fileID: 1284632441}
-  - {fileID: 1298318597}
   - {fileID: 456495467}
+  - {fileID: 1298318597}
   - {fileID: 743145443}
+  - {fileID: 1284632441}
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5611,26 +5611,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: {fileID: 0}
-  movementSpeed: 6
+  movementSpeed: 150
+  dashSpeed: 50
   direction: 0
   hDistance: 0
   vDistance: 0
   speed: 0
   boxCollider2D: {fileID: 827787161}
+  decisionTimer: 3
+  timeUntilNextDecision: 0
+  basicAttackChance: 0
+  lungeAttackChance: 0
+  jumpForwardAttackChance: 0
+  lungeDownChance: 0
+  chooseAttack: 0
+  lungeAttackCheck: 0
+  usedBasicAttack: 0
+  usedLungeAttack: 0
+  usedJumpForwardAttack: 0
   enemiesLayers:
     serializedVersion: 2
     m_Bits: 4096
-  basicAttackPosition: {fileID: 0}
+  basicAttackPosition: {fileID: 635295999}
   basicAttackType: 0
   basicAttackRange: {x: 0, y: 0, z: 0}
-  lungeAttackPosition: {fileID: 0}
+  lungeAttackPosition: {fileID: 456495467}
+  lungeAttackType: 0
   lungeAttackRange: {x: 0, y: 0, z: 0}
-  lungeDownAttackPosition: {fileID: 0}
-  lungeDownAttackRange: {x: 0, y: 0, z: 0}
-  overheadAttackPosition: {fileID: 0}
-  overheadAttackRange: 0.5
-  jumpForwardAttackPosition: {fileID: 0}
+  jumpForwardAttackPosition: {fileID: 1298318597}
+  jumpForwardAttackType: 4
   jumpForwardAttackRange: 0.5
+  lungeDownAttackPosition: {fileID: 743145443}
+  lungeDownAttackType: 5
+  lungeDownAttackRange: {x: 0, y: 0, z: 0}
+  overheadAttackPosition: {fileID: 1284632441}
+  overheadAttackType: 5
+  overheadAttackRange: 0.5
 --- !u!1 &888582493
 GameObject:
   m_ObjectHideFlags: 0
@@ -9890,7 +9906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1284632441}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: OverheadAttackBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9909,7 +9925,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 827787164}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1298318596
 GameObject:
@@ -9920,7 +9936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298318597}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: JumpForwardAttackBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
