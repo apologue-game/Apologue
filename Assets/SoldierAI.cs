@@ -378,7 +378,7 @@ public class SoldierAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Soldier hit " + enemy + " with a sword");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier);
+                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier, null);
             }
         }
         parriedOrBlocked = false;

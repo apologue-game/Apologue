@@ -120,7 +120,7 @@ public class ArrowProjectile : MonoBehaviour
         }
         if (collision.name == "PlayerKarasu" && parried == false)
         {
-            karasuEntity.TakeDamage(1);
+            karasuEntity.TakeDamage(1, null);
             //particle effects
         }
         if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha"))

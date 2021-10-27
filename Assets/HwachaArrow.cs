@@ -7,7 +7,7 @@ public class HwachaArrow : MonoBehaviour
     HwachaAI hwachaAI;
     KarasuEntity karasuEntity;
     Rigidbody2D rigidBody2D;
-    float arrowForce = 0;
+    float arrowForce = 50;
     bool parried = false;
     public float deflectForce = 0;
     float oldDistance = 0;
@@ -40,7 +40,7 @@ public class HwachaArrow : MonoBehaviour
 
     private void Start()
     {
-        rigidBody2D.velocity = -transform.right * 50;
+        rigidBody2D.velocity = -transform.right * arrowForce;
         StartCoroutine(DestroyItself());
     }
 
@@ -64,7 +64,7 @@ public class HwachaArrow : MonoBehaviour
         }
         if (collision.name == "PlayerKarasu" && parried == false)
         {
-            karasuEntity.TakeDamage(1);
+            karasuEntity.TakeDamage(1, null);
             //particle effects
         }
         if (collision.CompareTag("Enemy"))

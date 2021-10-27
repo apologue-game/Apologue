@@ -262,7 +262,7 @@ public class ShieldmanAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Shieldman hit " + enemy + " with a spear");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman);
+                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman, null);
             }
         }
         parriedOrBlocked = false;

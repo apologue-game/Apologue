@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static AttackSystem;
 
 public class KarasuEntity : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class KarasuEntity : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, AttackType? attackType)
     {
         if (Time.time > nextTimeVulnerable && !invulnerable)
         {

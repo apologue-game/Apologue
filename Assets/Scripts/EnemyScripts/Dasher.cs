@@ -9,7 +9,6 @@ public class Dasher : MonoBehaviour, IEnemy
     public Animator animator { get; set; }
 
     public bool isDead { get; set; }
-    
     public bool isTakingDamage { get; set; }
 
     public bool isPartOfCluster { get; set; }

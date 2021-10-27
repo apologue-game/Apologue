@@ -51,7 +51,7 @@ public class HeavyEnemyAI : MonoBehaviour
     bool currentlyAttacking = false;
     int numberOfAttacks = 0;
     float lastTimeAttack = 0f;
-    float globalAttackCooldown = 0f;
+    //float globalAttackCooldown = 0f;
     //Heavy enemy overhead attack
     public Transform axeOverheadAttack;
     public float axeOverheadAttackRange = 0.5f;
@@ -275,7 +275,7 @@ public class HeavyEnemyAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Heavy hit " + enemy + " with an overhead attack");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageOverheadAttack);
+                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageOverheadAttack, null);
             }
         }
         parriedOrBlocked = false;
@@ -313,7 +313,7 @@ public class HeavyEnemyAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Heavy hit " + enemy + " with a sideslash attack");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSideslashAttack);
+                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSideslashAttack, null);
             }
         }
         parriedOrBlocked = false;

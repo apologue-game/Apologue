@@ -45,7 +45,7 @@ public class DasherAI : MonoBehaviour
     bool currentlyAttacking = false;
     bool attacked = false;
     float lastTimeAttack = 0f;
-    float globalAttackCooldown = 0f;
+    //float globalAttackCooldown = 0f;
     //Dasher attack
     public Transform dashAttack;
     public float dashAttackRange;
@@ -190,7 +190,7 @@ public class DasherAI : MonoBehaviour
                 {
                     continue;
                 }
-                enemy.GetComponent<KarasuEntity>().TakeDamage(dashAttackDamage);
+                enemy.GetComponent<KarasuEntity>().TakeDamage(dashAttackDamage, null);
             }
         }
         parriedOrBlocked = false;

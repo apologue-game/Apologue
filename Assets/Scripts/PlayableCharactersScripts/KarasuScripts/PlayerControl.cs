@@ -29,6 +29,8 @@ public class PlayerControl : MonoBehaviour
     private const float groundCheckRadius = .3f;
     private const float ceilingCheckRadius = .3f;
     public LayerMask whatIsGround;
+    int jumpHoldCounter = 0;
+    bool holdingJump = false;
 
     //Double jump
     public float doubleJumpForce = 20f;
@@ -308,6 +310,14 @@ public class PlayerControl : MonoBehaviour
                 attackState = AttackState.notAttacking;
             }
         }
+        if (holdingJump)
+        {
+            rigidBody2D.AddForce(Vector2.up * jumpForce);
+        }
+        if (verticalSpeed < 0)
+        {
+            rigidBody2D.AddForce(Vector2.down * 25);
+        }
     }
 
     void Update()
@@ -347,6 +357,16 @@ public class PlayerControl : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
+        jumpHoldCounter++;
+        if (jumpHoldCounter == 2)
+        {
+            holdingJump = true;
+        }
+        if (jumpHoldCounter == 3)
+        {
+            holdingJump = false;
+            jumpHoldCounter = 0;
+        }
         if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking)
         {
             rigidBody2D.velocity = Vector2.up * jumpForce;

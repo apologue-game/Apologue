@@ -42,7 +42,6 @@ public class HwachaAI : MonoBehaviour
     public Transform firePointLeft;
     bool currentlyAttacking = false;
     float nextAttack = 0f;
-    int arrowsReady = 2;
 
     //Animations manager
     string oldState = "";
