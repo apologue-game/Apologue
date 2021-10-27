@@ -107,7 +107,7 @@ public class HeavyEnemyAI : MonoBehaviour
     {
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
+        InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
     private void FixedUpdate()

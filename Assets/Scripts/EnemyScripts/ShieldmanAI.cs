@@ -98,7 +98,7 @@ public class ShieldmanAI : MonoBehaviour
     void Start()
     {
         movementSpeedHelper = movementSpeed;
-        InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
+        InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
     private void FixedUpdate()

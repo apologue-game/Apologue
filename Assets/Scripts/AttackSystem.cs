@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class AttackSystem
+public class AttackSystem
 {
+    public AttackSystem(int attackDamage, AttackType attackType)
+    {
+        this.AttackDamage = attackDamage;
+        AttackMake = attackType;
+    }
+
+    public int AttackDamage { get; set; }
+
     public enum AttackType
     {
         normal,
         blockable,
         parryable,
-        onlyBlockable,
-        onlyParryable
+        onlyParryable,
+        none
     }
+
+    public AttackType AttackMake { get; set; }
 }

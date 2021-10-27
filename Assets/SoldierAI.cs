@@ -113,8 +113,8 @@ public class SoldierAI : MonoBehaviour
     {
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        InvokeRepeating("GenerateRandomNumber", 0f, 0.2f);
-        InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
+        InvokeRepeating(nameof(GenerateRandomNumber), 0f, 0.2f);
+        InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
     private void FixedUpdate()

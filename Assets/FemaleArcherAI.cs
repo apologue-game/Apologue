@@ -87,7 +87,7 @@ public class FemaleArcherAI : MonoBehaviour
     void Start()
     {
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        InvokeRepeating("InCombat", 0f, 0.5f);
+        InvokeRepeating(nameof(InCombat), 0f, 0.5f);
     }
 
     // Update is called once per frame

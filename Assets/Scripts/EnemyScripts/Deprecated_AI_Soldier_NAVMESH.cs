@@ -96,7 +96,7 @@ public class AI_Soldier_NAVMESH : MonoBehaviour
             else if (enemy.name == "BlockCollider")
             {
                 Debug.Log("Successfully blocked an attack");
-                StartCoroutine("BlockedAndHitAnimation");
+                StartCoroutine(BlockedAndHitAnimation());
                 parriedOrBlocked = true;
             }
         }

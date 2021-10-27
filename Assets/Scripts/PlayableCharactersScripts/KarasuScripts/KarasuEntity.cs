@@ -24,7 +24,6 @@ public class KarasuEntity : MonoBehaviour
     float nextTimeVulnerable;
     bool invulnerable = false;
 
-    // Update is called once per frame
     void Start()
     {
         currentHealth = maxHealth;
