@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour
     static PlayerInput playerInput;
     Rigidbody2D rigidBody2D;
     Animator animator;
-    //WallTilemaps wallTilemaps;
+    WallTilemaps wallTilemaps;
 
     //Movement system
     //Move
@@ -147,22 +147,22 @@ public class PlayerControl : MonoBehaviour
     const string HEAVYATTACKANIMATION = "karasuHeavyAttackAnimation";
 
     //Teleportation
-    //public Transform location1;
-    //public Transform location2;
+    public Transform location1;
+    public Transform location2;
     bool location = false;
 
     //Spawning
     public GameObject heavyPrefab;
     public GameObject shieldmanPrefab;
-    //public GameObject metalBox;
-    //public GameObject woodenBox;
+    public GameObject metalBox;
+    public GameObject woodenBox;
 
     void Awake()
     {
         playerinputActions = new ApologuePlayerInput_Actions();
         playerinputActions.Enable();
         playerInput = GetComponent<PlayerInput>();
-        //wallTilemaps = GameObject.Find("WallTilemapTrigger").GetComponent<WallTilemaps>();
+        wallTilemaps = GameObject.Find("WallTilemapTrigger").GetComponent<WallTilemaps>();
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -304,7 +304,7 @@ public class PlayerControl : MonoBehaviour
         }
         if (grounded)
         {
-            //wallTilemaps.oldPosition = wallTilemaps.newPosition - 50;
+            wallTilemaps.oldPosition = wallTilemaps.newPosition - 50;
             if (attackState == AttackState.cannotAttack)
             {
                 attackState = AttackState.notAttacking;
@@ -367,9 +367,10 @@ public class PlayerControl : MonoBehaviour
             holdingJump = false;
             jumpHoldCounter = 0;
         }
-        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking)
+        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking && !isSliding && !isRolling)
         {
             rigidBody2D.velocity = Vector2.up * jumpForce;
+            isCrouching = false;
             jumpCounter = 1;
         }
         if (hangingOnTheWall && wallJump && callbackContext.performed)
@@ -843,19 +844,19 @@ public class PlayerControl : MonoBehaviour
         attackState = AttackState.notAttacking;
     }
 
-    //public void Teleport(InputAction.CallbackContext callbackContext)
-    //{
-    //    if (location && callbackContext.performed)
-    //    {
-    //        location = false;
-    //        transform.position = location2.position;
-    //    }
-    //    else if (!location && callbackContext.performed)
-    //    {
-    //        location = true;
-    //        transform.position = location1.position;
-    //    }
-    //}
+    public void Teleport(InputAction.CallbackContext callbackContext)
+    {
+        if (location && callbackContext.performed)
+        {
+            location = false;
+            transform.position = location2.position;
+        }
+        else if (!location && callbackContext.performed)
+        {
+            location = true;
+            transform.position = location1.position;
+        }
+    }
 
     public void SpawnHeavy(InputAction.CallbackContext callbackContext)
     {
@@ -877,25 +878,25 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    //public void SpawnMetalBox(InputAction.CallbackContext callbackContext)
-    //{
-    //    if (callbackContext.performed)
-    //    {
-    //        Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
-    //        Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-    //        Instantiate(metalBox, spawnPosition, spawnRotation);
-    //    }
-    //}
+    public void SpawnMetalBox(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
+            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            Instantiate(metalBox, spawnPosition, spawnRotation);
+        }
+    }
 
-    //public void SpawnWoodenBox(InputAction.CallbackContext callbackContext)
-    //{
-    //    if (callbackContext.performed)
-    //    {
-    //        Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
-    //        Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-    //        Instantiate(woodenBox, spawnPosition, spawnRotation);
-    //    }
-    //}
+    public void SpawnWoodenBox(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
+            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            Instantiate(woodenBox, spawnPosition, spawnRotation);
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {

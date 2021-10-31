@@ -243,20 +243,25 @@ MonoBehaviour:
   jumpForce: 16
   grounded: 0
   groundCheck: {fileID: 6984563777629905096}
-  groundCheckRange: {x: 0.59, y: 0.03, z: 0}
+  groundCheckRange: {x: 0.59, y: 0.05, z: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 67584
+    m_Bits: 591872
   doubleJumpForce: 15
   dashSpeed: 30
-  regularCollider: {fileID: 0}
-  slideCollider: {fileID: 0}
+  regularCollider: {fileID: 6984563776060638102}
+  slideCollider: {fileID: 6016804249471704080}
   isCrouching: 0
+  canStandUp: 0
+  crouchSpeedMultiplier: 0.5
+  isRolling: 0
+  rollDirection: 0
   isSliding: 0
+  slideDirection: 0
   slideSpeed: 0
   enemiesLayers:
     serializedVersion: 2
-    m_Bits: 397312
+    m_Bits: 921600
   globalAttackCooldown: 5
   swordCollider: {fileID: 6984563777514602708}
   attackRange: 0.56
@@ -281,6 +286,8 @@ MonoBehaviour:
   location2: {fileID: 0}
   heavyPrefab: {fileID: 7030720028982195910, guid: 081da37490f365a4481e9119e5bd3d18, type: 3}
   shieldmanPrefab: {fileID: 3110526791298617290, guid: f6e91865cdafc8442b560b391aa0b006, type: 3}
+  metalBox: {fileID: 6434518121637340220, guid: 2725d74d85a84894d9336a89ac6b87c9, type: 3}
+  woodenBox: {fileID: 7788740049551255996, guid: e520bbd447de792469cce75332cf477a, type: 3}
 --- !u!114 &6984563776060638096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,11 +430,35 @@ MonoBehaviour:
     m_ActionId: b0b788bc-774c-415f-8d99-daf56626ad7d
     m_ActionName: Player/ArrowKeysMovement[/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnCrouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9d964a69-039b-4573-a7b4-2660749e1bbb
     m_ActionName: Player/Crouch/Slide[/Keyboard/ctrl]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnSlide
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f6b52529-fb49-4e10-a1a3-eb56379a087a
     m_ActionName: Player/Crouch[/Keyboard/leftCtrl]
   - m_PersistentCalls:
@@ -750,6 +781,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: bd039bb5-ec50-4f70-b232-2cf9d512e4b4
     m_ActionName: Player/Teleport[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnCrouchRoll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f7e2dc46-d2ab-40b8-9ba8-f657c9a8ee49
+    m_ActionName: Player/CrouchRoll[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: SpawnMetalBox
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 929208d6-ec6f-4619-9f57-3ba73a5f3880
+    m_ActionName: Player/SpawnMetalBox[/Keyboard/t]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: SpawnWoodenBox
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8e166bf2-c17b-45c7-90d4-dc887a6835f2
+    m_ActionName: Player/SpawnWoodenBox[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
