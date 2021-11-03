@@ -16,8 +16,8 @@ public class PlayerControl : MonoBehaviour
     //Move
     public float movementSpeed = 8f;
     float movementSpeedHelper;
-    bool facingRight = true;
-    float inputX;
+    public bool facingRight = true;
+    public float inputX;
 
     //Jump
     public float jumpForce = 25f;
@@ -34,10 +34,11 @@ public class PlayerControl : MonoBehaviour
 
     //Double jump
     public float doubleJumpForce = 20f;
-    int jumpCounter = 0;
+    public int jumpCounter = 0;
     bool doubleJump;
 
     //Wall jump
+    public CircleCollider2D wallHangingCollider;
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 2f;
@@ -49,6 +50,7 @@ public class PlayerControl : MonoBehaviour
     public float dashSpeed = 5f;
     float timeUntilNextDash;
     bool dashDirectionIfStationary = true;
+    public bool isDashing = false;
 
     //Crouch
     Transform ceilingCheck;
@@ -65,6 +67,10 @@ public class PlayerControl : MonoBehaviour
     public bool isSliding = false;
     public float slideDirection;
     public float slideSpeed = 15f;
+
+    //Slopes
+    public bool onASlope = false;
+    public bool jumpAvailable = true;
 
     //Combat system
     public LayerMask enemiesLayers;
@@ -187,6 +193,15 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = Vector2.zero;
             return;
         }
+        if (isDashing)
+        {
+            return;
+        }
+        if (onASlope)
+        {
+            AnimatorSwitchState(SLIDEANIMATION);
+            return;
+        }
         if (isSliding)
         {
             if (slideDirection == inputX)
@@ -273,6 +288,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 else if (grounded && inputX == 0 && !isCrouching)
                 {
+                    jumpAvailable = true;
                     AnimatorSwitchState(IDLEANIMATION);
                 }
                 else if (grounded && inputX != 0 && isCrouching)
@@ -347,7 +363,7 @@ public class PlayerControl : MonoBehaviour
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
         inputX = callbackContext.ReadValue<Vector2>().x;
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || onASlope)
         {
             return;
         }
@@ -374,10 +390,19 @@ public class PlayerControl : MonoBehaviour
             holdingJump = false;
             jumpHoldCounter = 0;
         }
-        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking && !isSliding && !isRolling)
+        if (onASlope && callbackContext.performed && jumpAvailable)
+        {
+            Debug.Log("Yes");
+            jumpAvailable = false;
+            //onASlope = false;
+            rigidBody2D.velocity = Vector2.up * jumpForce;
+            return;
+        }
+        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking && !isSliding && !isRolling && !onASlope)
         {
             rigidBody2D.velocity = Vector2.up * jumpForce;
             isCrouching = false;
+            isSliding = false;
             jumpCounter = 1;
         }
         if (hangingOnTheWall && wallJump && callbackContext.performed)
@@ -400,7 +425,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnDoubleJump(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || onASlope)
         {
             return;
         }
@@ -414,36 +439,36 @@ public class PlayerControl : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || onASlope)
         {
             return;
         }
-        if (Time.time > timeUntilNextDash && !isCrouching)
+        if (callbackContext.performed && Time.time > timeUntilNextDash && !isCrouching)
         {
             if (inputX > 0)
             {
-                rigidBody2D.AddForce(Vector2.right * dashSpeed * 350);
-               
+                rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 4f, rigidBody2D.velocity.y);
                 timeUntilNextDash = Time.time + 2;
             }
             else if (inputX < 0)
             {
-                rigidBody2D.AddForce(Vector2.left * dashSpeed * 350);
+                rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 4f, rigidBody2D.velocity.y);
                 timeUntilNextDash = Time.time + 2;
             }
             else
             {
                 if (dashDirectionIfStationary)
                 {
-                    rigidBody2D.AddForce(Vector2.right * dashSpeed * 350);
+                    rigidBody2D.velocity = new Vector2(movementSpeed * 4f, rigidBody2D.velocity.y);
                     timeUntilNextDash = Time.time + 2;
                 }
                 else if (!dashDirectionIfStationary)
                 {
-                    rigidBody2D.AddForce(Vector2.left * dashSpeed * 350);
+                    rigidBody2D.velocity = new Vector2(-1 * movementSpeed * 4f, rigidBody2D.velocity.y);
                     timeUntilNextDash = Time.time + 2;
                 }
             }
+            StartCoroutine(IsDashing());
         }
     }
 
@@ -451,7 +476,6 @@ public class PlayerControl : MonoBehaviour
     {
         if (callbackContext.performed && isCrouching && inputX != 0)
         {
-            isRolling = true;
             rollDirection = inputX;
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 1.2f, rigidBody2D.velocity.y);
             StartCoroutine(IsRolling());
@@ -460,7 +484,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnCrouch(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || onASlope)
         {
             return;
         }
@@ -480,7 +504,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSlide(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || onASlope)
         {
             return;
         }
@@ -509,10 +533,17 @@ public class PlayerControl : MonoBehaviour
         isRolling = false;
     }
 
+    IEnumerator IsDashing()
+    {
+        isDashing = true;
+        yield return new WaitForSeconds(0.25f);
+        isDashing = false;
+    }
+
     //Combat system
     public void OnLightAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
         {
             return;
         }
@@ -613,7 +644,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnMediumAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
         {
             return;
         }
@@ -655,7 +686,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
         {
             return;
         }
@@ -708,7 +739,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnParry(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || onASlope)
         {
             return;
         }
@@ -724,7 +755,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnBlock(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall)
+        if (hangingOnTheWall || onASlope)
         {
             return;
         }
@@ -764,7 +795,7 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    private void Flip()
+    public void Flip()
     {
         //Switch the way the player is labeled as facing.
         facingRight = !facingRight;

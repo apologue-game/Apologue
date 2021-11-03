@@ -240,6 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 8
+  facingRight: 1
+  inputX: 0
   jumpForce: 16
   grounded: 0
   groundCheck: {fileID: 6984563777629905096}
@@ -248,7 +250,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 591872
   doubleJumpForce: 15
+  wallHangingCollider: {fileID: 0}
   dashSpeed: 30
+  isDashing: 0
   regularCollider: {fileID: 6984563776060638102}
   slideCollider: {fileID: 6016804249471704080}
   isCrouching: 0
@@ -965,7 +969,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
-  dead: 0
 --- !u!1 &6984563776747867231
 GameObject:
   m_ObjectHideFlags: 0

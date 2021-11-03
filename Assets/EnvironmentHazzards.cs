@@ -8,7 +8,7 @@ public class EnvironmentHazzards : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<KarasuEntity>().TakeDamage(500, null);
+            collision.GetComponent<KarasuEntity>().TakeDamage(0, null);
         }
     }     
 }
