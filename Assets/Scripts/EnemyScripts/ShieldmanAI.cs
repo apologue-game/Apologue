@@ -109,7 +109,7 @@ public class ShieldmanAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (shieldman.isTakingDamage || karasuEntity.dead || shieldman.isBlocking)
+        if (shieldman.isTakingDamage || KarasuEntity.dead || shieldman.isBlocking)
         {
             return;
         }

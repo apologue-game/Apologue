@@ -10,6 +10,7 @@ public class Dasher : MonoBehaviour, IEnemy
 
     public bool isDead { get; set; }
     public bool isTakingDamage { get; set; }
+    public bool isStaggered = false;
 
     public bool isPartOfCluster { get; set; }
     public bool isReadyToAttack { get; set; }
@@ -40,19 +41,35 @@ public class Dasher : MonoBehaviour, IEnemy
         }
         else
         {
-            currentHealth -= damage;
+            if (isStaggered)
+            {
+                currentHealth -= damage * 5;
+            }
+            else
+            {
+                currentHealth -= damage;
+            }
+            
             if (currentHealth <= 0)
             {
                 StartCoroutine(Death());
                 return;
             }
-            StartCoroutine(DasherStaggered());
+            StartCoroutine(DasherIsTakingDamage());
         }
     }
 
     public void Stagger()
     {
         StartCoroutine(DasherStaggered());
+    }
+
+    public IEnumerator DasherIsTakingDamage()
+    {
+        isStaggered = true;
+        //animator.Play("stagger");
+        yield return new WaitForSeconds(1.5f);
+        isStaggered = false;
     }
 
     public IEnumerator DasherStaggered()

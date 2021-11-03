@@ -125,7 +125,7 @@ public class SoldierAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (soldier.isTakingDamage || karasuEntity.dead)
+        if (soldier.isTakingDamage || KarasuEntity.dead)
         {
             return;
         }

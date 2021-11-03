@@ -12,17 +12,22 @@ public class KarasuEntity : MonoBehaviour
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
-    int maxHealth = 500;
+    int maxHealth = 1;
     public int currentHealth;
 
-    //dying
+    //Dying
     float respawnDelay = 3f;
-    public bool dead = false;
+    public static bool dead = false;
 
-    //taking damage
+    //Taking damage
     float invincibilityWindow = 0.15f;
     float nextTimeVulnerable;
     bool invulnerable = false;
+
+    //Animations
+    string oldState;
+
+    const string KARASUIDLEANIMATION = "karasuIdleAnimation";
 
     void Start()
     {
@@ -66,7 +71,6 @@ public class KarasuEntity : MonoBehaviour
         PlayerControl.TurnOffControlsOnDeath();
         Debug.Log("Karasu died");
         spriteRenderer.color = normalColor;
-        animator.SetTrigger("animDeath");
         yield return new WaitForSeconds(respawnDelay);
         KillPlayer();
     }
@@ -81,8 +85,20 @@ public class KarasuEntity : MonoBehaviour
     void Respawn()
     {
         PlayerControl.TurnOnControlsOnRespawn();
-        animator.Play("karasuIdleAnimation");
+        AnimatorSwitchState(KARASUIDLEANIMATION);
         currentHealth = maxHealth;
         dead = false;
+    }
+
+    public void AnimatorSwitchState(string newState)
+    {
+        if (oldState == newState)
+        {
+            return;
+        }
+
+        animator.Play(newState);
+
+        oldState = newState;
     }
 }

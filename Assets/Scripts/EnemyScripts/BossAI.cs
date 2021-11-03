@@ -10,6 +10,7 @@ public class BossAI : MonoBehaviour
     int myID;
     string myName = "";
     Boss boss;
+    Coroutine stopCoroutine = null;
 
     //Targeting
     GameObject karasu;
@@ -48,7 +49,7 @@ public class BossAI : MonoBehaviour
 
     //Combat system
     //Attack decision
-    enum AttackDecision
+    public enum AttackDecision
     {
         basic,
         lunge,
@@ -56,7 +57,7 @@ public class BossAI : MonoBehaviour
         lungeDown,
         none
     }
-    AttackDecision attackDecision = new AttackDecision();
+    public AttackDecision attackDecision = new AttackDecision();
     public float decisionTimer = 3f;
     public float timeUntilNextDecision = 0f;
     public int basicAttackChance = 0;
@@ -68,6 +69,8 @@ public class BossAI : MonoBehaviour
     public bool usedBasicAttack = false;
     public bool usedLungeAttack = false;
     public bool usedJumpForwardAttack = false;
+    int higherChanceAttack = 1;
+    int lowerChanceAttacks = 0;
     //Attacks
     AttackType attackType;
     public LayerMask enemiesLayers;
@@ -92,11 +95,15 @@ public class BossAI : MonoBehaviour
     int lungeAttackDamage = 3;
     float lungeAttackSpeed = 0.75f;
     float nextLungeAttack = 0f;
+    public bool currentlyLunging = false;
     //Boss jump forward attack
     public AttackSystem jumpForwardAttack;
     public Transform jumpForwardAttackPosition;
     public AttackType jumpForwardAttackType = AttackType.onlyParryable;
     public float jumpForwardAttackRange = 0.5f;
+    public float jumpForceJumpForward = 0f;
+    public float moveForceJumpForward = 0f;
+    public float moveForceJumpForwardBaseValue = 0f;
     int jumpForwardAttackDamage = 3;
     float jumpForwardAttackSpeed = 0.75f;
     float nextJumpForwardAttack = 0f;
@@ -105,6 +112,7 @@ public class BossAI : MonoBehaviour
     public Transform lungeDownAttackPosition;
     public AttackType lungeDownAttackType = AttackType.none;
     public Vector3 lungeDownAttackRange;
+    public float jumpForceLungeDown = 0f;
     int lungeDownAttackDamage = 3;
     float lungeDownAttackSpeed = 0.75f;
     float nextLungeDownAttack = 0f;
@@ -161,7 +169,7 @@ public class BossAI : MonoBehaviour
 
         //Spawn location references
         myID = GameMaster.enemyID++;
-        myName = "HeavyEnemy" + myID + "_SpawnLocation";
+        myName = "BossEnemy" + myID + "_SpawnLocation";
         spawnLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
@@ -170,6 +178,7 @@ public class BossAI : MonoBehaviour
 
     void Start()
     {
+        attackDecision = AttackDecision.none;
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
@@ -183,9 +192,26 @@ public class BossAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (boss.isTakingDamage || karasuEntity.dead)
+        if (boss.isTakingDamage || KarasuEntity.dead)
         {
             return;
+        }
+
+        if (!currentlyAttacking)
+        {
+            currentlyLunging = false;
+        }
+
+        if (currentlyLunging)
+        {
+            if (direction == -1 && !facingLeft)
+            {
+                Flip();
+            }
+            if (direction == 1 && facingLeft)
+            {
+                Flip();
+            }
         }
 
         //Movement
@@ -193,8 +219,6 @@ public class BossAI : MonoBehaviour
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
-        //Keep moving towards the target
-        //Stopping distance from the target so the enemy won't try to go directly inside of them
         if (currentTarget == karasuTransform)
         {
             CalculateDirection(hDistance);
@@ -204,6 +228,22 @@ public class BossAI : MonoBehaviour
             CalculateDirection(spawnHorizontalDistance);
         }
 
+        //Attacking
+        //Check whether Karasu is directly above the boss (i.e. trying to jump over him), and if he is, and the boss isn't currently attacking or taking damage, attack him during his jump
+        //TODO: If already attacking and the attack animation has only started, interrupt that attack with an overhead attack. In conclusion, make an overhead attack window where it is able to interrupt other attacks.
+        isKarasuAboveTheBossByX = GameMaster.Utilities.IsFloatInRange(transform.position.x - 1f, transform.position.x + 1f, karasuTransform.position.x);
+        isKarasuAboveTheBossByY = GameMaster.Utilities.IsFloatInRange(transform.position.y, transform.position.y + 1f, karasuTransform.position.y);
+        if (!currentlyAttacking && !boss.isTakingDamage && isKarasuAboveTheBossByY && isKarasuAboveTheBossByX)
+        {
+            currentlyAttacking = true;
+            OverheadAttack();
+        }
+
+        //Only decide on attacks if no decision has yet been made
+        if (attackDecision == AttackDecision.none && Time.time > timeUntilNextDecision)
+        {
+            CalculateDecision();
+        }
         //If boss decided on using the basic attack, walk up to the target and attack
         //If boss decided on using the lunge attack, dash forward while attacking
         //If boss decided on using the jump forward attack, jump to target's location and attack
@@ -213,22 +253,31 @@ public class BossAI : MonoBehaviour
             if (hDistance < stoppingDistance && !currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform)
             {
                 currentlyAttacking = true;
+                //AnimatorSwitchState(ATTACKPOSEANIMATION);
                 BasicAttack();
             }
         }
         else if (attackDecision == AttackDecision.lunge)
         {
-            currentlyAttacking = true;
-            LungeAttack();
+            if (!currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform)
+            {
+                CalculateDirection(hDistance);
+                currentlyAttacking = true;
+                LungeAttack();
+            }
         }
         else if (attackDecision == AttackDecision.jumpForward)
         {
-
+            if (!currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform)
+            {
+                currentlyAttacking = true;
+                JumpForwardAttack();
+            }
         }
 
-        //If boss had already used all three of his attacks, there is a ~50% chance that his next one will be the lunge down attack
+        //If boss has already used all three of his attacks, there is a ~50% chance that his next one will be the lunge down attack
         //Other attacks are reset after using the lunge down attack
-        if (usedBasicAttack && usedLungeAttack && usedJumpForwardAttack)
+        if (usedBasicAttack && usedLungeAttack && usedJumpForwardAttack && !currentlyAttacking && Time.time > timeUntilNextDecision)
         {
             lungeDownChance = rnd.Next(0, 10);
             if (lungeDownChance >= 5)
@@ -242,21 +291,13 @@ public class BossAI : MonoBehaviour
                 usedJumpForwardAttack = false;
             }
         }
-
-        //Attacking
-        //Check whether Karasu is directly above the boss (i.e. trying to jump over him), and if he is, and the boss isn't currently attacking or taking damage, attack him during his jump
-        isKarasuAboveTheBossByX = GameMaster.Utilities.IsFloatInRange(transform.position.x - 1f, transform.position.x + 1f, karasuTransform.position.x);
-        isKarasuAboveTheBossByY = GameMaster.Utilities.IsFloatInRange(transform.position.y, transform.position.y + 1f, karasuTransform.position.y);
-        if (!currentlyAttacking && !boss.isTakingDamage && isKarasuAboveTheBossByY && isKarasuAboveTheBossByX)
+        if (attackDecision == AttackDecision.lungeDown)
         {
             currentlyAttacking = true;
-            OverheadAttack();
-        }
-
-        //Only decide on attacks if no decision has yet been made
-        if (attackDecision == AttackDecision.none)
-        {
-            CalculateDecision();
+            LungeDownAttack();
+            usedBasicAttack = false;
+            usedLungeAttack = false;
+            usedJumpForwardAttack = false;
         }
 
         //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
@@ -271,7 +312,7 @@ public class BossAI : MonoBehaviour
 
         if (!currentlyAttacking && !boss.isTakingDamage)
         {
-            if (speed > 0)
+            if (speed > 1)
             {
                 AnimatorSwitchState(WALKANIMATION);
             }
@@ -294,38 +335,38 @@ public class BossAI : MonoBehaviour
         //Make a decision based on distance -> the most appropriate decision has the highest chance to be the final one
         if (hDistance < stoppingDistance && !currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform) //Maybe I don't need to check whether the current target is Karasu because if he is not the current target, it means he is dead, so it automatically can be assumed that he is not in attack range. Needs testing.
         {
-            basicAttackChance = 70;
-            lungeAttackChance = 15;
-            jumpForwardAttackChance = 15;
+            basicAttackChance = higherChanceAttack;
+            lungeAttackChance = lowerChanceAttacks;
+            jumpForwardAttackChance = lowerChanceAttacks;
         }
         lungeAttackCheck = GameMaster.Utilities.IsFloatInRange(stoppingDistance, stoppingDistance + 4, hDistance);
         if (lungeAttackCheck && !currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform)
         {
-            basicAttackChance = 15;
-            lungeAttackChance = 70;
-            jumpForwardAttackChance = 15;
+            basicAttackChance = lowerChanceAttacks;
+            lungeAttackChance = higherChanceAttack;
+            jumpForwardAttackChance = lowerChanceAttacks;
         }
         if (hDistance > stoppingDistance + 4 && !currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform)
         {
-            basicAttackChance = 15;
-            lungeAttackChance = 15;
-            jumpForwardAttackChance = 70;
+            basicAttackChance = lowerChanceAttacks;
+            lungeAttackChance = lowerChanceAttacks;
+            jumpForwardAttackChance = higherChanceAttack;
         }
         //Make the final decision
         chooseAttack = rnd.Next(0, 100);
         if (basicAttackChance > lungeAttackChance)
         {
-            if (chooseAttack <= 70)
+            if (chooseAttack <= 60)
             {
                 attackDecision = AttackDecision.basic;
                 usedBasicAttack = true;
             }
-            else if (chooseAttack > 70 && chooseAttack <= 85)
+            else if (chooseAttack > 60 && chooseAttack <= 80)
             {
                 attackDecision = AttackDecision.lunge;
                 usedLungeAttack = true;
             }
-            else if (chooseAttack > 85 && chooseAttack <= 100)
+            else if (chooseAttack > 80 && chooseAttack <= 100)
             {
                 attackDecision = AttackDecision.jumpForward;
                 usedJumpForwardAttack = true;
@@ -333,17 +374,17 @@ public class BossAI : MonoBehaviour
         }
         else if (lungeAttackChance > basicAttackChance)
         {
-            if (chooseAttack <= 70)
+            if (chooseAttack <= 60)
             {
                 attackDecision = AttackDecision.lunge;
                 usedLungeAttack = true;
             }
-            else if (chooseAttack > 70 && chooseAttack <= 85)
+            else if (chooseAttack > 60 && chooseAttack <= 80)
             {
                 attackDecision = AttackDecision.basic;
                 usedBasicAttack = true;
             }
-            else if (chooseAttack > 85 && chooseAttack <= 100)
+            else if (chooseAttack > 80 && chooseAttack <= 100)
             {
                 attackDecision = AttackDecision.jumpForward;
                 usedJumpForwardAttack = true;
@@ -351,17 +392,17 @@ public class BossAI : MonoBehaviour
         }
         else if (jumpForwardAttackChance > basicAttackChance)
         {
-            if (chooseAttack <= 70)
+            if (chooseAttack <= 60)
             {
                 attackDecision = AttackDecision.jumpForward;
                 usedJumpForwardAttack = true;
             }
-            else if (chooseAttack > 70 && chooseAttack <= 85)
+            else if (chooseAttack > 60 && chooseAttack <= 80)
             {
                 attackDecision = AttackDecision.basic;
                 usedBasicAttack = true;
             }
-            else if (chooseAttack > 85 && chooseAttack <= 100)
+            else if (chooseAttack > 80 && chooseAttack <= 100)
             {
                 attackDecision = AttackDecision.lunge;
                 usedLungeAttack = true;
@@ -373,6 +414,7 @@ public class BossAI : MonoBehaviour
     //Movement
     void CalculateDirection(float distanceFromTarget)
     {
+        //Stopping distance from the target so the enemy won't try to go directly inside of them
         if (distanceFromTarget > stoppingDistance)
         {
             if (transform.position.x > currentTarget.position.x)
@@ -397,16 +439,33 @@ public class BossAI : MonoBehaviour
         {
             if (distanceFromTarget > flipDistance)
             {
-                if (transform.position.x > currentTarget.position.x && !facingLeft && !currentlyAttacking)
+                if (transform.position.x > currentTarget.position.x)
                 {
-                    Flip();
+                    if (attackDecision == AttackDecision.lunge)
+                    {
+                        direction = -1;
+                    }
+                    if (!facingLeft && !currentlyAttacking)
+                    {
+                        Flip();
+                    }
                 }
-                else if (transform.position.x < currentTarget.position.x && facingLeft && !currentlyAttacking)
+                else if (transform.position.x < currentTarget.position.x)
                 {
-                    Flip();
+                    if (attackDecision == AttackDecision.lunge)
+                    {
+                        direction = 1;
+                    }
+                    if (facingLeft && !currentlyAttacking)
+                    {
+                        Flip();
+                    }
                 }
             }
-            direction = 0;
+            if (attackDecision != AttackDecision.lunge)
+            {
+                direction = 0;
+            }
         }
     }
 
@@ -421,7 +480,7 @@ public class BossAI : MonoBehaviour
 
     void BossBasicAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(basicAttackPosition.position, basicAttackRange, enemiesLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(basicAttackPosition.position, basicAttackRange, 0f, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "ParryCollider")
@@ -439,7 +498,7 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with a sideslash attack");
+                Debug.Log("Boss hit " + enemy + " with a basic attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
             }
         }
@@ -452,7 +511,7 @@ public class BossAI : MonoBehaviour
 
     void LungeAttack()
     {
-        rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime * dashSpeed, rigidBody2D.velocity.y);
+        
         lastTimeAttack = Time.time;
         numberOfAttacks++;
         AnimatorSwitchState(LUNGEANIMATION);
@@ -461,7 +520,12 @@ public class BossAI : MonoBehaviour
 
     void BossLungeAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(lungeAttackPosition.position, lungeAttackRange, enemiesLayers);
+        if (!currentlyLunging)
+        {
+            rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime * dashSpeed, rigidBody2D.velocity.y);
+        }
+        currentlyLunging = true;
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(lungeAttackPosition.position, lungeAttackRange, 0f, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "ParryCollider")
@@ -479,7 +543,7 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with a sideslash attack");
+                Debug.Log("Boss hit " + enemy + " with a lunge attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(lungeAttack.AttackDamage, lungeAttack.AttackMake);
             }
         }
@@ -489,8 +553,20 @@ public class BossAI : MonoBehaviour
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
     }
+
     void JumpForwardAttack()
     {
+        rigidBody2D.AddForce(Vector2.up * jumpForceJumpForward);
+        moveForceJumpForward = Mathf.Pow(moveForceJumpForwardBaseValue, hDistance);
+        if (direction == -1)
+        {
+            rigidBody2D.AddForce(Vector2.left * moveForceJumpForward);
+        }
+        else if (direction == 1)
+        {
+            rigidBody2D.AddForce(Vector2.right * moveForceJumpForward);
+        }
+        
         lastTimeAttack = Time.time;
         numberOfAttacks++;
         AnimatorSwitchState(JUMPFORWARDATTACKANIMATION);
@@ -517,7 +593,7 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with a sideslash attack");
+                Debug.Log("Boss hit " + enemy + " with a jump forward attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(jumpForwardAttack.AttackDamage, jumpForwardAttack.AttackMake);
             }
         }
@@ -531,6 +607,7 @@ public class BossAI : MonoBehaviour
 
     void LungeDownAttack()
     {
+        rigidBody2D.AddForce(Vector2.up * jumpForceLungeDown);
         lastTimeAttack = Time.time;
         numberOfAttacks++;
         AnimatorSwitchState(LUNGEDOWNANIMATION);
@@ -539,7 +616,7 @@ public class BossAI : MonoBehaviour
 
     void BossLungeDownAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(lungeAttackPosition.position, lungeDownAttackRange, enemiesLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(lungeAttackPosition.position, lungeDownAttackRange, 0f, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
             if (enemy.name == "ParryCollider")
@@ -557,7 +634,7 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with a sideslash attack");
+                Debug.Log("Boss hit " + enemy + " with a lunge down attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(lungeDownAttack.AttackDamage, lungeDownAttack.AttackMake);
             }
         }
@@ -595,7 +672,7 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Heavy hit " + enemy + " with an overhead attack");
+                Debug.Log("Boss hit " + enemy + " with an overhead attack");
                 attackType = AttackType.none;
                 enemy.GetComponent<KarasuEntity>().TakeDamage(overheadAttack.AttackDamage, overheadAttack.AttackMake);
             }
@@ -604,6 +681,7 @@ public class BossAI : MonoBehaviour
         numberOfAttacks = 0;
         nextOverheadAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
+        attackDecision = AttackDecision.none;
     }
 
     //Utilities
@@ -628,10 +706,19 @@ public class BossAI : MonoBehaviour
 
     IEnumerator StopMovingWhileAttacking()
     {
-        movementSpeed = 0;
-        yield return new WaitForSeconds(1f);
-        movementSpeed = movementSpeedHelper;
-        currentlyAttacking = false;
+        if (attackDecision == AttackDecision.lunge || attackDecision == AttackDecision.jumpForward)
+        {
+            yield return new WaitForSeconds(1f);
+            currentlyAttacking = false;
+            rigidBody2D.velocity = Vector2.zero;
+        }
+        else
+        {
+            movementSpeed = 0;
+            yield return new WaitForSeconds(1f);
+            movementSpeed = movementSpeedHelper;
+            currentlyAttacking = false;
+        }
     }
 
     void InCombatOrGoBackToSpawn()
@@ -659,11 +746,11 @@ public class BossAI : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (basicAttackPosition == null)
+        if (lungeDownAttackPosition == null)
         {
             return;
         }
-        Gizmos.DrawWireCube(basicAttackPosition.position, basicAttackRange);
+        Gizmos.DrawWireSphere(overheadAttackPosition.position, overheadAttackRange);
     }
 
     //Animation manager

@@ -6,7 +6,7 @@ public class AttackSystem
 {
     public AttackSystem(int attackDamage, AttackType attackType)
     {
-        this.AttackDamage = attackDamage;
+        AttackDamage = attackDamage;
         AttackMake = attackType;
     }
 

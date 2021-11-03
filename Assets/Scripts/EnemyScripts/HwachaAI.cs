@@ -95,7 +95,7 @@ public class HwachaAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (hwacha.isTakingDamage || karasuEntity.dead)
+        if (hwacha.isTakingDamage || KarasuEntity.dead)
         {
             return;
         }

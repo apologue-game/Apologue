@@ -45,6 +45,8 @@ public class DasherAI : MonoBehaviour
     bool currentlyAttacking = false;
     bool attacked = false;
     float lastTimeAttack = 0f;
+    bool isDashing = false;
+    bool isFallingBack = false;
     //float globalAttackCooldown = 0f;
     //Dasher attack
     public Transform dashAttack;
@@ -104,17 +106,31 @@ public class DasherAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (dasher.isTakingDamage || karasuEntity.dead)
+        if (isDashing && dasher.isTakingDamage && !dasher.isStaggered)
+        {
+            isFallingBack = true;
+        }
+        if (KarasuEntity.dead)
         {
             return;
         }
-
+        if (isFallingBack)
+        {
+            if (spawnHorizontalDistance < stoppingDistance && !isDashing)
+            {
+                AnimatorSwitchState(IDLEANIMATION);
+                attacked = false;
+                isFallingBack = false;
+            }
+            AnimatorSwitchState(RECOVERYANIMATION);
+            rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 30 * 1f, rigidBody2D.velocity.y);
+        }
         //Movement
         hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
-        bool isDashing = false;
+        isDashing = false;
         //Keep moving towards the target
         //Stopping distance from the target so the enemy won't try to go directly inside of them
         //Actual movement -> dash close to target
@@ -139,12 +155,6 @@ public class DasherAI : MonoBehaviour
         {
             AnimatorSwitchState(RECOVERYANIMATION);
             rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 30 * 1f, rigidBody2D.velocity.y);
-        }
-
-        if (spawnHorizontalDistance < stoppingDistance && !isDashing)
-        {
-            AnimatorSwitchState(IDLEANIMATION);
-            attacked = false;
         }
 
         //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times

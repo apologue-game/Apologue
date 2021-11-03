@@ -145,6 +145,7 @@ public class PlayerControl : MonoBehaviour
     const string LIGHTATTACKUPWARDSANIMATION = "karasuLightAttackUpwardsAnimation";
     const string MEDIUMATTACKANIMATION = "karasuMediumAttackAnimation";
     const string HEAVYATTACKANIMATION = "karasuHeavyAttackAnimation";
+    const string KARASUDEATHANIMATION = "karasuDeathAnimation";
 
     //Teleportation
     public Transform location1;
@@ -180,6 +181,12 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (KarasuEntity.dead)
+        {
+            AnimatorSwitchState(KARASUDEATHANIMATION);
+            rigidBody2D.velocity = Vector2.zero;
+            return;
+        }
         if (isSliding)
         {
             if (slideDirection == inputX)
@@ -466,7 +473,6 @@ public class PlayerControl : MonoBehaviour
         {
             if (canStandUp)
             {
-                Debug.Log("Stand up");
                 isCrouching = false;
             }
         }
@@ -480,7 +486,6 @@ public class PlayerControl : MonoBehaviour
         }
         if (callbackContext.performed && inputX != 0 && grounded && !isCrouching)
         {
-            Debug.Log("Slide");
             isCrouching = true;
             slideDirection = inputX;
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2f, rigidBody2D.velocity.y);

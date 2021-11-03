@@ -118,7 +118,7 @@ public class HeavyEnemyAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (heavyEnemy.isTakingDamage || karasuEntity.dead)
+        if (heavyEnemy.isTakingDamage || KarasuEntity.dead)
         {
             return;
         }
