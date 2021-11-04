@@ -6,27 +6,34 @@ using UnityEngine;
 public class WallTilemaps : MonoBehaviour
 {
     GameObject playerKarasu;
+    Transform wallHangingCollider;
+    public LayerMask walls;
     public int newPosition;
     public int oldPosition;
 
     private void Awake()
     {
         playerKarasu = GameObject.FindGameObjectWithTag("Player");
+        wallHangingCollider = playerKarasu.transform.Find("WallHangingCollider").transform;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.name == "PlayerKarasu")
         {
-            newPosition = (int)playerKarasu.transform.position.x;
-            if (newPosition == oldPosition)
+            Collider2D[] inRangeToHang = Physics2D.OverlapCircleAll(wallHangingCollider.position, 0.38f, walls);
+            if (inRangeToHang.Length > 0)
             {
-                return;
+                newPosition = (int)playerKarasu.transform.position.x;
+                if (newPosition == oldPosition)
+                {
+                    return;
+                }
+                PlayerControl.hangingOnTheWall = true;
+                PlayerControl.wallJump = true;
+                playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                StartCoroutine(HangingOnTheWall());
             }
-            PlayerControl.hangingOnTheWall = true;
-            PlayerControl.wallJump = true;
-            playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            StartCoroutine(HangingOnTheWall());
         }
     }
 

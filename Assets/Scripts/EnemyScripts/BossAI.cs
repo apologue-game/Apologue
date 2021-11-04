@@ -110,7 +110,7 @@ public class BossAI : MonoBehaviour
     //Boss lunge down attack
     public AttackSystem lungeDownAttack;
     public Transform lungeDownAttackPosition;
-    public AttackType lungeDownAttackType = AttackType.none;
+    public AttackType lungeDownAttackType = AttackType.special;
     public Vector3 lungeDownAttackRange;
     public float jumpForceLungeDown = 0f;
     int lungeDownAttackDamage = 3;
@@ -119,7 +119,7 @@ public class BossAI : MonoBehaviour
     //Boss overhead attack
     public AttackSystem overheadAttack;
     public Transform overheadAttackPosition;
-    public AttackType overheadAttackType = AttackType.none;
+    public AttackType overheadAttackType = AttackType.special;
     public float overheadAttackRange = 0.5f;
     int overheadAttackDamage = 3;
     float overheadAttackSpeed = 0.75f;
@@ -673,7 +673,7 @@ public class BossAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Boss hit " + enemy + " with an overhead attack");
-                attackType = AttackType.none;
+                attackType = AttackType.special;
                 enemy.GetComponent<KarasuEntity>().TakeDamage(overheadAttack.AttackDamage, overheadAttack.AttackMake);
             }
         }

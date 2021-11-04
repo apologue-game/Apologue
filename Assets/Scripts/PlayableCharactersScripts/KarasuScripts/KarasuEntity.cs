@@ -28,6 +28,7 @@ public class KarasuEntity : MonoBehaviour
     string oldState;
 
     const string KARASUIDLEANIMATION = "karasuIdleAnimation";
+    const string KARASUSTAGGERANIMATION = "karasuStaggerAnimation";
 
     void Start()
     {
@@ -52,6 +53,10 @@ public class KarasuEntity : MonoBehaviour
     {
         if (Time.time > nextTimeVulnerable && !invulnerable)
         {
+            if (attackType == AttackType.onlyParryable || attackType == AttackType.special)
+            {
+                StartCoroutine(Stagger());
+            }
             invulnerable = true;
             currentHealth -= damage;
             spriteRenderer.color = takeDamageColor;
@@ -73,6 +78,16 @@ public class KarasuEntity : MonoBehaviour
         spriteRenderer.color = normalColor;
         yield return new WaitForSeconds(respawnDelay);
         KillPlayer();
+    }
+
+    IEnumerator Stagger()
+    {
+        PlayerControl.TurnOffControlsOnDeath();
+        Debug.Log("Karasu staggered");
+        spriteRenderer.color = normalColor;
+        AnimatorSwitchState(KARASUSTAGGERANIMATION);
+        yield return new WaitForSeconds(0.2f);
+        PlayerControl.TurnOnControlsOnRespawn();
     }
 
     void KillPlayer()

@@ -21,7 +21,7 @@ public class PlayerControl : MonoBehaviour
 
     //Jump
     public float jumpForce = 25f;
-    float verticalSpeedAbsolute;
+    public float verticalSpeedAbsolute;
     float verticalSpeed;
     public bool grounded;
     public Transform groundCheck;
@@ -38,10 +38,14 @@ public class PlayerControl : MonoBehaviour
     bool doubleJump;
 
     //Wall jump
-    public CircleCollider2D wallHangingCollider;
+    public Transform wallHangingCollider;
+    Coroutine coroutineWallHanging = null;
+    public float wallHangingColliderRange = 0f;
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
-    public static float hangingOnTheWallTimer = 2f;
+    public static float hangingOnTheWallTimer = 1f;
+    public float wallJumpAdditionalForce = 50f;
+    public int wallJumpPushBackCounter = 0;
 
     //Falling
     bool falling = false;
@@ -71,6 +75,7 @@ public class PlayerControl : MonoBehaviour
     //Slopes
     public bool onASlope = false;
     public bool jumpAvailable = true;
+    public float slopeXPosition = 0f;
 
     //Combat system
     public LayerMask enemiesLayers;
@@ -164,6 +169,9 @@ public class PlayerControl : MonoBehaviour
     public GameObject metalBox;
     public GameObject woodenBox;
 
+
+    //Help
+    public float horizontalSpeed;
     void Awake()
     {
         playerinputActions = new ApologuePlayerInput_Actions();
@@ -199,6 +207,7 @@ public class PlayerControl : MonoBehaviour
         }
         if (onASlope)
         {
+            rigidBody2D.velocity = Vector2.ClampMagnitude(rigidBody2D.velocity, 20);
             AnimatorSwitchState(SLIDEANIMATION);
             return;
         }
@@ -269,6 +278,7 @@ public class PlayerControl : MonoBehaviour
         {
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
         }
+        horizontalSpeed = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeed = rigidBody2D.velocity.y;
         if (!blocking && !parryColliderGO.activeSelf && !hangingOnTheWall)
@@ -288,7 +298,6 @@ public class PlayerControl : MonoBehaviour
                 }
                 else if (grounded && inputX == 0 && !isCrouching)
                 {
-                    jumpAvailable = true;
                     AnimatorSwitchState(IDLEANIMATION);
                 }
                 else if (grounded && inputX != 0 && isCrouching)
@@ -337,7 +346,7 @@ public class PlayerControl : MonoBehaviour
         {
             rigidBody2D.AddForce(Vector2.up * jumpForce);
         }
-        if (verticalSpeed < 0)
+        if (verticalSpeed < -1)
         {
             rigidBody2D.AddForce(Vector2.down * 25);
         }
@@ -356,6 +365,10 @@ public class PlayerControl : MonoBehaviour
         if (grounded)
         {
             doubleJump = true;
+        }
+        if (transform.position.x > slopeXPosition + 1)
+        {
+            jumpAvailable = true;
         }
     }
 
@@ -377,7 +390,7 @@ public class PlayerControl : MonoBehaviour
             Flip();
         }
     }
-
+    
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
         jumpHoldCounter++;
@@ -392,13 +405,12 @@ public class PlayerControl : MonoBehaviour
         }
         if (onASlope && callbackContext.performed && jumpAvailable)
         {
-            Debug.Log("Yes");
             jumpAvailable = false;
-            //onASlope = false;
-            rigidBody2D.velocity = Vector2.up * jumpForce;
+            //rigidBody2D.velocity = Vector2.up * jumpForce;
+            rigidBody2D.velocity = new Vector2(1 * jumpForce/2, 1 * jumpForce);
             return;
         }
-        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking && !isSliding && !isRolling && !onASlope)
+        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking && !onASlope)
         {
             rigidBody2D.velocity = Vector2.up * jumpForce;
             isCrouching = false;
@@ -420,6 +432,15 @@ public class PlayerControl : MonoBehaviour
             {
                 Flip();
             }
+            //if (facingRight)
+            //{
+            //    rigidBody2D.AddForce(Vector2.left * wallJumpAdditionalForce);
+            //}
+            //else if (!facingRight)
+            //{
+            //    rigidBody2D.AddForce(Vector2.right * wallJumpAdditionalForce);
+            //}
+            coroutineWallHanging = StartCoroutine(WallJumpPushBack(facingRight));
         }
     }
 
@@ -795,6 +816,27 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    IEnumerator WallJumpPushBack(bool facingDirection)
+    {
+        wallJumpPushBackCounter++;
+        yield return new WaitForFixedUpdate();
+        if (wallJumpPushBackCounter == 15)
+        {
+            StopCoroutine(coroutineWallHanging);
+            wallJumpPushBackCounter = 0;
+            yield return null;
+        }
+        if (facingDirection)
+        {
+            rigidBody2D.AddForce(Vector2.left * wallJumpAdditionalForce);
+        }
+        else if (!facingDirection)
+        {
+            rigidBody2D.AddForce(Vector2.right * wallJumpAdditionalForce);
+        }
+        coroutineWallHanging = StartCoroutine(WallJumpPushBack(facingRight));
+    }
+
     public void Flip()
     {
         //Switch the way the player is labeled as facing.
@@ -936,11 +978,11 @@ public class PlayerControl : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (groundCheck == null)
+        if (wallHangingCollider == null)
         {
             return;
         }
-        Gizmos.DrawWireCube(groundCheck.position, groundCheckRange);
+        Gizmos.DrawWireSphere(wallHangingCollider.position, wallHangingColliderRange);
     }
 
     //Animation manager

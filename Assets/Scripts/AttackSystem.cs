@@ -15,10 +15,8 @@ public class AttackSystem
     public enum AttackType
     {
         normal,
-        blockable,
-        parryable,
         onlyParryable,
-        none
+        special
     }
 
     public AttackType AttackMake { get; set; }
