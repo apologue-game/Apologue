@@ -7,7 +7,7 @@ public class ButtonInteractions : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("ApologueDemo");
+        SceneManager.LoadScene("Level1");
     }
 
     public void ExitGame()

@@ -416,6 +416,7 @@ public class PlayerControl : MonoBehaviour
             isCrouching = false;
             isSliding = false;
             jumpCounter = 1;
+            CreateDust();
         }
         if (hangingOnTheWall && wallJump && callbackContext.performed)
         {
@@ -839,6 +840,10 @@ public class PlayerControl : MonoBehaviour
 
     public void Flip()
     {
+        if (grounded)
+        {
+            CreateDust();
+        }
         //Switch the way the player is labeled as facing.
         facingRight = !facingRight;
 
@@ -983,6 +988,12 @@ public class PlayerControl : MonoBehaviour
             return;
         }
         Gizmos.DrawWireSphere(wallHangingCollider.position, wallHangingColliderRange);
+    }
+    public ParticleSystem dust;
+
+    void CreateDust()
+    {
+        dust.Play();
     }
 
     //Animation manager
