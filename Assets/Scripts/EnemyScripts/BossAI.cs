@@ -46,6 +46,7 @@ public class BossAI : MonoBehaviour
     BoxCollider2D boxCollider2DKarasu;
     CircleCollider2D karasuParryCollider;
     CircleCollider2D karasuBlockCollider;
+    BoxCollider2D karasuSlideCollider;
 
     //Combat system
     //Attack decision
@@ -166,6 +167,7 @@ public class BossAI : MonoBehaviour
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
         karasuParryCollider = karasu.transform.Find("ParryCollider").GetComponent<CircleCollider2D>();
         karasuBlockCollider = karasu.transform.Find("BlockCollider").GetComponent<CircleCollider2D>();
+        karasuSlideCollider = karasu.transform.Find("SlideCollider").GetComponent<BoxCollider2D>();
 
         //Spawn location references
         myID = GameMaster.enemyID++;
@@ -327,6 +329,7 @@ public class BossAI : MonoBehaviour
         {
             Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
             Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
+            Physics2D.IgnoreCollision(boxCollider2D, karasuSlideCollider);
         }
     }
 

@@ -7,6 +7,8 @@ namespace UnityStandardAssets._2D
     public class Camera2DFollow : MonoBehaviour
     {
         public Transform target;
+        public Transform startBounds;
+        public Transform endBounds;
         public float damping = 1;
         public float lookAheadFactor = 3;
         public float lookAheadReturnSpeed = 0.5f;
@@ -14,6 +16,7 @@ namespace UnityStandardAssets._2D
         public float verticalPositionLimit = -1;
 
         private float m_OffsetZ;
+        public float cameraYPositionOffset = 0f;
         private Vector3 m_LastTargetPosition;
         private Vector3 m_CurrentVelocity;
         private Vector3 m_LookAheadPos;
@@ -52,8 +55,12 @@ namespace UnityStandardAssets._2D
             Vector3 aheadTargetPos = target.position + m_LookAheadPos + Vector3.forward*m_OffsetZ;
             Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref m_CurrentVelocity, damping);
 
-            newPos = new Vector3(newPos.x, Mathf.Clamp(newPos.y, verticalPositionLimit, Mathf.Infinity), newPos.z);
-
+            newPos = new Vector3(Mathf.Clamp(newPos.x, startBounds.position.x, endBounds.position.x), Mathf.Clamp(newPos.y, target.position.y + cameraYPositionOffset, Mathf.Infinity), newPos.z);
+            if (newPos.y < verticalPositionLimit)
+            {
+               
+                newPos = new Vector3(Mathf.Clamp(newPos.x, startBounds.position.x, endBounds.position.x), Mathf.Clamp(newPos.y, verticalPositionLimit, Mathf.Infinity), newPos.z);
+            }
             transform.position = newPos;
 
             m_LastTargetPosition = target.position;

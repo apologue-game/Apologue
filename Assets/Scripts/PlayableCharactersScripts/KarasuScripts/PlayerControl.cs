@@ -55,6 +55,15 @@ public class PlayerControl : MonoBehaviour
     float timeUntilNextDash;
     bool dashDirectionIfStationary = true;
     public bool isDashing = false;
+    public bool dashInAirAvailable = true;
+    public GameObject dashSprite1;
+    public GameObject dashSprite2;
+    public GameObject dashSprite3;
+    public Sprite dSprite1;
+    public Sprite dSprite2;
+    public Sprite dSprite3;
+    GameObject[] dashSprites;
+    int counter = 0;
 
     //Crouch
     Transform ceilingCheck;
@@ -181,6 +190,8 @@ public class PlayerControl : MonoBehaviour
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        dashSprites = new GameObject[3];
 
         groundCheck = transform.Find("GroundCheck");
         ceilingCheck = transform.Find("CeilingCheck");
@@ -433,14 +444,6 @@ public class PlayerControl : MonoBehaviour
             {
                 Flip();
             }
-            //if (facingRight)
-            //{
-            //    rigidBody2D.AddForce(Vector2.left * wallJumpAdditionalForce);
-            //}
-            //else if (!facingRight)
-            //{
-            //    rigidBody2D.AddForce(Vector2.right * wallJumpAdditionalForce);
-            //}
             coroutineWallHanging = StartCoroutine(WallJumpPushBack(facingRight));
         }
     }
@@ -467,30 +470,33 @@ public class PlayerControl : MonoBehaviour
         }
         if (callbackContext.performed && Time.time > timeUntilNextDash && !isCrouching)
         {
-            if (inputX > 0)
+            if (grounded || !grounded && dashInAirAvailable)
             {
-                rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 4f, rigidBody2D.velocity.y);
-                timeUntilNextDash = Time.time + 2;
-            }
-            else if (inputX < 0)
-            {
-                rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 4f, rigidBody2D.velocity.y);
-                timeUntilNextDash = Time.time + 2;
-            }
-            else
-            {
-                if (dashDirectionIfStationary)
+                if (inputX > 0)
                 {
-                    rigidBody2D.velocity = new Vector2(movementSpeed * 4f, rigidBody2D.velocity.y);
+                    rigidBody2D.velocity = new Vector2(inputX * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
                     timeUntilNextDash = Time.time + 2;
                 }
-                else if (!dashDirectionIfStationary)
+                else if (inputX < 0)
                 {
-                    rigidBody2D.velocity = new Vector2(-1 * movementSpeed * 4f, rigidBody2D.velocity.y);
+                    rigidBody2D.velocity = new Vector2(inputX * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
                     timeUntilNextDash = Time.time + 2;
                 }
+                else
+                {
+                    if (dashDirectionIfStationary)
+                    {
+                        rigidBody2D.velocity = new Vector2(movementSpeed * dashSpeed, rigidBody2D.velocity.y);
+                        timeUntilNextDash = Time.time + 2;
+                    }
+                    else if (!dashDirectionIfStationary)
+                    {
+                        rigidBody2D.velocity = new Vector2(-1 * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
+                        timeUntilNextDash = Time.time + 2;
+                    }
+                }
+                StartCoroutine(IsDashing());
             }
-            StartCoroutine(IsDashing());
         }
     }
 
@@ -557,9 +563,61 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator IsDashing()
     {
+        //StartCoroutine(DashProjectionEffect());
         isDashing = true;
         yield return new WaitForSeconds(0.25f);
         isDashing = false;
+    }
+
+    IEnumerator DashProjectionEffect()
+    {
+        if (counter == 0)
+        {
+            dashSprite1 = new GameObject("DashSprite" + counter + 1, typeof(SpriteRenderer));
+            dashSprite1.transform.position = transform.position;
+            dashSprite1.GetComponent<SpriteRenderer>().sprite = dSprite1;
+            dashSprite1.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f, 0.3f);
+            dashSprites[counter] = dashSprite1;
+            if (!facingRight)
+            {
+                dashSprite3.GetComponent<SpriteRenderer>().flipX = true;
+            }
+        }
+        else if (counter == 1)
+        {
+            dashSprite2 = new GameObject("DashSprite" + counter + 1, typeof(SpriteRenderer));
+            dashSprite2.transform.position = transform.position;
+            dashSprite2.GetComponent<SpriteRenderer>().sprite = dSprite2;
+            dashSprite2.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f, 0.3f);
+            dashSprites[counter] = dashSprite2;
+            if (!facingRight)
+            {
+                dashSprite3.GetComponent<SpriteRenderer>().flipX = true;
+            }
+        }
+        else if (counter == 2)
+        {
+            dashSprite3 = new GameObject("DashSprite" + counter + 1, typeof(SpriteRenderer));
+            dashSprite3.transform.position = transform.position;
+            dashSprite3.GetComponent<SpriteRenderer>().sprite = dSprite3;
+            dashSprite3.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f, 0.3f);
+            dashSprites[counter] = dashSprite3;
+            if (!facingRight)
+            {
+                dashSprite3.GetComponent<SpriteRenderer>().flipX = true;
+            }
+        }
+        yield return new WaitForSeconds(0.09f);
+        if (counter < 3)
+        {
+            counter++;
+            StartCoroutine(DashProjectionEffect());
+        }
+        else
+        {
+            counter = 0;
+            GameMaster.DestroyGameObjects(dashSprites);
+        }
     }
 
     //Combat system

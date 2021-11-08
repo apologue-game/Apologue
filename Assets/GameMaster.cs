@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
-    //singleton
+    //Singleton
     public static GameMaster gameMaster;
 
     public GameObject karasuPlayerPrefab;
@@ -12,6 +12,8 @@ public class GameMaster : MonoBehaviour
 
     //Enemy identification needed for destroying spawn locations object
     public static int enemyID = 0;
+
+    int objectCounterInArrayToDestroy = 0;
 
     private void Start()
     {
@@ -28,11 +30,27 @@ public class GameMaster : MonoBehaviour
 
     public static void DestroyGameObject(GameObject gameObject)
     {
-        if (gameObject.name == "Soldier0_SpawnLocation")
-        {
-            Debug.Log("Destroyed spawn location");
-        }
         Destroy(gameObject);
+    }
+
+    public static void DestroyGameObjects(GameObject[] gameObject)
+    {
+        gameMaster.StartCoroutine(gameMaster.DestroyGameObjectsWithDelay(gameObject));
+    }
+
+    IEnumerator DestroyGameObjectsWithDelay(GameObject[] gameObject)
+    {
+        yield return new WaitForSeconds(0.1f);
+        DestroyGameObject(gameObject[objectCounterInArrayToDestroy]);
+        objectCounterInArrayToDestroy++;
+        if (objectCounterInArrayToDestroy < gameObject.Length)
+        {
+            StartCoroutine(DestroyGameObjectsWithDelay(gameObject));
+        }
+        else
+        {
+            objectCounterInArrayToDestroy = 0;
+        }
     }
 
     public static void InstantiateGameObject(GameObject gameObject)

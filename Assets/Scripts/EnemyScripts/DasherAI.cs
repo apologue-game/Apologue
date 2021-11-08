@@ -39,6 +39,7 @@ public class DasherAI : MonoBehaviour
     BoxCollider2D boxCollider2DKarasu;
     CircleCollider2D karasuParryCollider;
     CircleCollider2D karasuBlockCollider;
+    BoxCollider2D karasuSlideCollider;
 
     //Combat system
     public LayerMask enemiesLayers;
@@ -81,6 +82,7 @@ public class DasherAI : MonoBehaviour
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
         karasuParryCollider = karasu.transform.Find("ParryCollider").GetComponent<CircleCollider2D>();
         karasuBlockCollider = karasu.transform.Find("BlockCollider").GetComponent<CircleCollider2D>();
+        karasuSlideCollider = karasu.transform.Find("SlideCollider").GetComponent<BoxCollider2D>();
 
         //Spawn location references
         myID = GameMaster.enemyID++;
@@ -112,6 +114,7 @@ public class DasherAI : MonoBehaviour
         }
         if (KarasuEntity.dead)
         {
+            currentTarget = spawn.transform;
             return;
         }
         if (isFallingBack)
@@ -162,6 +165,7 @@ public class DasherAI : MonoBehaviour
         {
             Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
             Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
+            Physics2D.IgnoreCollision(boxCollider2D, karasuSlideCollider);
         }
     }
 

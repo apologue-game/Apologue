@@ -51,6 +51,11 @@ public class KarasuEntity : MonoBehaviour
 
     public void TakeDamage(int damage, AttackType? attackType)
     {
+        if (damage == 500)
+        {
+            StartCoroutine(SpikesDeath());
+            return;
+        }
         if (Time.time > nextTimeVulnerable && !invulnerable)
         {
             if (attackType == AttackType.onlyParryable || attackType == AttackType.special)
@@ -69,6 +74,16 @@ public class KarasuEntity : MonoBehaviour
             StartCoroutine(Death());
         }
         invulnerable = false;
+    }
+
+    IEnumerator SpikesDeath()
+    {
+        PlayerControl.TurnOffControlsOnDeath();
+        Debug.Log("SpikeDeath");
+        AnimatorSwitchState("spikeDeathAnimation");
+        spriteRenderer.color = normalColor;
+        yield return new WaitForSeconds(respawnDelay);
+        KillPlayer();
     }
 
     IEnumerator Death()
