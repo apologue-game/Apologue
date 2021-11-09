@@ -1,7 +1,28 @@
 fileFormatVersion: 2
 guid: ef2c92f161c83f248a07c00554c831c7
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -4944517893539207473
+    second: deadVillagers1_0
+  - first:
+      213: -2178976932495636259
+    second: deadVillagers1_1
+  - first:
+      213: 3544264177313892304
+    second: deadVillagers1_2
+  - first:
+      213: -2512438472036276097
+    second: deadVillagers1_3
+  - first:
+      213: 7421241882300348852
+    second: deadVillagers1_4
+  - first:
+      213: 2267650946660583987
+    second: deadVillagers1_5
+  - first:
+      213: 7486773351680316910
+    second: deadVillagers1_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +62,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -89,7 +110,154 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: deadVillagers1_0
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 3
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc6680a4c2b816bb0800000000000000
+      internalID: -4944517893539207473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deadVillagers1_1
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 5
+        width: 34
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd8c3dc4608b2c1e0800000000000000
+      internalID: -2178976932495636259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deadVillagers1_2
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 6
+        width: 32
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d7cfeead71cf2130800000000000000
+      internalID: 3544264177313892304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deadVillagers1_3
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 1
+        width: 43
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f78a04a6586022dd0800000000000000
+      internalID: -2512438472036276097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deadVillagers1_4
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 0
+        width: 41
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b973ca2c2c8df660800000000000000
+      internalID: 7421241882300348852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deadVillagers1_5
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 14
+        width: 63
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33a484e7580587f10800000000000000
+      internalID: 2267650946660583987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: deadVillagers1_6
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 0
+        width: 39
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee514cc52bc56e760800000000000000
+      internalID: 7486773351680316910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
