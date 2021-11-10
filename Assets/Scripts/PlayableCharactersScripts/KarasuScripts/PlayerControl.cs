@@ -208,7 +208,10 @@ public class PlayerControl : MonoBehaviour
     {
         if (KarasuEntity.dead)
         {
-            AnimatorSwitchState(KARASUDEATHANIMATION);
+            if (!KarasuEntity.spikesDeath)
+            {
+                AnimatorSwitchState(KARASUDEATHANIMATION);
+            }
             rigidBody2D.velocity = Vector2.zero;
             return;
         }

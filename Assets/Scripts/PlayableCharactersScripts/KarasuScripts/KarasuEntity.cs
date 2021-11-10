@@ -18,6 +18,7 @@ public class KarasuEntity : MonoBehaviour
     //Dying
     float respawnDelay = 3f;
     public static bool dead = false;
+    public static bool spikesDeath = false;
 
     //Taking damage
     float invincibilityWindow = 0.15f;
@@ -53,6 +54,8 @@ public class KarasuEntity : MonoBehaviour
     {
         if (damage == 500)
         {
+            dead = true;
+            spikesDeath = true;
             StartCoroutine(SpikesDeath());
             return;
         }
@@ -81,6 +84,7 @@ public class KarasuEntity : MonoBehaviour
         PlayerControl.TurnOffControlsOnDeath();
         Debug.Log("SpikeDeath");
         AnimatorSwitchState("spikeDeathAnimation");
+        Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
         spriteRenderer.color = normalColor;
         yield return new WaitForSeconds(respawnDelay);
         KillPlayer();
@@ -118,6 +122,7 @@ public class KarasuEntity : MonoBehaviour
         AnimatorSwitchState(KARASUIDLEANIMATION);
         currentHealth = maxHealth;
         dead = false;
+        spikesDeath = false;
     }
 
     public void AnimatorSwitchState(string newState)
