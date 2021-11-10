@@ -8,7 +8,7 @@ public class GameMaster : MonoBehaviour
     public static GameMaster gameMaster;
 
     public GameObject karasuPlayerPrefab;
-    public Transform respawnLocation;
+    public static Transform respawnLocation;
 
     //Enemy identification needed for destroying spawn locations object
     public static int enemyID = 0;
@@ -25,7 +25,7 @@ public class GameMaster : MonoBehaviour
 
     public static void KillPlayer(KarasuEntity karasuEntity)
     {
-        karasuEntity.gameObject.transform.position = gameMaster.respawnLocation.position;
+        karasuEntity.gameObject.transform.position = respawnLocation.position;
     }
 
     public static void DestroyGameObject(GameObject gameObject)

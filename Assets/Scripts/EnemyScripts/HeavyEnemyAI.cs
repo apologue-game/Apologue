@@ -32,7 +32,7 @@ public class HeavyEnemyAI : MonoBehaviour
     float movementSpeedHelper;
     readonly float stoppingDistance = 1.3f;
     readonly float flipDistance = 0.2f;
-    bool facingLeft = true;
+    public bool facingLeft = true;
     public int direction = 0;
     public float hDistance;
     public float vDistance;

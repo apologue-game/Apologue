@@ -46,6 +46,7 @@ public class PlayerControl : MonoBehaviour
     public static float hangingOnTheWallTimer = 1f;
     public float wallJumpAdditionalForce = 50f;
     public int wallJumpPushBackCounter = 0;
+    public bool initiatePushBackCounter = false;
 
     //Falling
     bool falling = false;
@@ -66,6 +67,7 @@ public class PlayerControl : MonoBehaviour
     int counter = 0;
 
     //Crouch
+    public LayerMask whatIsCeiling;
     Transform ceilingCheck;
     public BoxCollider2D regularCollider;
     public BoxCollider2D slideCollider;
@@ -128,6 +130,7 @@ public class PlayerControl : MonoBehaviour
     public int attackDamageAxe = 2;
     public float attackSpeedAxe = 0.2f;
     float nextAttackTimeAxe = 0f;
+    public static bool axePickedUp = false;
 
     //Parry and block
     public Transform parryCollider;
@@ -249,27 +252,35 @@ public class PlayerControl : MonoBehaviour
                 isRolling = false;
             }
         }
-        grounded = false;
 
+        grounded = false;
         //Colliders->check to see if the player is currently on the ground
         Collider2D[] collidersGround = Physics2D.OverlapBoxAll(groundCheck.position, groundCheckRange, whatIsGround);
         for (int i = 0; i < collidersGround.Length; i++)
         {
-            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].CompareTag("Box"))
+            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].CompareTag("Box") || collidersGround[i].CompareTag("FallingPlatforms"))
             {
                 grounded = true;
                 falling = false;
+                dashInAirAvailable = true;
             }
         }
-        canStandUp = true;
+        //Not sure why this doesn't work
+        //if (collidersGround.Length > 0)
+        //{
+        //    grounded = true;
+        //    falling = false;
+        //    dashInAirAvailable = true;
+        //}
         //Check to see if there is a ceiling above the player so they can get up from the crouching state
-        Collider2D[] collidersCeiling = Physics2D.OverlapCircleAll(ceilingCheck.position, ceilingCheckRadius, whatIsGround);
-        for (int i = 0; i < collidersCeiling.Length; i++)
+        Collider2D[] collidersCeiling = Physics2D.OverlapCircleAll(ceilingCheck.position, ceilingCheckRadius, whatIsCeiling);
+        if (collidersCeiling.Length < 1)
         {
-            if (collidersCeiling[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap")
-            {
-                canStandUp = false;
-            }
+            canStandUp = true;
+        }
+        else
+        {
+            canStandUp = false;
         }
 
         if (!isCrouching)
@@ -338,7 +349,6 @@ public class PlayerControl : MonoBehaviour
         else if (hangingOnTheWall)
         {
             AnimatorSwitchState(WALLHANGINGANIMATION);
-
         }
         else if (parryColliderGO.activeSelf)
         {
@@ -348,14 +358,6 @@ public class PlayerControl : MonoBehaviour
         {
             AnimatorSwitchState(BLOCKANIMATION);
         }
-        if (grounded)
-        {
-            wallTilemaps.oldPosition = wallTilemaps.newPosition - 50;
-            if (attackState == AttackState.cannotAttack)
-            {
-                attackState = AttackState.notAttacking;
-            }
-        }
         if (holdingJump)
         {
             rigidBody2D.AddForce(Vector2.up * jumpForce);
@@ -363,6 +365,23 @@ public class PlayerControl : MonoBehaviour
         if (verticalSpeed < -1)
         {
             rigidBody2D.AddForce(Vector2.down * 25);
+        }
+        if (initiatePushBackCounter)
+        {
+            wallJumpPushBackCounter++;
+            if (facingRight)
+            {
+                rigidBody2D.AddForce(Vector2.left * wallJumpAdditionalForce);
+            }
+            else
+            {
+                rigidBody2D.AddForce(Vector2.right * wallJumpAdditionalForce);
+            }
+            if (wallJumpPushBackCounter > 10)
+            {
+                initiatePushBackCounter = false;
+                wallJumpPushBackCounter = 0;
+            }
         }
     }
 
@@ -384,6 +403,22 @@ public class PlayerControl : MonoBehaviour
         {
             jumpAvailable = true;
         }
+        if (grounded)
+        {
+            wallTilemaps.oldPosition = wallTilemaps.newPosition - 50;
+            if (attackState == AttackState.cannotAttack)
+            {
+                attackState = AttackState.notAttacking;
+            }
+        }
+        if (inputX > 0 && !facingRight && !currentlyAttacking && !onASlope && !blocking && !hangingOnTheWall)
+        {
+            Flip();
+        }
+        else if (inputX < 0 && facingRight && !currentlyAttacking && !onASlope && !blocking && !hangingOnTheWall)
+        {
+            Flip();
+        }
     }
 
     //Movement
@@ -393,15 +428,6 @@ public class PlayerControl : MonoBehaviour
         if (hangingOnTheWall || onASlope)
         {
             return;
-        }
-
-        if (inputX > 0 && !facingRight)
-        {
-            Flip();
-        }
-        else if (inputX < 0 && facingRight)
-        {
-            Flip();
         }
     }
     
@@ -420,7 +446,6 @@ public class PlayerControl : MonoBehaviour
         if (onASlope && callbackContext.performed && jumpAvailable)
         {
             jumpAvailable = false;
-            //rigidBody2D.velocity = Vector2.up * jumpForce;
             rigidBody2D.velocity = new Vector2(1 * jumpForce/2, 1 * jumpForce);
             return;
         }
@@ -439,15 +464,7 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = Vector2.up * jumpForce;
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             attackState = AttackState.cannotAttack;
-            if (inputX > 0 && !facingRight)
-            {
-                Flip();
-            }
-            else if (inputX < 0 && facingRight)
-            {
-                Flip();
-            }
-            coroutineWallHanging = StartCoroutine(WallJumpPushBack(facingRight));
+            initiatePushBackCounter = true;
         }
     }
 
@@ -457,7 +474,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (!grounded && callbackContext.performed && jumpCounter == 1 && doubleJump)
+        if (!grounded && callbackContext.performed && doubleJump)
         {
             rigidBody2D.velocity = (Vector2.up * doubleJumpForce);
             jumpCounter++;
@@ -475,6 +492,10 @@ public class PlayerControl : MonoBehaviour
         {
             if (grounded || !grounded && dashInAirAvailable)
             {
+                if (!grounded)
+                {
+                    dashInAirAvailable = false;
+                }
                 if (inputX > 0)
                 {
                     rigidBody2D.velocity = new Vector2(inputX * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
@@ -769,7 +790,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope || !axePickedUp)
         {
             return;
         }
@@ -876,27 +897,6 @@ public class PlayerControl : MonoBehaviour
     {
         playerInput.currentActionMap.Enable();
 
-    }
-
-    IEnumerator WallJumpPushBack(bool facingDirection)
-    {
-        wallJumpPushBackCounter++;
-        yield return new WaitForFixedUpdate();
-        if (wallJumpPushBackCounter == 15)
-        {
-            StopCoroutine(coroutineWallHanging);
-            wallJumpPushBackCounter = 0;
-            yield return null;
-        }
-        if (facingDirection)
-        {
-            rigidBody2D.AddForce(Vector2.left * wallJumpAdditionalForce);
-        }
-        else if (!facingDirection)
-        {
-            rigidBody2D.AddForce(Vector2.right * wallJumpAdditionalForce);
-        }
-        coroutineWallHanging = StartCoroutine(WallJumpPushBack(facingRight));
     }
 
     public void Flip()

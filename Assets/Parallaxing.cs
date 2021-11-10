@@ -19,7 +19,7 @@ public class Parallaxing : MonoBehaviour
         float temp = (cam.transform.position.x * (1 - parallaxEffect));
         float dist = (cam.transform.position.x * parallaxEffect);
 
-        transform.position = new Vector3(startpos + dist, 6f, transform.position.z);
+        transform.position = new Vector3(startpos + dist, 6.4f, transform.position.z);
 
         if (temp > startpos + length)
         {

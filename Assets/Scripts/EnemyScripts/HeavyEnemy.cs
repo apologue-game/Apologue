@@ -6,6 +6,9 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
 {
     HeavyEnemyAI heavyEnemyAI;
 
+    public GameObject heavyAxeRight;
+    public GameObject heavyAxeLeft;
+    Vector3 axeSpawnLocation;
     public Animator animator { get; set; }
 
     public bool isDead { get; set; }
@@ -23,7 +26,7 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
         heavyEnemyAI = GetComponent<HeavyEnemyAI>();
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 10;
+        maxHealth = 1;
         enemyType = IEnemy.EnemyType.elite;
     }
 
@@ -63,6 +66,18 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
         isDead = true;
         animator.Play("deathAnimation");
         yield return new WaitForSeconds(3.5f);
+
+        if (heavyEnemyAI.facingLeft)
+        {
+            axeSpawnLocation = new Vector3(transform.position.x + 0.4f, transform.position.y - 0.52f, transform.position.z);
+            Instantiate(heavyAxeRight, axeSpawnLocation, transform.rotation);
+        }
+        else
+        {
+            axeSpawnLocation = new Vector3(transform.position.x - 0.4f, transform.position.y - 0.52f, transform.position.z);
+            Instantiate(heavyAxeLeft, axeSpawnLocation, transform.rotation);
+        }
+        
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(heavyEnemyAI.spawn);
     }

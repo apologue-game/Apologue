@@ -48,6 +48,10 @@ public class KarasuEntity : MonoBehaviour
         {
             spriteRenderer.color = normalColor;
         }
+        if (Time.time >= nextTimeVulnerable)
+        {
+            invulnerable = false;
+        }
     }
 
     public void TakeDamage(int damage, AttackType? attackType)
@@ -76,15 +80,12 @@ public class KarasuEntity : MonoBehaviour
             dead = true;
             StartCoroutine(Death());
         }
-        invulnerable = false;
     }
 
     IEnumerator SpikesDeath()
     {
         PlayerControl.TurnOffControlsOnDeath();
-        Debug.Log("SpikeDeath");
         AnimatorSwitchState("spikeDeathAnimation");
-        Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name);
         spriteRenderer.color = normalColor;
         yield return new WaitForSeconds(respawnDelay);
         KillPlayer();
@@ -93,7 +94,6 @@ public class KarasuEntity : MonoBehaviour
     IEnumerator Death()
     {
         PlayerControl.TurnOffControlsOnDeath();
-        Debug.Log("Karasu died");
         spriteRenderer.color = normalColor;
         yield return new WaitForSeconds(respawnDelay);
         KillPlayer();
@@ -111,7 +111,6 @@ public class KarasuEntity : MonoBehaviour
 
     void KillPlayer()
     {
-        Debug.Log("Kill karasu");
         GameMaster.KillPlayer(this);
         Respawn();
     }

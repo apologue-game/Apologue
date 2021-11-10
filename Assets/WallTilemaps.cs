@@ -8,8 +8,8 @@ public class WallTilemaps : MonoBehaviour
     GameObject playerKarasu;
     Transform wallHangingCollider;
     public LayerMask walls;
-    public int newPosition;
-    public int oldPosition;
+    public int newPosition = 1;
+    public int oldPosition = 0;
 
     private void Awake()
     {
@@ -56,6 +56,7 @@ public class WallTilemaps : MonoBehaviour
         {
             playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
             PlayerControl.wallJump = false;
+            PlayerControl.hangingOnTheWall = false;
         }
     }
 }

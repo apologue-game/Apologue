@@ -10,5 +10,9 @@ public class EnvironmentHazzards : MonoBehaviour
         {
             collision.GetComponent<KarasuEntity>().TakeDamage(500, null);
         }
+        else if (collision.name == "SlideCollider")
+        {
+            collision.GetComponentInParent<KarasuEntity>().TakeDamage(500, null);
+        }
     }     
 }

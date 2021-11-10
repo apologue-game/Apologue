@@ -9,6 +9,7 @@ TagManager:
   - Archer
   - Box
   - Hwacha
+  - FallingPlatforms
   layers:
   - Default
   - TransparentFX
@@ -20,19 +21,19 @@ TagManager:
   - Background
   - Clutter
   - Environment
-  - WallTilemap
+  - SlopesTilemap
   - GroundTilemap
   - Enemy
   - FallingColliders
   - ParryLayer
   - BlockLayer
-  - PlatformsLayer
+  - PlatformsTilemap
   - EliteEnemy
   - Archer
   - Box
   - WallTilemapTrigger
-  - 
-  - 
+  - NothingTilemap
+  - HazzardousTilemap
   - 
   - 
   - 
