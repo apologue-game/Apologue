@@ -23,17 +23,17 @@ AnimationClip:
       value: {fileID: 21300000, guid: 826452b84de117141b65a745962c888f, type: 3}
     - time: 0.1
       value: {fileID: 21300000, guid: 84dbd02dba170d54fb6f89846deca8a3, type: 3}
-    - time: 0.18333334
+    - time: 0.2
       value: {fileID: 21300000, guid: a4e4768e845509a44b73fb4608d67ddf, type: 3}
-    - time: 0.28333333
+    - time: 0.3
       value: {fileID: 21300000, guid: 81faa6297253a0a4ea106a276883aff0, type: 3}
-    - time: 0.38333333
+    - time: 0.4
       value: {fileID: 21300000, guid: f4c3a8ac51297e0489033f8d1489d5c4, type: 3}
-    - time: 0.48333332
+    - time: 0.5
       value: {fileID: 21300000, guid: 65779249016b5514e84a07b1c90f9e37, type: 3}
-    - time: 0.56666666
+    - time: 0.6
       value: {fileID: 21300000, guid: 6bb10278637fc124a91a4b2e96777ea1, type: 3}
-    - time: 0.6666667
+    - time: 0.7
       value: {fileID: 21300000, guid: 28db835866833c64584b739f16fe72bc, type: 3}
     attribute: m_Sprite
     path: 
@@ -67,7 +67,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.68333334
+    m_StopTime: 0.71666664
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -87,7 +87,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.51666665
+  - time: 0.53333336
     functionName: BossJumpForwardAttack
     data: 
     objectReferenceParameter: {fileID: 0}

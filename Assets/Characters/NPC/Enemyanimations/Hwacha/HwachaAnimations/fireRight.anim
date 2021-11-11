@@ -21,15 +21,15 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: b24a4ff327431884797330e5e060e669, type: 3}
-    - time: 0.31666666
+    - time: 0.1
       value: {fileID: 21300000, guid: 411f8c137e139064bb98399951c18ea5, type: 3}
-    - time: 0.6333333
+    - time: 0.2
       value: {fileID: 21300000, guid: 674ddf6aa4c18514ea2b420dc5008dd6, type: 3}
-    - time: 0.95
+    - time: 0.3
       value: {fileID: 21300000, guid: 01b5409fd8d91a34d96e6232628c9493, type: 3}
-    - time: 1.2666667
+    - time: 0.4
       value: {fileID: 21300000, guid: c24e8b4c6d156b440bddb1e5310747fd, type: 3}
-    - time: 1.5833334
+    - time: 0.5
       value: {fileID: 21300000, guid: 262a3a572f6f2df4cb894a2a3f7fa524, type: 3}
     attribute: m_Sprite
     path: 
@@ -61,7 +61,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.6
+    m_StopTime: 0.51666665
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -81,15 +81,15 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 1.5833334
-    functionName: HwachaAttackRight
+  - time: 0.5
+    functionName: AfterFireRight
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.5833334
-    functionName: AfterFireRight
+  - time: 0.5
+    functionName: HwachaAttackRight
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
