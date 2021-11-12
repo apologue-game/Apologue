@@ -8,6 +8,7 @@ public class DasherAI : MonoBehaviour
     int myID;
     string myName = "";
     Dasher dasher;
+    public HealthBar healthBar;
 
     //Targeting
     GameObject karasu;
@@ -29,10 +30,9 @@ public class DasherAI : MonoBehaviour
     public float movementSpeed = 10f;
     float movementSpeedHelper;
     readonly float stoppingDistance = 1.3f;
-    public bool stopMoving;
     public float hDistance;
     public float vDistance;
-    float spawnHorizontalDistance;
+    public float spawnHorizontalDistance;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -43,11 +43,11 @@ public class DasherAI : MonoBehaviour
 
     //Combat system
     public LayerMask enemiesLayers;
-    bool currentlyAttacking = false;
-    bool attacked = false;
+    public bool currentlyAttacking = false;
+    public bool attacked = false;
     float lastTimeAttack = 0f;
-    bool isDashing = false;
-    bool isFallingBack = false;
+    public bool isDashing = false;
+    public bool isFallingBack = false;
     //float globalAttackCooldown = 0f;
     //Dasher attack
     public Transform dashAttack;
@@ -110,6 +110,7 @@ public class DasherAI : MonoBehaviour
         }
         if (isDashing && dasher.isTakingDamage && !dasher.isStaggered)
         {
+            isDashing = false;
             isFallingBack = true;
         }
         if (KarasuEntity.dead)
@@ -117,21 +118,24 @@ public class DasherAI : MonoBehaviour
             currentTarget = spawn.transform;
             return;
         }
-        if (isFallingBack)
+
+        //Movement
+        hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
+        vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
+        spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
+        if (isFallingBack && !currentlyAttacking)
         {
+            AnimatorSwitchState(RECOVERYANIMATION);
+            rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 30 * 1f, rigidBody2D.velocity.y);
             if (spawnHorizontalDistance < stoppingDistance && !isDashing)
             {
                 AnimatorSwitchState(IDLEANIMATION);
                 attacked = false;
                 isFallingBack = false;
+                rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
-            AnimatorSwitchState(RECOVERYANIMATION);
-            rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 30 * 1f, rigidBody2D.velocity.y);
         }
-        //Movement
-        hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
-        vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
-        spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
         isDashing = false;
         //Keep moving towards the target
@@ -145,19 +149,12 @@ public class DasherAI : MonoBehaviour
         }
 
         //Attacking
-        if (hDistance < stoppingDistance && !currentlyAttacking && !dasher.isTakingDamage && currentTarget == karasuTransform && !attacked)
+        if (hDistance < stoppingDistance && !currentlyAttacking && !dasher.isTakingDamage && currentTarget == karasuTransform && !attacked && Time.time > nextDashAttackTime)
         {
             isDashing = false;
             currentlyAttacking = true;
             rigidBody2D.velocity = Vector2.zero;
             Attack();
-        }
-
-        //Actual movement -> dash back to spawn
-        if (attacked && !dasher.isTakingDamage)
-        {
-            AnimatorSwitchState(RECOVERYANIMATION);
-            rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 30 * 1f, rigidBody2D.velocity.y);
         }
 
         //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
@@ -209,6 +206,7 @@ public class DasherAI : MonoBehaviour
         }
         parriedOrBlocked = false;
         nextDashAttackTime = Time.time + 5f;
+        isFallingBack = true;
     }
 
     //Utilities
@@ -239,6 +237,7 @@ public class DasherAI : MonoBehaviour
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
             dasher.currentHealth = dasher.maxHealth;
+            healthBar.SetHealth(dasher.maxHealth);
         }
     }
 

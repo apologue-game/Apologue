@@ -8,11 +8,12 @@ public class KarasuEntity : MonoBehaviour
 {
     Animator animator;
     SpriteRenderer spriteRenderer;
+    public HealthBar healthBar;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
-    int maxHealth = 500;
+    int maxHealth = 10;
     public int currentHealth;
 
     //Dying
@@ -34,6 +35,8 @@ public class KarasuEntity : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+
+        healthBar.SetMaximumHealth(maxHealth);
     }
 
     private void Awake()
@@ -71,6 +74,7 @@ public class KarasuEntity : MonoBehaviour
             }
             invulnerable = true;
             currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
             spriteRenderer.color = takeDamageColor;
             takeDamageTimer = Time.time + invincibilityWindow;
             nextTimeVulnerable = Time.time + invincibilityWindow;
@@ -120,6 +124,7 @@ public class KarasuEntity : MonoBehaviour
         PlayerControl.TurnOnControlsOnRespawn();
         AnimatorSwitchState(KARASUIDLEANIMATION);
         currentHealth = maxHealth;
+        healthBar.SetHealth(maxHealth);
         dead = false;
         spikesDeath = false;
     }

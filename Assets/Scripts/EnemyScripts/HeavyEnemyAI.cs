@@ -10,6 +10,7 @@ public class HeavyEnemyAI : MonoBehaviour
     int myID;
     string myName = "";
     HeavyEnemy heavyEnemy;
+    HealthBar healthBar;
 
     //Targeting
     GameObject karasu;
@@ -360,6 +361,7 @@ public class HeavyEnemyAI : MonoBehaviour
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
             heavyEnemy.currentHealth = heavyEnemy.maxHealth;
+            healthBar.SetMaximumHealth(heavyEnemy.maxHealth);
         }
     }
 

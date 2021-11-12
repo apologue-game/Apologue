@@ -265,13 +265,6 @@ public class PlayerControl : MonoBehaviour
                 dashInAirAvailable = true;
             }
         }
-        //Not sure why this doesn't work
-        //if (collidersGround.Length > 0)
-        //{
-        //    grounded = true;
-        //    falling = false;
-        //    dashInAirAvailable = true;
-        //}
         //Check to see if there is a ceiling above the player so they can get up from the crouching state
         Collider2D[] collidersCeiling = Physics2D.OverlapCircleAll(ceilingCheck.position, ceilingCheckRadius, whatIsCeiling);
         if (collidersCeiling.Length < 1)
@@ -661,8 +654,9 @@ public class PlayerControl : MonoBehaviour
             {
                 return;
             }
-            if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack)
+            if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack && !currentlyAttacking)
             {
+                Debug.Log("One");
                 combo = false;
                 attackState = AttackState.lightAttack;
                 AnimatorSwitchState(LIGHTATTACKANIMATION);
@@ -675,11 +669,13 @@ public class PlayerControl : MonoBehaviour
             }
             else if (Time.time <= comboTimeWindow)
             {
+                Debug.Log("Two");
                 numberOfAttacks++;
                 combo = true;
             }
             if (combo && numberOfAttacks > 1)
             {
+                Debug.Log("Three");
                 comboFinished = true;
             }
         }
@@ -714,7 +710,7 @@ public class PlayerControl : MonoBehaviour
 
     void LightAttackUpwardsAnimation()
     {
-        if (numberOfAttacks == 1)
+        if (numberOfAttacks == 1 && combo && !comboFinished)
         {
             numberOfAttacks++;
             attackState = AttackState.lightAttackUpwards;
@@ -931,7 +927,7 @@ public class PlayerControl : MonoBehaviour
         if (grounded)
         {
             movementSpeed = 0;
-            yield return new WaitForSeconds(waitingDuration - 0.15f);
+            yield return new WaitForSeconds(waitingDuration - 0.2f);
             movementSpeed = movementSpeedHelper;
             if (!combo)
             {
@@ -948,7 +944,7 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(waitingDuration - 0.15f);
+            yield return new WaitForSeconds(waitingDuration - 0.2f);
             if (!combo)
             {
                 attackState = AttackState.notAttacking;

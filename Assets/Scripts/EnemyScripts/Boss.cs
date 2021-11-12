@@ -10,6 +10,7 @@ public class Boss : MonoBehaviour, IEnemy
 
     public bool isDead { get; set; }
     public bool isTakingDamage { get; set; }
+    public bool isStaggered { get; set; }
 
     public bool isPartOfCluster { get; set; }
     public bool isReadyToAttack { get; set; }
@@ -24,7 +25,7 @@ public class Boss : MonoBehaviour, IEnemy
         animator = GetComponent<Animator>();
         isDead = false;
         maxHealth = 5;
-        enemyType = IEnemy.EnemyType.ranged;
+        enemyType = IEnemy.EnemyType.elite;
     }
 
     void Start()
@@ -43,27 +44,50 @@ public class Boss : MonoBehaviour, IEnemy
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
-                StartCoroutine(Death());
+                BeforeDeath();
                 return;
             }
-            StartCoroutine(BossStaggered());
         }
+        //StartCoroutine(BossTakingDamage());
     }
+
+    public IEnumerator BossTakingDamage()
+    {
+        isTakingDamage = true;
+        yield return new WaitForSeconds(1f);
+        isTakingDamage = false;
+    }
+    
+    public void BossStagger()
+    {
+        StartCoroutine(BossStaggered());
+    }
+
 
     public IEnumerator BossStaggered()
     {
-        isTakingDamage = true;
+        isStaggered = true;
         animator.Play("stagger");
         yield return new WaitForSeconds(1.5f);
-        isTakingDamage = false;
+        isStaggered = false;
+    }
+
+    public void BeforeDeath()
+    {
+        isDead = true;
+        animator.Play("beforeDeath");
+    }
+
+    void DeathCall()
+    {
+        animator.Play("death");
+        StartCoroutine(Death());
     }
 
     public IEnumerator Death()
     {
-        isDead = true;
-        animator.Play("death");
         yield return new WaitForSeconds(3.5f);
-        GameMaster.DestroyGameObject(gameObject);
+        //GameMaster.DestroyGameObject(gameObject);
         //GameMaster.DestroyGameObject(bossAI.spawn);
     }
 }

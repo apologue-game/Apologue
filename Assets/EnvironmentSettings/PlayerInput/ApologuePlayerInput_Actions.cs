@@ -453,6 +453,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": ""Hold""
                 },
                 {
+                    ""name"": ""CrouchRoll"",
+                    ""type"": ""Button"",
+                    ""id"": ""588423a7-6cce-4195-a4aa-3f741c46cc4d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Slide"",
                     ""type"": ""Button"",
                     ""id"": ""8026295d-335d-43fd-be58-6da618f0f314"",
@@ -516,7 +524,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""modifier"",
                     ""id"": ""17e69891-95b6-447b-a9a5-9f327cd99ee6"",
-                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -527,7 +535,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""button"",
                     ""id"": ""ef5ac0ed-a523-4135-8bb7-5a02e4dc3c5a"",
-                    ""path"": ""<XInputController>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -549,7 +557,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""cdc6b071-9aa8-43f6-9c1b-e0505f78d7c5"",
-                    ""path"": ""<XInputController>/leftStick/left"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -560,7 +568,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""4e512156-539f-4951-a3df-7a84c62e9e19"",
-                    ""path"": ""<XInputController>/leftStick/right"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -571,7 +579,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8be52cd6-e4e5-459a-aa81-34f53b4f36e4"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -582,10 +590,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0534635b-eed6-4df1-b59a-7350310b8ecd"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -593,10 +601,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""09aa443e-3699-4ce4-9b6f-1264665d173e"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -604,7 +612,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cd219cb7-daec-46dd-a464-47c8258ae970"",
-                    ""path"": ""<XInputController>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -615,7 +623,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2db2df13-6810-4b77-b6b2-4a75b1160c46"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -626,7 +634,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fe620d8f-2143-4b54-9c41-9ade95365525"",
-                    ""path"": ""<XInputController>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -637,7 +645,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b1aadac4-392b-43d3-a427-d4cbe2b9b52e"",
-                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick;Gamepad"",
@@ -664,6 +672,17 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick;Gamepad"",
                     ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42e2e79a-bcb7-4754-ad45-44f833c72e4a"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""CrouchRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1266,6 +1285,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerGamepad_Dash = m_PlayerGamepad.FindAction("Dash", throwIfNotFound: true);
         m_PlayerGamepad_DoubleJump = m_PlayerGamepad.FindAction("DoubleJump", throwIfNotFound: true);
         m_PlayerGamepad_Crouch = m_PlayerGamepad.FindAction("Crouch", throwIfNotFound: true);
+        m_PlayerGamepad_CrouchRoll = m_PlayerGamepad.FindAction("CrouchRoll", throwIfNotFound: true);
         m_PlayerGamepad_Slide = m_PlayerGamepad.FindAction("Slide", throwIfNotFound: true);
         m_PlayerGamepad_LightAttack = m_PlayerGamepad.FindAction("LightAttack", throwIfNotFound: true);
         m_PlayerGamepad_MediumAttack = m_PlayerGamepad.FindAction("MediumAttack", throwIfNotFound: true);
@@ -1507,6 +1527,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerGamepad_Dash;
     private readonly InputAction m_PlayerGamepad_DoubleJump;
     private readonly InputAction m_PlayerGamepad_Crouch;
+    private readonly InputAction m_PlayerGamepad_CrouchRoll;
     private readonly InputAction m_PlayerGamepad_Slide;
     private readonly InputAction m_PlayerGamepad_LightAttack;
     private readonly InputAction m_PlayerGamepad_MediumAttack;
@@ -1522,6 +1543,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @Dash => m_Wrapper.m_PlayerGamepad_Dash;
         public InputAction @DoubleJump => m_Wrapper.m_PlayerGamepad_DoubleJump;
         public InputAction @Crouch => m_Wrapper.m_PlayerGamepad_Crouch;
+        public InputAction @CrouchRoll => m_Wrapper.m_PlayerGamepad_CrouchRoll;
         public InputAction @Slide => m_Wrapper.m_PlayerGamepad_Slide;
         public InputAction @LightAttack => m_Wrapper.m_PlayerGamepad_LightAttack;
         public InputAction @MediumAttack => m_Wrapper.m_PlayerGamepad_MediumAttack;
@@ -1552,6 +1574,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Crouch.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
+                @CrouchRoll.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouchRoll;
+                @CrouchRoll.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouchRoll;
+                @CrouchRoll.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouchRoll;
                 @Slide.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
                 @Slide.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
                 @Slide.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
@@ -1589,6 +1614,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @CrouchRoll.started += instance.OnCrouchRoll;
+                @CrouchRoll.performed += instance.OnCrouchRoll;
+                @CrouchRoll.canceled += instance.OnCrouchRoll;
                 @Slide.started += instance.OnSlide;
                 @Slide.performed += instance.OnSlide;
                 @Slide.canceled += instance.OnSlide;
@@ -1789,6 +1817,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnDoubleJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnCrouchRoll(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnLightAttack(InputAction.CallbackContext context);
         void OnMediumAttack(InputAction.CallbackContext context);

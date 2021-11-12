@@ -10,7 +10,6 @@ public class BossAI : MonoBehaviour
     int myID;
     string myName = "";
     Boss boss;
-    Coroutine stopCoroutine = null;
 
     //Targeting
     GameObject karasu;
@@ -40,6 +39,12 @@ public class BossAI : MonoBehaviour
     public float vDistance;
     float spawnHorizontalDistance;
     public float speed;
+
+    //Ground checking
+    public Transform groundCheck;
+    public bool grounded;
+    public float groundCheckRange;
+    public LayerMask whatIsGround;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -105,6 +110,8 @@ public class BossAI : MonoBehaviour
     public float jumpForceJumpForward = 0f;
     public float moveForceJumpForward = 0f;
     public float moveForceJumpForwardBaseValue = 0f;
+    public float moveForceJumpForwardMultiplier = 0f;
+    public bool currentlyJumpingForward = false;
     int jumpForwardAttackDamage = 3;
     float jumpForwardAttackSpeed = 0.75f;
     float nextJumpForwardAttack = 0f;
@@ -117,6 +124,7 @@ public class BossAI : MonoBehaviour
     int lungeDownAttackDamage = 3;
     float lungeDownAttackSpeed = 0.75f;
     float nextLungeDownAttack = 0f;
+    public bool currentlyLungingDown = false;
     //Boss overhead attack
     public AttackSystem overheadAttack;
     public Transform overheadAttackPosition;
@@ -139,6 +147,8 @@ public class BossAI : MonoBehaviour
     const string ATTACKANIMATION = "attack";
     const string ATTACKPOSEANIMATION = "attackPose";
     const string JUMPFORWARDATTACKANIMATION = "jumpForwardAttack";
+    const string JUMPFORWARDATTACKJUMPANIMATION = "jumpForwardAttackJump";
+    const string JUMPFORWARDATTACKPREPARATIONANIMATION = "jumpForwardAttackPreparation";
     const string OVERHEADATTACKANIMATION = "overheadAttack";
     const string LUNGEANIMATION = "lunge";
     const string LUNGEDOWNANIMATION = "lungeDown";
@@ -188,13 +198,26 @@ public class BossAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        grounded = false;
+        //Colliders->check to see if the player is currently on the ground
+        Collider2D[] collidersGround = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRange, whatIsGround);
+        for (int i = 0; i < collidersGround.Length; i++)
+        {
+            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap")
+            {
+                grounded = true;
+            }
+        }
         //Exceptions
         if (boss.isDead)
         {
-            rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            if (grounded)
+            {
+                rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
             return;
         }
-        if (boss.isTakingDamage || KarasuEntity.dead)
+        if (KarasuEntity.dead)
         {
             return;
         }
@@ -204,7 +227,24 @@ public class BossAI : MonoBehaviour
             currentlyLunging = false;
         }
 
-        if (currentlyLunging)
+        if (currentlyJumpingForward)
+        {
+            if (grounded)
+            {
+                currentlyJumpingForward = false;
+                JumpForwardAttack();
+            }
+        }
+        if (currentlyLungingDown)
+        {
+            if (grounded)
+            {
+                currentlyLungingDown = false;
+                BossLungeDownAttack();
+            }
+        }
+
+        if (!currentlyLunging)
         {
             if (direction == -1 && !facingLeft)
             {
@@ -242,12 +282,12 @@ public class BossAI : MonoBehaviour
         }
 
         //Only decide on attacks if no decision has yet been made
-        if (attackDecision == AttackDecision.none && Time.time > timeUntilNextDecision)
+        if (attackDecision == AttackDecision.none && Time.time > timeUntilNextDecision && !currentlyAttacking)
         {
             CalculateDecision();
         }
         //If boss decided on using the basic attack, walk up to the target and attack
-        //If boss decided on using the lunge attack, dash forward while attacking
+        //If boss decided on using the lunge attack, dash forward a fixed distance while attacking
         //If boss decided on using the jump forward attack, jump to target's location and attack
         if (attackDecision == AttackDecision.basic)
         {
@@ -273,10 +313,17 @@ public class BossAI : MonoBehaviour
             if (!currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform)
             {
                 currentlyAttacking = true;
-                JumpForwardAttack();
+                JumpForwardAttackPreparation();
             }
         }
-
+        else if (attackDecision == AttackDecision.lungeDown)
+        {
+            if (!currentlyAttacking && !boss.isTakingDamage && currentTarget == karasuTransform)
+            {
+                currentlyAttacking = true;
+                LungeDownAttack();
+            }
+        }
         //If boss has already used all three of his attacks, there is a ~50% chance that his next one will be the lunge down attack
         //Other attacks are reset after using the lunge down attack
         if (usedBasicAttack && usedLungeAttack && usedJumpForwardAttack && !currentlyAttacking && Time.time > timeUntilNextDecision)
@@ -292,14 +339,6 @@ public class BossAI : MonoBehaviour
                 usedLungeAttack = false;
                 usedJumpForwardAttack = false;
             }
-        }
-        if (attackDecision == AttackDecision.lungeDown)
-        {
-            currentlyAttacking = true;
-            LungeDownAttack();
-            usedBasicAttack = false;
-            usedLungeAttack = false;
-            usedJumpForwardAttack = false;
         }
 
         //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
@@ -444,7 +483,7 @@ public class BossAI : MonoBehaviour
             {
                 if (transform.position.x > currentTarget.position.x)
                 {
-                    if (attackDecision == AttackDecision.lunge)
+                    if (attackDecision == AttackDecision.lunge || attackDecision != AttackDecision.jumpForward)
                     {
                         direction = -1;
                     }
@@ -455,7 +494,7 @@ public class BossAI : MonoBehaviour
                 }
                 else if (transform.position.x < currentTarget.position.x)
                 {
-                    if (attackDecision == AttackDecision.lunge)
+                    if (attackDecision == AttackDecision.lunge || attackDecision != AttackDecision.jumpForward)
                     {
                         direction = 1;
                     }
@@ -465,7 +504,7 @@ public class BossAI : MonoBehaviour
                     }
                 }
             }
-            if (attackDecision != AttackDecision.lunge)
+            if (attackDecision != AttackDecision.lunge || attackDecision != AttackDecision.jumpForward)
             {
                 direction = 0;
             }
@@ -489,7 +528,8 @@ public class BossAI : MonoBehaviour
             if (enemy.name == "ParryCollider")
             {
                 Debug.Log("Successfully parried an attack");
-                parriedOrBlocked = true;
+                boss.BossStagger();
+                return;
             }
             else if (enemy.name == "BlockCollider")
             {
@@ -533,7 +573,8 @@ public class BossAI : MonoBehaviour
         {
             if (enemy.name == "ParryCollider")
             {
-                Debug.Log("Successfully parried an attack");
+                boss.BossStagger();
+                rigidBody2D.velocity = Vector2.zero;
                 parriedOrBlocked = true;
             }
             else if (enemy.name == "BlockCollider")
@@ -557,10 +598,16 @@ public class BossAI : MonoBehaviour
         attackDecision = AttackDecision.none;
     }
 
-    void JumpForwardAttack()
+    void JumpForwardAttackPreparation()
     {
+        AnimatorSwitchState(JUMPFORWARDATTACKPREPARATIONANIMATION);
+    }
+
+    void JumpForwardAttackJump()
+    {
+        AnimatorSwitchState(JUMPFORWARDATTACKJUMPANIMATION);
         rigidBody2D.AddForce(Vector2.up * jumpForceJumpForward);
-        moveForceJumpForward = Mathf.Pow(moveForceJumpForwardBaseValue, hDistance);
+        moveForceJumpForward = hDistance * moveForceJumpForwardMultiplier;
         if (direction == -1)
         {
             rigidBody2D.AddForce(Vector2.left * moveForceJumpForward);
@@ -569,7 +616,18 @@ public class BossAI : MonoBehaviour
         {
             rigidBody2D.AddForce(Vector2.right * moveForceJumpForward);
         }
-        
+
+        StartCoroutine(Jump());
+    }
+
+    IEnumerator Jump()
+    {
+        yield return new WaitForSeconds(0.1f);
+        currentlyJumpingForward = true;
+    }
+
+    private void JumpForwardAttack()
+    {
         lastTimeAttack = Time.time;
         numberOfAttacks++;
         AnimatorSwitchState(JUMPFORWARDATTACKANIMATION);
@@ -584,6 +642,7 @@ public class BossAI : MonoBehaviour
             if (enemy.name == "ParryCollider")
             {
                 Debug.Log("Successfully parried an attack");
+                boss.BossStagger();
                 parriedOrBlocked = true;
             }
             else if (enemy.name == "BlockCollider")
@@ -611,6 +670,7 @@ public class BossAI : MonoBehaviour
     void LungeDownAttack()
     {
         rigidBody2D.AddForce(Vector2.up * jumpForceLungeDown);
+        currentlyLungingDown = true;
         lastTimeAttack = Time.time;
         numberOfAttacks++;
         AnimatorSwitchState(LUNGEDOWNANIMATION);
@@ -709,9 +769,15 @@ public class BossAI : MonoBehaviour
 
     IEnumerator StopMovingWhileAttacking()
     {
-        if (attackDecision == AttackDecision.lunge || attackDecision == AttackDecision.jumpForward)
+        if (attackDecision == AttackDecision.lunge)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.15f);
+            currentlyAttacking = false;
+            rigidBody2D.velocity = Vector2.zero;
+        }
+        else if (attackDecision == AttackDecision.jumpForward)
+        {
+            yield return new WaitForSeconds(0.3f);
             currentlyAttacking = false;
             rigidBody2D.velocity = Vector2.zero;
         }
@@ -749,11 +815,11 @@ public class BossAI : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (lungeDownAttackPosition == null)
+        if (groundCheck == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(overheadAttackPosition.position, overheadAttackRange);
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRange);
     }
 
     //Animation manager

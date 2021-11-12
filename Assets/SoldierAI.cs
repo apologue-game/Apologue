@@ -9,6 +9,7 @@ public class SoldierAI : MonoBehaviour
     int myID;
     string myName = "";
     Soldier soldier;
+    public HealthBar healthBar;
 
     //Targeting
     GameObject karasu;
@@ -260,6 +261,7 @@ public class SoldierAI : MonoBehaviour
                 if (!facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = -1;
                 if (goingDownFromAPlatform && goingDownDirection == 0)
@@ -272,6 +274,7 @@ public class SoldierAI : MonoBehaviour
                 if (facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = 1;
                 if (goingDownFromAPlatform && goingDownDirection == 0)
@@ -288,6 +291,7 @@ public class SoldierAI : MonoBehaviour
                 if (transform.position.x > currentTarget.position.x && !facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                     if (goingDownFromAPlatform && goingDownDirection == 0)
                     {
                         goingDownDirection = direction;
@@ -296,6 +300,7 @@ public class SoldierAI : MonoBehaviour
                 else if (transform.position.x < currentTarget.position.x && facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                     if (goingDownFromAPlatform && goingDownDirection == 0)
                     {
                         goingDownDirection = direction;
@@ -336,10 +341,12 @@ public class SoldierAI : MonoBehaviour
         if (goingDownDirection == -1 && !facingLeft)
         {
             Flip();
+            healthBar.Flip();
         }
         else if (goingDownDirection == 1 && facingLeft)
         {
             Flip();
+            healthBar.Flip();
         }
         rigidBody2D.velocity = new Vector2(goingDownDirection * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
     }
@@ -462,6 +469,7 @@ public class SoldierAI : MonoBehaviour
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
             soldier.currentHealth = soldier.maxHealth;
+            healthBar.SetHealth(soldier.maxHealth);
         }
     }
 

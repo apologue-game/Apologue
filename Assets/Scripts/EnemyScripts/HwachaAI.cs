@@ -8,6 +8,7 @@ public class HwachaAI : MonoBehaviour
     int myID;
     string myName = "";
     Hwacha hwacha;
+    HealthBar healthBar;
 
     //Targeting
     GameObject karasu;
@@ -21,9 +22,6 @@ public class HwachaAI : MonoBehaviour
     Animator animator;
     KarasuEntity karasuEntity;
     PlayerControl playerControl;
-
-    //Pathseeking
-    private Rigidbody2D rigidBody2D;
 
     //Movement
     public float hDistance;
@@ -64,7 +62,6 @@ public class HwachaAI : MonoBehaviour
 
         //Self references and initializations
         animator = GetComponent<Animator>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
         hwacha = GetComponent<Hwacha>();
 
         //Ignore collider collisions
@@ -92,7 +89,6 @@ public class HwachaAI : MonoBehaviour
         //Exceptions
         if (hwacha.isDead)
         {
-            rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
         if (hwacha.isTakingDamage || KarasuEntity.dead)
@@ -184,6 +180,7 @@ public class HwachaAI : MonoBehaviour
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
             hwacha.currentHealth = hwacha.maxHealth;
+            healthBar.SetMaximumHealth(hwacha.maxHealth);
         }
     }
 

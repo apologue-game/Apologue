@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FemaleArcher : MonoBehaviour, IEnemy
 {
     FemaleArcherAI femaleArcherAI;
+    public HealthBar healthBar;
+    public Image healthBarFill;
+    public Image healthBarBorder;
+    public GameObject healthBarFillGO;
+    public GameObject healthBarBorderGO;
 
     public Animator animator { get; set; }
 
@@ -30,6 +36,10 @@ public class FemaleArcher : MonoBehaviour, IEnemy
     void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaximumHealth(maxHealth);
+
+        healthBarFill.canvasRenderer.SetAlpha(0f);
+        healthBarBorder.canvasRenderer.SetAlpha(0f);
     }
 
     public void TakeDamage(int damage, bool? specialInteraction)
@@ -41,6 +51,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
         else
         {
             currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
             if (currentHealth <= 0)
             {
                 if (specialInteraction == true)
@@ -52,7 +63,21 @@ public class FemaleArcher : MonoBehaviour, IEnemy
                 return;
             }
             //StartCoroutine(ArcherStaggered());
+            StartCoroutine(ShowHealthBar());
         }
+    }
+    public void FadeOutHealthBars()
+    {
+        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
+        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
+    }
+
+    IEnumerator ShowHealthBar()
+    {
+        healthBarFill.canvasRenderer.SetAlpha(1f);
+        healthBarBorder.canvasRenderer.SetAlpha(1f);
+        yield return new WaitForSeconds(1.5f);
+        FadeOutHealthBars();
     }
 
     //IEnumerator ArcherStaggered()

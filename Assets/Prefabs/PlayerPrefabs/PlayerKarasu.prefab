@@ -5692,6 +5692,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8e166bf2-c17b-45c7-90d4-dc887a6835f2
     m_ActionName: Player/SpawnWoodenBox[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnCrouchRoll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 588423a7-6cce-4195-a4aa-3f741c46cc4d
+    m_ActionName: PlayerGamepad/CrouchRoll[/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -5827,6 +5843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a291d182888949444b8b3910496804da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
   currentHealth: 0
 --- !u!1 &6984563776747867231
 GameObject:

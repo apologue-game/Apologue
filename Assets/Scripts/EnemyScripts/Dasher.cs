@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Dasher : MonoBehaviour, IEnemy
 {
     DasherAI dasherAI;
+    public HealthBar healthBar;
+    public Image healthBarFill;
+    public Image healthBarBorder;
+    public GameObject healthBarFillGO;
+    public GameObject healthBarBorderGO;
 
     public Animator animator { get; set; }
 
@@ -31,6 +37,10 @@ public class Dasher : MonoBehaviour, IEnemy
     void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaximumHealth(maxHealth);
+
+        healthBarFill.canvasRenderer.SetAlpha(0f);
+        healthBarBorder.canvasRenderer.SetAlpha(0f);
     }
 
     public void TakeDamage(int damage, bool? specialInteraction)
@@ -49,14 +59,21 @@ public class Dasher : MonoBehaviour, IEnemy
             {
                 currentHealth -= damage;
             }
-            
+            healthBar.SetHealth(currentHealth);
             if (currentHealth <= 0)
             {
                 StartCoroutine(Death());
                 return;
             }
             StartCoroutine(DasherIsTakingDamage());
+            StartCoroutine(ShowHealthBar());
         }
+    }
+
+    public void FadeOutHealthBars()
+    {
+        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
+        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);   
     }
 
     public void Stagger()
@@ -66,18 +83,25 @@ public class Dasher : MonoBehaviour, IEnemy
 
     public IEnumerator DasherIsTakingDamage()
     {
-        isStaggered = true;
-        //animator.Play("stagger");
+        isTakingDamage = true;
         yield return new WaitForSeconds(1.5f);
-        isStaggered = false;
+        isTakingDamage = false;
     }
 
     public IEnumerator DasherStaggered()
     {
-        isTakingDamage = true;
+        isStaggered = true;
         animator.Play("stagger");
         yield return new WaitForSeconds(1.5f);
-        isTakingDamage = false;
+        isStaggered = false;
+    }
+
+    IEnumerator ShowHealthBar()
+    {
+        healthBarFill.canvasRenderer.SetAlpha(1f);
+        healthBarBorder.canvasRenderer.SetAlpha(1f);
+        yield return new WaitForSeconds(1.5f);
+        FadeOutHealthBars();
     }
 
     public IEnumerator Death()

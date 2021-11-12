@@ -53,6 +53,9 @@ TagManager:
   - name: Tilemap
     uniqueID: 3793692893
     locked: 0
+  - name: WarCamp
+    uniqueID: 2879523641
+    locked: 0
   - name: Player
     uniqueID: 496549353
     locked: 0

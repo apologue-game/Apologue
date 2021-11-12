@@ -440,6 +440,14 @@
                     "interactions": "Hold"
                 },
                 {
+                    "name": "CrouchRoll",
+                    "type": "Button",
+                    "id": "588423a7-6cce-4195-a4aa-3f741c46cc4d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Slide",
                     "type": "Button",
                     "id": "8026295d-335d-43fd-be58-6da618f0f314",
@@ -503,7 +511,7 @@
                 {
                     "name": "modifier",
                     "id": "17e69891-95b6-447b-a9a5-9f327cd99ee6",
-                    "path": "<XInputController>/leftShoulder",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -514,7 +522,7 @@
                 {
                     "name": "button",
                     "id": "ef5ac0ed-a523-4135-8bb7-5a02e4dc3c5a",
-                    "path": "<XInputController>/buttonWest",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -536,7 +544,7 @@
                 {
                     "name": "left",
                     "id": "cdc6b071-9aa8-43f6-9c1b-e0505f78d7c5",
-                    "path": "<XInputController>/leftStick/left",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -547,7 +555,7 @@
                 {
                     "name": "right",
                     "id": "4e512156-539f-4951-a3df-7a84c62e9e19",
-                    "path": "<XInputController>/leftStick/right",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -558,7 +566,7 @@
                 {
                     "name": "",
                     "id": "8be52cd6-e4e5-459a-aa81-34f53b4f36e4",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -569,10 +577,10 @@
                 {
                     "name": "",
                     "id": "0534635b-eed6-4df1-b59a-7350310b8ecd",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Gamepad;Joystick",
                     "action": "Slide",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -580,10 +588,10 @@
                 {
                     "name": "",
                     "id": "09aa443e-3699-4ce4-9b6f-1264665d173e",
-                    "path": "<Keyboard>/leftCtrl",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "Gamepad;Joystick",
                     "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -591,7 +599,7 @@
                 {
                     "name": "",
                     "id": "cd219cb7-daec-46dd-a464-47c8258ae970",
-                    "path": "<XInputController>/buttonWest",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -602,7 +610,7 @@
                 {
                     "name": "",
                     "id": "2db2df13-6810-4b77-b6b2-4a75b1160c46",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -613,7 +621,7 @@
                 {
                     "name": "",
                     "id": "fe620d8f-2143-4b54-9c41-9ade95365525",
-                    "path": "<XInputController>/buttonEast",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad;Joystick",
@@ -624,7 +632,7 @@
                 {
                     "name": "",
                     "id": "b1aadac4-392b-43d3-a427-d4cbe2b9b52e",
-                    "path": "<XInputController>/buttonNorth",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick;Gamepad",
@@ -651,6 +659,17 @@
                     "processors": "",
                     "groups": "Joystick;Gamepad",
                     "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42e2e79a-bcb7-4754-ad45-44f833c72e4a",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Joystick",
+                    "action": "CrouchRoll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

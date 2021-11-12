@@ -8,6 +8,7 @@ public class ShieldmanAI : MonoBehaviour
     int myID;
     string myName = "";
     Shieldman shieldman;
+    public HealthBar healthBar;
 
     //Targeting
     GameObject karasu;
@@ -309,6 +310,7 @@ public class ShieldmanAI : MonoBehaviour
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
             shieldman.currentHealth = shieldman.maxHealth;
+            healthBar.SetMaximumHealth(shieldman.maxHealth);
         }
     }
 
