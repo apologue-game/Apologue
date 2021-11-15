@@ -9,6 +9,8 @@ public class ArrowProjectile : MonoBehaviour
     FemaleArcherAI femaleArcherAI;
     KarasuEntity karasuEntity;
     Rigidbody2D rigidBody2D;
+    BoxCollider2D archerCollider;
+    BoxCollider2D arrowCollider;
     float arrowForceDynamic = 0;
     float modifier;
     bool parried = false;
@@ -37,12 +39,15 @@ public class ArrowProjectile : MonoBehaviour
             }
         }
         femaleArcherAI = archerList[archerIndex].GetComponent<FemaleArcherAI>();
+        archerCollider = archerList[archerIndex].GetComponent<BoxCollider2D>();
         karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
         rigidBody2D = GetComponent<Rigidbody2D>();
+        arrowCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
     {
+        Physics2D.IgnoreCollision(arrowCollider, archerCollider);
         CalculateArrowForce();
         if (femaleArcherAI.facingLeft)
         {
@@ -110,6 +115,7 @@ public class ArrowProjectile : MonoBehaviour
     {
         if (collision.name == "ParryCollider")
         {
+            Physics2D.IgnoreCollision(arrowCollider, archerCollider, false);
             parried = true;
             rigidBody2D.velocity = Vector2.zero;
             Vector2 direction = ((Vector2)femaleArcherAI.transform.position - rigidBody2D.position).normalized;

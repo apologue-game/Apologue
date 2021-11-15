@@ -5,9 +5,11 @@ using UnityEngine;
 public class HwachaArrow : MonoBehaviour
 {
     HwachaAI hwachaAI;
+    BoxCollider2D hwachaBoxCollider;
+    BoxCollider2D arrowCollider;
     KarasuEntity karasuEntity;
     Rigidbody2D rigidBody2D;
-    float arrowForce = 50;
+    float arrowForce = 30;
     bool parried = false;
     public float deflectForce = 0;
     float oldDistance = 0;
@@ -34,12 +36,15 @@ public class HwachaArrow : MonoBehaviour
             }
         }
         hwachaAI = hwachaList[hwachaIndex].GetComponent<HwachaAI>();
+        hwachaBoxCollider = hwachaList[hwachaIndex].GetComponent<BoxCollider2D>();
         karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
         rigidBody2D = GetComponent<Rigidbody2D>();
+        arrowCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
     {
+        Physics2D.IgnoreCollision(arrowCollider, hwachaBoxCollider);
         rigidBody2D.velocity = -transform.right * arrowForce;
         StartCoroutine(DestroyItself());
     }
@@ -54,6 +59,7 @@ public class HwachaArrow : MonoBehaviour
     {
         if (collision.name == "ParryCollider")
         {
+            Physics2D.IgnoreCollision(arrowCollider, hwachaBoxCollider, false);
             parried = true;
             rigidBody2D.velocity = Vector2.zero;
             Vector2 direction = ((Vector2)hwachaAI.transform.position - rigidBody2D.position).normalized;
@@ -62,7 +68,7 @@ public class HwachaArrow : MonoBehaviour
             //particle effects
             return;
         }
-        if (collision.name == "PlayerKarasu" && parried == false)
+        if (collision.CompareTag("Player") && parried == false)
         {
             karasuEntity.TakeDamage(1, null);
             //particle effects

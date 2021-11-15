@@ -9,6 +9,7 @@ public class GameMaster : MonoBehaviour
 
     public GameObject karasuPlayerPrefab;
     public static Transform respawnLocation;
+    Transform closestCheckpoint = null;
 
     //Enemy identification needed for destroying spawn locations object
     public static int enemyID = 0;
@@ -25,7 +26,23 @@ public class GameMaster : MonoBehaviour
 
     public static void KillPlayer(KarasuEntity karasuEntity)
     {
-        karasuEntity.gameObject.transform.position = respawnLocation.position;
+        if (respawnLocation != null)
+        {
+            karasuEntity.transform.position = respawnLocation.position;
+        }
+        else
+        {
+            GameObject[] checkPointArray = GameObject.FindGameObjectsWithTag("Respawn");
+            gameMaster.closestCheckpoint = checkPointArray[0].transform;
+            for (int i = 0; i < checkPointArray.Length; i++)
+            {
+                if (checkPointArray[i].transform.position.x - karasuEntity.transform.position.x < gameMaster.closestCheckpoint.position.x - karasuEntity.transform.position.x)
+                {
+                    gameMaster.closestCheckpoint = checkPointArray[i].transform;
+                }
+            }
+            karasuEntity.transform.position = gameMaster.closestCheckpoint.position;
+        }
     }
 
     public static void DestroyGameObject(GameObject gameObject)

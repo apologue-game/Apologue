@@ -29,7 +29,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
         femaleArcherAI = GetComponent<FemaleArcherAI>();
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 5;
+        maxHealth = 1;
         enemyType = IEnemy.EnemyType.ranged;
     }
 

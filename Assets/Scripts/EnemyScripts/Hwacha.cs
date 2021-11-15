@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class Hwacha : MonoBehaviour, IEnemy
 {
-    HwachaAI hwachaAI;
     public HealthBar healthBar;
     public Image healthBarFill;
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
     public GameObject healthBarBorderGO;
+    BoxCollider2D hwachaCollider;
+    BoxCollider2D playerCollider;
 
 
     public Animator animator { get; set; }
@@ -28,7 +29,7 @@ public class Hwacha : MonoBehaviour, IEnemy
 
     private void Awake()
     {
-        hwachaAI = GetComponent<HwachaAI>();
+        hwachaCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         isDead = false;
         maxHealth = 5;
@@ -37,6 +38,8 @@ public class Hwacha : MonoBehaviour, IEnemy
 
     void Start()
     {
+        playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
+
         currentHealth = maxHealth;
         healthBar.SetMaximumHealth(maxHealth);
 
@@ -82,6 +85,7 @@ public class Hwacha : MonoBehaviour, IEnemy
         isDead = true;
         animator.Play("death");
         yield return new WaitForSeconds(3.5f);
+        Physics2D.IgnoreCollision(hwachaCollider, playerCollider);
         //GameMaster.DestroyGameObject(gameObject);
     }
 }

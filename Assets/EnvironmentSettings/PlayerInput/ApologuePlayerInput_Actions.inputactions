@@ -75,7 +75,7 @@
                     "id": "ef4d892d-eec5-4c1c-baee-601dafbd0144",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": ""
                 },
                 {
                     "name": "MediumAttack",
@@ -145,6 +145,14 @@
                     "name": "SpawnWoodenBox",
                     "type": "Button",
                     "id": "8e166bf2-c17b-45c7-90d4-dc887a6835f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PauseGame",
+                    "type": "Button",
+                    "id": "c601e726-fa8e-44d3-9f41-de718346d404",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -392,6 +400,17 @@
                     "action": "SpawnWoodenBox",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1585635-7e85-4449-ad6a-50c85bfa0c41",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -461,7 +480,7 @@
                     "id": "c6d7712a-aad8-4ed4-a219-f48520950132",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": ""
                 },
                 {
                     "name": "MediumAttack",
@@ -491,6 +510,14 @@
                     "name": "Block",
                     "type": "Button",
                     "id": "78e56375-a6c8-409d-8d62-c1268bb2e9bb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PauseGame",
+                    "type": "Button",
+                    "id": "9b387149-ed9f-4b8a-8529-9c4322671650",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -672,6 +699,17 @@
                     "action": "CrouchRoll",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f594739b-fe07-494c-acba-e777bf3f8b75",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -756,6 +794,14 @@
                     "type": "PassThrough",
                     "id": "b18ba8f0-5d4c-4f34-b0ac-ede8bb36c3a9",
                     "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PauseMenu",
+                    "type": "Button",
+                    "id": "b5ae94a2-a6b0-4a38-8d81-1449ad822d1c",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -1176,6 +1222,28 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "398fd1f7-264a-4c0c-901d-dde16a994a11",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02f40af5-d055-4864-a3f5-e6b24e4b7ee7",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad",
+                    "action": "PauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -20,17 +20,14 @@ public class HwachaAI : MonoBehaviour
 
     //Animation control
     Animator animator;
-    KarasuEntity karasuEntity;
-    PlayerControl playerControl;
 
     //Movement
-    public float hDistance;
+    public float hDistanceAbsolute;
     public float vDistance;
     float spawnHorizontalDistance;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
-    BoxCollider2D boxCollider2DKarasu;
     CircleCollider2D karasuParryCollider;
     CircleCollider2D karasuBlockCollider;
 
@@ -56,8 +53,6 @@ public class HwachaAI : MonoBehaviour
     {
         //Neccessary references for targeting
         karasu = GameObject.FindGameObjectWithTag("Player");
-        karasuEntity = karasu.GetComponent<KarasuEntity>();
-        playerControl = karasu.GetComponent<PlayerControl>();
         karasuTransform = karasu.transform;
 
         //Self references and initializations
@@ -65,7 +60,6 @@ public class HwachaAI : MonoBehaviour
         hwacha = GetComponent<Hwacha>();
 
         //Ignore collider collisions
-        boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
         karasuParryCollider = karasu.transform.Find("ParryCollider").GetComponent<CircleCollider2D>();
         karasuBlockCollider = karasu.transform.Find("BlockCollider").GetComponent<CircleCollider2D>();
 
@@ -80,7 +74,6 @@ public class HwachaAI : MonoBehaviour
 
     void Start()
     {
-        Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
     }
 
@@ -96,15 +89,18 @@ public class HwachaAI : MonoBehaviour
             return;
         }
 
-        if (currentTarget == null)
+        if (currentTarget == spawn)
         {
             AnimatorSwitchState(IDLEANIMATION);
         }
 
+        float distance = transform.position.x - karasuTransform.position.x;
+        hDistanceAbsolute = Mathf.Abs(transform.position.x - karasuTransform.position.x);
+
         //Attacking
-        if (currentTarget != null)
+        if (currentTarget == karasuTransform)
         {
-            if (Time.time > nextAttack && !currentlyAttacking)
+            if (Time.time > nextAttack && !currentlyAttacking && distance > 1)
             {
                 currentlyAttacking = true;
                 Attack();
@@ -171,16 +167,16 @@ public class HwachaAI : MonoBehaviour
     //Utilities
     void InCombatOrGoBackToSpawn()
     {
-        if (hDistance < 25 && currentTarget != karasuTransform)
+        if (hDistanceAbsolute < 10 && currentTarget != karasuTransform)
         {
             currentTarget = karasuTransform;
         }
-        else if (hDistance > 25 && currentTarget != spawn.transform)
+        else if (hDistanceAbsolute > 15 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
-            hwacha.currentHealth = hwacha.maxHealth;
-            healthBar.SetMaximumHealth(hwacha.maxHealth);
+            //hwacha.currentHealth = hwacha.maxHealth;
+            //healthBar.SetMaximumHealth(hwacha.maxHealth);
         }
     }
 

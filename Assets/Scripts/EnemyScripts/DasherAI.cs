@@ -96,7 +96,7 @@ public class DasherAI : MonoBehaviour
     void Start()
     {
         movementSpeedHelper = movementSpeed;
-        Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
+        //Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
@@ -125,6 +125,7 @@ public class DasherAI : MonoBehaviour
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
         if (isFallingBack && !currentlyAttacking)
         {
+            //Falling back
             AnimatorSwitchState(RECOVERYANIMATION);
             rigidBody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * 30 * 1f, rigidBody2D.velocity.y);
             if (spawnHorizontalDistance < stoppingDistance && !isDashing)
@@ -141,7 +142,7 @@ public class DasherAI : MonoBehaviour
         //Keep moving towards the target
         //Stopping distance from the target so the enemy won't try to go directly inside of them
         //Actual movement -> dash close to target
-        if (hDistance > stoppingDistance && vDistance < stoppingDistance && Time.time > lastTimeAttack && Time.time > nextDashAttackTime && !currentlyAttacking && !attacked)
+        if (hDistance > stoppingDistance && hDistance < 9 && vDistance < stoppingDistance && Time.time > lastTimeAttack && Time.time > nextDashAttackTime && !currentlyAttacking && !attacked)
         {
             isDashing = true;
             AnimatorSwitchState(DASHANIMATION);
@@ -162,7 +163,7 @@ public class DasherAI : MonoBehaviour
         {
             Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
             Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
-            Physics2D.IgnoreCollision(boxCollider2D, karasuSlideCollider);
+            //Physics2D.IgnoreCollision(boxCollider2D, karasuSlideCollider);
         }
     }
 
@@ -228,16 +229,18 @@ public class DasherAI : MonoBehaviour
 
     void InCombatOrGoBackToSpawn()
     {
-        if (hDistance < 25 && currentTarget != karasuTransform)
+        if (hDistance < 9 && currentTarget != karasuTransform)
         {
             currentTarget = karasuTransform;
         }
-        else if (hDistance > 25 && currentTarget != spawn.transform)
+        else if (hDistance > 13 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
             dasher.currentHealth = dasher.maxHealth;
             healthBar.SetHealth(dasher.maxHealth);
+
+            transform.position = spawnLocation;
         }
     }
 

@@ -88,7 +88,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""id"": ""ef4d892d-eec5-4c1c-baee-601dafbd0144"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""MediumAttack"",
@@ -158,6 +158,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""name"": ""SpawnWoodenBox"",
                     ""type"": ""Button"",
                     ""id"": ""8e166bf2-c17b-45c7-90d4-dc887a6835f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""c601e726-fa8e-44d3-9f41-de718346d404"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -405,6 +413,17 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""action"": ""SpawnWoodenBox"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1585635-7e85-4449-ad6a-50c85bfa0c41"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -474,7 +493,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""id"": ""c6d7712a-aad8-4ed4-a219-f48520950132"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""MediumAttack"",
@@ -504,6 +523,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""name"": ""Block"",
                     ""type"": ""Button"",
                     ""id"": ""78e56375-a6c8-409d-8d62-c1268bb2e9bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b387149-ed9f-4b8a-8529-9c4322671650"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -685,6 +712,17 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""action"": ""CrouchRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f594739b-fe07-494c-acba-e777bf3f8b75"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick;Gamepad"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -769,6 +807,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""b18ba8f0-5d4c-4f34-b0ac-ede8bb36c3a9"",
                     ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""PauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""b5ae94a2-a6b0-4a38-8d81-1449ad822d1c"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -1191,6 +1237,28 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""398fd1f7-264a-4c0c-901d-dde16a994a11"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02f40af5-d055-4864-a3f5-e6b24e4b7ee7"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick;Gamepad"",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1278,6 +1346,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_Player_Teleport = m_Player.FindAction("Teleport", throwIfNotFound: true);
         m_Player_SpawnMetalBox = m_Player.FindAction("SpawnMetalBox", throwIfNotFound: true);
         m_Player_SpawnWoodenBox = m_Player.FindAction("SpawnWoodenBox", throwIfNotFound: true);
+        m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
         // PlayerGamepad
         m_PlayerGamepad = asset.FindActionMap("PlayerGamepad", throwIfNotFound: true);
         m_PlayerGamepad_Move = m_PlayerGamepad.FindAction("Move", throwIfNotFound: true);
@@ -1292,6 +1361,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerGamepad_HeavyAttack = m_PlayerGamepad.FindAction("HeavyAttack", throwIfNotFound: true);
         m_PlayerGamepad_Parry = m_PlayerGamepad.FindAction("Parry", throwIfNotFound: true);
         m_PlayerGamepad_Block = m_PlayerGamepad.FindAction("Block", throwIfNotFound: true);
+        m_PlayerGamepad_PauseGame = m_PlayerGamepad.FindAction("PauseGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1304,6 +1374,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_PauseMenu = m_UI.FindAction("PauseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1371,6 +1442,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Teleport;
     private readonly InputAction m_Player_SpawnMetalBox;
     private readonly InputAction m_Player_SpawnWoodenBox;
+    private readonly InputAction m_Player_PauseGame;
     public struct PlayerActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1393,6 +1465,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @Teleport => m_Wrapper.m_Player_Teleport;
         public InputAction @SpawnMetalBox => m_Wrapper.m_Player_SpawnMetalBox;
         public InputAction @SpawnWoodenBox => m_Wrapper.m_Player_SpawnWoodenBox;
+        public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1456,6 +1529,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @SpawnWoodenBox.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnWoodenBox;
                 @SpawnWoodenBox.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnWoodenBox;
                 @SpawnWoodenBox.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnWoodenBox;
+                @PauseGame.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1514,6 +1590,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @SpawnWoodenBox.started += instance.OnSpawnWoodenBox;
                 @SpawnWoodenBox.performed += instance.OnSpawnWoodenBox;
                 @SpawnWoodenBox.canceled += instance.OnSpawnWoodenBox;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
             }
         }
     }
@@ -1534,6 +1613,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerGamepad_HeavyAttack;
     private readonly InputAction m_PlayerGamepad_Parry;
     private readonly InputAction m_PlayerGamepad_Block;
+    private readonly InputAction m_PlayerGamepad_PauseGame;
     public struct PlayerGamepadActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1550,6 +1630,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_PlayerGamepad_HeavyAttack;
         public InputAction @Parry => m_Wrapper.m_PlayerGamepad_Parry;
         public InputAction @Block => m_Wrapper.m_PlayerGamepad_Block;
+        public InputAction @PauseGame => m_Wrapper.m_PlayerGamepad_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_PlayerGamepad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1595,6 +1676,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Block.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
+                @PauseGame.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
             }
             m_Wrapper.m_PlayerGamepadActionsCallbackInterface = instance;
             if (instance != null)
@@ -1635,6 +1719,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
             }
         }
     }
@@ -1653,6 +1740,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_PauseMenu;
     public struct UIActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1667,6 +1755,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        public InputAction @PauseMenu => m_Wrapper.m_UI_PauseMenu;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1706,6 +1795,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @TrackedDeviceOrientation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
+                @PauseMenu.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPauseMenu;
+                @PauseMenu.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPauseMenu;
+                @PauseMenu.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPauseMenu;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1740,6 +1832,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+                @PauseMenu.started += instance.OnPauseMenu;
+                @PauseMenu.performed += instance.OnPauseMenu;
+                @PauseMenu.canceled += instance.OnPauseMenu;
             }
         }
     }
@@ -1809,6 +1904,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnTeleport(InputAction.CallbackContext context);
         void OnSpawnMetalBox(InputAction.CallbackContext context);
         void OnSpawnWoodenBox(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IPlayerGamepadActions
     {
@@ -1824,6 +1920,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1837,5 +1934,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        void OnPauseMenu(InputAction.CallbackContext context);
     }
 }

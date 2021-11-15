@@ -11,10 +11,11 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rigidBody2D;
     Animator animator;
     WallTilemaps wallTilemaps;
+    static PlayerControl playerControl;
 
     //Movement system
     //Move
-    public float movementSpeed = 8f;
+    public float movementSpeed = 5.8f;
     float movementSpeedHelper;
     public bool facingRight = true;
     public float inputX;
@@ -142,6 +143,15 @@ public class PlayerControl : MonoBehaviour
     float parryCooldown = 4f;
     //Enemy blocking
     public static bool currentlyAttacking = false;
+
+    //Utilities
+    //Pause menu
+    [SerializeField] private GameObject pauseMenuPanel;
+    public static bool isGamePaused;
+    //Interactable objects -> icon above the head
+    public GameObject interactionIconPrefab;
+    GameObject interactionTooltip;
+
     //Testing
 
     //Animation manager
@@ -190,6 +200,7 @@ public class PlayerControl : MonoBehaviour
         playerinputActions.Enable();
         playerInput = GetComponent<PlayerInput>();
         wallTilemaps = GameObject.Find("WallTilemapTrigger").GetComponent<WallTilemaps>();
+        playerControl = this;
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -205,6 +216,13 @@ public class PlayerControl : MonoBehaviour
         groundCheckRange = new Vector3(2.44f, 0.34f, 0);
 
         attackState = new AttackState();
+
+        interactionTooltip = transform.Find("InteractionTooltip").gameObject;
+    }
+
+    private void Start()
+    {
+
     }
 
     void FixedUpdate()
@@ -644,9 +662,9 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (callbackContext.control.IsPressed())
+        if (callbackContext.performed)
         {
-            if (Gamepad.all.Count == 0)
+            if (Gamepad.all.Count == 0)//if gamepad.current.enabled == null
             {
 
             }
@@ -656,26 +674,24 @@ public class PlayerControl : MonoBehaviour
             }
             if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack && !currentlyAttacking)
             {
-                Debug.Log("One");
                 combo = false;
                 attackState = AttackState.lightAttack;
                 AnimatorSwitchState(LIGHTATTACKANIMATION);
                 numberOfAttacks = 0;
+                numberOfAttacks++;
                 currentlyAttacking = true;
                 nextAttackTime = Time.time + 0.11f + 1f;
-                nextGlobalAttack = Time.time + 0.11f + 1.5f;
+                nextGlobalAttack = Time.time + 0.11f + 0.5f;
                 comboTimeWindow = Time.time + 1 + attackSpeed / 2;
 
             }
             else if (Time.time <= comboTimeWindow)
             {
-                Debug.Log("Two");
                 numberOfAttacks++;
                 combo = true;
             }
             if (combo && numberOfAttacks > 1)
             {
-                Debug.Log("Three");
                 comboFinished = true;
             }
         }
@@ -710,7 +726,7 @@ public class PlayerControl : MonoBehaviour
 
     void LightAttackUpwardsAnimation()
     {
-        if (numberOfAttacks == 1 && combo && !comboFinished)
+        if (numberOfAttacks == 2 && combo)
         {
             numberOfAttacks++;
             attackState = AttackState.lightAttackUpwards;
@@ -721,7 +737,7 @@ public class PlayerControl : MonoBehaviour
 
     void LightAttackUpwards()
     {
-        StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length));
+        StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length - 0.2f));
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordUppercutCollider.position, attackRangeUppercut, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -874,6 +890,25 @@ public class PlayerControl : MonoBehaviour
     }
 
     //Utilities
+    public void PauseGame(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            if (isGamePaused == true)
+            {
+                pauseMenuPanel.SetActive(false);
+                Time.timeScale = 1f;
+                isGamePaused = false;
+            }
+            else
+            {
+                pauseMenuPanel.SetActive(true);
+                Time.timeScale = 0f;
+                isGamePaused = true;
+            }
+        }
+    }
+
     private void OnEnable()
     {
         playerinputActions.Enable();
@@ -982,6 +1017,16 @@ public class PlayerControl : MonoBehaviour
         combo = false;
         comboFinished = false;
         attackState = AttackState.notAttacking;
+    }
+
+    public static void ShowInteractionIcon()
+    {
+        playerControl.interactionTooltip.SetActive(true);
+    }
+
+    public static void HideInteractionIcon()
+    {
+        playerControl.interactionTooltip.SetActive(false);
     }
 
     public void Teleport(InputAction.CallbackContext callbackContext)
