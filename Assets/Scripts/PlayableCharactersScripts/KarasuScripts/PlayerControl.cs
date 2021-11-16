@@ -13,6 +13,8 @@ public class PlayerControl : MonoBehaviour
     WallTilemaps wallTilemaps;
     static PlayerControl playerControl;
     bool currentActionMap;
+    public ParticleSystem dust;
+    public ParticleSystem dashParticleEffect;
 
     //Movement system
     //Move
@@ -495,7 +497,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (callbackContext.performed && Time.time > timeUntilNextDash && !isCrouching)
+        if (callbackContext.performed/* && Time.time > timeUntilNextDash */&& !isCrouching)
         {
             if (grounded || !grounded && dashInAirAvailable)
             {
@@ -526,6 +528,7 @@ public class PlayerControl : MonoBehaviour
                         timeUntilNextDash = Time.time + 2;
                     }
                 }
+                CreateDashParticleEffect();
                 StartCoroutine(IsDashing());
             }
         }
@@ -998,11 +1001,15 @@ public class PlayerControl : MonoBehaviour
         }
         Gizmos.DrawWireCube(groundCheck.position, groundCheckRange);
     }
-    public ParticleSystem dust;
-
+    
     void CreateDust()
     {
         dust.Play();
+    }
+
+    void CreateDashParticleEffect()
+    {
+        dashParticleEffect.Play();
     }
 
     //Animation manager

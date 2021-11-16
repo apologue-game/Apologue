@@ -12,6 +12,7 @@ public class BossAI : MonoBehaviour
     string myName = "";
     Boss boss;
     public GameObject bossHealthBar;
+    public ParticleSystem lungeDownAttackParticleEffect;
 
     //Targeting
     GameObject karasu;
@@ -284,7 +285,8 @@ public class BossAI : MonoBehaviour
         //Only decide on attacks if no decision has yet been made
         if (attackDecision == AttackDecision.none && Time.time > timeUntilNextDecision && !currentlyAttacking)
         {
-            CalculateDecision();
+            //CalculateDecision();
+            attackDecision = AttackDecision.lungeDown;
         }
         //If boss decided on using the basic attack, walk up to the target and attack
         //If boss decided on using the lunge attack, dash forward a fixed distance while attacking
@@ -666,6 +668,7 @@ public class BossAI : MonoBehaviour
 
     void BossLungeDownAttack()
     {
+        CreateLungeDownAttackParticleEffect();
         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(lungeAttackPosition.position, lungeDownAttackRange, 0f, enemiesLayers);
         try
         {
@@ -681,6 +684,7 @@ public class BossAI : MonoBehaviour
         nextLungeDownAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
+        timeUntilNextDecision = Time.time + decisionTimer;
     }
     void OverheadAttack()
     {
@@ -783,7 +787,12 @@ public class BossAI : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRange);
     }
 
-    //Animation manager
+    private void CreateLungeDownAttackParticleEffect()
+    {
+        lungeDownAttackParticleEffect.Play();
+    }
+
+    //Animations manager
     public void AnimatorSwitchState(string newState)
     {
         if (oldState == newState)
