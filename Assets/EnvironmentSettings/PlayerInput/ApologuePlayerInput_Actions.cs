@@ -123,46 +123,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": ""Hold(duration=0.2)""
                 },
                 {
-                    ""name"": ""SpawnHeavy"",
-                    ""type"": ""Button"",
-                    ""id"": ""0a2f9757-be16-4f95-bffa-5556f20e0a3f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""SpawnShieldman"",
-                    ""type"": ""Button"",
-                    ""id"": ""ba39a5f3-5284-4507-a6ff-fe4d85f3b9f2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Teleport"",
-                    ""type"": ""Button"",
-                    ""id"": ""bd039bb5-ec50-4f70-b232-2cf9d512e4b4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""SpawnMetalBox"",
-                    ""type"": ""Button"",
-                    ""id"": ""929208d6-ec6f-4619-9f57-3ba73a5f3880"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""SpawnWoodenBox"",
-                    ""type"": ""Button"",
-                    ""id"": ""8e166bf2-c17b-45c7-90d4-dc887a6835f2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""PauseGame"",
                     ""type"": ""Button"",
                     ""id"": ""c601e726-fa8e-44d3-9f41-de718346d404"",
@@ -350,67 +310,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""39f617a2-bacb-495e-a0bf-838e8b72ac8f"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SpawnHeavy"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""50acd098-00ed-4e1c-8741-56365a9ae1b4"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SpawnShieldman"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b34c3c4c-3d59-4c5c-a4df-48d317187fe5"",
-                    ""path"": ""<Keyboard>/g"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Teleport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""af110233-9008-4f1d-bcfc-d051b15e44a0"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""CrouchRoll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""eee6a78f-4513-4197-921f-89b0e5b71296"",
-                    ""path"": ""<Keyboard>/t"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SpawnMetalBox"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2fac5d6b-8232-4e6d-8782-3938ad9af75a"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""SpawnWoodenBox"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -469,7 +374,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""id"": ""fadb8f19-58fe-4a08-b703-c1e35977777d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""CrouchRoll"",
@@ -532,6 +437,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""9b387149-ed9f-4b8a-8529-9c4322671650"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""8d6a24d1-1d93-464e-b2e1-658595d5a0fd"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -620,7 +533,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -631,7 +544,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -721,6 +634,116 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick;Gamepad"",
                     ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""3cf48f03-3881-4d7b-aa7e-f558330f400d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""4436eefb-9a2f-462b-86c7-719d19c504b6"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""610d5104-0775-4b2c-a52c-684401343559"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""399687c7-3bb3-4090-84c6-cafd2de99320"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""5f18efaf-d309-485c-9c62-4631539619e0"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9341393f-f2d0-436a-b60e-973396b62186"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e8822ed3-8c04-4ddd-bec2-6ff584c932c9"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""2185eff3-a357-4d95-9e10-08aa009d13c7"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""fd83226b-7f19-49f1-8583-2b083db8f9af"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ac2b0cc-14ed-4324-9f43-6edecaa065a7"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1341,11 +1364,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
         m_Player_Parry = m_Player.FindAction("Parry", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
-        m_Player_SpawnHeavy = m_Player.FindAction("SpawnHeavy", throwIfNotFound: true);
-        m_Player_SpawnShieldman = m_Player.FindAction("SpawnShieldman", throwIfNotFound: true);
-        m_Player_Teleport = m_Player.FindAction("Teleport", throwIfNotFound: true);
-        m_Player_SpawnMetalBox = m_Player.FindAction("SpawnMetalBox", throwIfNotFound: true);
-        m_Player_SpawnWoodenBox = m_Player.FindAction("SpawnWoodenBox", throwIfNotFound: true);
         m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
         // PlayerGamepad
         m_PlayerGamepad = asset.FindActionMap("PlayerGamepad", throwIfNotFound: true);
@@ -1362,6 +1380,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerGamepad_Parry = m_PlayerGamepad.FindAction("Parry", throwIfNotFound: true);
         m_PlayerGamepad_Block = m_PlayerGamepad.FindAction("Block", throwIfNotFound: true);
         m_PlayerGamepad_PauseGame = m_PlayerGamepad.FindAction("PauseGame", throwIfNotFound: true);
+        m_PlayerGamepad_Navigate = m_PlayerGamepad.FindAction("Navigate", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1437,11 +1456,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_HeavyAttack;
     private readonly InputAction m_Player_Parry;
     private readonly InputAction m_Player_Block;
-    private readonly InputAction m_Player_SpawnHeavy;
-    private readonly InputAction m_Player_SpawnShieldman;
-    private readonly InputAction m_Player_Teleport;
-    private readonly InputAction m_Player_SpawnMetalBox;
-    private readonly InputAction m_Player_SpawnWoodenBox;
     private readonly InputAction m_Player_PauseGame;
     public struct PlayerActions
     {
@@ -1460,11 +1474,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
         public InputAction @Parry => m_Wrapper.m_Player_Parry;
         public InputAction @Block => m_Wrapper.m_Player_Block;
-        public InputAction @SpawnHeavy => m_Wrapper.m_Player_SpawnHeavy;
-        public InputAction @SpawnShieldman => m_Wrapper.m_Player_SpawnShieldman;
-        public InputAction @Teleport => m_Wrapper.m_Player_Teleport;
-        public InputAction @SpawnMetalBox => m_Wrapper.m_Player_SpawnMetalBox;
-        public InputAction @SpawnWoodenBox => m_Wrapper.m_Player_SpawnWoodenBox;
         public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1514,21 +1523,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
-                @SpawnHeavy.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnHeavy;
-                @SpawnHeavy.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnHeavy;
-                @SpawnHeavy.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnHeavy;
-                @SpawnShieldman.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnShieldman;
-                @SpawnShieldman.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnShieldman;
-                @SpawnShieldman.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnShieldman;
-                @Teleport.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleport;
-                @Teleport.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleport;
-                @Teleport.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTeleport;
-                @SpawnMetalBox.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnMetalBox;
-                @SpawnMetalBox.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnMetalBox;
-                @SpawnMetalBox.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnMetalBox;
-                @SpawnWoodenBox.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnWoodenBox;
-                @SpawnWoodenBox.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnWoodenBox;
-                @SpawnWoodenBox.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSpawnWoodenBox;
                 @PauseGame.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
                 @PauseGame.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
                 @PauseGame.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
@@ -1575,21 +1569,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
-                @SpawnHeavy.started += instance.OnSpawnHeavy;
-                @SpawnHeavy.performed += instance.OnSpawnHeavy;
-                @SpawnHeavy.canceled += instance.OnSpawnHeavy;
-                @SpawnShieldman.started += instance.OnSpawnShieldman;
-                @SpawnShieldman.performed += instance.OnSpawnShieldman;
-                @SpawnShieldman.canceled += instance.OnSpawnShieldman;
-                @Teleport.started += instance.OnTeleport;
-                @Teleport.performed += instance.OnTeleport;
-                @Teleport.canceled += instance.OnTeleport;
-                @SpawnMetalBox.started += instance.OnSpawnMetalBox;
-                @SpawnMetalBox.performed += instance.OnSpawnMetalBox;
-                @SpawnMetalBox.canceled += instance.OnSpawnMetalBox;
-                @SpawnWoodenBox.started += instance.OnSpawnWoodenBox;
-                @SpawnWoodenBox.performed += instance.OnSpawnWoodenBox;
-                @SpawnWoodenBox.canceled += instance.OnSpawnWoodenBox;
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
@@ -1614,6 +1593,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerGamepad_Parry;
     private readonly InputAction m_PlayerGamepad_Block;
     private readonly InputAction m_PlayerGamepad_PauseGame;
+    private readonly InputAction m_PlayerGamepad_Navigate;
     public struct PlayerGamepadActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1631,6 +1611,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @Parry => m_Wrapper.m_PlayerGamepad_Parry;
         public InputAction @Block => m_Wrapper.m_PlayerGamepad_Block;
         public InputAction @PauseGame => m_Wrapper.m_PlayerGamepad_PauseGame;
+        public InputAction @Navigate => m_Wrapper.m_PlayerGamepad_Navigate;
         public InputActionMap Get() { return m_Wrapper.m_PlayerGamepad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1679,6 +1660,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @PauseGame.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
                 @PauseGame.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
                 @PauseGame.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
+                @Navigate.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnNavigate;
             }
             m_Wrapper.m_PlayerGamepadActionsCallbackInterface = instance;
             if (instance != null)
@@ -1722,6 +1706,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
             }
         }
     }
@@ -1899,11 +1886,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
-        void OnSpawnHeavy(InputAction.CallbackContext context);
-        void OnSpawnShieldman(InputAction.CallbackContext context);
-        void OnTeleport(InputAction.CallbackContext context);
-        void OnSpawnMetalBox(InputAction.CallbackContext context);
-        void OnSpawnWoodenBox(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IPlayerGamepadActions
@@ -1921,6 +1903,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnParry(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
+        void OnNavigate(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

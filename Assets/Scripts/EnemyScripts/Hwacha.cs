@@ -68,8 +68,8 @@ public class Hwacha : MonoBehaviour, IEnemy
 
     public void FadeOutHealthBars()
     {
-        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
-        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
+        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
     IEnumerator ShowHealthBar()
@@ -84,8 +84,8 @@ public class Hwacha : MonoBehaviour, IEnemy
     {
         isDead = true;
         animator.Play("death");
-        yield return new WaitForSeconds(3.5f);
         Physics2D.IgnoreCollision(hwachaCollider, playerCollider);
+        yield return new WaitForSeconds(3.5f);
         //GameMaster.DestroyGameObject(gameObject);
     }
 }

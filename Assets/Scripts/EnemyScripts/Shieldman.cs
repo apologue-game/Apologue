@@ -14,7 +14,8 @@ public class Shieldman : MonoBehaviour, IEnemy
     public GameObject healthBarBorderGO;
 
 
-    BoxCollider2D boxCollider2D;
+    //BoxCollider2D boxCollider2D;
+    public PolygonCollider2D polygonCollider2D;
     BoxCollider2D boxCollider2DKarasu;
 
     public Animator animator { get; set; }
@@ -40,7 +41,7 @@ public class Shieldman : MonoBehaviour, IEnemy
         maxHealth = 5;
         enemyType = IEnemy.EnemyType.normal;
 
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        //boxCollider2D = GetComponent<BoxCollider2D>();
         boxCollider2DKarasu = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
     }
 
@@ -64,7 +65,7 @@ public class Shieldman : MonoBehaviour, IEnemy
             if (specialInteraction == true)
             {
                 shieldBroken = true;
-                Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
+                Physics2D.IgnoreCollision(polygonCollider2D, boxCollider2DKarasu);
                 StartCoroutine(ShieldmanStaggered());
                 animator.Play("shieldbreakAnimation");
             }
@@ -106,8 +107,8 @@ public class Shieldman : MonoBehaviour, IEnemy
 
     public void FadeOutHealthBars()
     {
-        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
-        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
+        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
     IEnumerator ShowHealthBar()

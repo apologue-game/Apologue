@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour
     Animator animator;
     WallTilemaps wallTilemaps;
     static PlayerControl playerControl;
+    bool currentActionMap;
 
     //Movement system
     //Move
@@ -58,14 +59,6 @@ public class PlayerControl : MonoBehaviour
     bool dashDirectionIfStationary = true;
     public bool isDashing = false;
     public bool dashInAirAvailable = true;
-    public GameObject dashSprite1;
-    public GameObject dashSprite2;
-    public GameObject dashSprite3;
-    public Sprite dSprite1;
-    public Sprite dSprite2;
-    public Sprite dSprite3;
-    GameObject[] dashSprites;
-    int counter = 0;
 
     //Crouch
     public LayerMask whatIsCeiling;
@@ -147,7 +140,7 @@ public class PlayerControl : MonoBehaviour
     //Utilities
     //Pause menu
     [SerializeField] private GameObject pauseMenuPanel;
-    public static bool isGamePaused;
+    public static bool isGamePaused = false;
     //Interactable objects -> icon above the head
     public GameObject interactionIconPrefab;
     GameObject interactionTooltip;
@@ -204,8 +197,6 @@ public class PlayerControl : MonoBehaviour
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
-        dashSprites = new GameObject[3];
 
         groundCheck = transform.Find("GroundCheck");
         ceilingCheck = transform.Find("CeilingCheck");
@@ -283,6 +274,7 @@ public class PlayerControl : MonoBehaviour
                 dashInAirAvailable = true;
             }
         }
+
         //Check to see if there is a ceiling above the player so they can get up from the crouching state
         Collider2D[] collidersCeiling = Physics2D.OverlapCircleAll(ceilingCheck.position, ceilingCheckRadius, whatIsCeiling);
         if (collidersCeiling.Length < 1)
@@ -430,6 +422,10 @@ public class PlayerControl : MonoBehaviour
         {
             Flip();
         }
+        if (true)
+        {
+
+        }
     }
 
     //Movement
@@ -441,7 +437,7 @@ public class PlayerControl : MonoBehaviour
             return;
         }
     }
-    
+
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
         jumpHoldCounter++;
@@ -553,7 +549,6 @@ public class PlayerControl : MonoBehaviour
         }
         if (callbackContext.performed && inputX == 0 && grounded && !isCrouching)
         {
-            Debug.Log("Crouch");
             isCrouching = true;
         }
         else if (callbackContext.performed && isCrouching && !isSliding)
@@ -598,61 +593,9 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator IsDashing()
     {
-        //StartCoroutine(DashProjectionEffect());
         isDashing = true;
         yield return new WaitForSeconds(0.25f);
         isDashing = false;
-    }
-
-    IEnumerator DashProjectionEffect()
-    {
-        if (counter == 0)
-        {
-            dashSprite1 = new GameObject("DashSprite" + counter + 1, typeof(SpriteRenderer));
-            dashSprite1.transform.position = transform.position;
-            dashSprite1.GetComponent<SpriteRenderer>().sprite = dSprite1;
-            dashSprite1.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f, 0.3f);
-            dashSprites[counter] = dashSprite1;
-            if (!facingRight)
-            {
-                dashSprite3.GetComponent<SpriteRenderer>().flipX = true;
-            }
-        }
-        else if (counter == 1)
-        {
-            dashSprite2 = new GameObject("DashSprite" + counter + 1, typeof(SpriteRenderer));
-            dashSprite2.transform.position = transform.position;
-            dashSprite2.GetComponent<SpriteRenderer>().sprite = dSprite2;
-            dashSprite2.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f, 0.3f);
-            dashSprites[counter] = dashSprite2;
-            if (!facingRight)
-            {
-                dashSprite3.GetComponent<SpriteRenderer>().flipX = true;
-            }
-        }
-        else if (counter == 2)
-        {
-            dashSprite3 = new GameObject("DashSprite" + counter + 1, typeof(SpriteRenderer));
-            dashSprite3.transform.position = transform.position;
-            dashSprite3.GetComponent<SpriteRenderer>().sprite = dSprite3;
-            dashSprite3.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0.75f, 0.3f);
-            dashSprites[counter] = dashSprite3;
-            if (!facingRight)
-            {
-                dashSprite3.GetComponent<SpriteRenderer>().flipX = true;
-            }
-        }
-        yield return new WaitForSeconds(0.09f);
-        if (counter < 3)
-        {
-            counter++;
-            StartCoroutine(DashProjectionEffect());
-        }
-        else
-        {
-            counter = 0;
-            GameMaster.DestroyGameObjects(dashSprites);
-        }
     }
 
     //Combat system
@@ -801,8 +744,8 @@ public class PlayerControl : MonoBehaviour
     }
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
-    {
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope || !axePickedUp)
+    { 
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope/* || !axePickedUp*/)
         {
             return;
         }
@@ -890,6 +833,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     //Utilities
+
     public void PauseGame(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed)
@@ -897,12 +841,29 @@ public class PlayerControl : MonoBehaviour
             if (isGamePaused == true)
             {
                 pauseMenuPanel.SetActive(false);
+                if (currentActionMap)
+                {
+                    playerInput.SwitchCurrentActionMap("Player");
+                }
+                else
+                {
+                    playerInput.SwitchCurrentActionMap("PlayerGamepad");
+                }
                 Time.timeScale = 1f;
                 isGamePaused = false;
             }
             else
             {
                 pauseMenuPanel.SetActive(true);
+                if (playerInput.currentActionMap.name == "Player")
+                {
+                    currentActionMap = true;
+                }
+                else
+                {
+                    currentActionMap = false;
+                }
+                playerInput.SwitchCurrentActionMap("UI");
                 Time.timeScale = 0f;
                 isGamePaused = true;
             }
@@ -1029,67 +990,13 @@ public class PlayerControl : MonoBehaviour
         playerControl.interactionTooltip.SetActive(false);
     }
 
-    public void Teleport(InputAction.CallbackContext callbackContext)
-    {
-        if (location && callbackContext.performed)
-        {
-            location = false;
-            transform.position = location2.position;
-        }
-        else if (!location && callbackContext.performed)
-        {
-            location = true;
-            transform.position = location1.position;
-        }
-    }
-
-    public void SpawnHeavy(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed)
-        {
-            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
-            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-            Instantiate(heavyPrefab, spawnPosition, spawnRotation);
-        }
-    }
-
-    public void SpawnShieldman(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed)
-        {
-            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
-            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-            Instantiate(shieldmanPrefab, spawnPosition, spawnRotation);
-        }
-    }
-
-    public void SpawnMetalBox(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed)
-        {
-            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
-            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-            Instantiate(metalBox, spawnPosition, spawnRotation);
-        }
-    }
-
-    public void SpawnWoodenBox(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed)
-        {
-            Vector3 spawnPosition = new Vector3(transform.position.x + 10, transform.position.y + 5, 0);
-            Quaternion spawnRotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-            Instantiate(woodenBox, spawnPosition, spawnRotation);
-        }
-    }
-
     private void OnDrawGizmosSelected()
     {
-        if (wallHangingCollider == null)
+        if (groundCheck == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(wallHangingCollider.position, wallHangingColliderRange);
+        Gizmos.DrawWireCube(groundCheck.position, groundCheckRange);
     }
     public ParticleSystem dust;
 

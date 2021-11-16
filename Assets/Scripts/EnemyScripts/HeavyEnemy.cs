@@ -33,7 +33,7 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
         heavyEnemyAI = GetComponent<HeavyEnemyAI>();
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 1;
+        maxHealth = 8;
         enemyType = IEnemy.EnemyType.elite;
     }
 
@@ -68,8 +68,8 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
 
     public void FadeOutHealthBars()
     {
-        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
-        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
+        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
     IEnumerator ShowHealthBar()

@@ -22,8 +22,8 @@ public class KarasuEntity : MonoBehaviour
     public static bool spikesDeath = false;
 
     //Taking damage
-    float invincibilityWindow = 0.15f;
-    float nextTimeVulnerable;
+    float invincibilityWindow = 0.2f;
+    public float nextTimeVulnerable;
     bool invulnerable = false;
 
     //Animations
@@ -74,6 +74,7 @@ public class KarasuEntity : MonoBehaviour
             }
             invulnerable = true;
             currentHealth -= damage;
+            Debug.Log(currentHealth);
             healthBar.SetHealth(currentHealth);
             spriteRenderer.color = takeDamageColor;
             takeDamageTimer = Time.time + invincibilityWindow;
@@ -106,7 +107,6 @@ public class KarasuEntity : MonoBehaviour
     IEnumerator Stagger()
     {
         PlayerControl.TurnOffControlsOnDeath();
-        Debug.Log("Karasu staggered");
         spriteRenderer.color = normalColor;
         AnimatorSwitchState(KARASUSTAGGERANIMATION);
         yield return new WaitForSeconds(0.2f);

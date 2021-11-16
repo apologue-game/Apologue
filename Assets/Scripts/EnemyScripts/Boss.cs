@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour, IEnemy
 {
-    BossAI bossAI;
-
+    public HealthBar healthBar;
     public Animator animator { get; set; }
 
     public bool isDead { get; set; }
@@ -21,16 +20,17 @@ public class Boss : MonoBehaviour, IEnemy
 
     private void Awake()
     {
-        bossAI = GetComponent<BossAI>();
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 5;
+        maxHealth = 15;
         enemyType = IEnemy.EnemyType.elite;
     }
 
     void Start()
     {
         currentHealth = maxHealth;
+
+        healthBar.SetMaximumHealth(maxHealth);
     }
 
     public void TakeDamage(int damage, bool? specialInteraction)
@@ -42,6 +42,7 @@ public class Boss : MonoBehaviour, IEnemy
         else
         {
             currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
             if (currentHealth <= 0)
             {
                 BeforeDeath();
@@ -63,12 +64,11 @@ public class Boss : MonoBehaviour, IEnemy
         StartCoroutine(BossStaggered());
     }
 
-
     public IEnumerator BossStaggered()
     {
         isStaggered = true;
         animator.Play("stagger");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         isStaggered = false;
     }
 

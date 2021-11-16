@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformsLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 67584
   ignoreCollisionsForJumping:
     serializedVersion: 2
     m_Bits: 135168
@@ -483,7 +483,7 @@ MonoBehaviour:
   goingDownDirection: 0
   hDistance: 0
   vDistance: 0
-  jumpForceSoldier: 6
+  jumpForceSoldier: 10
   boxCollider2D: {fileID: 8692415218869377871}
   enemiesLayers:
     serializedVersion: 2
@@ -572,11 +572,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8112714898775701807, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.16699219
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8112714898775701807, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.9700012
+      value: 0.819
       objectReference: {fileID: 0}
     - target: {fileID: 8112714898775701807, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

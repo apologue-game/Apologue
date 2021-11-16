@@ -460,11 +460,11 @@ public class SoldierAI : MonoBehaviour
 
     void InCombatOrGoBackToSpawn()
     {
-        if (hDistance < 25 && currentTarget != karasuTransform)
+        if (hDistance < 10 && currentTarget != karasuTransform)
         {
             currentTarget = karasuTransform;
         }
-        else if (hDistance > 25 && currentTarget != spawn.transform)
+        else if (hDistance > 15 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range

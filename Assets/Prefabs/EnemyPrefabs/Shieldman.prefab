@@ -107,7 +107,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 496549353
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a5d3ad958b93e3a4dbc52d6f3b0a1db7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1551495a24c63794cbfc6e2079529ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 4193164707807862359}
   currentTarget: {fileID: 0}
   spawn: {fileID: 0}
   movementSpeed: 150
@@ -318,11 +318,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8112714898775701807, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.16699219
+      value: 0.159
       objectReference: {fileID: 0}
     - target: {fileID: 8112714898775701807, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.9700012
+      value: 0.917
       objectReference: {fileID: 0}
     - target: {fileID: 8112714898775701807, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

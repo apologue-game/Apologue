@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class BossAI : MonoBehaviour
     int myID;
     string myName = "";
     Boss boss;
+    public GameObject bossHealthBar;
 
     //Targeting
     GameObject karasu;
@@ -82,9 +84,7 @@ public class BossAI : MonoBehaviour
     public LayerMask enemiesLayers;
     float nextGlobalAttack = 0f;
     bool currentlyAttacking = false;
-    int numberOfAttacks = 0;
     float lastTimeAttack = 0f;
-    //float globalAttackCooldown = 0f;
     //Boss basic attack
     public AttackSystem basicAttack;
     public Transform basicAttackPosition;
@@ -398,17 +398,17 @@ public class BossAI : MonoBehaviour
         chooseAttack = rnd.Next(0, 100);
         if (basicAttackChance > lungeAttackChance)
         {
-            if (chooseAttack <= 60)
+            if (chooseAttack <= 50)
             {
                 attackDecision = AttackDecision.basic;
                 usedBasicAttack = true;
             }
-            else if (chooseAttack > 60 && chooseAttack <= 80)
+            else if (chooseAttack > 50 && chooseAttack <= 75)
             {
                 attackDecision = AttackDecision.lunge;
                 usedLungeAttack = true;
             }
-            else if (chooseAttack > 80 && chooseAttack <= 100)
+            else if (chooseAttack > 75 && chooseAttack <= 100)
             {
                 attackDecision = AttackDecision.jumpForward;
                 usedJumpForwardAttack = true;
@@ -416,17 +416,17 @@ public class BossAI : MonoBehaviour
         }
         else if (lungeAttackChance > basicAttackChance)
         {
-            if (chooseAttack <= 60)
+            if (chooseAttack <= 50)
             {
                 attackDecision = AttackDecision.lunge;
                 usedLungeAttack = true;
             }
-            else if (chooseAttack > 60 && chooseAttack <= 80)
+            else if (chooseAttack > 50 && chooseAttack <= 75)
             {
                 attackDecision = AttackDecision.basic;
                 usedBasicAttack = true;
             }
-            else if (chooseAttack > 80 && chooseAttack <= 100)
+            else if (chooseAttack > 75 && chooseAttack <= 100)
             {
                 attackDecision = AttackDecision.jumpForward;
                 usedJumpForwardAttack = true;
@@ -434,17 +434,17 @@ public class BossAI : MonoBehaviour
         }
         else if (jumpForwardAttackChance > basicAttackChance)
         {
-            if (chooseAttack <= 60)
+            if (chooseAttack <= 50)
             {
                 attackDecision = AttackDecision.jumpForward;
                 usedJumpForwardAttack = true;
             }
-            else if (chooseAttack > 60 && chooseAttack <= 80)
+            else if (chooseAttack > 50 && chooseAttack <= 75)
             {
                 attackDecision = AttackDecision.basic;
                 usedBasicAttack = true;
             }
-            else if (chooseAttack > 80 && chooseAttack <= 100)
+            else if (chooseAttack > 75 && chooseAttack <= 100)
             {
                 attackDecision = AttackDecision.lunge;
                 usedLungeAttack = true;
@@ -515,7 +515,6 @@ public class BossAI : MonoBehaviour
     void BasicAttack()
     {
         lastTimeAttack = Time.time;
-        numberOfAttacks++;
         AnimatorSwitchState(ATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
@@ -527,13 +526,12 @@ public class BossAI : MonoBehaviour
         {
             if (enemy.name == "ParryCollider")
             {
-                Debug.Log("Successfully parried an attack");
                 boss.BossStagger();
+                attackDecision = AttackDecision.none;
                 return;
             }
             else if (enemy.name == "BlockCollider")
             {
-                Debug.Log("Successfully blocked an attack");
                 parriedOrBlocked = true;
             }
         }
@@ -541,12 +539,10 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Boss hit " + enemy + " with a basic attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
             }
         }
         parriedOrBlocked = false;
-        numberOfAttacks = 0;
         nextBasicAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
@@ -554,9 +550,7 @@ public class BossAI : MonoBehaviour
 
     void LungeAttack()
     {
-        
         lastTimeAttack = Time.time;
-        numberOfAttacks++;
         AnimatorSwitchState(LUNGEANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
@@ -574,12 +568,12 @@ public class BossAI : MonoBehaviour
             if (enemy.name == "ParryCollider")
             {
                 boss.BossStagger();
+                attackDecision = AttackDecision.none;
                 rigidBody2D.velocity = Vector2.zero;
                 parriedOrBlocked = true;
             }
             else if (enemy.name == "BlockCollider")
             {
-                Debug.Log("Successfully blocked an attack");
                 parriedOrBlocked = true;
             }
         }
@@ -587,12 +581,10 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Boss hit " + enemy + " with a lunge attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(lungeAttack.AttackDamage, lungeAttack.AttackMake);
             }
         }
         parriedOrBlocked = false;
-        numberOfAttacks = 0;
         nextLungeAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
@@ -629,7 +621,6 @@ public class BossAI : MonoBehaviour
     private void JumpForwardAttack()
     {
         lastTimeAttack = Time.time;
-        numberOfAttacks++;
         AnimatorSwitchState(JUMPFORWARDATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
@@ -641,13 +632,12 @@ public class BossAI : MonoBehaviour
         {
             if (enemy.name == "ParryCollider")
             {
-                Debug.Log("Successfully parried an attack");
                 boss.BossStagger();
+                attackDecision = AttackDecision.none;
                 parriedOrBlocked = true;
             }
             else if (enemy.name == "BlockCollider")
             {
-                Debug.Log("Successfully blocked an attack");
                 parriedOrBlocked = true;
             }
         }
@@ -655,12 +645,10 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Boss hit " + enemy + " with a jump forward attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(jumpForwardAttack.AttackDamage, jumpForwardAttack.AttackMake);
             }
         }
         parriedOrBlocked = false;
-        numberOfAttacks = 0;
         nextJumpForwardAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
@@ -672,7 +660,6 @@ public class BossAI : MonoBehaviour
         rigidBody2D.AddForce(Vector2.up * jumpForceLungeDown);
         currentlyLungingDown = true;
         lastTimeAttack = Time.time;
-        numberOfAttacks++;
         AnimatorSwitchState(LUNGEDOWNANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
@@ -680,29 +667,17 @@ public class BossAI : MonoBehaviour
     void BossLungeDownAttack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(lungeAttackPosition.position, lungeDownAttackRange, 0f, enemiesLayers);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if (enemy.name == "ParryCollider")
-            {
-                Debug.Log("Successfully parried an attack");
-                parriedOrBlocked = true;
-            }
-            else if (enemy.name == "BlockCollider")
-            {
-                Debug.Log("Successfully blocked an attack");
-                parriedOrBlocked = true;
-            }
-        }
-        if (!parriedOrBlocked)
+        try
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Boss hit " + enemy + " with a lunge down attack");
                 enemy.GetComponent<KarasuEntity>().TakeDamage(lungeDownAttack.AttackDamage, lungeDownAttack.AttackMake);
             }
         }
-        parriedOrBlocked = false;
-        numberOfAttacks = 0;
+        catch (NullReferenceException nre)
+        {
+            Debug.LogError(nre);
+        }
         nextLungeDownAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
@@ -710,7 +685,6 @@ public class BossAI : MonoBehaviour
     void OverheadAttack()
     {
         lastTimeAttack = Time.time;
-        numberOfAttacks++;
         AnimatorSwitchState(OVERHEADATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
@@ -718,30 +692,17 @@ public class BossAI : MonoBehaviour
     void BossOverheadAttack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(overheadAttackPosition.position, overheadAttackRange, enemiesLayers);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if (enemy.name == "ParryCollider")
-            {
-                Debug.Log("Successfully parried an attack");
-                parriedOrBlocked = true;
-            }
-            else if (enemy.name == "BlockCollider")
-            {
-                Debug.Log("Successfully blocked an attack");
-                parriedOrBlocked = true;
-            }
-        }
-        if (!parriedOrBlocked)
+        try
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                Debug.Log("Boss hit " + enemy + " with an overhead attack");
-                attackType = AttackType.special;
-                enemy.GetComponent<KarasuEntity>().TakeDamage(overheadAttack.AttackDamage, overheadAttack.AttackMake);
+                enemy.GetComponent<KarasuEntity>().TakeDamage(lungeDownAttack.AttackDamage, lungeDownAttack.AttackMake);
             }
         }
-        parriedOrBlocked = false;
-        numberOfAttacks = 0;
+        catch (NullReferenceException nre)
+        {
+            Debug.LogError(nre);
+        }
         nextOverheadAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
@@ -751,7 +712,6 @@ public class BossAI : MonoBehaviour
     void ManuallySetAttackConditions()
     {
         parriedOrBlocked = false;
-        numberOfAttacks = 0;
         nextBasicAttack = 0;
         nextLungeAttack = 0;
         nextJumpForwardAttack = 0;
@@ -792,15 +752,16 @@ public class BossAI : MonoBehaviour
 
     void InCombatOrGoBackToSpawn()
     {
-        if (hDistance < 25 && currentTarget != karasuTransform)
+        if (hDistance < 20 && currentTarget != karasuTransform)
         {
             currentTarget = karasuTransform;
+            bossHealthBar.SetActive(true);
         }
         else if (hDistance > 25 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
-            boss.currentHealth = boss.maxHealth;
+            //boss.currentHealth = boss.maxHealth;
         }
     }
 

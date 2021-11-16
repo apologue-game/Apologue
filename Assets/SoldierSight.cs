@@ -23,17 +23,17 @@ public class SoldierSight : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.IsTouchingLayers(ignoreCollisionsForJumping))
-        {
-            return;
-        }
+        //if (collision.IsTouchingLayers(ignoreCollisionsForJumping))
+        //{
+        //    return;
+        //}
         if (collision.name == "PlayerKarasu" || collision.name == "ParryCollider" || collision.name == "BlockCollider")
         {
             iDontWantToFightAnymoreCounter = 0;
             StopCoroutine(IDontWantToFightAnymore());
             inCombat = true;
         }
-        if (collision.name == "GroundTilemap" || collision.name == "WallTilemap" || collision.name == "PlatformsTilemap")
+        if (collision.name == "GroundTilemap" || collision.name == "PlatformsTilemap")
         {
             if (!inCombat)
             {

@@ -11,6 +11,8 @@ public class Dasher : MonoBehaviour, IEnemy
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
     public GameObject healthBarBorderGO;
+    BoxCollider2D dasherBoxCollider;
+    BoxCollider2D playerBoxCollider;
 
     public Animator animator { get; set; }
 
@@ -29,6 +31,7 @@ public class Dasher : MonoBehaviour, IEnemy
     {
         dasherAI = GetComponent<DasherAI>();
         animator = GetComponent<Animator>();
+        dasherBoxCollider = GetComponent<BoxCollider2D>();
         isDead = false;
         maxHealth = 5;
         enemyType = IEnemy.EnemyType.ranged;
@@ -41,6 +44,8 @@ public class Dasher : MonoBehaviour, IEnemy
 
         healthBarFill.canvasRenderer.SetAlpha(0f);
         healthBarBorder.canvasRenderer.SetAlpha(0f);
+
+        playerBoxCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
     }
 
     public void TakeDamage(int damage, bool? specialInteraction)
@@ -68,12 +73,6 @@ public class Dasher : MonoBehaviour, IEnemy
             StartCoroutine(DasherIsTakingDamage());
             StartCoroutine(ShowHealthBar());
         }
-    }
-
-    public void FadeOutHealthBars()
-    {
-        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);
-        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0.1f, 2f, false);   
     }
 
     public void Stagger()
@@ -104,10 +103,17 @@ public class Dasher : MonoBehaviour, IEnemy
         FadeOutHealthBars();
     }
 
+    public void FadeOutHealthBars()
+    {
+        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, true);
+        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, true);
+    }
+
     public IEnumerator Death()
     {
         isDead = true;
         animator.Play("death");
+        Physics2D.IgnoreCollision(dasherBoxCollider, playerBoxCollider);
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(dasherAI.spawn);

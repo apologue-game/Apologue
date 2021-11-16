@@ -39,7 +39,8 @@ public class ShieldmanAI : MonoBehaviour
     public float speed;
 
     //Ignore collision with player
-    public BoxCollider2D boxCollider2D;
+    //public BoxCollider2D boxCollider2D;
+    public PolygonCollider2D polygonCollider2D;
     CircleCollider2D karasuParryCollider;
     CircleCollider2D karasuBlockCollider;
     BoxCollider2D karasuSlideCollider;
@@ -179,9 +180,12 @@ public class ShieldmanAI : MonoBehaviour
         //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
         if (currentTarget == karasuTransform)
         {
-            Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
-            Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
-            Physics2D.IgnoreCollision(boxCollider2D, karasuSlideCollider);
+            //Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
+            //Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
+            //Physics2D.IgnoreCollision(boxCollider2D, karasuSlideCollider);            
+            //Physics2D.IgnoreCollision(polygonCollider2D, karasuParryCollider);
+            //Physics2D.IgnoreCollision(polygonCollider2D, karasuBlockCollider);
+            //Physics2D.IgnoreCollision(polygonCollider2D, karasuSlideCollider);
         }
     }
 
