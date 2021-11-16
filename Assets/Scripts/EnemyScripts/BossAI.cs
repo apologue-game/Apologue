@@ -285,8 +285,7 @@ public class BossAI : MonoBehaviour
         //Only decide on attacks if no decision has yet been made
         if (attackDecision == AttackDecision.none && Time.time > timeUntilNextDecision && !currentlyAttacking)
         {
-            //CalculateDecision();
-            attackDecision = AttackDecision.lungeDown;
+            CalculateDecision();
         }
         //If boss decided on using the basic attack, walk up to the target and attack
         //If boss decided on using the lunge attack, dash forward a fixed distance while attacking
@@ -684,8 +683,8 @@ public class BossAI : MonoBehaviour
         nextLungeDownAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
-        timeUntilNextDecision = Time.time + decisionTimer;
     }
+
     void OverheadAttack()
     {
         lastTimeAttack = Time.time;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static AttackSystem;
 
 public class KarasuEntity : MonoBehaviour
@@ -9,11 +10,14 @@ public class KarasuEntity : MonoBehaviour
     Animator animator;
     SpriteRenderer spriteRenderer;
     public HealthBar healthBar;
+    public Image healthBarFill;
+    public static bool invulnerableToNextAttack = false;
+    public Color healthBarColor;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
-    int maxHealth = 10000;
+    public int maxHealth = 10000;
     public int currentHealth;
 
     //Dying
@@ -64,6 +68,12 @@ public class KarasuEntity : MonoBehaviour
             dead = true;
             spikesDeath = true;
             StartCoroutine(SpikesDeath());
+            return;
+        }
+        if (invulnerableToNextAttack)
+        {
+            healthBarFill.color = healthBarColor;
+            invulnerableToNextAttack = false;
             return;
         }
         if (Time.time > nextTimeVulnerable && !invulnerable)

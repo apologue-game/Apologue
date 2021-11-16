@@ -180,12 +180,8 @@ public class ShieldmanAI : MonoBehaviour
         //Karasu parry and block colliders need to be ignored repeatedly because they're getting disabled and enabled multiple times
         if (currentTarget == karasuTransform)
         {
-            //Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
-            //Physics2D.IgnoreCollision(boxCollider2D, karasuBlockCollider);
-            //Physics2D.IgnoreCollision(boxCollider2D, karasuSlideCollider);            
-            //Physics2D.IgnoreCollision(polygonCollider2D, karasuParryCollider);
-            //Physics2D.IgnoreCollision(polygonCollider2D, karasuBlockCollider);
-            //Physics2D.IgnoreCollision(polygonCollider2D, karasuSlideCollider);
+            Physics2D.IgnoreCollision(polygonCollider2D, karasuParryCollider);
+            Physics2D.IgnoreCollision(polygonCollider2D, karasuBlockCollider);
         }
     }
 
@@ -199,6 +195,7 @@ public class ShieldmanAI : MonoBehaviour
                 if (!facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = -1;
             }
@@ -207,6 +204,7 @@ public class ShieldmanAI : MonoBehaviour
                 if (facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = 1;
             }
@@ -219,10 +217,12 @@ public class ShieldmanAI : MonoBehaviour
                 if (transform.position.x > currentTarget.position.x && !facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 else if (transform.position.x < currentTarget.position.x && facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
             }
             direction = 0;

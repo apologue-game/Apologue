@@ -7,6 +7,7 @@ public class FemaleArcherAI : MonoBehaviour
     //Self references
     FemaleArcher femaleArcher;
     Animator animator;
+    public HealthBar healthBar;
 
     //Targeting
     GameObject karasu;
@@ -58,13 +59,6 @@ public class FemaleArcherAI : MonoBehaviour
         karasu = GameObject.FindGameObjectWithTag("Player");
         karasuTransform = karasu.transform;
 
-        //Shooting position
-        //bowPositionMiddle = new Vector3(-1.325005f, 0.474f, 0);
-        //bowPositionUp = new Vector3(-1.15900004f, -0.246000007f, 0);
-        //bowPositionDown = new Vector3(-1.15900004f, -0.246000007f, 0);
-        //bowRotationUp = new Quaternion(0, 0, -0.211816221f, 0.977309525f);
-        //bowRotationDown = new Quaternion(0, 0, 0.284491211f, 0.958678663f);
-
         //Self references and initializations
         animator = GetComponent<Animator>();
         boxCollider2D = GetComponent<BoxCollider2D>();
@@ -104,10 +98,12 @@ public class FemaleArcherAI : MonoBehaviour
         if (transform.position.x > karasuTransform.position.x && !facingLeft && !currentlyAttacking)
         {
             Flip();
+            healthBar.Flip();
         }
         else if (transform.position.x < karasuTransform.position.x && facingLeft && !currentlyAttacking)
         {
             Flip();
+            healthBar.Flip();
         }
         if (currentTarget == null)
         {

@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9336b2cc43b2fc4a9eb7cff4884395f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 2528849923332214066}
   currentTarget: {fileID: 0}
   hDistance: 0
   vDistance: 0

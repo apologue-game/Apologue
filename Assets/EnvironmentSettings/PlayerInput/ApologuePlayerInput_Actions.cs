@@ -129,6 +129,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""add300a1-1007-4ad0-8a33-c284c52a1ed5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -211,6 +219,17 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""83bdeac3-7c26-47bc-b840-227dc7cbeb8f"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5bfca69a-d0bc-4af2-bd7b-7c94887d2e15"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -243,7 +262,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""Keyboard"",
                     ""id"": ""d206bd45-0d38-4991-8469-5955b44071f2"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -329,208 +348,110 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""action"": ""PauseGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""PlayerGamepad"",
-            ""id"": ""b6927549-d1f8-480c-b280-f51791f745f9"",
-            ""actions"": [
-                {
-                    ""name"": ""Move"",
-                    ""type"": ""Value"",
-                    ""id"": ""b96949cf-2fdd-4948-9d84-745183e802f1"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 },
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""915520b8-4b48-4013-b307-8ab411846a80"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": """",
+                    ""id"": ""b115e7b4-f478-4114-b230-6b463073be21"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Dash"",
-                    ""type"": ""Button"",
-                    ""id"": ""04d0f881-e5b9-4951-afad-f4defb6f09be"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": """",
+                    ""id"": ""2dad380a-4a64-4b30-a416-34a497624e4f"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""DoubleJump"",
-                    ""type"": ""Button"",
-                    ""id"": ""b0018768-6856-4d1a-8d8c-c279e25b8052"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": """",
+                    ""id"": ""c4c66701-0b2b-4095-b228-5b7c9c60b2a2"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": ""Hold(duration=0.2)"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Crouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""fadb8f19-58fe-4a08-b703-c1e35977777d"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": """",
+                    ""id"": ""51368483-62da-4237-9bd8-df172445961d"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
-                    ""interactions"": ""Press""
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Parry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""CrouchRoll"",
-                    ""type"": ""Button"",
-                    ""id"": ""588423a7-6cce-4195-a4aa-3f741c46cc4d"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": """",
+                    ""id"": ""7865a7eb-cd1e-4686-8023-ae76b6a5d71d"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""HeavyAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
-                {
-                    ""name"": ""Slide"",
-                    ""type"": ""Button"",
-                    ""id"": ""8026295d-335d-43fd-be58-6da618f0f314"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""LightAttack"",
-                    ""type"": ""Button"",
-                    ""id"": ""c6d7712a-aad8-4ed4-a219-f48520950132"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""MediumAttack"",
-                    ""type"": ""Button"",
-                    ""id"": ""3969e30b-e272-4496-8d43-a1beedfb12ed"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold""
-                },
-                {
-                    ""name"": ""HeavyAttack"",
-                    ""type"": ""Button"",
-                    ""id"": ""a966dcea-d716-481f-af9e-677e38beb846"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold""
-                },
-                {
-                    ""name"": ""Parry"",
-                    ""type"": ""Button"",
-                    ""id"": ""28ad59ef-b4ee-47f1-8aae-734b8ac24fea"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Block"",
-                    ""type"": ""Button"",
-                    ""id"": ""78e56375-a6c8-409d-8d62-c1268bb2e9bb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""PauseGame"",
-                    ""type"": ""Button"",
-                    ""id"": ""9b387149-ed9f-4b8a-8529-9c4322671650"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Navigate"",
-                    ""type"": ""Value"",
-                    ""id"": ""8d6a24d1-1d93-464e-b2e1-658595d5a0fd"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                }
-            ],
-            ""bindings"": [
                 {
                     ""name"": ""Button With One Modifier"",
-                    ""id"": ""9f678c21-8b75-42fb-a6e9-8fe450b0ece8"",
+                    ""id"": ""9ffe37ae-dc1b-4061-80c3-8921c8e26674"",
                     ""path"": ""ButtonWithOneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""MediumAttack"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""modifier"",
-                    ""id"": ""17e69891-95b6-447b-a9a5-9f327cd99ee6"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""id"": ""b166416a-d943-4c0a-9ea0-446809c29176"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""MediumAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""button"",
-                    ""id"": ""ef5ac0ed-a523-4135-8bb7-5a02e4dc3c5a"",
+                    ""id"": ""00bed5b8-8de2-4b71-844f-a4d189abe111"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""MediumAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""bf0c9502-6ab2-4124-ac02-e0ea9d36c0a3"",
-                    ""path"": ""2DVector(mode=1)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""cdc6b071-9aa8-43f6-9c1b-e0505f78d7c5"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""4e512156-539f-4951-a3df-7a84c62e9e19"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
-                    ""id"": ""8be52cd6-e4e5-459a-aa81-34f53b4f36e4"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""id"": ""82f1b9a4-e0b4-4722-938a-4eb63ba280bf"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Jump"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""LightAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0534635b-eed6-4df1-b59a-7350310b8ecd"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""d85e7f3e-69a3-4e47-8a6e-54e037ec37a3"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -540,212 +461,91 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""09aa443e-3699-4ce4-9b6f-1264665d173e"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""0473faa7-fd72-4433-b234-ea779f1bb884"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Crouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cd219cb7-daec-46dd-a464-47c8258ae970"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""LightAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2db2df13-6810-4b77-b6b2-4a75b1160c46"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""DoubleJump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fe620d8f-2143-4b54-9c41-9ade95365525"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b1aadac4-392b-43d3-a427-d4cbe2b9b52e"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick;Gamepad"",
-                    ""action"": ""HeavyAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0cd2b0ed-665d-434b-87dd-3b67fc7ed250"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": ""Tap"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
-                    ""action"": ""Parry"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b14e10a9-e03d-4a94-82d4-a319cdac1609"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": ""Hold(duration=0.2)"",
-                    ""processors"": """",
-                    ""groups"": ""Joystick;Gamepad"",
-                    ""action"": ""Block"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""42e2e79a-bcb7-4754-ad45-44f833c72e4a"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""CrouchRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f594739b-fe07-494c-acba-e777bf3f8b75"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""id"": ""b989db4f-4c27-47b0-b0ab-267bf6402858"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Joystick;Gamepad"",
-                    ""action"": ""PauseGame"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19675dd3-22ad-4461-8616-7958996fa75f"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DoubleJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59fbd1c9-50d1-4cfb-b59d-1924c2da07cb"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6da8e162-c692-46d5-84d3-d3759490153b"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Gamepad"",
-                    ""id"": ""3cf48f03-3881-4d7b-aa7e-f558330f400d"",
-                    ""path"": ""2DVector"",
+                    ""id"": ""a7c30f7f-eea0-4ba7-be27-724adf9c1942"",
+                    ""path"": ""2DVector(mode=1)"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Navigate"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""4436eefb-9a2f-462b-86c7-719d19c504b6"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""610d5104-0775-4b2c-a52c-684401343559"",
-                    ""path"": ""<Gamepad>/rightStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""399687c7-3bb3-4090-84c6-cafd2de99320"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""5f18efaf-d309-485c-9c62-4631539619e0"",
-                    ""path"": ""<Gamepad>/rightStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""left"",
-                    ""id"": ""9341393f-f2d0-436a-b60e-973396b62186"",
+                    ""id"": ""200d20aa-15be-425f-b4d3-16cb5ae90e27"",
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""e8822ed3-8c04-4ddd-bec2-6ff584c932c9"",
-                    ""path"": ""<Gamepad>/rightStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""2185eff3-a357-4d95-9e10-08aa009d13c7"",
+                    ""id"": ""dbceb039-b719-4388-9ba3-8c45c91bf1ba"",
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""fd83226b-7f19-49f1-8583-2b083db8f9af"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ac2b0cc-14ed-4324-9f43-6edecaa065a7"",
-                    ""path"": ""<Gamepad>/dpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1365,22 +1165,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_Player_Parry = m_Player.FindAction("Parry", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
         m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
-        // PlayerGamepad
-        m_PlayerGamepad = asset.FindActionMap("PlayerGamepad", throwIfNotFound: true);
-        m_PlayerGamepad_Move = m_PlayerGamepad.FindAction("Move", throwIfNotFound: true);
-        m_PlayerGamepad_Jump = m_PlayerGamepad.FindAction("Jump", throwIfNotFound: true);
-        m_PlayerGamepad_Dash = m_PlayerGamepad.FindAction("Dash", throwIfNotFound: true);
-        m_PlayerGamepad_DoubleJump = m_PlayerGamepad.FindAction("DoubleJump", throwIfNotFound: true);
-        m_PlayerGamepad_Crouch = m_PlayerGamepad.FindAction("Crouch", throwIfNotFound: true);
-        m_PlayerGamepad_CrouchRoll = m_PlayerGamepad.FindAction("CrouchRoll", throwIfNotFound: true);
-        m_PlayerGamepad_Slide = m_PlayerGamepad.FindAction("Slide", throwIfNotFound: true);
-        m_PlayerGamepad_LightAttack = m_PlayerGamepad.FindAction("LightAttack", throwIfNotFound: true);
-        m_PlayerGamepad_MediumAttack = m_PlayerGamepad.FindAction("MediumAttack", throwIfNotFound: true);
-        m_PlayerGamepad_HeavyAttack = m_PlayerGamepad.FindAction("HeavyAttack", throwIfNotFound: true);
-        m_PlayerGamepad_Parry = m_PlayerGamepad.FindAction("Parry", throwIfNotFound: true);
-        m_PlayerGamepad_Block = m_PlayerGamepad.FindAction("Block", throwIfNotFound: true);
-        m_PlayerGamepad_PauseGame = m_PlayerGamepad.FindAction("PauseGame", throwIfNotFound: true);
-        m_PlayerGamepad_Navigate = m_PlayerGamepad.FindAction("Navigate", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1457,6 +1242,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Parry;
     private readonly InputAction m_Player_Block;
     private readonly InputAction m_Player_PauseGame;
+    private readonly InputAction m_Player_Interact;
     public struct PlayerActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -1475,6 +1261,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @Parry => m_Wrapper.m_Player_Parry;
         public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1526,6 +1313,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @PauseGame.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
                 @PauseGame.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
                 @PauseGame.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1572,147 +1362,13 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
-
-    // PlayerGamepad
-    private readonly InputActionMap m_PlayerGamepad;
-    private IPlayerGamepadActions m_PlayerGamepadActionsCallbackInterface;
-    private readonly InputAction m_PlayerGamepad_Move;
-    private readonly InputAction m_PlayerGamepad_Jump;
-    private readonly InputAction m_PlayerGamepad_Dash;
-    private readonly InputAction m_PlayerGamepad_DoubleJump;
-    private readonly InputAction m_PlayerGamepad_Crouch;
-    private readonly InputAction m_PlayerGamepad_CrouchRoll;
-    private readonly InputAction m_PlayerGamepad_Slide;
-    private readonly InputAction m_PlayerGamepad_LightAttack;
-    private readonly InputAction m_PlayerGamepad_MediumAttack;
-    private readonly InputAction m_PlayerGamepad_HeavyAttack;
-    private readonly InputAction m_PlayerGamepad_Parry;
-    private readonly InputAction m_PlayerGamepad_Block;
-    private readonly InputAction m_PlayerGamepad_PauseGame;
-    private readonly InputAction m_PlayerGamepad_Navigate;
-    public struct PlayerGamepadActions
-    {
-        private @ApologuePlayerInput_Actions m_Wrapper;
-        public PlayerGamepadActions(@ApologuePlayerInput_Actions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_PlayerGamepad_Move;
-        public InputAction @Jump => m_Wrapper.m_PlayerGamepad_Jump;
-        public InputAction @Dash => m_Wrapper.m_PlayerGamepad_Dash;
-        public InputAction @DoubleJump => m_Wrapper.m_PlayerGamepad_DoubleJump;
-        public InputAction @Crouch => m_Wrapper.m_PlayerGamepad_Crouch;
-        public InputAction @CrouchRoll => m_Wrapper.m_PlayerGamepad_CrouchRoll;
-        public InputAction @Slide => m_Wrapper.m_PlayerGamepad_Slide;
-        public InputAction @LightAttack => m_Wrapper.m_PlayerGamepad_LightAttack;
-        public InputAction @MediumAttack => m_Wrapper.m_PlayerGamepad_MediumAttack;
-        public InputAction @HeavyAttack => m_Wrapper.m_PlayerGamepad_HeavyAttack;
-        public InputAction @Parry => m_Wrapper.m_PlayerGamepad_Parry;
-        public InputAction @Block => m_Wrapper.m_PlayerGamepad_Block;
-        public InputAction @PauseGame => m_Wrapper.m_PlayerGamepad_PauseGame;
-        public InputAction @Navigate => m_Wrapper.m_PlayerGamepad_Navigate;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerGamepad; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerGamepadActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerGamepadActions instance)
-        {
-            if (m_Wrapper.m_PlayerGamepadActionsCallbackInterface != null)
-            {
-                @Move.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMove;
-                @Jump.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnJump;
-                @Dash.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDash;
-                @Dash.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDash;
-                @Dash.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDash;
-                @DoubleJump.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDoubleJump;
-                @DoubleJump.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDoubleJump;
-                @DoubleJump.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnDoubleJump;
-                @Crouch.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
-                @Crouch.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
-                @Crouch.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouch;
-                @CrouchRoll.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnCrouchRoll;
-                @Slide.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
-                @Slide.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
-                @Slide.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnSlide;
-                @LightAttack.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnLightAttack;
-                @LightAttack.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnLightAttack;
-                @LightAttack.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnLightAttack;
-                @MediumAttack.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMediumAttack;
-                @MediumAttack.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMediumAttack;
-                @MediumAttack.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnMediumAttack;
-                @HeavyAttack.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
-                @HeavyAttack.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
-                @HeavyAttack.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnHeavyAttack;
-                @Parry.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnParry;
-                @Parry.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnParry;
-                @Parry.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnParry;
-                @Block.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
-                @Block.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
-                @Block.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnBlock;
-                @PauseGame.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
-                @PauseGame.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
-                @PauseGame.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnPauseGame;
-                @Navigate.started -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnNavigate;
-                @Navigate.performed -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnNavigate;
-                @Navigate.canceled -= m_Wrapper.m_PlayerGamepadActionsCallbackInterface.OnNavigate;
-            }
-            m_Wrapper.m_PlayerGamepadActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
-                @Dash.started += instance.OnDash;
-                @Dash.performed += instance.OnDash;
-                @Dash.canceled += instance.OnDash;
-                @DoubleJump.started += instance.OnDoubleJump;
-                @DoubleJump.performed += instance.OnDoubleJump;
-                @DoubleJump.canceled += instance.OnDoubleJump;
-                @Crouch.started += instance.OnCrouch;
-                @Crouch.performed += instance.OnCrouch;
-                @Crouch.canceled += instance.OnCrouch;
-                @CrouchRoll.started += instance.OnCrouchRoll;
-                @CrouchRoll.performed += instance.OnCrouchRoll;
-                @CrouchRoll.canceled += instance.OnCrouchRoll;
-                @Slide.started += instance.OnSlide;
-                @Slide.performed += instance.OnSlide;
-                @Slide.canceled += instance.OnSlide;
-                @LightAttack.started += instance.OnLightAttack;
-                @LightAttack.performed += instance.OnLightAttack;
-                @LightAttack.canceled += instance.OnLightAttack;
-                @MediumAttack.started += instance.OnMediumAttack;
-                @MediumAttack.performed += instance.OnMediumAttack;
-                @MediumAttack.canceled += instance.OnMediumAttack;
-                @HeavyAttack.started += instance.OnHeavyAttack;
-                @HeavyAttack.performed += instance.OnHeavyAttack;
-                @HeavyAttack.canceled += instance.OnHeavyAttack;
-                @Parry.started += instance.OnParry;
-                @Parry.performed += instance.OnParry;
-                @Parry.canceled += instance.OnParry;
-                @Block.started += instance.OnBlock;
-                @Block.performed += instance.OnBlock;
-                @Block.canceled += instance.OnBlock;
-                @PauseGame.started += instance.OnPauseGame;
-                @PauseGame.performed += instance.OnPauseGame;
-                @PauseGame.canceled += instance.OnPauseGame;
-                @Navigate.started += instance.OnNavigate;
-                @Navigate.performed += instance.OnNavigate;
-                @Navigate.canceled += instance.OnNavigate;
-            }
-        }
-    }
-    public PlayerGamepadActions @PlayerGamepad => new PlayerGamepadActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -1887,23 +1543,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnParry(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
-    }
-    public interface IPlayerGamepadActions
-    {
-        void OnMove(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
-        void OnDoubleJump(InputAction.CallbackContext context);
-        void OnCrouch(InputAction.CallbackContext context);
-        void OnCrouchRoll(InputAction.CallbackContext context);
-        void OnSlide(InputAction.CallbackContext context);
-        void OnLightAttack(InputAction.CallbackContext context);
-        void OnMediumAttack(InputAction.CallbackContext context);
-        void OnHeavyAttack(InputAction.CallbackContext context);
-        void OnParry(InputAction.CallbackContext context);
-        void OnBlock(InputAction.CallbackContext context);
-        void OnPauseGame(InputAction.CallbackContext context);
-        void OnNavigate(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

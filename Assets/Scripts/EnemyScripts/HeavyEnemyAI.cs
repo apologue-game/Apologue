@@ -219,6 +219,7 @@ public class HeavyEnemyAI : MonoBehaviour
                 if (!facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = -1;
             }
@@ -227,6 +228,7 @@ public class HeavyEnemyAI : MonoBehaviour
                 if (facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = 1;
             }
@@ -239,10 +241,12 @@ public class HeavyEnemyAI : MonoBehaviour
                 if (transform.position.x > currentTarget.position.x && !facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 else if (transform.position.x < currentTarget.position.x && facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
             }
             direction = 0;

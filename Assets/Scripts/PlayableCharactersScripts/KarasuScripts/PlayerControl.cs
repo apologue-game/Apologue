@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
     public static ApologuePlayerInput_Actions playerinputActions;
-    static PlayerInput playerInput;
+    public static PlayerInput playerInput;
     Rigidbody2D rigidBody2D;
     Animator animator;
     WallTilemaps wallTilemaps;
@@ -15,6 +16,16 @@ public class PlayerControl : MonoBehaviour
     bool currentActionMap;
     public ParticleSystem dust;
     public ParticleSystem dashParticleEffect;
+    public TrailRenderer dashLineEffect;
+
+    KarasuEntity karasuEntity;
+    public HealthBar healthBar;
+    public Image healthBarFill;
+    public Color healthBarColorInvulnerable;
+
+    public SpriteRenderer tooltipInteractionSR;
+    public Sprite keyboardInteractionIcon;
+    public Sprite gamepadInteractionIcon;
 
     //Movement system
     //Move
@@ -146,6 +157,7 @@ public class PlayerControl : MonoBehaviour
     //Interactable objects -> icon above the head
     public GameObject interactionIconPrefab;
     GameObject interactionTooltip;
+    SpriteRenderer interactionTooltipSR;
 
     //Testing
 
@@ -196,6 +208,7 @@ public class PlayerControl : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         wallTilemaps = GameObject.Find("WallTilemapTrigger").GetComponent<WallTilemaps>();
         playerControl = this;
+        karasuEntity = GetComponent<KarasuEntity>();
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -211,6 +224,7 @@ public class PlayerControl : MonoBehaviour
         attackState = new AttackState();
 
         interactionTooltip = transform.Find("InteractionTooltip").gameObject;
+        interactionTooltipSR = interactionTooltip.GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -365,10 +379,11 @@ public class PlayerControl : MonoBehaviour
         }
         if (holdingJump)
         {
-            rigidBody2D.AddForce(Vector2.up * jumpForce);
+            rigidBody2D.AddForce(Vector2.up * jumpForce * 2);
         }
         if (verticalSpeed < -1)
         {
+            holdingJump = false;
             rigidBody2D.AddForce(Vector2.down * 25);
         }
         if (initiatePushBackCounter)
@@ -419,14 +434,12 @@ public class PlayerControl : MonoBehaviour
         if (inputX > 0 && !facingRight && !currentlyAttacking && !onASlope && !blocking && !hangingOnTheWall)
         {
             Flip();
+            interactionTooltipSR.flipX = false;
         }
         else if (inputX < 0 && facingRight && !currentlyAttacking && !onASlope && !blocking && !hangingOnTheWall)
         {
             Flip();
-        }
-        if (true)
-        {
-
+            interactionTooltipSR.flipX = true;
         }
     }
 
@@ -704,47 +717,47 @@ public class PlayerControl : MonoBehaviour
         currentlyAttacking = false;
     }
 
-    public void OnMediumAttack(InputAction.CallbackContext callbackContext)
-    {
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
-        {
-            return;
-        }
-        if (callbackContext.control.IsPressed())
-        {
-            if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
-            {
-                attackState = AttackState.mediumAttack;
-                AnimatorSwitchState(MEDIUMATTACKANIMATION);
-                nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
-                nextGlobalAttack = Time.time + 1.5f;
-                currentlyAttacking = true;
-            }
-        }
-    }
+    //public void OnMediumAttack(InputAction.CallbackContext callbackContext)
+    //{
+    //    if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
+    //    {
+    //        return;
+    //    }
+    //    if (callbackContext.control.IsPressed())
+    //    {
+    //        if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
+    //        {
+    //            attackState = AttackState.mediumAttack;
+    //            AnimatorSwitchState(MEDIUMATTACKANIMATION);
+    //            nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
+    //            nextGlobalAttack = Time.time + 1.5f;
+    //            currentlyAttacking = true;
+    //        }
+    //    }
+    //}
 
-    public void MediumAttack()
-    {
-        StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length));
-        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearCollider.position, spearRange, 0, enemiesLayers);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if (enemy.name == "BlockColliderSoldier")
-            {
-                continue;
-            }
-            if (enemy.name == "SoldierSight")
-            {
-                continue;
-            }
-            Debug.Log("We hit " + enemy + " with a spaer");
-            if (enemy.GetComponent<IEnemy>() != null)
-            {
-                enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
-            }
-        }
-        currentlyAttacking = false;
-    }
+    //public void MediumAttack()
+    //{
+    //    StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length));
+    //    Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearCollider.position, spearRange, 0, enemiesLayers);
+    //    foreach (Collider2D enemy in hitEnemies)
+    //    {
+    //        if (enemy.name == "BlockColliderSoldier")
+    //        {
+    //            continue;
+    //        }
+    //        if (enemy.name == "SoldierSight")
+    //        {
+    //            continue;
+    //        }
+    //        Debug.Log("We hit " + enemy + " with a spaer");
+    //        if (enemy.GetComponent<IEnemy>() != null)
+    //        {
+    //            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+    //        }
+    //    }
+    //    currentlyAttacking = false;
+    //}
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     { 
@@ -758,16 +771,20 @@ public class PlayerControl : MonoBehaviour
             {
                 attackState = AttackState.heavyAttack;
                 AnimatorSwitchState(HEAVYATTACKANIMATION);
-                nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe;
+                nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe + 3f;
                 nextGlobalAttack = Time.time + 1.5f;
                 currentlyAttacking = true;
             }
         }
     }
 
+    void StopMovingWhileAttackingAnimationEvent()
+    {
+        StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length - 0.4f));
+    }
+
     void HeavyAttack()
     {
-        StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length));
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -983,9 +1000,39 @@ public class PlayerControl : MonoBehaviour
         attackState = AttackState.notAttacking;
     }
 
+    public void OnInteract(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed && interactionTooltip.activeSelf == true)
+        {
+            if (karasuEntity.currentHealth == karasuEntity.maxHealth)
+            {
+                KarasuEntity.invulnerableToNextAttack = true;
+                healthBarFill.color = healthBarColorInvulnerable;
+            }
+            else
+            {
+                karasuEntity.currentHealth += 3;
+                if (karasuEntity.currentHealth > karasuEntity.maxHealth)
+                {
+                    karasuEntity.currentHealth = karasuEntity.maxHealth;
+                }
+                healthBar.SetHealth(karasuEntity.currentHealth);
+            }
+            BuddahBlessing.blessingGiven = true;
+        }
+    }
+
     public static void ShowInteractionIcon()
     {
         playerControl.interactionTooltip.SetActive(true);
+        if (playerInput.currentControlScheme != "Gamepad")
+        {
+            playerControl.tooltipInteractionSR.sprite = playerControl.keyboardInteractionIcon;
+        }
+        else
+        {
+            playerControl.tooltipInteractionSR.sprite = playerControl.gamepadInteractionIcon;
+        }
     }
 
     public static void HideInteractionIcon()
@@ -1010,6 +1057,11 @@ public class PlayerControl : MonoBehaviour
     void CreateDashParticleEffect()
     {
         dashParticleEffect.Play();
+    }
+
+    void CreateDashLineEffect()
+    {
+
     }
 
     //Animation manager

@@ -44,7 +44,6 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
 
         healthBarFill.canvasRenderer.SetAlpha(0f);
         healthBarBorder.canvasRenderer.SetAlpha(0f);
-
     }
 
     public void TakeDamage(int damage, bool? specialInteraction)
@@ -56,6 +55,7 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
         else
         {
             currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
             if (currentHealth <= 0)
             {
                 StartCoroutine(Death());
