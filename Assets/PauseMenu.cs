@@ -5,9 +5,17 @@ using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
+    PlayerControl playerControl;
+
+    private void Start()
+    {
+        playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+    }
+
     public void Resume()
     {
-        transform.Find("PauseMenu").gameObject.SetActive(false);
+        playerControl.pauseMenuPanel.SetActive(false);
+        PlayerControl.playerInput.SwitchCurrentActionMap("Player");
         Time.timeScale = 1f;
         PlayerControl.isGamePaused = false;
     }

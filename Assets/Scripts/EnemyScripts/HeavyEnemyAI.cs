@@ -10,7 +10,9 @@ public class HeavyEnemyAI : MonoBehaviour
     int myID;
     string myName = "";
     HeavyEnemy heavyEnemy;
-    HealthBar healthBar;
+    public HealthBar healthBar;
+    public ParticleSystem attackIndicatorGreen;
+    public ParticleSystem attackIndicatorRed;
 
     //Targeting
     GameObject karasu;
@@ -252,8 +254,18 @@ public class HeavyEnemyAI : MonoBehaviour
             direction = 0;
         }
     }
-    
+
     //Combat system
+    void CreateAttackIndicatorGreen()
+    {
+        attackIndicatorGreen.Play();
+    }
+    
+    void CreateAttackIndicatorRed()
+    {
+        attackIndicatorRed.Play();
+    }
+
     void OverheadAttack()
     {
         lastTimeAttack = Time.time;
@@ -274,8 +286,7 @@ public class HeavyEnemyAI : MonoBehaviour
             }
             else if (enemy.name == "BlockCollider")
             {
-                Debug.Log("Successfully blocked an attack");
-                parriedOrBlocked = true;
+                continue;
             }
         }
         if (!parriedOrBlocked)

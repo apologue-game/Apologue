@@ -71,7 +71,7 @@ public class Dasher : MonoBehaviour, IEnemy
                 return;
             }
             StartCoroutine(DasherIsTakingDamage());
-            StartCoroutine(ShowHealthBar());
+            ShowHealthBar();
         }
     }
 
@@ -95,12 +95,10 @@ public class Dasher : MonoBehaviour, IEnemy
         isStaggered = false;
     }
 
-    IEnumerator ShowHealthBar()
+    void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
-        yield return new WaitForSeconds(1.5f);
-        FadeOutHealthBars();
     }
 
     public void FadeOutHealthBars()
@@ -114,7 +112,8 @@ public class Dasher : MonoBehaviour, IEnemy
         isDead = true;
         animator.Play("death");
         Physics2D.IgnoreCollision(dasherBoxCollider, playerBoxCollider);
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(3f);
+        FadeOutHealthBars();
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(dasherAI.spawn);
     }

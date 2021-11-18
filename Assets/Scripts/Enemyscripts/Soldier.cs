@@ -62,7 +62,7 @@ public class Soldier : MonoBehaviour, IEnemy
                 return;
             }
             StartCoroutine(SoldierStaggered());
-            StartCoroutine(ShowHealthBar());
+            ShowHealthBar();
         }
     }
 
@@ -72,12 +72,10 @@ public class Soldier : MonoBehaviour, IEnemy
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
-    IEnumerator ShowHealthBar()
+    void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
-        yield return new WaitForSeconds(1.5f);
-        FadeOutHealthBars();
     }
 
     IEnumerator SoldierStaggered()
@@ -88,12 +86,26 @@ public class Soldier : MonoBehaviour, IEnemy
         isTakingDamage = false;
     }
 
+    public void SoldierParryStaggerCall()
+    {
+        StartCoroutine(SoldierParryStaggered());
+    }
+
+    IEnumerator SoldierParryStaggered()
+    {
+        isTakingDamage = true;
+        animator.SetTrigger("animSoldierTakingDamage");
+        yield return new WaitForSeconds(1f);
+        isTakingDamage = false;
+    }
+
     public IEnumerator Death()
     {
         isDead = true;
         Debug.Log("Soldier died");
         animator.SetTrigger("animSoldierDeath");
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(3f);
+        FadeOutHealthBars();
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(soldierAI.spawn);
     }

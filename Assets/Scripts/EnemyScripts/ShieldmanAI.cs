@@ -9,6 +9,7 @@ public class ShieldmanAI : MonoBehaviour
     string myName = "";
     Shieldman shieldman;
     public HealthBar healthBar;
+    public ParticleSystem attackIndicator;
 
     //Targeting
     GameObject karasu;
@@ -234,19 +235,20 @@ public class ShieldmanAI : MonoBehaviour
     {
         if (shieldman.shieldBroken)
         {
-            Debug.Log("no");
-            lastTimeAttack = Time.time;
-            numberOfAttacks++;
             AnimatorSwitchState(ATTACKANIMATIONNOSHIELD);
-            StartCoroutine(StopMovingWhileAttacking());
         }
         else
         {
-            lastTimeAttack = Time.time;
-            numberOfAttacks++;
             AnimatorSwitchState(ATTACKANIMATION);
-            StartCoroutine(StopMovingWhileAttacking());
         }
+        lastTimeAttack = Time.time;
+        numberOfAttacks++;
+        StartCoroutine(StopMovingWhileAttacking());
+    }
+
+    void CreateAttackIndicator()
+    {
+        attackIndicator.Play();
     }
 
     void ShieldmanAttack()
@@ -270,7 +272,14 @@ public class ShieldmanAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Shieldman hit " + enemy + " with a spear");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman, null);
+                if (enemy.name == "SlideCollider")
+                {
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman, null);
+                }
+                else
+                {
+                    enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman, null);
+                }
             }
         }
         parriedOrBlocked = false;

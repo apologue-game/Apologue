@@ -10,6 +10,7 @@ public class SoldierAI : MonoBehaviour
     string myName = "";
     Soldier soldier;
     public HealthBar healthBar;
+    public ParticleSystem attackIndicator;
 
     //Targeting
     GameObject karasu;
@@ -221,7 +222,7 @@ public class SoldierAI : MonoBehaviour
         rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
 
         //Blocking interaction
-        if (PlayerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking && hDistance < stoppingDistance && vDistance < stoppingDistance && !soldier.isTakingDamage)
+        if (playerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking/* && hDistance < stoppingDistance*/ && vDistance < stoppingDistance && !soldier.isTakingDamage)
         {
             currentlyBlocking = true;
             SoldierBlock();
@@ -367,6 +368,11 @@ public class SoldierAI : MonoBehaviour
         StartCoroutine(StopMovingWhileAttacking());
     }
 
+    void CreateAttackIndicator()
+    {
+        attackIndicator.Play();
+    }
+
     void SoldierAttack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordColliderSoldier.position, swordRangeSoldier, enemiesLayers);
@@ -376,6 +382,7 @@ public class SoldierAI : MonoBehaviour
             {
                 Debug.Log("Successfully parried an attack");
                 parriedOrBlocked = true;
+                soldier.SoldierParryStaggerCall();
             }
             else if (enemy.name == "BlockCollider")
             {
@@ -388,7 +395,14 @@ public class SoldierAI : MonoBehaviour
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Soldier hit " + enemy + " with a sword");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier, null);
+                if (enemy.name == "SlideCollider")
+                {
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(attackDamageSoldier, null);
+                }
+                else
+                {
+                    enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier, null);
+                }
             }
         }
         parriedOrBlocked = false;

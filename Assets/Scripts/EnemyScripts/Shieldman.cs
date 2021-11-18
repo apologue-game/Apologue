@@ -13,10 +13,10 @@ public class Shieldman : MonoBehaviour, IEnemy
     public GameObject healthBarFillGO;
     public GameObject healthBarBorderGO;
 
-
     //BoxCollider2D boxCollider2D;
     public PolygonCollider2D polygonCollider2D;
     BoxCollider2D boxCollider2DKarasu;
+    BoxCollider2D slideBoxCollider2DKarasu;
 
     public Animator animator { get; set; }
 
@@ -43,6 +43,7 @@ public class Shieldman : MonoBehaviour, IEnemy
 
         //boxCollider2D = GetComponent<BoxCollider2D>();
         boxCollider2DKarasu = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
+        slideBoxCollider2DKarasu = GameObject.FindGameObjectWithTag("Player").transform.Find("SlideCollider").GetComponent<BoxCollider2D>();
     }
 
     void Start()
@@ -66,6 +67,7 @@ public class Shieldman : MonoBehaviour, IEnemy
             {
                 shieldBroken = true;
                 Physics2D.IgnoreCollision(polygonCollider2D, boxCollider2DKarasu);
+                Physics2D.IgnoreCollision(polygonCollider2D, slideBoxCollider2DKarasu);
                 StartCoroutine(ShieldmanStaggered());
                 animator.Play("shieldbreakAnimation");
             }
@@ -84,7 +86,7 @@ public class Shieldman : MonoBehaviour, IEnemy
                 return;
             }
             StartCoroutine(ShieldmanStaggered());
-            StartCoroutine(ShowHealthBar());
+            ShowHealthBar();
         }
     }
 
@@ -111,12 +113,10 @@ public class Shieldman : MonoBehaviour, IEnemy
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
-    IEnumerator ShowHealthBar()
+    void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
-        yield return new WaitForSeconds(1.5f);
-        FadeOutHealthBars();
     }
 
     public IEnumerator Death()
@@ -125,6 +125,7 @@ public class Shieldman : MonoBehaviour, IEnemy
         Debug.Log("Shieldman died");
         animator.Play("deathAnimation");
         yield return new WaitForSeconds(3.83f);
+        FadeOutHealthBars();
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(shieldmanAI.spawn);
     }

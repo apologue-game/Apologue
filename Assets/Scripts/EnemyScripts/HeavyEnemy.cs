@@ -12,7 +12,6 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
     public GameObject healthBarFillGO;
     public GameObject healthBarBorderGO;
 
-
     public GameObject heavyAxeRight;
     public GameObject heavyAxeLeft;
     Vector3 axeSpawnLocation;
@@ -62,7 +61,7 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
                 return;
             }
             StartCoroutine(HeavyEnemyStaggered());
-            StartCoroutine(ShowHealthBar());
+            ShowHealthBar();
         }
     }
 
@@ -72,12 +71,10 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
-    IEnumerator ShowHealthBar()
+    void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
-        yield return new WaitForSeconds(1.5f);
-        FadeOutHealthBars();
     }
 
     IEnumerator HeavyEnemyStaggered()
@@ -92,7 +89,6 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
     {
         isDead = true;
         animator.Play("deathAnimation");
-        yield return new WaitForSeconds(3.5f);
 
         if (heavyEnemyAI.facingLeft)
         {
@@ -104,7 +100,9 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
             axeSpawnLocation = new Vector3(transform.position.x - 0.4f, transform.position.y - 0.52f, transform.position.z);
             Instantiate(heavyAxeLeft, axeSpawnLocation, transform.rotation);
         }
-        
+        yield return new WaitForSeconds(3f);
+
+        FadeOutHealthBars();
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(heavyEnemyAI.spawn);
     }

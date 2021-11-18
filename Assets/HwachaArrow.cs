@@ -73,6 +73,10 @@ public class HwachaArrow : MonoBehaviour
             karasuEntity.TakeDamage(1, null);
             //particle effects
         }
+        if (collision.name == "SlideCollider")
+        {
+            collision.GetComponentInParent<KarasuEntity>().TakeDamage(1, null);
+        }
         if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha"))
         {
             collision.GetComponent<IEnemy>().TakeDamage(1, null);

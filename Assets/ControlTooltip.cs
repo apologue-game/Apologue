@@ -12,14 +12,18 @@ public class ControlTooltip : MonoBehaviour
     public Sprite gamepadControl1;
     public Sprite keyboardControl2;
     public Sprite gamepadControl2;
-    public Text tooltipText;
+    public Text tooltipText1;
+    public Text tooltipText2;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.name == "SlideCollider")
         {
-            //turnTooltipOnOrOff.SetActive(true);
-            tooltipText.color = new Color(0.05f, 0.05f, 0.05f, 1f);
+            tooltipText1.color = new Color(0.05f, 0.05f, 0.05f, 1f);
+            if (tooltipText2 != null)
+            {
+                tooltipText2.color = new Color(0.05f, 0.05f, 0.05f, 1f);
+            }
             if (PlayerControl.playerInput.currentControlScheme != "Gamepad")
             {
                 if (image1 != null)
@@ -50,7 +54,7 @@ public class ControlTooltip : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.name == "SlideCollider")
         {
             if (PlayerControl.playerInput.currentControlScheme != "Gamepad")
             {
@@ -83,7 +87,7 @@ public class ControlTooltip : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.name == "SlideCollider")
         {
             if (image1 != null)
             {
@@ -93,8 +97,11 @@ public class ControlTooltip : MonoBehaviour
             {
                 image2.color = new Color(0f, 0f, 0f, 0f);
             }
-            tooltipText.color = new Color(0f, 0f, 0f, 0f);
-            //turnTooltipOnOrOff.SetActive(false);
+            tooltipText1.color = new Color(0f, 0f, 0f, 0f);
+            if (tooltipText2 != null)
+            {
+                tooltipText2.color = new Color(0f, 0f, 0f, 0f);
+            }
         }
     }
 }

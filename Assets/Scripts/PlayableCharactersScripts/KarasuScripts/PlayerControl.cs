@@ -12,17 +12,18 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rigidBody2D;
     Animator animator;
     WallTilemaps wallTilemaps;
-    static PlayerControl playerControl;
-    bool currentActionMap;
     public ParticleSystem dust;
     public ParticleSystem dashParticleEffect;
-    public TrailRenderer dashLineEffect;
 
     KarasuEntity karasuEntity;
     public HealthBar healthBar;
     public Image healthBarFill;
     public Color healthBarColorInvulnerable;
 
+    //Interactable objects -> icon above the head
+    public GameObject interactionIconPrefab;
+    GameObject interactionTooltip;
+    SpriteRenderer interactionTooltipSR;
     public SpriteRenderer tooltipInteractionSR;
     public Sprite keyboardInteractionIcon;
     public Sprite gamepadInteractionIcon;
@@ -148,16 +149,12 @@ public class PlayerControl : MonoBehaviour
     float nextParry = 0;
     float parryCooldown = 4f;
     //Enemy blocking
-    public static bool currentlyAttacking = false;
+    public bool currentlyAttacking = false;
 
     //Utilities
     //Pause menu
-    [SerializeField] private GameObject pauseMenuPanel;
+    public GameObject pauseMenuPanel;
     public static bool isGamePaused = false;
-    //Interactable objects -> icon above the head
-    public GameObject interactionIconPrefab;
-    GameObject interactionTooltip;
-    SpriteRenderer interactionTooltipSR;
 
     //Testing
 
@@ -187,18 +184,6 @@ public class PlayerControl : MonoBehaviour
     const string HEAVYATTACKANIMATION = "karasuHeavyAttackAnimation";
     const string KARASUDEATHANIMATION = "karasuDeathAnimation";
 
-    //Teleportation
-    public Transform location1;
-    public Transform location2;
-    bool location = false;
-
-    //Spawning
-    public GameObject heavyPrefab;
-    public GameObject shieldmanPrefab;
-    public GameObject metalBox;
-    public GameObject woodenBox;
-
-
     //Help
     public float horizontalSpeed;
     void Awake()
@@ -207,7 +192,6 @@ public class PlayerControl : MonoBehaviour
         playerinputActions.Enable();
         playerInput = GetComponent<PlayerInput>();
         wallTilemaps = GameObject.Find("WallTilemapTrigger").GetComponent<WallTilemaps>();
-        playerControl = this;
         karasuEntity = GetComponent<KarasuEntity>();
 
         rigidBody2D = GetComponent<Rigidbody2D>();
@@ -330,7 +314,7 @@ public class PlayerControl : MonoBehaviour
             if (attackState == AttackState.notAttacking || attackState == AttackState.cannotAttack)
             {
                 //Falling
-                if (!grounded && verticalSpeed < -6 && !falling)
+                if (!grounded && verticalSpeed < -12 && !falling)
                 {
                     falling = true;
                     AnimatorSwitchState(FALLINGANIMATION);
@@ -563,6 +547,13 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            if (callbackContext.ReadValue<float>() != 1)
+            {
+                return;
+            }
+        }
         if (callbackContext.performed && inputX == 0 && grounded && !isCrouching)
         {
             isCrouching = true;
@@ -581,6 +572,13 @@ public class PlayerControl : MonoBehaviour
         if (hangingOnTheWall || onASlope)
         {
             return;
+        }
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            if (callbackContext.ReadValue<float>() != 1)
+            {
+                return;
+            }
         }
         if (callbackContext.performed && inputX != 0 && grounded && !isCrouching)
         {
@@ -761,7 +759,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     { 
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope/* || !axePickedUp*/)
+        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope || !axePickedUp)
         {
             return;
         }
@@ -818,7 +816,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnParry(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || onASlope)
+        if (hangingOnTheWall || onASlope || currentlyAttacking)
         {
             return;
         }
@@ -834,7 +832,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnBlock(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || onASlope)
+        if (hangingOnTheWall || onASlope || currentlyAttacking)
         {
             return;
         }
@@ -853,7 +851,6 @@ public class PlayerControl : MonoBehaviour
     }
 
     //Utilities
-
     public void PauseGame(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed)
@@ -861,29 +858,16 @@ public class PlayerControl : MonoBehaviour
             if (isGamePaused == true)
             {
                 pauseMenuPanel.SetActive(false);
-                if (currentActionMap)
-                {
-                    playerInput.SwitchCurrentActionMap("Player");
-                }
-                else
-                {
-                    playerInput.SwitchCurrentActionMap("PlayerGamepad");
-                }
+                playerInput.SwitchCurrentActionMap("Player");
+                Debug.Log(playerInput.currentActionMap + "1");
                 Time.timeScale = 1f;
                 isGamePaused = false;
             }
             else
             {
                 pauseMenuPanel.SetActive(true);
-                if (playerInput.currentActionMap.name == "Player")
-                {
-                    currentActionMap = true;
-                }
-                else
-                {
-                    currentActionMap = false;
-                }
                 playerInput.SwitchCurrentActionMap("UI");
+                Debug.Log(playerInput.currentActionMap + "2");
                 Time.timeScale = 0f;
                 isGamePaused = true;
             }
@@ -1000,45 +984,62 @@ public class PlayerControl : MonoBehaviour
         attackState = AttackState.notAttacking;
     }
 
-    public void OnInteract(InputAction.CallbackContext callbackContext)
+    public void ShowInteractionIcon()
     {
-        if (callbackContext.performed && interactionTooltip.activeSelf == true)
+        interactionIconPrefab.SetActive(true);
+        if (playerInput.currentControlScheme == "Gamepad")
         {
-            if (karasuEntity.currentHealth == karasuEntity.maxHealth)
-            {
-                KarasuEntity.invulnerableToNextAttack = true;
-                healthBarFill.color = healthBarColorInvulnerable;
-            }
-            else
-            {
-                karasuEntity.currentHealth += 3;
-                if (karasuEntity.currentHealth > karasuEntity.maxHealth)
-                {
-                    karasuEntity.currentHealth = karasuEntity.maxHealth;
-                }
-                healthBar.SetHealth(karasuEntity.currentHealth);
-            }
-            BuddahBlessing.blessingGiven = true;
-        }
-    }
-
-    public static void ShowInteractionIcon()
-    {
-        playerControl.interactionTooltip.SetActive(true);
-        if (playerInput.currentControlScheme != "Gamepad")
-        {
-            playerControl.tooltipInteractionSR.sprite = playerControl.keyboardInteractionIcon;
+            interactionIconPrefab.GetComponent<SpriteRenderer>().sprite = gamepadInteractionIcon;
         }
         else
         {
-            playerControl.tooltipInteractionSR.sprite = playerControl.gamepadInteractionIcon;
+            interactionIconPrefab.GetComponent<SpriteRenderer>().sprite = keyboardInteractionIcon;
         }
     }
 
-    public static void HideInteractionIcon()
+    public void HideInteractionIcon()
     {
-        playerControl.interactionTooltip.SetActive(false);
+        interactionIconPrefab.SetActive(false);
     }
+
+    Vector2 interactionSize = new Vector2(0.1f, 1);
+
+    public void CheckInteraction(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, interactionSize, 0f, Vector2.zero);
+
+            if (hits.Length > 0)
+            {
+                foreach (RaycastHit2D raycastHits in hits)
+                {
+                    if (raycastHits.transform.GetComponent<Interactable>())
+                    {
+                        raycastHits.transform.GetComponent<Interactable>().Interact();
+                    }
+                }
+            }
+        }
+    }
+
+    //public static void ShowInteractionIcon()
+    //{
+    //    playerControl.interactionTooltip.SetActive(true);
+    //    if (playerInput.currentControlScheme != "Gamepad")
+    //    {
+    //        playerControl.tooltipInteractionSR.sprite = playerControl.keyboardInteractionIcon;
+    //    }
+    //    else
+    //    {
+    //        playerControl.tooltipInteractionSR.sprite = playerControl.gamepadInteractionIcon;
+    //    }
+    //}
+
+    //public static void HideInteractionIcon()
+    //{
+    //    playerControl.interactionTooltip.SetActive(false);
+    //}
 
     private void OnDrawGizmosSelected()
     {

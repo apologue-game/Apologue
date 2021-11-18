@@ -12,6 +12,7 @@ public class Hwacha : MonoBehaviour, IEnemy
     public GameObject healthBarBorderGO;
     BoxCollider2D hwachaCollider;
     BoxCollider2D playerCollider;
+    BoxCollider2D karasuSlideCollider;
 
 
     public Animator animator { get; set; }
@@ -39,6 +40,7 @@ public class Hwacha : MonoBehaviour, IEnemy
     void Start()
     {
         playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
+        karasuSlideCollider = GameObject.FindGameObjectWithTag("Player").transform.Find("SlideCollider").GetComponent<BoxCollider2D>();
 
         currentHealth = maxHealth;
         healthBar.SetMaximumHealth(maxHealth);
@@ -62,7 +64,7 @@ public class Hwacha : MonoBehaviour, IEnemy
                 StartCoroutine(Death());
                 return;
             }
-            StartCoroutine(ShowHealthBar());
+            ShowHealthBar();
         }
     }
 
@@ -72,12 +74,10 @@ public class Hwacha : MonoBehaviour, IEnemy
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
-    IEnumerator ShowHealthBar()
+    void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
-        yield return new WaitForSeconds(1.5f);
-        FadeOutHealthBars();
     }
 
     public IEnumerator Death()
@@ -85,7 +85,9 @@ public class Hwacha : MonoBehaviour, IEnemy
         isDead = true;
         animator.Play("death");
         Physics2D.IgnoreCollision(hwachaCollider, playerCollider);
-        yield return new WaitForSeconds(3.5f);
+        Physics2D.IgnoreCollision(hwachaCollider, karasuSlideCollider);
+        yield return new WaitForSeconds(3f);
+        FadeOutHealthBars();
         //GameMaster.DestroyGameObject(gameObject);
     }
 }

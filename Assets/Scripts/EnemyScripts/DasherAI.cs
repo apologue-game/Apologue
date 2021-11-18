@@ -202,7 +202,14 @@ public class DasherAI : MonoBehaviour
                 {
                     continue;
                 }
-                enemy.GetComponent<KarasuEntity>().TakeDamage(dashAttackDamage, null);
+                if (enemy.name == "SlideCollider")
+                {
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(dashAttackDamage, null);
+                }
+                else
+                {
+                    enemy.GetComponent<KarasuEntity>().TakeDamage(dashAttackDamage, null);
+                }
             }
         }
         parriedOrBlocked = false;

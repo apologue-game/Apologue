@@ -14,7 +14,7 @@ public class FallingCollidersRespawn : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "PlayerKarasu")
+        if (collision.name == "PlayerKarasu" || collision.name == "SlideCollider")
         {
             StartCoroutine(RespawnDelay());
         }

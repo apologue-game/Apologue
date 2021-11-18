@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3110526791298617289}
   - component: {fileID: 3110526791298617299}
   - component: {fileID: 3110526791298617292}
+  - component: {fileID: 2012136481}
   m_Layer: 12
   m_Name: Shieldman
   m_TagString: Enemy
@@ -65,6 +66,7 @@ Transform:
   m_Children:
   - {fileID: 3110526790239690514}
   - {fileID: 4193164707083681168}
+  - {fileID: 738216040965014319}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -148,7 +150,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3110526791298617290}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -203,6 +205,7 @@ MonoBehaviour:
   healthBarBorder: {fileID: 4193164707716790353}
   healthBarFillGO: {fileID: 4193164706862699063}
   healthBarBorderGO: {fileID: 4193164707716790355}
+  polygonCollider2D: {fileID: 2012136481}
   shieldBroken: 0
   isBlocking: 0
 --- !u!114 &3110526791298617292
@@ -218,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 4193164707807862359}
+  attackIndicator: {fileID: 4304316618013201918}
   currentTarget: {fileID: 0}
   spawn: {fileID: 0}
   movementSpeed: 150
@@ -225,7 +229,7 @@ MonoBehaviour:
   hDistance: 0
   vDistance: 0
   speed: 0
-  boxCollider2D: {fileID: 3110526791298617288}
+  polygonCollider2D: {fileID: 2012136481}
   enemiesLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -237,6 +241,37 @@ MonoBehaviour:
   spearAttackShieldman: {fileID: 3110526790239690514}
   spearAttackShieldmanRange: {x: 1.48, y: 0.41, z: 0}
   attackDamageSpearAttackShieldman: 3
+--- !u!60 &2012136481
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3110526791298617290}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.0833334, y: 1.875}
+    newSize: {x: 0.8125, y: 1.40625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.09852661, y: 0.76200914}
+      - {x: -0.4479472, y: 0.3171401}
+      - {x: -0.5124003, y: -0.8368907}
+      - {x: -0.375, y: -0.9375}
+      - {x: 0.48313397, y: -0.9375}
+      - {x: 0.49436444, y: 0.2249403}
 --- !u!1001 &5379332198088705215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -394,3 +429,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &8671910286328740505
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3110526791298617293}
+    m_Modifications:
+    - target: {fileID: 4496001801304163840, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_Name
+      value: AttackIndicatorGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.403
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.584
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+--- !u!4 &738216040965014319 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8243412397157071286, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+  m_PrefabInstance: {fileID: 8671910286328740505}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4304316618013201918 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4892265292691074919, guid: df15afa9a0f9c964b99dd5c93dc241dd, type: 3}
+  m_PrefabInstance: {fileID: 8671910286328740505}
+  m_PrefabAsset: {fileID: 0}
