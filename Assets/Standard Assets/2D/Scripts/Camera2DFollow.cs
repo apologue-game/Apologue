@@ -21,18 +21,29 @@ namespace UnityStandardAssets._2D
         private Vector3 m_CurrentVelocity;
         private Vector3 m_LookAheadPos;
 
+
+        //float screenAspect;
+        //float cameraHeight;
+        //Bounds bounds;
+
         // Use this for initialization
         private void Start()
         {
             m_LastTargetPosition = target.position;
             m_OffsetZ = (transform.position - target.position).z;
             transform.parent = null;
+
+            //horzExtent = Camera.main.orthographicSize * Screen.width / Screen.height;
+            //screenAspect = (float)Screen.width / (float)Screen.height;
+            //cameraHeight = Camera.main.orthographicSize * 2;
+            //bounds = new Bounds(Camera.main.transform.position, new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
         }
 
-
+        float nextTimeWritePosition = 0;
+        public float position;
         // Update is called once per frame
         private void Update()
-        {
+        {            
             if (target == null)
             {
                 StartCoroutine("SearchForPlayer");
@@ -58,7 +69,6 @@ namespace UnityStandardAssets._2D
             newPos = new Vector3(Mathf.Clamp(newPos.x, startBounds.position.x, endBounds.position.x), Mathf.Clamp(newPos.y, target.position.y + cameraYPositionOffset, Mathf.Infinity), newPos.z);
             if (newPos.y < verticalPositionLimit)
             {
-               
                 newPos = new Vector3(Mathf.Clamp(newPos.x, startBounds.position.x, endBounds.position.x), Mathf.Clamp(newPos.y, verticalPositionLimit, Mathf.Infinity), newPos.z);
             }
             transform.position = newPos;

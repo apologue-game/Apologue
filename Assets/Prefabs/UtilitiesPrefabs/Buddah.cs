@@ -23,11 +23,7 @@ public class Buddah : Interactable
             }
             else
             {
-                karasuEntity.currentHealth += 3;
-                if (karasuEntity.currentHealth > karasuEntity.maxHealth)
-                {
-                    karasuEntity.currentHealth = karasuEntity.maxHealth;
-                }
+                karasuEntity.currentHealth = karasuEntity.maxHealth;
                 healthBar.SetHealth(karasuEntity.currentHealth);
             }
         }

@@ -33,7 +33,7 @@ public class Dasher : MonoBehaviour, IEnemy
         animator = GetComponent<Animator>();
         dasherBoxCollider = GetComponent<BoxCollider2D>();
         isDead = false;
-        maxHealth = 5;
+        maxHealth = 4;
         enemyType = IEnemy.EnemyType.ranged;
     }
 

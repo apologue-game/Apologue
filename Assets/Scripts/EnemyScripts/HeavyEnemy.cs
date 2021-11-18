@@ -85,11 +85,8 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
         isTakingDamage = false;
     }
 
-    public IEnumerator Death()
+    void SpawnPickableAxe()
     {
-        isDead = true;
-        animator.Play("deathAnimation");
-
         if (heavyEnemyAI.facingLeft)
         {
             axeSpawnLocation = new Vector3(transform.position.x + 0.4f, transform.position.y - 0.52f, transform.position.z);
@@ -100,7 +97,14 @@ public class HeavyEnemy : MonoBehaviour, IEnemy
             axeSpawnLocation = new Vector3(transform.position.x - 0.4f, transform.position.y - 0.52f, transform.position.z);
             Instantiate(heavyAxeLeft, axeSpawnLocation, transform.rotation);
         }
-        yield return new WaitForSeconds(3f);
+    }
+
+    public IEnumerator Death()
+    {
+        isDead = true;
+        animator.Play("deathAnimation");
+
+        yield return new WaitForSeconds(1.1f);
 
         FadeOutHealthBars();
         GameMaster.DestroyGameObject(gameObject);

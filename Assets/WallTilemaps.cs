@@ -8,9 +8,6 @@ public class WallTilemaps : MonoBehaviour
     GameObject playerKarasu;
     Transform wallHangingCollider;
     public LayerMask walls;
-    public int newPosition = 1;
-    public int oldPosition = 0;
-
     private void Awake()
     {
         playerKarasu = GameObject.FindGameObjectWithTag("Player");
@@ -24,11 +21,6 @@ public class WallTilemaps : MonoBehaviour
             Collider2D[] inRangeToHang = Physics2D.OverlapCircleAll(wallHangingCollider.position, 0.38f, walls);
             if (inRangeToHang.Length > 0)
             {
-                newPosition = (int)playerKarasu.transform.position.x;
-                if (newPosition == oldPosition)
-                {
-                    return;
-                }
                 PlayerControl.hangingOnTheWall = true;
                 PlayerControl.wallJump = true;
                 playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
@@ -41,7 +33,6 @@ public class WallTilemaps : MonoBehaviour
     {
         if (collision.name == "PlayerKarasu")
         {
-            oldPosition = newPosition;
             PlayerControl.hangingOnTheWall = false;
             PlayerControl.wallJump = false;
             playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;

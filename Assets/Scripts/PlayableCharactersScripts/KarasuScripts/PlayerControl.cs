@@ -123,6 +123,7 @@ public class PlayerControl : MonoBehaviour
     public float attackRangeUppercut = 0.5f;
     float comboTimeWindow = 0f;
     public int numberOfAttacks = 0;
+    int attackDamageCombo = 2;
 
     //Medium attack
     public Transform spearCollider;
@@ -154,6 +155,7 @@ public class PlayerControl : MonoBehaviour
     //Utilities
     //Pause menu
     public GameObject pauseMenuPanel;
+    public GameObject tooltipPanel;
     public static bool isGamePaused = false;
 
     //Testing
@@ -409,18 +411,17 @@ public class PlayerControl : MonoBehaviour
         }
         if (grounded)
         {
-            wallTilemaps.oldPosition = wallTilemaps.newPosition - 50;
             if (attackState == AttackState.cannotAttack)
             {
                 attackState = AttackState.notAttacking;
             }
         }
-        if (inputX > 0 && !facingRight && !currentlyAttacking && !onASlope && !blocking && !hangingOnTheWall)
+        if (inputX > 0 && !facingRight /*&& !currentlyAttacking*/ && !onASlope && !blocking && !hangingOnTheWall)
         {
             Flip();
             interactionTooltipSR.flipX = false;
         }
-        else if (inputX < 0 && facingRight && !currentlyAttacking && !onASlope && !blocking && !hangingOnTheWall)
+        else if (inputX < 0 && facingRight /*&& !currentlyAttacking*/ && !onASlope && !blocking && !hangingOnTheWall)
         {
             Flip();
             interactionTooltipSR.flipX = true;
@@ -480,7 +481,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (!grounded && callbackContext.performed && doubleJump)
+        if (!grounded && callbackContext.performed && doubleJump && !blocking)
         {
             rigidBody2D.velocity = (Vector2.up * doubleJumpForce);
             jumpCounter++;
@@ -494,7 +495,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (callbackContext.performed/* && Time.time > timeUntilNextDash */&& !isCrouching)
+        if (callbackContext.performed && Time.time > timeUntilNextDash && !isCrouching)
         {
             if (grounded || !grounded && dashInAirAvailable)
             {
@@ -505,24 +506,24 @@ public class PlayerControl : MonoBehaviour
                 if (inputX > 0)
                 {
                     rigidBody2D.velocity = new Vector2(inputX * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                    timeUntilNextDash = Time.time + 2;
+                    timeUntilNextDash = Time.time + 1;
                 }
                 else if (inputX < 0)
                 {
                     rigidBody2D.velocity = new Vector2(inputX * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                    timeUntilNextDash = Time.time + 2;
+                    timeUntilNextDash = Time.time + 1;
                 }
                 else
                 {
                     if (dashDirectionIfStationary)
                     {
                         rigidBody2D.velocity = new Vector2(movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                        timeUntilNextDash = Time.time + 2;
+                        timeUntilNextDash = Time.time + 1;
                     }
                     else if (!dashDirectionIfStationary)
                     {
                         rigidBody2D.velocity = new Vector2(-1 * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                        timeUntilNextDash = Time.time + 2;
+                        timeUntilNextDash = Time.time + 1;
                     }
                 }
                 CreateDashParticleEffect();
@@ -621,7 +622,7 @@ public class PlayerControl : MonoBehaviour
         }
         if (callbackContext.performed)
         {
-            if (Gamepad.all.Count == 0)//if gamepad.current.enabled == null
+            if (Gamepad.all.Count == 0)
             {
 
             }
@@ -629,7 +630,7 @@ public class PlayerControl : MonoBehaviour
             {
                 return;
             }
-            if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack && !currentlyAttacking)
+            if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack /*&& !currentlyAttacking*/)
             {
                 combo = false;
                 attackState = AttackState.lightAttack;
@@ -637,7 +638,7 @@ public class PlayerControl : MonoBehaviour
                 numberOfAttacks = 0;
                 numberOfAttacks++;
                 currentlyAttacking = true;
-                nextAttackTime = Time.time + 0.11f + 1f;
+                nextAttackTime = Time.time + 0.8f;
                 nextGlobalAttack = Time.time + 0.11f + 0.5f;
                 comboTimeWindow = Time.time + 1 + attackSpeed / 2;
 
@@ -709,7 +710,7 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("We hit " + enemy + " with a sword uppercut");
             if (enemy.GetComponent<IEnemy>() != null)
             {
-                enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
+                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageCombo, null);
             }
         }
         currentlyAttacking = false;
@@ -769,7 +770,7 @@ public class PlayerControl : MonoBehaviour
             {
                 attackState = AttackState.heavyAttack;
                 AnimatorSwitchState(HEAVYATTACKANIMATION);
-                nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe + 3f;
+                nextAttackTimeAxe = Time.time +/* 1f / attackSpeedAxe + 3f*/+ 1f;
                 nextGlobalAttack = Time.time + 1.5f;
                 currentlyAttacking = true;
             }
@@ -811,12 +812,12 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-        currentlyAttacking = false;
+        
     }
 
     public void OnParry(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || onASlope || currentlyAttacking)
+        if (hangingOnTheWall || onASlope || attackState != AttackState.notAttacking || currentlyAttacking)
         {
             return;
         }
@@ -832,7 +833,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnBlock(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || onASlope || currentlyAttacking)
+        if (hangingOnTheWall || onASlope || attackState != AttackState.notAttacking || currentlyAttacking)
         {
             return;
         }
@@ -857,9 +858,16 @@ public class PlayerControl : MonoBehaviour
         {
             if (isGamePaused == true)
             {
-                pauseMenuPanel.SetActive(false);
+                if (!tooltipPanel.activeInHierarchy)
+                {
+                    pauseMenuPanel.SetActive(false);
+                }
+                else
+                {
+                    tooltipPanel.SetActive(false);
+                }
+                
                 playerInput.SwitchCurrentActionMap("Player");
-                Debug.Log(playerInput.currentActionMap + "1");
                 Time.timeScale = 1f;
                 isGamePaused = false;
             }
@@ -867,7 +875,6 @@ public class PlayerControl : MonoBehaviour
             {
                 pauseMenuPanel.SetActive(true);
                 playerInput.SwitchCurrentActionMap("UI");
-                Debug.Log(playerInput.currentActionMap + "2");
                 Time.timeScale = 0f;
                 isGamePaused = true;
             }
@@ -958,6 +965,7 @@ public class PlayerControl : MonoBehaviour
                 StartCoroutine(ComboWindow());
             }
         }
+        currentlyAttacking = false;
     }
 
     IEnumerator StopMovingWhileAttacking(float waitingDuration)
@@ -974,6 +982,7 @@ public class PlayerControl : MonoBehaviour
             yield return new WaitForSeconds(waitingDuration - 0.15f);
             attackState = AttackState.notAttacking;
         }
+        currentlyAttacking = false;
     }
 
     IEnumerator ComboWindow()
@@ -1058,12 +1067,7 @@ public class PlayerControl : MonoBehaviour
     void CreateDashParticleEffect()
     {
         dashParticleEffect.Play();
-    }
-
-    void CreateDashLineEffect()
-    {
-
-    }
+    }   
 
     //Animation manager
     public void AnimatorSwitchState(string newState)

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3447177706837599254}
   - component: {fileID: 1634191646520718130}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Tooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3274328313519501232}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 5867451767147433774}
   - component: {fileID: 4976703346579801611}
   - component: {fileID: -4713521107096462017}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: heavyAxeLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
