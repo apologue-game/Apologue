@@ -114,8 +114,13 @@ public class ShieldmanAI : MonoBehaviour
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }
-        if (shieldman.isTakingDamage || KarasuEntity.dead || shieldman.isBlocking)
+        if (shieldman.isTakingDamage || KarasuEntity.dead)
         {
+            return;
+        }
+        if (shieldman.isBlocking)
+        {
+            animator.Play("blockAnimation");
             return;
         }
 
@@ -154,7 +159,7 @@ public class ShieldmanAI : MonoBehaviour
 
         //Animations
         speed = Mathf.Abs(rigidBody2D.velocity.x);
-        if (!shieldman.shieldBroken && !currentlyAttacking && !shieldman.isBlocking)
+        if (!shieldman.shieldBroken && !currentlyAttacking)
         {
             if (speed > 0)
             {
@@ -166,7 +171,7 @@ public class ShieldmanAI : MonoBehaviour
             }
 
         }
-        else if(shieldman.shieldBroken && !currentlyAttacking && !shieldman.isBlocking)
+        else if(shieldman.shieldBroken && !currentlyAttacking)
         {
             if (speed > 0)
             {

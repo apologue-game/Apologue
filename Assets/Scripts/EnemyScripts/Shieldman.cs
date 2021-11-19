@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Shieldman : MonoBehaviour, IEnemy
 {
     ShieldmanAI shieldmanAI;
+    public AudioManager audioManager;
 
     public HealthBar healthBar;
     public Image healthBarFill;
@@ -73,6 +74,7 @@ public class Shieldman : MonoBehaviour, IEnemy
             }
             else
             {
+                audioManager.PlaySound("swordStrikingWood");
                 StartCoroutine(ShieldmanBlock());
             }
         }
@@ -102,8 +104,7 @@ public class Shieldman : MonoBehaviour, IEnemy
     IEnumerator ShieldmanBlock()
     {
         isBlocking = true;
-        animator.Play("blockAnimation");
-        yield return new WaitForSeconds(0.383f);
+        yield return new WaitForSeconds(0.35f);
         isBlocking = false;
     }
 

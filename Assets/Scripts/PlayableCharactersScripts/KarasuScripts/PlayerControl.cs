@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     WallTilemaps wallTilemaps;
     public ParticleSystem dust;
     public ParticleSystem dashParticleEffect;
+    public AudioManager audioManager;
 
     KarasuEntity karasuEntity;
     public HealthBar healthBar;
@@ -161,7 +162,7 @@ public class PlayerControl : MonoBehaviour
     //Testing
 
     //Animation manager
-    string oldState;
+    string oldAnimationState;
 
     //Animation names
     const string IDLEANIMATION = "karasuIdleAnimation";
@@ -185,6 +186,14 @@ public class PlayerControl : MonoBehaviour
     const string MEDIUMATTACKANIMATION = "karasuMediumAttackAnimation";
     const string HEAVYATTACKANIMATION = "karasuHeavyAttackAnimation";
     const string KARASUDEATHANIMATION = "karasuDeathAnimation";
+
+    //Audio manager
+    const string WALKSOUND = "walk";
+    const string STABSOUND = "stab";
+    const string SLIDESOUND = "slide";
+    const string JUMPLANDINGSOUND = "jumpLanding";
+    const string PARRYSOUND = "parry";
+    const string WOODBREAKINGSOUND = "woodBreaking";
 
     //Help
     public float horizontalSpeed;
@@ -416,15 +425,29 @@ public class PlayerControl : MonoBehaviour
                 attackState = AttackState.notAttacking;
             }
         }
-        if (inputX > 0 && !facingRight /*&& !currentlyAttacking*/ && !onASlope && !blocking && !hangingOnTheWall)
+        if (inputX > 0 && !facingRight && !onASlope && !blocking && !hangingOnTheWall)
         {
             Flip();
             interactionTooltipSR.flipX = false;
         }
-        else if (inputX < 0 && facingRight /*&& !currentlyAttacking*/ && !onASlope && !blocking && !hangingOnTheWall)
+        else if (inputX < 0 && facingRight && !onASlope && !blocking && !hangingOnTheWall)
         {
             Flip();
             interactionTooltipSR.flipX = true;
+        }
+        AudioManager();
+    }
+
+    //Audio manager
+    void AudioManager()
+    {
+        if (grounded && inputX != 0 && !currentlyAttacking)
+        {
+            audioManager.PlaySound(WALKSOUND);
+        }
+        else if (!grounded || inputX == 0 || currentlyAttacking)
+        {
+            audioManager.StopSound(WALKSOUND);
         }
     }
 
@@ -588,6 +611,7 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2f, rigidBody2D.velocity.y);
             regularCollider.enabled = false;
             slideCollider.enabled = true;
+            audioManager.PlaySound(SLIDESOUND);
             StartCoroutine(IsSliding());
         }
     }
@@ -676,6 +700,7 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("We hit " + enemy + " with a sword");
             if (enemy.GetComponent<IEnemy>() != null)
             {
+                audioManager.PlaySound(STABSOUND);
                 enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
             }
         }
@@ -708,6 +733,7 @@ public class PlayerControl : MonoBehaviour
                 continue;
             }
             Debug.Log("We hit " + enemy + " with a sword uppercut");
+            audioManager.PlaySound(STABSOUND);
             if (enemy.GetComponent<IEnemy>() != null)
             {
                 enemy.GetComponent<IEnemy>().TakeDamage(attackDamageCombo, null);
@@ -802,10 +828,12 @@ public class PlayerControl : MonoBehaviour
             if (enemy.name.Contains("Shieldman"))
             {
                 enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, true);
+                audioManager.PlaySound(WOODBREAKINGSOUND);
             }
             else
             {
                 Debug.Log("We hit " + enemy + " with an axe");
+                audioManager.PlaySound(STABSOUND);
                 if (enemy.GetComponent<IEnemy>() != null)
                 {
                     enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
@@ -1072,13 +1100,13 @@ public class PlayerControl : MonoBehaviour
     //Animation manager
     public void AnimatorSwitchState(string newState)
     {
-        if (oldState == newState)
+        if (oldAnimationState == newState)
         {
             return;
         }
 
         animator.Play(newState);
 
-        oldState = newState;
+        oldAnimationState = newState;
     }
 }

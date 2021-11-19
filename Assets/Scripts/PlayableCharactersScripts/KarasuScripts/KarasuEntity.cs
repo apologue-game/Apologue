@@ -13,6 +13,7 @@ public class KarasuEntity : MonoBehaviour
     public Image healthBarFill;
     public static bool invulnerableToNextAttack = false;
     public Color healthBarColor;
+    public AudioManager audioManager;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
@@ -84,6 +85,7 @@ public class KarasuEntity : MonoBehaviour
             }
             invulnerable = true;
             currentHealth -= damage;
+            audioManager.PlaySound("stab");
             Debug.Log(currentHealth);
             healthBar.SetHealth(currentHealth);
             spriteRenderer.color = takeDamageColor;
