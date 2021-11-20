@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SoldierAI : MonoBehaviour
 {
     //Utilities
     System.Random rnd = new System.Random();
+
     int myID;
     string myName = "";
     Soldier soldier;
@@ -80,7 +82,7 @@ public class SoldierAI : MonoBehaviour
     public GameObject blockColliderGO;
     float blockColliderRange;
     bool currentlyBlocking = false;
-    int blockChance;
+    public int blockChance;
 
     private void Awake()
     {
@@ -119,6 +121,7 @@ public class SoldierAI : MonoBehaviour
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(GenerateRandomNumber), 0f, 0.2f);
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
+        
     }
 
     private void FixedUpdate()
@@ -222,7 +225,7 @@ public class SoldierAI : MonoBehaviour
         rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
 
         //Blocking interaction
-        if (playerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking/* && hDistance < stoppingDistance*/ && vDistance < stoppingDistance && !soldier.isTakingDamage)
+        if (playerControl.currentlyAttacking && !currentlyBlocking && !currentlyAttacking && hDistance < stoppingDistance && vDistance < stoppingDistance && !soldier.isTakingDamage)
         {
             currentlyBlocking = true;
             SoldierBlock();
@@ -413,7 +416,7 @@ public class SoldierAI : MonoBehaviour
 
     void SoldierBlock()
     {
-        if (blockChance == 1 || blockChance == 5)
+        if (blockChance == 1 || blockChance == 5 || blockChance == 7)
         {
             animator.SetTrigger("animSoldierBlock");
             blockColliderGO.SetActive(true);
@@ -436,7 +439,9 @@ public class SoldierAI : MonoBehaviour
 
     void GenerateRandomNumber()
     {
-        blockChance = rnd.Next(0, 10);
+        //blockChance = rnd.Next(0, 10);
+        Random.State state = Random.state;
+        blockChance = Random.Range(0, 10);
     }
 
     IEnumerator BlockedAndHitAnimation()

@@ -827,7 +827,7 @@ public class BossAI : MonoBehaviour
 
     void InCombatOrGoBackToSpawn()
     {
-        if (hDistance < 20 && currentTarget != karasuTransform)
+        if (hDistance < 15 && currentTarget != karasuTransform)
         {
             currentTarget = karasuTransform;
             bossHealthBar.SetActive(true);

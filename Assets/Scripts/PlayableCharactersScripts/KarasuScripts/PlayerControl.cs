@@ -197,6 +197,7 @@ public class PlayerControl : MonoBehaviour
 
     //Help
     public float horizontalSpeed;
+    public bool blockedOrParried = false;
     void Awake()
     {
         playerinputActions = new ApologuePlayerInput_Actions();
@@ -443,11 +444,11 @@ public class PlayerControl : MonoBehaviour
     {
         if (grounded && inputX != 0 && !currentlyAttacking)
         {
-            audioManager.PlaySound(WALKSOUND);
+            //audioManager.PlaySound(WALKSOUND);
         }
         else if (!grounded || inputX == 0 || currentlyAttacking)
         {
-            audioManager.StopSound(WALKSOUND);
+            //audioManager.StopSound(WALKSOUND);
         }
     }
 
@@ -611,7 +612,7 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2f, rigidBody2D.velocity.y);
             regularCollider.enabled = false;
             slideCollider.enabled = true;
-            audioManager.PlaySound(SLIDESOUND);
+            //audioManager.PlaySound(SLIDESOUND);
             StartCoroutine(IsSliding());
         }
     }
@@ -687,6 +688,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (enemy.name == "BlockColliderSoldier")
             {
+                blockedOrParried = true;
                 continue;
             }
             if (enemy.name == "SoldierSight")
@@ -698,12 +700,13 @@ public class PlayerControl : MonoBehaviour
                 enemy.GetComponent<Box>().MoveOrDestroy(true);
             }
             Debug.Log("We hit " + enemy + " with a sword");
-            if (enemy.GetComponent<IEnemy>() != null)
+            if (enemy.GetComponent<IEnemy>() != null && !blockedOrParried)
             {
-                audioManager.PlaySound(STABSOUND);
+                //audioManager.PlaySound(STABSOUND);
                 enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
             }
         }
+        blockedOrParried = false;
         currentlyAttacking = false;
     }
 
@@ -726,19 +729,22 @@ public class PlayerControl : MonoBehaviour
         {
             if (enemy.name == "BlockColliderSoldier")
             {
+                blockedOrParried = true;
                 continue;
             }
             if (enemy.name == "SoldierSight")
             {
                 continue;
             }
+
             Debug.Log("We hit " + enemy + " with a sword uppercut");
-            audioManager.PlaySound(STABSOUND);
-            if (enemy.GetComponent<IEnemy>() != null)
+            //audioManager.PlaySound(STABSOUND);
+            if (enemy.GetComponent<IEnemy>() != null && !blockedOrParried)
             {
                 enemy.GetComponent<IEnemy>().TakeDamage(attackDamageCombo, null);
             }
         }
+        blockedOrParried = false;
         currentlyAttacking = false;
     }
 
@@ -796,7 +802,7 @@ public class PlayerControl : MonoBehaviour
             {
                 attackState = AttackState.heavyAttack;
                 AnimatorSwitchState(HEAVYATTACKANIMATION);
-                nextAttackTimeAxe = Time.time +/* 1f / attackSpeedAxe + 3f*/+ 1f;
+                nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe + 3f;
                 nextGlobalAttack = Time.time + 1.5f;
                 currentlyAttacking = true;
             }
@@ -815,6 +821,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (enemy.name == "BlockColliderSoldier")
             {
+                blockedOrParried = true;
                 continue;
             }
             if (enemy.name == "SoldierSight")
@@ -828,19 +835,19 @@ public class PlayerControl : MonoBehaviour
             if (enemy.name.Contains("Shieldman"))
             {
                 enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, true);
-                audioManager.PlaySound(WOODBREAKINGSOUND);
+                //audioManager.PlaySound(WOODBREAKINGSOUND);
             }
             else
             {
                 Debug.Log("We hit " + enemy + " with an axe");
-                audioManager.PlaySound(STABSOUND);
-                if (enemy.GetComponent<IEnemy>() != null)
+                //audioManager.PlaySound(STABSOUND);
+                if (enemy.GetComponent<IEnemy>() != null && !blockedOrParried)
                 {
                     enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
                 }
             }
         }
-        
+        blockedOrParried = false;
     }
 
     public void OnParry(InputAction.CallbackContext callbackContext)

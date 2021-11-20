@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class BlockCollider : MonoBehaviour
 {
-    Animator animator;
     public static bool blockedOrParried = false;
-
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

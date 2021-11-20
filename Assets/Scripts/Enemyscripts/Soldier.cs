@@ -51,6 +51,7 @@ public class Soldier : MonoBehaviour, IEnemy
         if (BlockCollider.blockedOrParried)
         {
             Debug.Log("Soldier blocked an attack!!");
+            return;
         }
         else
         {

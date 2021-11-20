@@ -85,7 +85,7 @@ public class KarasuEntity : MonoBehaviour
             }
             invulnerable = true;
             currentHealth -= damage;
-            audioManager.PlaySound("stab");
+            //audioManager.PlaySound("stab");
             Debug.Log(currentHealth);
             healthBar.SetHealth(currentHealth);
             spriteRenderer.color = takeDamageColor;
