@@ -7,21 +7,18 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
-    public static ApologuePlayerInput_Actions playerinputActions;
+    //Self references
+    public static ApologuePlayerInput_Actions playerinputActions; 
     public static PlayerInput playerInput;
     Rigidbody2D rigidBody2D;
     Animator animator;
-    WallTilemaps wallTilemaps;
-    public ParticleSystem dust;
+
+    //Particle and audio system
+    public ParticleSystem movementAndJumpDust;
     public ParticleSystem dashParticleEffect;
-    public AudioManager audioManager;
+    public AudioManager audioManager; 
 
-    KarasuEntity karasuEntity;
-    public HealthBar healthBar;
-    public Image healthBarFill;
-    public Color healthBarColorInvulnerable;
-
-    //Interactable objects -> icon above the head
+    //Interactable objects -> icon above the head //Should be exported into a separate class
     public GameObject interactionIconPrefab;
     GameObject interactionTooltip;
     SpriteRenderer interactionTooltipSR;
@@ -34,11 +31,11 @@ public class PlayerControl : MonoBehaviour
     public float movementSpeed = 5.8f;
     float movementSpeedHelper;
     public bool facingRight = true;
-    public float inputX;
+    float inputX;
 
     //Jump
-    public float jumpForce = 25f;
-    public float verticalSpeedAbsolute;
+    public float jumpForce = 11f;
+    float verticalSpeedAbsolute;
     float verticalSpeed;
     public bool grounded;
     public Transform groundCheck;
@@ -50,51 +47,51 @@ public class PlayerControl : MonoBehaviour
     bool holdingJump = false;
 
     //Double jump
-    public float doubleJumpForce = 20f;
-    public int jumpCounter = 0;
+    public float doubleJumpForce = 10.5f;
+    int jumpCounter = 0;
     bool doubleJump;
 
     //Wall jump
     public Transform wallHangingCollider;
     Coroutine coroutineWallHanging = null;
-    public float wallHangingColliderRange = 0f;
+    float wallHangingColliderRange = 0f;
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 1f;
-    public float wallJumpAdditionalForce = 50f;
-    public int wallJumpPushBackCounter = 0;
-    public bool initiatePushBackCounter = false;
+    float wallJumpAdditionalForce = 50f;
+    int wallJumpPushBackCounter = 0;
+    bool initiatePushBackCounter = false;
 
     //Falling
     bool falling = false;
 
     //Dash
-    public float dashSpeed = 5f;
+    public float dashSpeed = 3f;
     float timeUntilNextDash;
     bool dashDirectionIfStationary = true;
-    public bool isDashing = false;
-    public bool dashInAirAvailable = true;
+    bool isDashing = false;
+    bool dashInAirAvailable = true;
 
     //Crouch
     public LayerMask whatIsCeiling;
     Transform ceilingCheck;
     public BoxCollider2D regularCollider;
     public BoxCollider2D slideCollider;
-    public bool isCrouching = false;
-    public bool canStandUp;
+    bool isCrouching = false;
+    bool canStandUp;
     public float crouchSpeedMultiplier = 0.5f;
     //Crouch roll
-    public bool isRolling = false;
-    public float rollDirection;
+    bool isRolling = false;
+    float rollDirection;
 
     //Slide
-    public bool isSliding = false;
-    public float slideDirection;
+    bool isSliding = false;
+    float slideDirection;
     public float slideSpeed = 15f;
 
     //Slopes
     public bool onASlope = false;
-    public bool jumpAvailable = true;
+    bool jumpAvailable = true;
     public float slopeXPosition = 0f;
 
     //Combat system
@@ -111,36 +108,36 @@ public class PlayerControl : MonoBehaviour
         heavyAttack
     }
     AttackState attackState;
-    bool combo;
-    bool comboFinished;
+
     //Light attack
     public Transform swordCollider;
-    public float attackRange = 0.5f;
+    public float attackRange = 0.56f;
     public int attackDamage = 1;
     public float attackSpeed = 0.75f;
     float nextAttackTime = 0f;
     //Light attack combos
     public Transform swordUppercutCollider;
-    public float attackRangeUppercut = 0.5f;
+    float attackRangeUppercut = 0.56f;
     float comboTimeWindow = 0f;
     public int numberOfAttacks = 0;
-    int attackDamageCombo = 2;
+    int attackDamageUppercut = 2;
+    bool combo;
+    bool comboFinished;
 
     //Medium attack
     public Transform spearCollider;
     public Vector3 spearRange;
-    public float attackRangeSpear = 0.5f;
-    public int attackDamageSpear = 2;
+    int attackDamageSpear = 2;
     public float attackSpeedSpear = 0.2f;
     float nextAttackTimeSpear = 0f;
 
     //Heavy attack
     public Transform axeCollider;
-    public float attackRangeAxe = 0.5f;
-    public int attackDamageAxe = 2;
-    public float attackSpeedAxe = 0.2f;
+    float attackRangeAxe = 0.71f;
+    int attackDamageAxe = 2;
+    float attackSpeedAxe = 0.75f;
     float nextAttackTimeAxe = 0f;
-    public static bool axePickedUp = false;
+    public static bool axePickedUp = false; //Heavy attack only usable after finding the axe
 
     //Parry and block
     public Transform parryCollider;
@@ -151,7 +148,7 @@ public class PlayerControl : MonoBehaviour
     float nextParry = 0;
     float parryCooldown = 4f;
     //Enemy blocking
-    public bool currentlyAttacking = false;
+    public bool currentlyAttacking = false; //Needed for the soldier enemy script blocking interaction
 
     //Utilities
     //Pause menu
@@ -198,13 +195,12 @@ public class PlayerControl : MonoBehaviour
     //Help
     public float horizontalSpeed;
     public bool blockedOrParried = false;
+
     void Awake()
     {
         playerinputActions = new ApologuePlayerInput_Actions();
         playerinputActions.Enable();
         playerInput = GetComponent<PlayerInput>();
-        wallTilemaps = GameObject.Find("WallTilemapTrigger").GetComponent<WallTilemaps>();
-        karasuEntity = GetComponent<KarasuEntity>();
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -221,11 +217,6 @@ public class PlayerControl : MonoBehaviour
 
         interactionTooltip = transform.Find("InteractionTooltip").gameObject;
         interactionTooltipSR = interactionTooltip.GetComponent<SpriteRenderer>();
-    }
-
-    private void Start()
-    {
-
     }
 
     void FixedUpdate()
@@ -415,10 +406,10 @@ public class PlayerControl : MonoBehaviour
         {
             doubleJump = true;
         }
-        if (transform.position.x > slopeXPosition + 1)
-        {
-            jumpAvailable = true;
-        }
+        //if (transform.position.x > slopeXPosition + 1)
+        //{
+        //    jumpAvailable = true;
+        //}
         if (grounded)
         {
             if (attackState == AttackState.cannotAttack)
@@ -741,7 +732,7 @@ public class PlayerControl : MonoBehaviour
             //audioManager.PlaySound(STABSOUND);
             if (enemy.GetComponent<IEnemy>() != null && !blockedOrParried)
             {
-                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageCombo, null);
+                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageUppercut, null);
             }
         }
         blockedOrParried = false;
@@ -1096,7 +1087,7 @@ public class PlayerControl : MonoBehaviour
     
     void CreateDust()
     {
-        dust.Play();
+        movementAndJumpDust.Play();
     }
 
     void CreateDashParticleEffect()

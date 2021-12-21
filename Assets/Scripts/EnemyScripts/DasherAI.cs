@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AttackSystem;
 
 public class DasherAI : MonoBehaviour
 {
@@ -43,6 +44,8 @@ public class DasherAI : MonoBehaviour
 
     //Combat system
     public LayerMask enemiesLayers;
+    public AttackSystem basicAttack;
+    public AttackType basicAttackType = AttackType.onlyParryable;
     public bool currentlyAttacking = false;
     public bool attacked = false;
     float lastTimeAttack = 0f;
@@ -53,7 +56,7 @@ public class DasherAI : MonoBehaviour
     public Transform dashAttack;
     public float dashAttackRange;
     public float nextDashAttackTime;
-    int dashAttackDamage = 3;
+    int basicAttackDamage = 3;
     //Parry and block system for Player
     bool parriedOrBlocked = false;
 
@@ -67,16 +70,21 @@ public class DasherAI : MonoBehaviour
 
     private void Awake()
     {
+        //Self references and initializations
+        animator = GetComponent<Animator>();
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        dasher = GetComponent<Dasher>();
+    }
+
+    void Start()
+    {
+        basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
         //Neccessary references for targeting
         karasu = GameObject.FindGameObjectWithTag("Player");
         karasuEntity = karasu.GetComponent<KarasuEntity>();
         playerControl = karasu.GetComponent<PlayerControl>();
         karasuTransform = karasu.transform;
 
-        //Self references and initializations
-        animator = GetComponent<Animator>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
-        dasher = GetComponent<Dasher>();
 
         //Ignore collider collisions
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
@@ -91,12 +99,11 @@ public class DasherAI : MonoBehaviour
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
-    }
 
-    void Start()
-    {
         movementSpeedHelper = movementSpeed;
+
         //Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
+
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
@@ -204,16 +211,16 @@ public class DasherAI : MonoBehaviour
                 }
                 if (enemy.name == "SlideCollider")
                 {
-                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(dashAttackDamage, null);
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
                 }
                 else
                 {
-                    enemy.GetComponent<KarasuEntity>().TakeDamage(dashAttackDamage, null);
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
                 }
             }
         }
         parriedOrBlocked = false;
-        nextDashAttackTime = Time.time + 5f;
+        nextDashAttackTime = Time.time + 3f;
         isFallingBack = true;
     }
 

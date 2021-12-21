@@ -21,6 +21,12 @@ public class ArrowProjectile : MonoBehaviour
 
     private void Awake()
     {
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        arrowCollider = GetComponent<BoxCollider2D>();
+    }
+
+    private void Start()
+    {
         GameObject[] archerList = GameObject.FindGameObjectsWithTag("Archer");
         if (archerList.Length > 0)
         {
@@ -41,12 +47,7 @@ public class ArrowProjectile : MonoBehaviour
         femaleArcherAI = archerList[archerIndex].GetComponent<FemaleArcherAI>();
         archerCollider = archerList[archerIndex].GetComponent<BoxCollider2D>();
         karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
-        arrowCollider = GetComponent<BoxCollider2D>();
-    }
 
-    private void Start()
-    {
         Physics2D.IgnoreCollision(arrowCollider, archerCollider);
         CalculateArrowForce();
         if (femaleArcherAI.facingLeft)

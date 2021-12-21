@@ -51,13 +51,19 @@ public class HwachaAI : MonoBehaviour
 
     private void Awake()
     {
-        //Neccessary references for targeting
-        karasu = GameObject.FindGameObjectWithTag("Player");
-        karasuTransform = karasu.transform;
-
         //Self references and initializations
         animator = GetComponent<Animator>();
         hwacha = GetComponent<Hwacha>();
+
+        currentTarget = null;
+    }
+
+    void Start()
+    {
+
+        //Neccessary references for targeting
+        karasu = GameObject.FindGameObjectWithTag("Player");
+        karasuTransform = karasu.transform;
 
         //Ignore collider collisions
         karasuParryCollider = karasu.transform.Find("ParryCollider").GetComponent<CircleCollider2D>();
@@ -69,11 +75,7 @@ public class HwachaAI : MonoBehaviour
         spawnLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
-        currentTarget = spawn.transform;
-    }
 
-    void Start()
-    {
         InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
     }
 
@@ -89,7 +91,7 @@ public class HwachaAI : MonoBehaviour
             return;
         }
 
-        if (currentTarget == spawn)
+        if (currentTarget == null)
         {
             AnimatorSwitchState(IDLEANIMATION);
         }
@@ -120,7 +122,7 @@ public class HwachaAI : MonoBehaviour
     //Combat system
     void Attack()
     {
-        nextAttack = Time.time + 8f;
+        nextAttack = Time.time + 5f;
         AnimatorSwitchState(FIRERIGHT);
     }
 

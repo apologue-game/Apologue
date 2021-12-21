@@ -13,10 +13,14 @@ public class Slopes : MonoBehaviour
 
     private void Awake()
     {
+        rotation = new Vector3(0, 0, -35f);
+    }
+
+    private void Start()
+    {
         karasuTransform = GameObject.FindGameObjectWithTag("Player").transform;
         playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         rigidBody2D = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
-        rotation = new Vector3(0, 0, -35f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

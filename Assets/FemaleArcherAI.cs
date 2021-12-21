@@ -55,14 +55,18 @@ public class FemaleArcherAI : MonoBehaviour
 
     private void Awake()
     {
-        //Targeting references
-        karasu = GameObject.FindGameObjectWithTag("Player");
-        karasuTransform = karasu.transform;
-
         //Self references and initializations
         animator = GetComponent<Animator>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         femaleArcher = GetComponent<FemaleArcher>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //Targeting references
+        karasu = GameObject.FindGameObjectWithTag("Player");
+        karasuTransform = karasu.transform;
 
         //Ignore collider collisions
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
@@ -77,11 +81,7 @@ public class FemaleArcherAI : MonoBehaviour
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(InCombat), 0f, 0.5f);
     }

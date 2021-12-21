@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AttackSystem;
 
 public class ShieldmanAI : MonoBehaviour
 {
@@ -53,7 +54,9 @@ public class ShieldmanAI : MonoBehaviour
     public int numberOfAttacks = 0;
     public float lastTimeAttack = 0f;
     public float globalAttackCooldown = 0f;
-    //Shieldman overhead attack
+    //Shieldman attack
+    public AttackSystem basicAttack;
+    public AttackType basicAttackType = AttackType.normal;
     public Transform spearAttackShieldman;
     //public float spearAttackShieldmanRange = 0.5f;
     public Vector3 spearAttackShieldmanRange;
@@ -75,17 +78,20 @@ public class ShieldmanAI : MonoBehaviour
 
     private void Awake()
     {
+        //Self references and initializations
+        animator = GetComponent<Animator>();
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        shieldman = GetComponent<Shieldman>();
+    }
+
+    void Start()
+    {
+        basicAttack = new AttackSystem(attackDamageSpearAttackShieldman, basicAttackType);
         //Neccessary references for targeting
         karasu = GameObject.FindGameObjectWithTag("Player");
         karasuEntity = karasu.GetComponent<KarasuEntity>();
         playerControl = karasu.GetComponent<PlayerControl>();
         karasuTransform = karasu.transform;
-
-        //Self references and initializations
-        animator = GetComponent<Animator>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
-        shieldman = GetComponent<Shieldman>();
-
         //Ignore collider collisions
         karasuParryCollider = karasu.transform.Find("ParryCollider").GetComponent<CircleCollider2D>();
         karasuBlockCollider = karasu.transform.Find("BlockCollider").GetComponent<CircleCollider2D>();
@@ -98,10 +104,7 @@ public class ShieldmanAI : MonoBehaviour
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
-    }
 
-    void Start()
-    {
         movementSpeedHelper = movementSpeed;
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
@@ -279,11 +282,11 @@ public class ShieldmanAI : MonoBehaviour
                 Debug.Log("Shieldman hit " + enemy + " with a spear");
                 if (enemy.name == "SlideCollider")
                 {
-                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman, null);
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
                 }
                 else
                 {
-                    enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSpearAttackShieldman, null);
+                    enemy.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
                 }
             }
         }

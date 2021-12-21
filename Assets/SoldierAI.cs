@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static AttackSystem;
 using Random = UnityEngine.Random;
 
 public class SoldierAI : MonoBehaviour
@@ -68,10 +69,12 @@ public class SoldierAI : MonoBehaviour
     float nextGlobalAttackSoldier = 0f;
     bool currentlyAttacking = false;
     //Soldier basic attack
+    public AttackSystem basicAttack;
+    public AttackType basicAttackType = AttackType.normal; 
     public Transform swordColliderSoldier;
     int numberOfAttacks = 0;
     float swordRangeSoldier = 0.5f;
-    int attackDamageSoldier = 3;
+    int basicAttackDamage = 3;
     float attackSpeedSoldier = 0.75f;
     float nextAttackTimeSoldier = 0f;
     float lastTimeAttack = 0f;
@@ -86,17 +89,23 @@ public class SoldierAI : MonoBehaviour
 
     private void Awake()
     {
-        //Neccessary references for targeting
-        karasu = GameObject.FindGameObjectWithTag("Player");
-        karasuEntity = karasu.GetComponent<KarasuEntity>();
-        playerControl = karasu.GetComponent<PlayerControl>();
-        karasuTransform = karasu.transform;
-
         //Self references and initializations
         animator = GetComponent<Animator>();
         rigidBody2D = GetComponent<Rigidbody2D>();
         soldier = GetComponent<Soldier>();
         soldierSight = GetComponentInChildren<SoldierSight>();
+
+        groundCheckSoldier = transform.Find("GroundCheckSoldier");
+    }
+
+    void Start()
+    {
+        basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
+        //Neccessary references for targeting
+        karasu = GameObject.FindGameObjectWithTag("Player");
+        karasuEntity = karasu.GetComponent<KarasuEntity>();
+        playerControl = karasu.GetComponent<PlayerControl>();
+        karasuTransform = karasu.transform;
 
         //Ignore collider collisions
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
@@ -112,11 +121,6 @@ public class SoldierAI : MonoBehaviour
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
 
-        groundCheckSoldier = transform.Find("GroundCheckSoldier");
-    }
-
-    void Start()
-    {
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(GenerateRandomNumber), 0f, 0.2f);
@@ -400,11 +404,11 @@ public class SoldierAI : MonoBehaviour
                 Debug.Log("Soldier hit " + enemy + " with a sword");
                 if (enemy.name == "SlideCollider")
                 {
-                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(attackDamageSoldier, null);
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
                 }
                 else
                 {
-                    enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSoldier, null);
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
                 }
             }
         }

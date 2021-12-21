@@ -19,9 +19,12 @@ public class Box : MonoBehaviour
 
     void Awake()
     {
-        playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
         rigidBody2D = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        playerLocation = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     public void MoveOrDestroy(bool lightOrHeavy)

@@ -8,11 +8,13 @@ public class WallTilemaps : MonoBehaviour
     GameObject playerKarasu;
     Transform wallHangingCollider;
     public LayerMask walls;
-    private void Awake()
+
+    private void Start()
     {
         playerKarasu = GameObject.FindGameObjectWithTag("Player");
         wallHangingCollider = playerKarasu.transform.Find("WallHangingCollider").transform;
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

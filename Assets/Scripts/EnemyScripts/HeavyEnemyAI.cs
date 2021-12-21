@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AttackSystem;
 
 public class HeavyEnemyAI : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class HeavyEnemyAI : MonoBehaviour
     public HealthBar healthBar;
     public ParticleSystem attackIndicatorGreen;
     public ParticleSystem attackIndicatorRed;
+    public ParticleSystem test;
 
     //Targeting
     GameObject karasu;
@@ -57,12 +59,16 @@ public class HeavyEnemyAI : MonoBehaviour
     float lastTimeAttack = 0f;
     //float globalAttackCooldown = 0f;
     //Heavy enemy overhead attack
+    public AttackSystem overHeadAttack;
+    public AttackType overHeadAttackType = AttackType.onlyParryable;
     public Transform axeOverheadAttack;
     public float axeOverheadAttackRange = 0.5f;
-    int attackDamageOverheadAttack = 3;
+    int attackDamageOverheadAttack = 4;
     float attackSpeedOverheadAttack = 0.75f;
     float nextOverheadAttackTime = 0f;
     //Heavy enemy sideslash attack
+    public AttackSystem sideslashAttack;
+    public AttackType sideslashAttackType = AttackType.normal;
     public Transform axeSideslashAttack;
     public float axeSideslashAttackRange = 0.5f;
     int attackDamageSideslashAttack = 3;
@@ -82,16 +88,21 @@ public class HeavyEnemyAI : MonoBehaviour
 
     private void Awake()
     {
+        overHeadAttack = new AttackSystem(attackDamageOverheadAttack, AttackType.onlyParryable);
+        sideslashAttack = new AttackSystem(attackDamageSideslashAttack, sideslashAttackType);
+        //Self references and initializations
+        animator = GetComponent<Animator>();
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        heavyEnemy = GetComponent<HeavyEnemy>();
+    }
+
+    void Start()
+    {
         //Neccessary references for targeting
         karasu = GameObject.FindGameObjectWithTag("Player");
         karasuEntity = karasu.GetComponent<KarasuEntity>();
         playerControl = karasu.GetComponent<PlayerControl>();
         karasuTransform = karasu.transform;
-
-        //Self references and initializations
-        animator = GetComponent<Animator>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
-        heavyEnemy = GetComponent<HeavyEnemy>();
 
         //Ignore collider collisions
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
@@ -106,10 +117,7 @@ public class HeavyEnemyAI : MonoBehaviour
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
-    }
 
-    void Start()
-    {
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
@@ -266,6 +274,11 @@ public class HeavyEnemyAI : MonoBehaviour
         attackIndicatorRed.Play();
     }
 
+    void CreateTest()
+    {
+        test.Play();
+    }
+
     void OverheadAttack()
     {
         lastTimeAttack = Time.time;
@@ -284,17 +297,20 @@ public class HeavyEnemyAI : MonoBehaviour
                 Debug.Log("Successfully parried an attack");
                 parriedOrBlocked = true;
             }
-            else if (enemy.name == "BlockCollider")
-            {
-                continue;
-            }
         }
         if (!parriedOrBlocked)
         {
             foreach (Collider2D enemy in hitEnemies)
             {
                 Debug.Log("Heavy hit " + enemy + " with an overhead attack");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageOverheadAttack, null);
+                if (enemy.name == "SlideCollider")
+                {
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(overHeadAttack.AttackDamage, overHeadAttack.AttackMake);
+                }
+                else if (enemy.CompareTag("Player"))
+                {
+                    enemy.GetComponent<KarasuEntity>().TakeDamage(overHeadAttack.AttackDamage, overHeadAttack.AttackMake);
+                }             
             }
         }
         parriedOrBlocked = false;
@@ -330,9 +346,15 @@ public class HeavyEnemyAI : MonoBehaviour
         if (!parriedOrBlocked)
         {
             foreach (Collider2D enemy in hitEnemies)
-            {
-                Debug.Log("Heavy hit " + enemy + " with a sideslash attack");
-                enemy.GetComponent<KarasuEntity>().TakeDamage(attackDamageSideslashAttack, null);
+            { 
+                if (enemy.name == "SlideCollider")
+                {
+                    enemy.GetComponentInParent<KarasuEntity>().TakeDamage(sideslashAttack.AttackDamage, sideslashAttack.AttackMake);
+                }
+                else
+                {
+                    enemy.GetComponent<KarasuEntity>().TakeDamage(sideslashAttack.AttackDamage, sideslashAttack.AttackMake);
+                }
             }
         }
         parriedOrBlocked = false;

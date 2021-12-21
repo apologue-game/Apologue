@@ -81,7 +81,7 @@ public class KarasuEntity : MonoBehaviour
         {
             if (attackType == AttackType.onlyParryable || attackType == AttackType.special)
             {
-                StartCoroutine(Stagger());
+                //StartCoroutine(Stagger());
             }
             invulnerable = true;
             currentHealth -= damage;
@@ -122,6 +122,7 @@ public class KarasuEntity : MonoBehaviour
         spriteRenderer.color = normalColor;
         AnimatorSwitchState(KARASUSTAGGERANIMATION);
         yield return new WaitForSeconds(0.2f);
+        AnimatorSwitchState("karasuIdleAnimation");
         PlayerControl.TurnOnControlsOnRespawn();
     }
 

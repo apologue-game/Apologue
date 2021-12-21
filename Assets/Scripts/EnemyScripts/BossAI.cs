@@ -159,6 +159,14 @@ public class BossAI : MonoBehaviour
 
     private void Awake()
     {
+        //Self references and initializations
+        animator = GetComponent<Animator>();
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        boss = GetComponent<Boss>();
+    }
+
+    void Start()
+    {
         //Attack types
         basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
         lungeAttack = new AttackSystem(lungeAttackDamage, lungeAttackType);
@@ -171,11 +179,6 @@ public class BossAI : MonoBehaviour
         karasuEntity = karasu.GetComponent<KarasuEntity>();
         playerControl = karasu.GetComponent<PlayerControl>();
         karasuTransform = karasu.transform;
-
-        //Self references and initializations
-        animator = GetComponent<Animator>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
-        boss = GetComponent<Boss>();
 
         //Ignore collider collisions
         boxCollider2DKarasu = karasu.GetComponent<BoxCollider2D>();
@@ -190,10 +193,7 @@ public class BossAI : MonoBehaviour
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
-    }
 
-    void Start()
-    {
         attackDecision = AttackDecision.none;
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);

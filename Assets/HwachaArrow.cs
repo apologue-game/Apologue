@@ -18,6 +18,12 @@ public class HwachaArrow : MonoBehaviour
 
     private void Awake()
     {
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        arrowCollider = GetComponent<BoxCollider2D>();
+    }
+
+    private void Start()
+    {
         GameObject[] hwachaList = GameObject.FindGameObjectsWithTag("Hwacha");
         if (hwachaList.Length > 0)
         {
@@ -38,12 +44,7 @@ public class HwachaArrow : MonoBehaviour
         hwachaAI = hwachaList[hwachaIndex].GetComponent<HwachaAI>();
         hwachaBoxCollider = hwachaList[hwachaIndex].GetComponent<BoxCollider2D>();
         karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
-        rigidBody2D = GetComponent<Rigidbody2D>();
-        arrowCollider = GetComponent<BoxCollider2D>();
-    }
 
-    private void Start()
-    {
         Physics2D.IgnoreCollision(arrowCollider, hwachaBoxCollider);
         rigidBody2D.velocity = -transform.right * arrowForce;
         StartCoroutine(DestroyItself());
