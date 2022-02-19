@@ -16,20 +16,21 @@ public class PlayerControl : MonoBehaviour
     //Particle and audio system
     public ParticleSystem movementAndJumpDust;
     public ParticleSystem dashParticleEffect;
-    public AudioManager audioManager; 
 
     //Interactable objects -> icon above the head //Should be exported into a separate class
-    public GameObject interactionIconPrefab;
     GameObject interactionTooltip;
     SpriteRenderer interactionTooltipSR;
-    public SpriteRenderer tooltipInteractionSR;
+    Vector2 interactionSize = new Vector2(0.1f, 1); //Interactable object's domain in which the interact button will be shown
+
+    //Pause menu
+    public GameObject interactionIconPrefab;
     public Sprite keyboardInteractionIcon;
     public Sprite gamepadInteractionIcon;
 
     //Movement system
     //Move
     public float movementSpeed = 5.8f;
-    float movementSpeedHelper;
+    float movementSpeedHelper; //No need for it if the movement doesn't stop while attacking
     public bool facingRight = true;
     float inputX;
 
@@ -38,9 +39,6 @@ public class PlayerControl : MonoBehaviour
     float verticalSpeedAbsolute;
     float verticalSpeed;
     public bool grounded;
-    public Transform groundCheck;
-    public Vector3 groundCheckRange;
-    private const float groundCheckRadius = .3f;
     private const float ceilingCheckRadius = .3f;
     public LayerMask whatIsGround;
     int jumpHoldCounter = 0;
@@ -80,9 +78,6 @@ public class PlayerControl : MonoBehaviour
     bool isCrouching = false;
     bool canStandUp;
     public float crouchSpeedMultiplier = 0.5f;
-    //Crouch roll
-    bool isRolling = false;
-    float rollDirection;
 
     //Slide
     bool isSliding = false;
@@ -96,18 +91,26 @@ public class PlayerControl : MonoBehaviour
 
     //Combat system
     public LayerMask enemiesLayers;
-    public float globalAttackCooldown = 5f;
-    float nextGlobalAttack = 0f;
-    enum AttackState
+    public enum AttackState
     {
         notAttacking,
         cannotAttack,
-        lightAttack,
-        lightAttackUpwards,
-        mediumAttack,
-        heavyAttack
+        lightAttackSword1,
+        lightAttackSword2,
+        lightAttackSword3,
+        mediumAttackSword1,
+        mediumAttackSword2,
+        heavyAttackSword1,
+        heavyAttackSword2,
+        lightAttackAxe1,
+        lightAttackAxe2,
+        lightAttackAxe3,
+        mediumAttackAxe1,
+        mediumAttackAxe2,
+        heavyAttackAxe1,
+        heavyAttackAxe2
     }
-    AttackState attackState;
+    public AttackState attackState;
 
     //Light attack
     public Transform swordCollider;
@@ -116,13 +119,6 @@ public class PlayerControl : MonoBehaviour
     public float attackSpeed = 0.75f;
     float nextAttackTime = 0f;
     //Light attack combos
-    public Transform swordUppercutCollider;
-    float attackRangeUppercut = 0.56f;
-    float comboTimeWindow = 0f;
-    public int numberOfAttacks = 0;
-    int attackDamageUppercut = 2;
-    bool combo;
-    bool comboFinished;
 
     //Medium attack
     public Transform spearCollider;
@@ -132,23 +128,17 @@ public class PlayerControl : MonoBehaviour
     float nextAttackTimeSpear = 0f;
 
     //Heavy attack
-    public Transform axeCollider;
-    float attackRangeAxe = 0.71f;
-    int attackDamageAxe = 2;
-    float attackSpeedAxe = 0.75f;
-    float nextAttackTimeAxe = 0f;
     public static bool axePickedUp = false; //Heavy attack only usable after finding the axe
 
     //Parry and block
     public Transform parryCollider;
     public GameObject parryColliderGO;
-    public GameObject blockColliderGO;
-    bool blocking = false;
     float parryWindow = 0.4f;
     float nextParry = 0;
     float parryCooldown = 4f;
     //Enemy blocking
     public bool currentlyAttacking = false; //Needed for the soldier enemy script blocking interaction
+    bool blockedOrParried = false;
 
     //Utilities
     //Pause menu
@@ -156,45 +146,35 @@ public class PlayerControl : MonoBehaviour
     public GameObject tooltipPanel;
     public static bool isGamePaused = false;
 
-    //Testing
-
     //Animation manager
     string oldAnimationState;
 
-    //Animation names
-    const string IDLEANIMATION = "karasuIdleAnimation";
-    const string WALKANIMATION = "karasuWalkAnimation";
-    const string JUMPANIMATION = "karasuJumpAnimation";
-    const string DOUBLEJUMPANIMATION = "karasuDoubleJumpAnimation";
-    const string WALLJUMPANIMATION = "karasuWallJumpAnimation";
-    const string WALLHANGINGANIMATION = "karasuWallHangingAnimation";
-    const string FALLINGANIMATION = "karasuFallingAnimation";
-    const string CROUCHMOVEANIMATION = "karasuCrouchMoveAnimation";
-    const string CROUCHIDLEANIMATION = "karasuCrouchIdleAnimation";
-    const string SLIDEANIMATION = "karasuSlideAnimation";
-    const string CROUCHROLLANIMATION = "karasuCrouchRollAnimation";
-    const string DEATHANIMATION = "karasuDeathAnimation";
-    const string DASHANIMATION = "karasuDashAnimation";
-    const string PARRYANIMATION = "karasuParryAnimation";
-    const string BLOCKANIMATION = "karasuBlockAnimation";
-    const string BLOCKEDANDHITANIMATION = "karasuBlockedAndHitAnimation";
-    const string LIGHTATTACKANIMATION = "karasuLightAttackAnimation";
-    const string LIGHTATTACKUPWARDSANIMATION = "karasuLightAttackUpwardsAnimation";
-    const string MEDIUMATTACKANIMATION = "karasuMediumAttackAnimation";
-    const string HEAVYATTACKANIMATION = "karasuHeavyAttackAnimation";
-    const string KARASUDEATHANIMATION = "karasuDeathAnimation";
-
-    //Audio manager
-    const string WALKSOUND = "walk";
-    const string STABSOUND = "stab";
-    const string SLIDESOUND = "slide";
-    const string JUMPLANDINGSOUND = "jumpLanding";
-    const string PARRYSOUND = "parry";
-    const string WOODBREAKINGSOUND = "woodBreaking";
-
-    //Help
-    public float horizontalSpeed;
-    public bool blockedOrParried = false;
+    //Animation states
+    public enum AnimationState
+    {
+        idle,
+        walk,
+        jump,
+        doubleJump,
+        wallJump,
+        wallHanging,
+        falling,
+        crouchMove,
+        crouchIdle,
+        slide,
+        crouchRoll,
+        death,
+        spikeDeath,
+        dash,
+        parry,
+        block,
+        hitWhileBlocking,
+        lightAttack,
+        lightAttackUpwards,
+        mediumAttack,
+        heavyAttack
+    }
+    public AnimationState animationState;
 
     void Awake()
     {
@@ -205,15 +185,13 @@ public class PlayerControl : MonoBehaviour
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        groundCheck = transform.Find("GroundCheck");
         ceilingCheck = transform.Find("CeilingCheck");
 
         movementSpeedHelper = movementSpeed;
         spearRange = new Vector3(2.44f, 0.34f, 0);
 
-        groundCheckRange = new Vector3(2.44f, 0.34f, 0);
-
         attackState = new AttackState();
+        animationState = AnimationState.idle;
 
         interactionTooltip = transform.Find("InteractionTooltip").gameObject;
         interactionTooltipSR = interactionTooltip.GetComponent<SpriteRenderer>();
@@ -221,11 +199,12 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        AnimatorSwitchState(animationState);
         if (KarasuEntity.dead)
         {
             if (!KarasuEntity.spikesDeath)
             {
-                AnimatorSwitchState(KARASUDEATHANIMATION);
+                animationState = AnimationState.death;
             }
             rigidBody2D.velocity = Vector2.zero;
             return;
@@ -237,14 +216,14 @@ public class PlayerControl : MonoBehaviour
         if (onASlope)
         {
             rigidBody2D.velocity = Vector2.ClampMagnitude(rigidBody2D.velocity, 20);
-            AnimatorSwitchState(SLIDEANIMATION);
+            animationState = AnimationState.slide;
             return;
         }
         if (isSliding)
         {
             if (slideDirection == inputX)
             {
-                AnimatorSwitchState(SLIDEANIMATION);
+                animationState = AnimationState.slide;
                 return;
             }
             else
@@ -252,33 +231,34 @@ public class PlayerControl : MonoBehaviour
                 isSliding = false;
             }
         }
-        else if (isRolling)
-        {
-            if (rollDirection == inputX)
-            {
-                AnimatorSwitchState(CROUCHROLLANIMATION);
-                return;
-            }
-            else
-            {
-                isRolling = false;
-            }
-        }
 
-        grounded = false;
-        //Colliders->check to see if the player is currently on the ground
-        Collider2D[] collidersGround = Physics2D.OverlapBoxAll(groundCheck.position, groundCheckRange, whatIsGround);
-        for (int i = 0; i < collidersGround.Length; i++)
-        {
-            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].CompareTag("Box") || collidersGround[i].CompareTag("FallingPlatforms"))
-            {
-                grounded = true;
-                falling = false;
-                dashInAirAvailable = true;
-            }
-        }
+        //grounded = false;
+        ////Colliders->check to see if the player is currently on the ground
+        //Collider2D[] collidersGround = Physics2D.OverlapBoxAll(groundCheck.position, groundCheckRange, whatIsGround);
+        //for (int i = 0; i < collidersGround.Length; i++)
+        //{
+        //    if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].CompareTag("Box") || collidersGround[i].CompareTag("FallingPlatforms"))
+        //    {
+        //        grounded = true;
+        //        falling = false;
+        //        dashInAirAvailable = true;
+        //    }
+        //}
 
-        //Check to see if there is a ceiling above the player so they can get up from the crouching state
+        //Might be a better way to check whether the player is on the ground
+        if (rigidBody2D.IsTouchingLayers(whatIsGround))
+        {
+            grounded = true;
+            dashInAirAvailable = true;
+            falling = false;
+        }
+        else
+        {
+            grounded = false;
+        }
+        
+
+        //Check to see if there is a ceiling above the player and whether they can get up from the crouching state
         Collider2D[] collidersCeiling = Physics2D.OverlapCircleAll(ceilingCheck.position, ceilingCheckRadius, whatIsCeiling);
         if (collidersCeiling.Length < 1)
         {
@@ -309,10 +289,12 @@ public class PlayerControl : MonoBehaviour
         {
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
         }
-        horizontalSpeed = Math.Abs(rigidBody2D.velocity.y);
+        
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeed = rigidBody2D.velocity.y;
-        if (!blocking && !parryColliderGO.activeSelf && !hangingOnTheWall)
+
+        //Animations
+        if (!parryColliderGO.activeSelf && !hangingOnTheWall)
         {
             if (attackState == AttackState.notAttacking || attackState == AttackState.cannotAttack)
             {
@@ -320,49 +302,46 @@ public class PlayerControl : MonoBehaviour
                 if (!grounded && verticalSpeed < -12 && !falling)
                 {
                     falling = true;
-                    AnimatorSwitchState(FALLINGANIMATION);
+                    animationState = AnimationState.falling;
                 }
                 //Walking and idle
                 if (grounded && inputX != 0 && !isCrouching)
                 {
-                    AnimatorSwitchState(WALKANIMATION);
+                    animationState = AnimationState.walk;
                 }
                 else if (grounded && inputX == 0 && !isCrouching)
                 {
-                    AnimatorSwitchState(IDLEANIMATION);
+                    animationState = AnimationState.idle;
                 }
                 else if (grounded && inputX != 0 && isCrouching)
                 {
-                    AnimatorSwitchState(CROUCHMOVEANIMATION);
+                    animationState = AnimationState.crouchMove;
                 }
                 else if (grounded && inputX == 0 && isCrouching)
                 {
-                    AnimatorSwitchState(CROUCHIDLEANIMATION);
+                    animationState = AnimationState.crouchIdle;
                 }
                 //Jumping
                 else if (!grounded && verticalSpeedAbsolute > 0)
                 {
                     if (jumpCounter == 2)
                     {
-                        AnimatorSwitchState(DOUBLEJUMPANIMATION);
-                        goto DONE;
+                        animationState = AnimationState.doubleJump;
                     }
-                    AnimatorSwitchState(JUMPANIMATION);
+                    else
+                    {
+                        animationState = AnimationState.jump;
+                    }
                 }
             }
-        DONE:;
         }
         else if (hangingOnTheWall)
         {
-            AnimatorSwitchState(WALLHANGINGANIMATION);
+            animationState = AnimationState.wallHanging;
         }
         else if (parryColliderGO.activeSelf)
         {
-            AnimatorSwitchState(PARRYANIMATION);
-        }
-        else if (blockColliderGO.activeSelf)
-        {
-            AnimatorSwitchState(BLOCKANIMATION);
+            animationState = AnimationState.parry;
         }
         if (holdingJump)
         {
@@ -406,10 +385,10 @@ public class PlayerControl : MonoBehaviour
         {
             doubleJump = true;
         }
-        //if (transform.position.x > slopeXPosition + 1)
-        //{
-        //    jumpAvailable = true;
-        //}
+        if (transform.position.x > slopeXPosition + 1)
+        {
+            jumpAvailable = true;
+        }
         if (grounded)
         {
             if (attackState == AttackState.cannotAttack)
@@ -417,29 +396,15 @@ public class PlayerControl : MonoBehaviour
                 attackState = AttackState.notAttacking;
             }
         }
-        if (inputX > 0 && !facingRight && !onASlope && !blocking && !hangingOnTheWall)
+        if (inputX > 0 && !facingRight && !onASlope && !hangingOnTheWall)
         {
             Flip();
             interactionTooltipSR.flipX = false;
         }
-        else if (inputX < 0 && facingRight && !onASlope && !blocking && !hangingOnTheWall)
+        else if (inputX < 0 && facingRight && !onASlope && !hangingOnTheWall)
         {
             Flip();
             interactionTooltipSR.flipX = true;
-        }
-        AudioManager();
-    }
-
-    //Audio manager
-    void AudioManager()
-    {
-        if (grounded && inputX != 0 && !currentlyAttacking)
-        {
-            //audioManager.PlaySound(WALKSOUND);
-        }
-        else if (!grounded || inputX == 0 || currentlyAttacking)
-        {
-            //audioManager.StopSound(WALKSOUND);
         }
     }
 
@@ -471,7 +436,7 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = new Vector2(1 * jumpForce/2, 1 * jumpForce);
             return;
         }
-        if (grounded && callbackContext.performed && !blocking && attackState == AttackState.notAttacking && !onASlope)
+        if (grounded && callbackContext.performed && attackState == AttackState.notAttacking && !onASlope)
         {
             rigidBody2D.velocity = Vector2.up * jumpForce;
             isCrouching = false;
@@ -496,7 +461,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (!grounded && callbackContext.performed && doubleJump && !blocking)
+        if (!grounded && callbackContext.performed && doubleJump)
         {
             rigidBody2D.velocity = (Vector2.up * doubleJumpForce);
             jumpCounter++;
@@ -544,16 +509,6 @@ public class PlayerControl : MonoBehaviour
                 CreateDashParticleEffect();
                 StartCoroutine(IsDashing());
             }
-        }
-    }
-
-    public void OnCrouchRoll(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed && isCrouching && inputX != 0)
-        {
-            rollDirection = inputX;
-            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 1.2f, rigidBody2D.velocity.y);
-            StartCoroutine(IsRolling());
         }
     }
 
@@ -615,17 +570,10 @@ public class PlayerControl : MonoBehaviour
         isSliding = false;
     }
 
-    IEnumerator IsRolling()
-    {
-        isRolling = true;
-        yield return new WaitForSeconds(0.35f);
-        isRolling = false;
-    }
-
     IEnumerator IsDashing()
     {
         isDashing = true;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.10f);
         isDashing = false;
     }
 
@@ -646,34 +594,18 @@ public class PlayerControl : MonoBehaviour
             {
                 return;
             }
-            if (Time.time >= nextAttackTime && Time.time >= nextGlobalAttack /*&& !currentlyAttacking*/)
+            if (true) //help me
             {
-                combo = false;
-                attackState = AttackState.lightAttack;
-                AnimatorSwitchState(LIGHTATTACKANIMATION);
-                numberOfAttacks = 0;
-                numberOfAttacks++;
+                attackState = AttackState.lightAttackSword1;
+                animationState = AnimationState.lightAttack;
                 currentlyAttacking = true;
-                nextAttackTime = Time.time + 0.8f;
-                nextGlobalAttack = Time.time + 0.11f + 0.5f;
-                comboTimeWindow = Time.time + 1 + attackSpeed / 2;
-
-            }
-            else if (Time.time <= comboTimeWindow)
-            {
-                numberOfAttacks++;
-                combo = true;
-            }
-            if (combo && numberOfAttacks > 1)
-            {
-                comboFinished = true;
             }
         }
     }
 
     void LightAttack()
     {
-        StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length));
+        //StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length));
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -701,86 +633,6 @@ public class PlayerControl : MonoBehaviour
         currentlyAttacking = false;
     }
 
-    void LightAttackUpwardsAnimation()
-    {
-        if (numberOfAttacks == 2 && combo)
-        {
-            numberOfAttacks++;
-            attackState = AttackState.lightAttackUpwards;
-            currentlyAttacking = true;
-            AnimatorSwitchState(LIGHTATTACKUPWARDSANIMATION);
-        }
-    }
-
-    void LightAttackUpwards()
-    {
-        StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length - 0.2f));
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordUppercutCollider.position, attackRangeUppercut, enemiesLayers);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if (enemy.name == "BlockColliderSoldier")
-            {
-                blockedOrParried = true;
-                continue;
-            }
-            if (enemy.name == "SoldierSight")
-            {
-                continue;
-            }
-
-            Debug.Log("We hit " + enemy + " with a sword uppercut");
-            //audioManager.PlaySound(STABSOUND);
-            if (enemy.GetComponent<IEnemy>() != null && !blockedOrParried)
-            {
-                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageUppercut, null);
-            }
-        }
-        blockedOrParried = false;
-        currentlyAttacking = false;
-    }
-
-    //public void OnMediumAttack(InputAction.CallbackContext callbackContext)
-    //{
-    //    if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
-    //    {
-    //        return;
-    //    }
-    //    if (callbackContext.control.IsPressed())
-    //    {
-    //        if (Time.time >= nextAttackTimeSpear && Time.time >= nextGlobalAttack)
-    //        {
-    //            attackState = AttackState.mediumAttack;
-    //            AnimatorSwitchState(MEDIUMATTACKANIMATION);
-    //            nextAttackTimeSpear = Time.time + 1f / attackSpeedSpear;
-    //            nextGlobalAttack = Time.time + 1.5f;
-    //            currentlyAttacking = true;
-    //        }
-    //    }
-    //}
-
-    //public void MediumAttack()
-    //{
-    //    StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length));
-    //    Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(spearCollider.position, spearRange, 0, enemiesLayers);
-    //    foreach (Collider2D enemy in hitEnemies)
-    //    {
-    //        if (enemy.name == "BlockColliderSoldier")
-    //        {
-    //            continue;
-    //        }
-    //        if (enemy.name == "SoldierSight")
-    //        {
-    //            continue;
-    //        }
-    //        Debug.Log("We hit " + enemy + " with a spaer");
-    //        if (enemy.GetComponent<IEnemy>() != null)
-    //        {
-    //            enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
-    //        }
-    //    }
-    //    currentlyAttacking = false;
-    //}
-
     public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
     { 
         if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope || !axePickedUp)
@@ -789,56 +641,17 @@ public class PlayerControl : MonoBehaviour
         }
         if (callbackContext.control.IsPressed())
         {
-            if (Time.time >= nextAttackTimeAxe && Time.time >= nextGlobalAttack)
+            if (true) //help, please
             {
-                attackState = AttackState.heavyAttack;
-                AnimatorSwitchState(HEAVYATTACKANIMATION);
-                nextAttackTimeAxe = Time.time + 1f / attackSpeedAxe + 3f;
-                nextGlobalAttack = Time.time + 1.5f;
+                animationState = AnimationState.heavyAttack;
                 currentlyAttacking = true;
             }
         }
     }
 
-    void StopMovingWhileAttackingAnimationEvent()
-    {
-        StartCoroutine(StopMovingWhileAttacking(animator.GetCurrentAnimatorStateInfo(0).length - 0.4f));
-    }
-
     void HeavyAttack()
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(axeCollider.position, attackRangeAxe, enemiesLayers);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if (enemy.name == "BlockColliderSoldier")
-            {
-                blockedOrParried = true;
-                continue;
-            }
-            if (enemy.name == "SoldierSight")
-            {
-                continue;
-            }
-            if (enemy.CompareTag("Box"))
-            {
-                enemy.GetComponent<Box>().MoveOrDestroy(false);
-            }
-            if (enemy.name.Contains("Shieldman"))
-            {
-                enemy.GetComponent<IEnemy>().TakeDamage(attackDamageAxe, true);
-                //audioManager.PlaySound(WOODBREAKINGSOUND);
-            }
-            else
-            {
-                Debug.Log("We hit " + enemy + " with an axe");
-                //audioManager.PlaySound(STABSOUND);
-                if (enemy.GetComponent<IEnemy>() != null && !blockedOrParried)
-                {
-                    enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
-                }
-            }
-        }
-        blockedOrParried = false;
+
     }
 
     public void OnParry(InputAction.CallbackContext callbackContext)
@@ -854,26 +667,6 @@ public class PlayerControl : MonoBehaviour
                 StartCoroutine(ParryWindow());
                 nextParry = Time.time + 1f / parryCooldown;
             }
-        }
-    }
-
-    public void OnBlock(InputAction.CallbackContext callbackContext)
-    {
-        if (hangingOnTheWall || onASlope || attackState != AttackState.notAttacking || currentlyAttacking)
-        {
-            return;
-        }
-        if (callbackContext.performed && !blocking)
-        {
-            blocking = true;
-            blockColliderGO.SetActive(true);
-            movementSpeed = 0;
-        }
-        else if (callbackContext.canceled)
-        {
-            blocking = false;
-            blockColliderGO.SetActive(false);
-            movementSpeed = movementSpeedHelper;
         }
     }
 
@@ -903,6 +696,42 @@ public class PlayerControl : MonoBehaviour
                 playerInput.SwitchCurrentActionMap("UI");
                 Time.timeScale = 0f;
                 isGamePaused = true;
+            }
+        }
+    }
+
+    public void ShowInteractionIcon()
+    {
+        interactionIconPrefab.SetActive(true);
+        if (playerInput.currentControlScheme == "Gamepad")
+        {
+            interactionIconPrefab.GetComponent<SpriteRenderer>().sprite = gamepadInteractionIcon;
+        }
+        else
+        {
+            interactionIconPrefab.GetComponent<SpriteRenderer>().sprite = keyboardInteractionIcon;
+        }
+    }
+
+    public void HideInteractionIcon()
+    {
+        interactionIconPrefab.SetActive(false);
+    }
+
+    public void CheckInteraction(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, interactionSize, 0f, Vector2.zero);
+            if (hits.Length > 0)
+            {
+                foreach (RaycastHit2D raycastHits in hits)
+                {
+                    if (raycastHits.transform.GetComponent<Interactable>())
+                    {
+                        raycastHits.transform.GetComponent<Interactable>().Interact();
+                    }
+                }
             }
         }
     }
@@ -955,135 +784,14 @@ public class PlayerControl : MonoBehaviour
         parryColliderGO.SetActive(false);
     }
 
-    IEnumerator StopMovingWhileAttackingCombos(float waitingDuration)
-    {
-        if (grounded)
-        {
-            movementSpeed = 0;
-            yield return new WaitForSeconds(waitingDuration - 0.2f);
-            movementSpeed = movementSpeedHelper;
-            if (!combo)
-            {
-                attackState = AttackState.notAttacking;
-            }
-            if (combo && attackState == AttackState.lightAttack && comboFinished)
-            {
-                attackState = AttackState.notAttacking;
-            }
-            else if (combo)
-            {
-                StartCoroutine(ComboWindow());
-            }
-        }
-        else
-        {
-            yield return new WaitForSeconds(waitingDuration - 0.2f);
-            if (!combo)
-            {
-                attackState = AttackState.notAttacking;
-            }
-            if (combo && attackState == AttackState.lightAttack && comboFinished)
-            {
-                attackState = AttackState.notAttacking;
-            }
-            else if (combo)
-            {
-                StartCoroutine(ComboWindow());
-            }
-        }
-        currentlyAttacking = false;
-    }
-
-    IEnumerator StopMovingWhileAttacking(float waitingDuration)
-    {
-        if (grounded)
-        {
-            movementSpeed = 0;
-            yield return new WaitForSeconds(waitingDuration - 0.15f);
-            movementSpeed = movementSpeedHelper;
-            attackState = AttackState.notAttacking;
-        }
-        else
-        {
-            yield return new WaitForSeconds(waitingDuration - 0.15f);
-            attackState = AttackState.notAttacking;
-        }
-        currentlyAttacking = false;
-    }
-
-    IEnumerator ComboWindow()
-    {
-        yield return new WaitForSeconds(0.4f);
-        combo = false;
-        comboFinished = false;
-        attackState = AttackState.notAttacking;
-    }
-
-    public void ShowInteractionIcon()
-    {
-        interactionIconPrefab.SetActive(true);
-        if (playerInput.currentControlScheme == "Gamepad")
-        {
-            interactionIconPrefab.GetComponent<SpriteRenderer>().sprite = gamepadInteractionIcon;
-        }
-        else
-        {
-            interactionIconPrefab.GetComponent<SpriteRenderer>().sprite = keyboardInteractionIcon;
-        }
-    }
-
-    public void HideInteractionIcon()
-    {
-        interactionIconPrefab.SetActive(false);
-    }
-
-    Vector2 interactionSize = new Vector2(0.1f, 1);
-
-    public void CheckInteraction(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.performed)
-        {
-            RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, interactionSize, 0f, Vector2.zero);
-
-            if (hits.Length > 0)
-            {
-                foreach (RaycastHit2D raycastHits in hits)
-                {
-                    if (raycastHits.transform.GetComponent<Interactable>())
-                    {
-                        raycastHits.transform.GetComponent<Interactable>().Interact();
-                    }
-                }
-            }
-        }
-    }
-
-    //public static void ShowInteractionIcon()
+    //private void OnDrawGizmosSelected()
     //{
-    //    playerControl.interactionTooltip.SetActive(true);
-    //    if (playerInput.currentControlScheme != "Gamepad")
+    //    if (groundCheck == null)
     //    {
-    //        playerControl.tooltipInteractionSR.sprite = playerControl.keyboardInteractionIcon;
+    //        return;
     //    }
-    //    else
-    //    {
-    //        playerControl.tooltipInteractionSR.sprite = playerControl.gamepadInteractionIcon;
-    //    }
+    //    Gizmos.DrawWireCube(groundCheck.position, groundCheckRange);
     //}
-
-    //public static void HideInteractionIcon()
-    //{
-    //    playerControl.interactionTooltip.SetActive(false);
-    //}
-
-    private void OnDrawGizmosSelected()
-    {
-        if (groundCheck == null)
-        {
-            return;
-        }
-        Gizmos.DrawWireCube(groundCheck.position, groundCheckRange);
-    }
     
     void CreateDust()
     {
@@ -1096,15 +804,15 @@ public class PlayerControl : MonoBehaviour
     }   
 
     //Animation manager
-    public void AnimatorSwitchState(string newState)
+    public void AnimatorSwitchState(AnimationState newState)
     {
-        if (oldAnimationState == newState)
+        if (oldAnimationState == newState.ToString())
         {
             return;
         }
 
-        animator.Play(newState);
+        animator.Play(newState.ToString());
 
-        oldAnimationState = newState;
+        oldAnimationState = newState.ToString();
     }
 }

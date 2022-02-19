@@ -225,12 +225,13 @@ public class DasherAI : MonoBehaviour
     }
 
     //Utilities
-    IEnumerator BlockedAndHitAnimation()
-    {
-        playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
-        yield return new WaitForSeconds(0);
-        playerControl.AnimatorSwitchState("karasuBlockAnimation");
-    }
+    //*DEP* -> mostly deprecated
+    //IEnumerator BlockedAndHitAnimation()
+    //{
+    //    playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
+    //    yield return new WaitForSeconds(0);
+    //    playerControl.AnimatorSwitchState("karasuBlockAnimation");
+    //}
 
     IEnumerator StopMovingWhileAttacking()
     {

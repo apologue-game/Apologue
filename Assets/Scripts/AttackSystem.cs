@@ -20,4 +20,6 @@ public class AttackSystem
     }
 
     public AttackType AttackMake { get; set; }
+    public bool combo { get; set; }
+    public float comboWindow { get; set; }
 }

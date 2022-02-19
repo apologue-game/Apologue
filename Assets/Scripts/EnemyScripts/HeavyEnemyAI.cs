@@ -85,11 +85,11 @@ public class HeavyEnemyAI : MonoBehaviour
     const string OVERHEADATTACKANIMATION = "overheadAttackAnimation";
     const string SIDESLASHATTACKANIMATION = "sideslashAttackAnimation";
 
-
     private void Awake()
     {
         overHeadAttack = new AttackSystem(attackDamageOverheadAttack, AttackType.onlyParryable);
         sideslashAttack = new AttackSystem(attackDamageSideslashAttack, sideslashAttackType);
+
         //Self references and initializations
         animator = GetComponent<Animator>();
         rigidBody2D = GetComponent<Rigidbody2D>();
@@ -372,12 +372,13 @@ public class HeavyEnemyAI : MonoBehaviour
         nextGlobalAttackHeavyEnemy = 0;
     }
 
-    IEnumerator BlockedAndHitAnimation()
-    {
-        playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
-        yield return new WaitForSeconds(0);
-        playerControl.AnimatorSwitchState("karasuBlockAnimation");
-    }
+    //*DEP* -> mostly deprecated
+    //IEnumerator BlockedAndHitAnimation()
+    //{
+    //    playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
+    //    yield return new WaitForSeconds(0);
+    //    playerControl.AnimatorSwitchState("karasuBlockAnimation");
+    //}
 
     IEnumerator StopMovingWhileAttacking()
     {

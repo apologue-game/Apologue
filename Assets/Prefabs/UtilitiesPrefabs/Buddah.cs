@@ -5,17 +5,27 @@ using UnityEngine.UI;
 
 public class Buddah : Interactable
 {
+    GameObject canvas;
     private bool blessingGiven = false;
     public KarasuEntity karasuEntity;
-    public HealthBar healthBar;
+    public GameObject healthBar;
     public Image healthBarFill;
     public Color healthBarColorInvulnerable;
 
+    private void Start()
+    {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+        karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
+
+        healthBar = canvas.transform.Find("HealthBar").gameObject;
+        healthBarFill = healthBar.transform.Find("Fill").GetComponent<Image>();
+    }
+
     public override void Interact()
     {
-        if (!blessingGiven)
+        if (active)
         {
-            blessingGiven = true;
+            active = false;
             if (karasuEntity.currentHealth == karasuEntity.maxHealth)
             {
                 KarasuEntity.invulnerableToNextAttack = true;
@@ -24,7 +34,7 @@ public class Buddah : Interactable
             else
             {
                 karasuEntity.currentHealth = karasuEntity.maxHealth;
-                healthBar.SetHealth(karasuEntity.currentHealth);
+                healthBar.GetComponent<HealthBar>().SetHealth(karasuEntity.currentHealth);
             }
         }
     }

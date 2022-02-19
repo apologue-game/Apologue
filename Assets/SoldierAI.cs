@@ -448,12 +448,13 @@ public class SoldierAI : MonoBehaviour
         blockChance = Random.Range(0, 10);
     }
 
-    IEnumerator BlockedAndHitAnimation()
-    {
-        playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
-        yield return new WaitForSeconds(0);
-        playerControl.AnimatorSwitchState("karasuBlockAnimation");
-    }
+    //*DEP* -> mostly deprecated
+    //IEnumerator BlockedAndHitAnimation()
+    //{
+    //    playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
+    //    yield return new WaitForSeconds(0);
+    //    playerControl.AnimatorSwitchState("karasuBlockAnimation");
+    //}
 
     IEnumerator SoldierBlockWindow()
     {

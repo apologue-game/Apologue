@@ -7,13 +7,13 @@ using static AttackSystem;
 
 public class KarasuEntity : MonoBehaviour
 {
-    Animator animator;
     SpriteRenderer spriteRenderer;
     public HealthBar healthBar;
     public Image healthBarFill;
     public static bool invulnerableToNextAttack = false;
     public Color healthBarColor;
     public AudioManager audioManager;
+    PlayerControl playerControl;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
@@ -34,9 +34,6 @@ public class KarasuEntity : MonoBehaviour
     //Animations
     string oldState;
 
-    const string KARASUIDLEANIMATION = "karasuIdleAnimation";
-    const string KARASUSTAGGERANIMATION = "karasuStaggerAnimation";
-
     void Start()
     {
         currentHealth = maxHealth;
@@ -46,8 +43,8 @@ public class KarasuEntity : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerControl = GetComponentInParent<PlayerControl>();
     }
 
     private void Update()
@@ -102,7 +99,7 @@ public class KarasuEntity : MonoBehaviour
     IEnumerator SpikesDeath()
     {
         PlayerControl.TurnOffControlsOnDeath();
-        AnimatorSwitchState("spikeDeathAnimation");
+        playerControl.animationState = PlayerControl.AnimationState.spikeDeath;
         spriteRenderer.color = normalColor;
         yield return new WaitForSeconds(respawnDelay);
         KillPlayer();
@@ -116,15 +113,15 @@ public class KarasuEntity : MonoBehaviour
         KillPlayer();
     }
 
-    IEnumerator Stagger()
-    {
-        PlayerControl.TurnOffControlsOnDeath();
-        spriteRenderer.color = normalColor;
-        AnimatorSwitchState(KARASUSTAGGERANIMATION);
-        yield return new WaitForSeconds(0.2f);
-        AnimatorSwitchState("karasuIdleAnimation");
-        PlayerControl.TurnOnControlsOnRespawn();
-    }
+    //IEnumerator Stagger()
+    //{
+    //    PlayerControl.TurnOffControlsOnDeath();
+    //    spriteRenderer.color = normalColor;
+    //    AnimatorSwitchState(KARASUSTAGGERANIMATION);
+    //    yield return new WaitForSeconds(0.2f);
+    //    AnimatorSwitchState("karasuIdleAnimation");
+    //    PlayerControl.TurnOnControlsOnRespawn();
+    //}
 
     void KillPlayer()
     {
@@ -135,22 +132,22 @@ public class KarasuEntity : MonoBehaviour
     void Respawn()
     {
         PlayerControl.TurnOnControlsOnRespawn();
-        AnimatorSwitchState(KARASUIDLEANIMATION);
+        playerControl.animationState = PlayerControl.AnimationState.idle;
         currentHealth = maxHealth;
         healthBar.SetHealth(maxHealth);
         dead = false;
         spikesDeath = false;
     }
 
-    public void AnimatorSwitchState(string newState)
-    {
-        if (oldState == newState)
-        {
-            return;
-        }
+    //public void AnimatorSwitchState(AnimationState newState)
+    //{
+    //    if (oldState == newState.ToString())
+    //    {
+    //        return;
+    //    }
 
-        animator.Play(newState);
+    //    animator.Play(newState.ToString());
 
-        oldState = newState;
-    }
+    //    oldState = newState.ToString();
+    //}
 }

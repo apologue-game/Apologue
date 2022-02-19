@@ -11,6 +11,7 @@ TagManager:
   - Hwacha
   - FallingPlatforms
   - Canvas
+  - Ground
   layers:
   - Default
   - TransparentFX

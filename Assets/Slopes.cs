@@ -6,7 +6,6 @@ public class Slopes : MonoBehaviour
 {
     PlayerControl playerControl;
     Transform karasuTransform;
-    Rigidbody2D rigidBody2D;
 
     bool exitInterruption;
     Vector3 rotation;
@@ -20,7 +19,6 @@ public class Slopes : MonoBehaviour
     {
         karasuTransform = GameObject.FindGameObjectWithTag("Player").transform;
         playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
-        rigidBody2D = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

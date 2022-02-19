@@ -5,16 +5,33 @@ public abstract class Interactable : MonoBehaviour
 {
     public abstract void Interact();
 
+    public bool active = true;
+
     private void Reset()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") || collision.name == "SlideCollider")
         {
-            collision.GetComponent<PlayerControl>().ShowInteractionIcon();
+            if (active)
+            {
+                collision.GetComponent<PlayerControl>().ShowInteractionIcon();
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") || collision.name == "SlideCollider")
+        {
+            if (!active)
+            {
+                collision.GetComponent<PlayerControl>().HideInteractionIcon();
+            }
         }
     }
 

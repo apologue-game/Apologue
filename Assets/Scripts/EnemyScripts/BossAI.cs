@@ -84,7 +84,6 @@ public class BossAI : MonoBehaviour
     int higherChanceAttack = 1;
     int lowerChanceAttacks = 0;
     //Attacks
-    AttackType attackType;
     public LayerMask enemiesLayers;
     float nextGlobalAttack = 0f;
     bool currentlyAttacking = false;
@@ -525,20 +524,6 @@ public class BossAI : MonoBehaviour
     }
 
     //Combat system
-    void CreateAttackIndicatorGreen()
-    {
-        attackIndicatorGreen.Play();
-    }
-
-    void CreateAttackIndicatorRed()
-    {
-        attackIndicatorRed.Play();
-    }
-
-    void CreateAttackIndicatorBlue()
-    {
-        attackIndicatorBlue.Play();
-    }
 
     void BasicAttack()
     {
@@ -794,13 +779,14 @@ public class BossAI : MonoBehaviour
         nextOverheadAttack = 0;
         nextGlobalAttack = 0;
     }
-
-    IEnumerator BlockedAndHitAnimation()
-    {
-        playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
-        yield return new WaitForSeconds(0);
-        playerControl.AnimatorSwitchState("karasuBlockAnimation");
-    }
+    
+    //*DEP* -> mostly deprecated
+    //IEnumerator BlockedAndHitAnimation()
+    //{
+    //    playerControl.AnimatorSwitchState(playerControl.);
+    //    yield return new WaitForSeconds(0);
+    //    playerControl.AnimatorSwitchState("karasuBlockAnimation");
+    //}
 
     IEnumerator StopMovingWhileAttacking()
     {

@@ -305,12 +305,13 @@ public class ShieldmanAI : MonoBehaviour
         nextGlobalAttackShieldman = 0;
     }
 
-    IEnumerator BlockedAndHitAnimation()
-    {
-        playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
-        yield return new WaitForSeconds(0);
-        playerControl.AnimatorSwitchState("karasuBlockAnimation");
-    }
+    //*DEP* -> mostly deprecated
+    //IEnumerator BlockedAndHitAnimation()
+    //{
+    //    playerControl.AnimatorSwitchState("karasuBlockedAndHitAnimation");
+    //    yield return new WaitForSeconds(0);
+    //    playerControl.AnimatorSwitchState("karasuBlockAnimation");
+    //}
 
     IEnumerator StopMovingWhileAttacking()
     {
