@@ -12,6 +12,7 @@ TagManager:
   - FallingPlatforms
   - Canvas
   - Ground
+  - Slope
   layers:
   - Default
   - TransparentFX

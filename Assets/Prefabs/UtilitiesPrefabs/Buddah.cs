@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Buddah : Interactable
 {
     GameObject canvas;
-    private bool blessingGiven = false;
     public KarasuEntity karasuEntity;
     public GameObject healthBar;
     public Image healthBarFill;

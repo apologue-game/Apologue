@@ -1,12 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
+    //Helpers
+    public TMP_Text currentStanceText;
+    string swordStance = "Sword stance";
+    string axeStance = "Axe stance";
+    public GameObject shadow;
+    public StaminaBar staminaBar;
+    public float airHangForce;
+    public float airHangTimer;
+    public float airHangTimerLimit;
+    public float comboWindow;
+
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
     public static PlayerInput playerInput;
@@ -20,18 +32,20 @@ public class PlayerControl : MonoBehaviour
     //Interactable objects -> icon above the head //Should be exported into a separate class
     GameObject interactionTooltip;
     SpriteRenderer interactionTooltipSR;
-    Vector2 interactionSize = new Vector2(0.1f, 1); //Interactable object's domain in which the interact button will be shown
+    Vector2 interactionSize = new Vector2(0.1f, 1); //Interactable object's range in which the interact button will be shown
 
     //Pause menu
     public GameObject interactionIconPrefab;
     public Sprite keyboardInteractionIcon;
     public Sprite gamepadInteractionIcon;
+    public bool swordOrAxeStance = true;
 
     //Movement system
     //Move
     public float movementSpeed = 5.8f;
     float movementSpeedHelper; //No need for it if the movement doesn't stop while attacking
     public bool facingRight = true;
+    [SerializeField]
     float inputX;
 
     //Jump
@@ -51,12 +65,12 @@ public class PlayerControl : MonoBehaviour
 
     //Wall jump
     public Transform wallHangingCollider;
-    Coroutine coroutineWallHanging = null;
-    float wallHangingColliderRange = 0f;
+    //Coroutine coroutineWallHanging = null;
+    //float wallHangingColliderRange = 0f;
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 1f;
-    float wallJumpAdditionalForce = 50f;
+    float wallJumpAdditionalForce = 150f;
     int wallJumpPushBackCounter = 0;
     bool initiatePushBackCounter = false;
 
@@ -64,17 +78,15 @@ public class PlayerControl : MonoBehaviour
     bool falling = false;
 
     //Dash
-    public float dashSpeed = 3f;
-    float timeUntilNextDash;
-    bool dashDirectionIfStationary = true;
-    bool isDashing = false;
-    bool dashInAirAvailable = true;
+    public float rollSpeedMultiplier = 2f;
+    public float rollDuration;
+    float timeUntilNextRoll;
+    bool rollDirectionIfStationary = true;
+    public bool isRolling = false;
 
     //Crouch
     public LayerMask whatIsCeiling;
     Transform ceilingCheck;
-    public BoxCollider2D regularCollider;
-    public BoxCollider2D slideCollider;
     bool isCrouching = false;
     bool canStandUp;
     public float crouchSpeedMultiplier = 0.5f;
@@ -88,6 +100,13 @@ public class PlayerControl : MonoBehaviour
     public bool onASlope = false;
     bool jumpAvailable = true;
     public float slopeXPosition = 0f;
+    public Vector2 slopeCheckOffset;
+    public Vector2 slopeCheck = new Vector2(0.7f, 0.7f);
+    public bool isOnSlope = false;
+    public bool isOnGround = false;
+    public LayerMask whatIsSlope;
+    bool exitInterruption = false;
+    bool rotated = false;
 
     //Combat system
     public LayerMask enemiesLayers;
@@ -111,24 +130,18 @@ public class PlayerControl : MonoBehaviour
         heavyAttackAxe2
     }
     public AttackState attackState;
+    public float nextTimeAttack;
 
-    //Light attack
-    public Transform swordCollider;
-    public float attackRange = 0.56f;
-    public int attackDamage = 1;
-    public float attackSpeed = 0.75f;
-    float nextAttackTime = 0f;
-    //Light attack combos
+    //Combos
+    public bool mediumAttackSword2_Available = false;
+    public bool heavyAttackSword2_Available = false;
+    public bool mediumAttackAxe2_Available = false;
+    public bool heavyAttackAxe2_Available = false;
 
-    //Medium attack
-    public Transform spearCollider;
-    public Vector3 spearRange;
-    int attackDamageSpear = 2;
-    public float attackSpeedSpear = 0.2f;
-    float nextAttackTimeSpear = 0f;
+    public float swordHeavyAttackJumpForce;
 
-    //Heavy attack
-    public static bool axePickedUp = false; //Heavy attack only usable after finding the axe
+    //Axe attacks
+    public static bool axePickedUp = false; //Axe attacks only usable after finding the axe
 
     //Parry and block
     public Transform parryCollider;
@@ -136,9 +149,6 @@ public class PlayerControl : MonoBehaviour
     float parryWindow = 0.4f;
     float nextParry = 0;
     float parryCooldown = 4f;
-    //Enemy blocking
-    public bool currentlyAttacking = false; //Needed for the soldier enemy script blocking interaction
-    bool blockedOrParried = false;
 
     //Utilities
     //Pause menu
@@ -155,6 +165,7 @@ public class PlayerControl : MonoBehaviour
         idle,
         walk,
         jump,
+        roll,
         doubleJump,
         wallJump,
         wallHanging,
@@ -169,10 +180,20 @@ public class PlayerControl : MonoBehaviour
         parry,
         block,
         hitWhileBlocking,
-        lightAttack,
-        lightAttackUpwards,
-        mediumAttack,
-        heavyAttack
+        swordLight1,
+        swordLight2,
+        swordLight3,
+        swordHeavy1,
+        swordHeavy2,
+        swordMedium1,
+        swordMedium2,
+        axeLight1,
+        axeLight2,
+        axeLight3,
+        axeHeavy1,
+        axeHeavy2,
+        axeMedium1,
+        axeMedium2
     }
     public AnimationState animationState;
 
@@ -188,7 +209,6 @@ public class PlayerControl : MonoBehaviour
         ceilingCheck = transform.Find("CeilingCheck");
 
         movementSpeedHelper = movementSpeed;
-        spearRange = new Vector3(2.44f, 0.34f, 0);
 
         attackState = new AttackState();
         animationState = AnimationState.idle;
@@ -196,6 +216,8 @@ public class PlayerControl : MonoBehaviour
         interactionTooltip = transform.Find("InteractionTooltip").gameObject;
         interactionTooltipSR = interactionTooltip.GetComponent<SpriteRenderer>();
     }
+
+    Vector3 rotation = new Vector3(0, 0, -35f);
 
     void FixedUpdate()
     {
@@ -209,54 +231,50 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = Vector2.zero;
             return;
         }
-        if (isDashing)
+        if (isRolling)
         {
             return;
         }
-        if (onASlope)
-        {
-            rigidBody2D.velocity = Vector2.ClampMagnitude(rigidBody2D.velocity, 20);
-            animationState = AnimationState.slide;
-            return;
-        }
-        if (isSliding)
-        {
-            if (slideDirection == inputX)
-            {
-                animationState = AnimationState.slide;
-                return;
-            }
-            else
-            {
-                isSliding = false;
-            }
-        }
 
-        //grounded = false;
-        ////Colliders->check to see if the player is currently on the ground
-        //Collider2D[] collidersGround = Physics2D.OverlapBoxAll(groundCheck.position, groundCheckRange, whatIsGround);
-        //for (int i = 0; i < collidersGround.Length; i++)
-        //{
-        //    if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap" || collidersGround[i].CompareTag("Box") || collidersGround[i].CompareTag("FallingPlatforms"))
-        //    {
-        //        grounded = true;
-        //        falling = false;
-        //        dashInAirAvailable = true;
-        //    }
-        //}
-
-        //Might be a better way to check whether the player is on the ground
         if (rigidBody2D.IsTouchingLayers(whatIsGround))
         {
             grounded = true;
-            dashInAirAvailable = true;
             falling = false;
         }
         else
         {
             grounded = false;
         }
-        
+
+        if (grounded)
+        {
+            shadow.SetActive(true);
+        }
+        else
+        {
+            shadow.SetActive(false);
+        }
+
+        Slopes();
+
+        if (onASlope)
+        {
+            rigidBody2D.velocity = Vector2.ClampMagnitude(rigidBody2D.velocity, 10);
+            animationState = AnimationState.slide;
+            return;
+        }
+        if (isSliding)
+        {
+            if (slideDirection == inputX) 
+            {
+                animationState = AnimationState.slide;
+                return;
+            }
+            else //If the player stops inputing movement, the slide will stop
+            {
+                isSliding = false;
+            }
+        }
 
         //Check to see if there is a ceiling above the player and whether they can get up from the crouching state
         Collider2D[] collidersCeiling = Physics2D.OverlapCircleAll(ceilingCheck.position, ceilingCheckRadius, whatIsCeiling);
@@ -269,27 +287,16 @@ public class PlayerControl : MonoBehaviour
             canStandUp = false;
         }
 
-        if (!isCrouching)
-        {
-            regularCollider.enabled = true;
-            slideCollider.enabled = false;
-        }
-        else
-        {
-            regularCollider.enabled = false;
-            slideCollider.enabled = true;
-        }
-
         //Move character
-        if (!isCrouching)
+        if (!isCrouching && attackState != AttackState.mediumAttackSword1)
         {
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
         }
-        else
+        else if (isCrouching && attackState != AttackState.mediumAttackSword1)
         {
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
         }
-        
+
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
         verticalSpeed = rigidBody2D.velocity.y;
 
@@ -369,23 +376,81 @@ public class PlayerControl : MonoBehaviour
                 wallJumpPushBackCounter = 0;
             }
         }
+        if (heavyAttackSword2_Available && airHangTimer < airHangTimerLimit)
+        {
+            rigidBody2D.AddForce(Vector2.up * airHangForce);
+            airHangTimer++;
+        }
+        else
+        {
+            airHangTimer = 0;
+            heavyAttackSword2_Available = false;
+        }
+    }
+
+    private void Slopes()
+    {
+        isOnSlope = false;
+        isOnGround = false;
+        RaycastHit2D[] slopes = Physics2D.LinecastAll(transform.position, (Vector2)transform.position - slopeCheckOffset, whatIsSlope);
+        foreach (RaycastHit2D tilemap in slopes)
+        {
+            if (tilemap.collider.transform.name == "SlopesTilemap")
+            {
+                exitInterruption = true;
+                slopeXPosition = transform.position.x;
+                isOnSlope = true;
+            }
+        }
+        if (isOnSlope)
+        {
+            if (!facingRight)
+            {
+                Flip();
+            }
+            if (!rotated)
+            {
+                transform.Rotate(rotation);
+                rotated = true;
+            }
+            onASlope = true;
+        }
+        else
+        {
+            StartCoroutine(SlopeExitDelay());
+        }
+    }
+
+    IEnumerator SlopeExitDelay()
+    {
+        exitInterruption = false;
+        if (rotated)
+        {
+            transform.Rotate(-rotation);
+            rotated = false;
+        }
+        yield return new WaitForSeconds(0.1f);
+        if (!exitInterruption)
+        {
+            onASlope = false;
+        }
     }
 
     void Update()
     {
         if (inputX > 0)
         {
-            dashDirectionIfStationary = true;
+            rollDirectionIfStationary = true;
         }
         else if (inputX < 0)
         {
-            dashDirectionIfStationary = false;
+            rollDirectionIfStationary = false;
         }
         if (grounded)
         {
             doubleJump = true;
         }
-        if (transform.position.x > slopeXPosition + 1)
+        if (transform.position.x > slopeXPosition + 3)
         {
             jumpAvailable = true;
         }
@@ -412,6 +477,10 @@ public class PlayerControl : MonoBehaviour
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
         inputX = callbackContext.ReadValue<Vector2>().x;
+        if (onASlope && inputX < 0)
+        {
+            inputX = 0;
+        }
         if (hangingOnTheWall || onASlope)
         {
             return;
@@ -434,6 +503,7 @@ public class PlayerControl : MonoBehaviour
         {
             jumpAvailable = false;
             rigidBody2D.velocity = new Vector2(1 * jumpForce/2, 1 * jumpForce);
+            CreateDust();
             return;
         }
         if (grounded && callbackContext.performed && attackState == AttackState.notAttacking && !onASlope)
@@ -442,6 +512,8 @@ public class PlayerControl : MonoBehaviour
             isCrouching = false;
             isSliding = false;
             jumpCounter = 1;
+            staminaBar.currentStamina -= 20;
+            staminaBar.regenerationDelay = Time.time + 2;
             CreateDust();
         }
         if (hangingOnTheWall && wallJump && callbackContext.performed)
@@ -469,46 +541,41 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public void OnDash(InputAction.CallbackContext callbackContext)
+    public void OnRoll(InputAction.CallbackContext callbackContext)
     {
         if (hangingOnTheWall || onASlope)
         {
             return;
         }
-        if (callbackContext.performed && Time.time > timeUntilNextDash && !isCrouching)
+        if (grounded && Time.time > timeUntilNextRoll && !isCrouching && callbackContext.performed)
         {
-            if (grounded || !grounded && dashInAirAvailable)
+            if (inputX > 0)
             {
-                if (!grounded)
-                {
-                    dashInAirAvailable = false;
-                }
-                if (inputX > 0)
-                {
-                    rigidBody2D.velocity = new Vector2(inputX * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                    timeUntilNextDash = Time.time + 1;
-                }
-                else if (inputX < 0)
-                {
-                    rigidBody2D.velocity = new Vector2(inputX * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                    timeUntilNextDash = Time.time + 1;
-                }
-                else
-                {
-                    if (dashDirectionIfStationary)
-                    {
-                        rigidBody2D.velocity = new Vector2(movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                        timeUntilNextDash = Time.time + 1;
-                    }
-                    else if (!dashDirectionIfStationary)
-                    {
-                        rigidBody2D.velocity = new Vector2(-1 * movementSpeed * dashSpeed, rigidBody2D.velocity.y);
-                        timeUntilNextDash = Time.time + 1;
-                    }
-                }
-                CreateDashParticleEffect();
-                StartCoroutine(IsDashing());
+                rigidBody2D.velocity = new Vector2(inputX * movementSpeed * rollSpeedMultiplier, rigidBody2D.velocity.y);
+                timeUntilNextRoll = Time.time + 1;
             }
+            else if (inputX < 0)
+            {
+                rigidBody2D.velocity = new Vector2(inputX * movementSpeed * rollSpeedMultiplier, rigidBody2D.velocity.y);
+                timeUntilNextRoll = Time.time + 1;
+            }
+            else
+            {
+                if (rollDirectionIfStationary)
+                {
+                    rigidBody2D.velocity = new Vector2(movementSpeed * rollSpeedMultiplier, rigidBody2D.velocity.y);
+                    timeUntilNextRoll = Time.time + 1;
+                }
+                else if (!rollDirectionIfStationary)
+                {
+                    rigidBody2D.velocity = new Vector2(-1 * movementSpeed * rollSpeedMultiplier, rigidBody2D.velocity.y);
+                    timeUntilNextRoll = Time.time + 1;
+                }
+            }
+            //CreateDashParticleEffect();
+            staminaBar.currentStamina -= 20;
+            staminaBar.regenerationDelay = Time.time + 2;
+            StartCoroutine(IsRolling());
         }
     }
 
@@ -556,8 +623,6 @@ public class PlayerControl : MonoBehaviour
             isCrouching = true;
             slideDirection = inputX;
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2f, rigidBody2D.velocity.y);
-            regularCollider.enabled = false;
-            slideCollider.enabled = true;
             //audioManager.PlaySound(SLIDESOUND);
             StartCoroutine(IsSliding());
         }
@@ -570,97 +635,207 @@ public class PlayerControl : MonoBehaviour
         isSliding = false;
     }
 
-    IEnumerator IsDashing()
+    
+    IEnumerator IsRolling()
     {
-        isDashing = true;
-        yield return new WaitForSeconds(0.10f);
-        isDashing = false;
+        animationState = AnimationState.roll;
+        isRolling = true;
+        yield return new WaitForSeconds(rollDuration);
+        isRolling = false;
     }
 
     //Combat system
-    public void OnLightAttack(InputAction.CallbackContext callbackContext)
+    public void OnSwordLightAttack(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope)
+        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackSword2_Available)
         {
-            return;
-        }
-        if (callbackContext.performed)
-        {
-            if (Gamepad.all.Count == 0)
-            {
-
-            }
-            else if (Gamepad.current.leftShoulder.isPressed)
-            {
-                return;
-            }
-            if (true) //help me
-            {
-                attackState = AttackState.lightAttackSword1;
-                animationState = AnimationState.lightAttack;
-                currentlyAttacking = true;
-            }
+            attackState = AttackState.lightAttackSword1;
+            animationState = AnimationState.swordLight1;
         }
     }
 
-    void LightAttack()
+    public void OnSwordLightAttack2(InputAction.CallbackContext callbackContext)
     {
-        //StartCoroutine(StopMovingWhileAttackingCombos(animator.GetCurrentAnimatorStateInfo(0).length));
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordCollider.position, attackRange, enemiesLayers);
-        foreach (Collider2D enemy in hitEnemies)
+        if (callbackContext.performed && attackState == AttackState.notAttacking)
         {
-            if (enemy.name == "BlockColliderSoldier")
-            {
-                blockedOrParried = true;
-                continue;
-            }
-            if (enemy.name == "SoldierSight")
-            {
-                continue;
-            }
-            if (enemy.CompareTag("Box"))
-            {
-                enemy.GetComponent<Box>().MoveOrDestroy(true);
-            }
-            Debug.Log("We hit " + enemy + " with a sword");
-            if (enemy.GetComponent<IEnemy>() != null && !blockedOrParried)
-            {
-                //audioManager.PlaySound(STABSOUND);
-                enemy.GetComponent<IEnemy>().TakeDamage(attackDamage, null);
-            }
-        }
-        blockedOrParried = false;
-        currentlyAttacking = false;
-    }
-
-    public void OnHeavyAttack(InputAction.CallbackContext callbackContext)
-    { 
-        if (hangingOnTheWall || attackState == AttackState.cannotAttack || onASlope || !axePickedUp)
-        {
-            return;
-        }
-        if (callbackContext.control.IsPressed())
-        {
-            if (true) //help, please
-            {
-                animationState = AnimationState.heavyAttack;
-                currentlyAttacking = true;
-            }
+            attackState = AttackState.lightAttackSword2;
+            animationState = AnimationState.swordLight2;
         }
     }
 
-    void HeavyAttack()
+    public void OnSwordLightAttack3(InputAction.CallbackContext callbackContext)
     {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        {
+            attackState = AttackState.lightAttackSword3;
+            animationState = AnimationState.swordLight3;
+        }
+    }
 
+    public void OnSwordMediumAttack1(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking &&!mediumAttackSword2_Available)
+        {
+            attackState = AttackState.mediumAttackSword1;
+            animationState = AnimationState.swordMedium1;
+            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2.15f, rigidBody2D.velocity.y);
+        }
+    } 
+    
+    public void OnSwordMediumAttack2(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking && mediumAttackSword2_Available)
+        {
+            attackState = AttackState.mediumAttackSword2;
+            animationState = AnimationState.swordMedium2;
+            mediumAttackSword2_Available = false;
+        }
+    }
+
+    
+    public void OnSwordHeavyAttack1(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking && !heavyAttackSword2_Available)
+        {
+            attackState = AttackState.heavyAttackSword1;
+            animationState = AnimationState.swordHeavy1;
+        }
+    }
+
+    void SwordHeavyAttackJump()
+    {
+        rigidBody2D.velocity = (Vector2.up * swordHeavyAttackJumpForce);
+    }
+
+    public void OnSwordHeavyAttack2(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed && heavyAttackSword2_Available)
+        {
+            attackState = AttackState.heavyAttackSword2;
+            animationState = AnimationState.swordHeavy2;
+            heavyAttackSword2_Available = false;
+        }
+    }
+
+    public void OnAxeLightAttack1(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        {
+            attackState = AttackState.lightAttackAxe1;
+            animationState = AnimationState.axeLight1;
+        }
+    }
+
+    public void OnAxeLightAttack2(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        {
+            attackState = AttackState.lightAttackAxe2;
+            animationState = AnimationState.axeLight2;
+        }
+    }
+
+    public void OnAxeLightAttack3(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        {
+            attackState = AttackState.lightAttackAxe3;
+            animationState = AnimationState.axeLight3;
+        }
+    }
+
+    public void OnAxeMediumAttack1(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
+        {
+            attackState = AttackState.mediumAttackAxe1;
+            animationState = AnimationState.axeMedium1;
+            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2.15f, rigidBody2D.velocity.y);
+        }
+    }
+
+    public void OnAxeMediumAttack2(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking && mediumAttackAxe2_Available)
+        {
+            attackState = AttackState.mediumAttackAxe2;
+            animationState = AnimationState.axeMedium2;
+            mediumAttackAxe2_Available = false;
+        }
+    }
+
+    public float heavyAttackAxe1JumpForce;
+    public void OnAxeHeavyAttack1(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking && !heavyAttackAxe2_Available)
+        {
+            attackState = AttackState.heavyAttackAxe1;
+            animationState = AnimationState.axeHeavy1;
+            rigidBody2D.velocity = new Vector2(0, heavyAttackAxe1JumpForce);
+            StartCoroutine(HeavyAttack1JumpOffset());
+        }
+    }
+
+    int jumpOffsetCounter = 0;
+    public float jumpOffsetForce;
+    IEnumerator HeavyAttack1JumpOffset()
+    {
+        if (facingRight)
+        {
+            rigidBody2D.AddForce(Vector2.left * jumpOffsetForce);
+        }
+        else
+        {
+            rigidBody2D.AddForce(Vector2.right * jumpOffsetForce);
+        }
+        yield return new WaitForSeconds(0.1f);
+        jumpOffsetCounter++;
+        if (jumpOffsetCounter >= 5)
+        {
+            StopCoroutine(HeavyAttack1JumpOffset());
+            jumpOffsetCounter = 0;
+        }
+        else
+        {
+            StartCoroutine(HeavyAttack1JumpOffset());
+        }
+    }
+
+    public void OnAxeHeavyAttack2(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed  && attackState == AttackState.notAttacking && heavyAttackAxe2_Available)
+        {
+            attackState = AttackState.heavyAttackAxe2;
+            animationState = AnimationState.axeHeavy2;
+            heavyAttackAxe2_Available = false;
+        }
+    }
+
+    public void ChangeStance(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed/*  && attackState == AttackState.notAttacking*/)
+        {
+            if (swordOrAxeStance)
+            {
+                playerInput.SwitchCurrentActionMap("PlayerAxe");
+                currentStanceText.text = axeStance;
+            }
+            else
+            {
+                playerInput.SwitchCurrentActionMap("PlayerSword");
+                currentStanceText.text = swordStance;
+            }
+            swordOrAxeStance = !swordOrAxeStance;
+        }
     }
 
     public void OnParry(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || onASlope || attackState != AttackState.notAttacking || currentlyAttacking)
+        if (hangingOnTheWall || onASlope || attackState != AttackState.notAttacking)
         {
             return;
         }
-        if (callbackContext.performed)
+        if (callbackContext.performed  && attackState == AttackState.notAttacking)
         {
             if (Time.time > nextParry)
             {
@@ -685,8 +860,16 @@ public class PlayerControl : MonoBehaviour
                 {
                     tooltipPanel.SetActive(false);
                 }
+
+                if (swordOrAxeStance)
+                {
+                    playerInput.SwitchCurrentActionMap("PlayerSword");
+                }
+                else
+                {
+                    playerInput.SwitchCurrentActionMap("PlayerAxe");
+                }
                 
-                playerInput.SwitchCurrentActionMap("Player");
                 Time.timeScale = 1f;
                 isGamePaused = false;
             }
@@ -757,6 +940,30 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    public void NotAttacking()
+    {
+        if (mediumAttackSword2_Available || mediumAttackAxe2_Available || heavyAttackSword2_Available || heavyAttackAxe2_Available)
+        {
+            StartCoroutine(ComboWindow());
+            return;
+        }
+        attackState = AttackState.notAttacking;
+    }
+
+    IEnumerator ComboWindow()
+    {
+        yield return new WaitForSeconds(comboWindow);
+        mediumAttackSword2_Available = false;
+        mediumAttackAxe2_Available = false;
+        heavyAttackSword2_Available = false;
+        heavyAttackAxe2_Available = false;
+        if (attackState == AttackState.heavyAttackSword2 || attackState == AttackState.heavyAttackAxe2)
+        {
+            yield return null;
+        }
+        attackState = AttackState.notAttacking;
+    }
+
     public void Flip()
     {
         if (grounded)
@@ -770,12 +977,7 @@ public class PlayerControl : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-    }
-
-    IEnumerator WaitForAnimationToFinish(float animationDuration)
-    {
-        yield return new WaitForSeconds(animationDuration);
-    }
+    }   
 
     IEnumerator ParryWindow()
     {
@@ -784,15 +986,11 @@ public class PlayerControl : MonoBehaviour
         parryColliderGO.SetActive(false);
     }
 
-    //private void OnDrawGizmosSelected()
-    //{
-    //    if (groundCheck == null)
-    //    {
-    //        return;
-    //    }
-    //    Gizmos.DrawWireCube(groundCheck.position, groundCheckRange);
-    //}
-    
+    private void OnDrawGizmosSelected()
+    {
+        /*Gizmos.DrawWireCube((Vector2)transform.position - slopeCheckOffset, a);*/
+    }
+
     void CreateDust()
     {
         movementAndJumpDust.Play();

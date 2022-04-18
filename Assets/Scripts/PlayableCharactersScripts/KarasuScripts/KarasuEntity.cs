@@ -12,14 +12,13 @@ public class KarasuEntity : MonoBehaviour
     public Image healthBarFill;
     public static bool invulnerableToNextAttack = false;
     public Color healthBarColor;
-    public AudioManager audioManager;
     PlayerControl playerControl;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
     public int maxHealth = 15;
-    public int currentHealth;
+    public float currentHealth;
 
     //Dying
     float respawnDelay = 3f;
@@ -59,13 +58,17 @@ public class KarasuEntity : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage, AttackType? attackType)
+    public void TakeDamage(float damage, AttackType? attackType)
     {
         if (damage == 500)
         {
             dead = true;
             spikesDeath = true;
             StartCoroutine(SpikesDeath());
+            return;
+        }
+        if (playerControl.isRolling)
+        {
             return;
         }
         if (invulnerableToNextAttack)
@@ -82,8 +85,6 @@ public class KarasuEntity : MonoBehaviour
             }
             invulnerable = true;
             currentHealth -= damage;
-            //audioManager.PlaySound("stab");
-            Debug.Log(currentHealth);
             healthBar.SetHealth(currentHealth);
             spriteRenderer.color = takeDamageColor;
             takeDamageTimer = Time.time + invincibilityWindow;
@@ -138,16 +139,4 @@ public class KarasuEntity : MonoBehaviour
         dead = false;
         spikesDeath = false;
     }
-
-    //public void AnimatorSwitchState(AnimationState newState)
-    //{
-    //    if (oldState == newState.ToString())
-    //    {
-    //        return;
-    //    }
-
-    //    animator.Play(newState.ToString());
-
-    //    oldState = newState.ToString();
-    //}
 }

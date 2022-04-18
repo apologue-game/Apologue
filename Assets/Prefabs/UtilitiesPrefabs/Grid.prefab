@@ -115556,7 +115556,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: -5
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.016129017, y: 0.016129017, z: 0}
@@ -116569,7 +116569,6 @@ GameObject:
   - component: {fileID: 2917812182754289469}
   - component: {fileID: 2917812182754289470}
   - component: {fileID: 2917812182754289471}
-  - component: {fileID: 2917812182754289440}
   m_Layer: 10
   m_Name: SlopesTilemap
   m_TagString: Untagged
@@ -116836,7 +116835,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.016129017, y: 0.016129017, z: 0}
@@ -116883,141 +116882,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!66 &2917812182754289440
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2917812182754289442}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 2917812182754289470}
-    m_ColliderPaths:
-    - - X: 1537580672
-        Y: 110161288
-      - X: 1536948852
-        Y: 110161288
-      - X: 1529838720
-        Y: 117580640
-      - X: 1529838720
-        Y: 99838712
-    - - X: 1547580672
-        Y: 100161288
-      - X: 1546948852
-        Y: 100161288
-      - X: 1539838720
-        Y: 107580640
-      - X: 1539838720
-        Y: 89838712
-    - - X: 1557580672
-        Y: 90161288
-      - X: 1556948852
-        Y: 90161288
-      - X: 1549838720
-        Y: 97580640
-      - X: 1549838720
-        Y: 79838712
-    - - X: 1567580672
-        Y: 80161288
-      - X: 1566948852
-        Y: 80161288
-      - X: 1559838720
-        Y: 87580640
-      - X: 1559838720
-        Y: 69838712
-    - - X: 4497580661
-        Y: 20161279
-      - X: 4497580606
-        Y: 20161390
-      - X: 4496948887
-        Y: 20161390
-      - X: 4489838617
-        Y: 27580764
-      - X: 4489838492
-        Y: 27580714
-      - X: 4489838492
-        Y: 9838638
-      - X: 4489838629
-        Y: 9838592
-    - - X: 4507580533
-        Y: 10161279
-      - X: 4507580478
-        Y: 10161390
-      - X: 4506948759
-        Y: 10161390
-      - X: 4499838489
-        Y: 17580764
-      - X: 4499838364
-        Y: 17580714
-      - X: 4499838364
-        Y: -161362
-      - X: 4499838501
-        Y: -161408
-    - - X: 4517580917
-        Y: 161279
-      - X: 4517580862
-        Y: 161390
-      - X: 4516949121
-        Y: 161390
-      - X: 4509838361
-        Y: 7580763
-      - X: 4509838236
-        Y: 7580713
-      - X: 4509838236
-        Y: -10161362
-      - X: 4509838373
-        Y: -10161408
-  m_CompositePaths:
-    m_Paths:
-    - - {x: 153.75807, y: 11.016129}
-      - {x: 153.69489, y: 11.016129}
-      - {x: 152.98387, y: 11.758064}
-      - {x: 152.98387, y: 9.983871}
-    - - {x: 154.75807, y: 10.016129}
-      - {x: 154.69489, y: 10.016129}
-      - {x: 153.98387, y: 10.758064}
-      - {x: 153.98387, y: 8.983871}
-    - - {x: 155.75807, y: 9.016129}
-      - {x: 155.69489, y: 9.016129}
-      - {x: 154.98387, y: 9.758064}
-      - {x: 154.98387, y: 7.9838715}
-    - - {x: 156.75807, y: 8.016129}
-      - {x: 156.69489, y: 8.016129}
-      - {x: 155.98387, y: 8.758064}
-      - {x: 155.98387, y: 6.9838715}
-    - - {x: 449.75806, y: 2.016128}
-      - {x: 449.75806, y: 2.016139}
-      - {x: 449.6949, y: 2.016139}
-      - {x: 448.98386, y: 2.7580764}
-      - {x: 448.98386, y: 2.7580714}
-      - {x: 448.98386, y: 0.98386383}
-      - {x: 448.98386, y: 0.98385924}
-    - - {x: 450.75806, y: 1.016128}
-      - {x: 450.75806, y: 1.016139}
-      - {x: 450.69485, y: 1.016139}
-      - {x: 449.98386, y: 1.7580764}
-      - {x: 449.98386, y: 1.7580714}
-      - {x: 449.98386, y: -0.016136201}
-      - {x: 449.98386, y: -0.0161408}
-    - - {x: 451.7581, y: 0.0161279}
-      - {x: 451.7581, y: 0.016139}
-      - {x: 451.69492, y: 0.016139}
-      - {x: 450.98383, y: 0.7580763}
-      - {x: 450.98383, y: 0.7580713}
-      - {x: 450.98383, y: -1.0161362}
-      - {x: 450.98383, y: -1.0161408}
-  m_VertexDistance: 0.06
-  m_OffsetDistance: 0
 --- !u!1 &2917812183094318474
 GameObject:
   m_ObjectHideFlags: 0
@@ -117262,7 +117126,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.35483873, y: 0.032258093, z: 0}
@@ -117734,7 +117598,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -118286,7 +118150,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: -10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.016129017, y: 0.016129017, z: 0}
@@ -124207,7 +124071,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.032258093, y: 0.032258093, z: 0}
@@ -125227,7 +125091,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: -10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.016129017, y: 0.016129017, z: 0}
@@ -125968,7 +125832,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -501274403
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 50
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.016129017, y: 0.016129017, z: 0}
@@ -126144,5 +126008,3 @@ MonoBehaviour:
   walls:
     serializedVersion: 2
     m_Bits: 1048576
-  newPosition: 0
-  oldPosition: 0

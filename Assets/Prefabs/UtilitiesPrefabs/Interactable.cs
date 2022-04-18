@@ -15,7 +15,7 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || collision.name == "SlideCollider")
+        if (collision.CompareTag("Player"))
         {
             if (active)
             {
@@ -26,7 +26,7 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || collision.name == "SlideCollider")
+        if (collision.CompareTag("Player"))
         {
             if (!active)
             {
@@ -37,7 +37,7 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || collision.name == "SlideCollider")
+        if (collision.CompareTag("Player"))
         {
             collision.GetComponent<PlayerControl>().HideInteractionIcon();
         }

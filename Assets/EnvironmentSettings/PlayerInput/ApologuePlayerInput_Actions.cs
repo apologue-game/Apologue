@@ -15,7 +15,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     ""name"": ""ApologuePlayerInput_Actions"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""PlayerSword"",
             ""id"": ""9efd54f0-1b44-4ca7-9f94-03fe840281cb"",
             ""actions"": [
                 {
@@ -40,7 +40,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""id"": ""93254501-c3d7-4ffd-9f83-c185690f0664"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Tap""
                 },
                 {
                     ""name"": ""DoubleJump"",
@@ -83,28 +83,60 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""LightAttack"",
+                    ""name"": ""SwordLightAttack1"",
                     ""type"": ""Button"",
                     ""id"": ""ef4d892d-eec5-4c1c-baee-601dafbd0144"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""SwordLightAttack2"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac3b5176-f9ad-4457-8bba-b908371a6bcb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.2)""
+                },
+                {
+                    ""name"": ""SwordLightAttack3"",
+                    ""type"": ""Button"",
+                    ""id"": ""955b36eb-5eb6-43bb-b5f4-db8244cd416f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""MediumAttack"",
+                    ""name"": ""SwordMediumAttack1"",
                     ""type"": ""Button"",
-                    ""id"": ""c3fdad25-471d-489b-8505-d05d5fe6de34"",
+                    ""id"": ""afdd4df5-cf88-48d1-bbdb-0e242500567c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 },
                 {
-                    ""name"": ""HeavyAttack"",
+                    ""name"": ""SwordMediumAttack2"",
                     ""type"": ""Button"",
-                    ""id"": ""f3b9dcb2-62e5-4987-b798-4b1ee0af19aa"",
+                    ""id"": ""3b08ee2b-e3e8-4875-9810-16d6ab57b80d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwordHeavyAttack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""f146e3c3-18b9-4386-960d-f139e6cba0c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwordHeavyAttack2"",
+                    ""type"": ""Button"",
+                    ""id"": ""970987a5-ce4f-448c-a21b-d3635e5e0477"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Parry"",
@@ -134,6 +166,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""add300a1-1007-4ad0-8a33-c284c52a1ed5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ChangeStance"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6f82a61-5dbb-4bce-a452-824fef1b83f6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -246,29 +286,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
-                    ""action"": ""LightAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d1c30f59-b371-4602-8ce9-1cd2058d36ff"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Touch"",
-                    ""action"": ""HeavyAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a9d43855-9314-4765-9c26-739c5a106b9b"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Touch"",
-                    ""action"": ""MediumAttack"",
+                    ""action"": ""SwordLightAttack1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -428,56 +446,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7865a7eb-cd1e-4686-8023-ae76b6a5d71d"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""HeavyAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Button With One Modifier"",
-                    ""id"": ""9ffe37ae-dc1b-4061-80c3-8921c8e26674"",
-                    ""path"": ""ButtonWithOneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""MediumAttack"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""b166416a-d943-4c0a-9ea0-446809c29176"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""MediumAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""button"",
-                    ""id"": ""00bed5b8-8de2-4b71-844f-a4d189abe111"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""MediumAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
                     ""id"": ""82f1b9a4-e0b4-4722-938a-4eb63ba280bf"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""LightAttack"",
+                    ""action"": ""SwordLightAttack1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -568,6 +542,889 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5de8491d-6776-4371-9f0c-1bcefdea17e3"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch;Keyboard&Mouse"",
+                    ""action"": ""SwordLightAttack3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""61cc1ab8-acea-496a-8cc9-6432d02b4db9"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwordMediumAttack1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""a6a3dcae-5bf8-4a50-869c-23f381f7b77f"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""SwordMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""f2cfe943-4bcd-4903-8a0d-169cf9042b1d"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch;Keyboard&Mouse"",
+                    ""action"": ""SwordMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""692d0d41-5965-4d23-87ab-fc4daf08ec3f"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwordMediumAttack1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""5c8adcd3-0c92-49e3-9c15-94f7b970a9ea"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""SwordMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""3de34b7a-ef6d-4a53-aded-f2080a6699d5"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""SwordMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e9d59c2-10dd-49b3-9c8c-6559474c3d1e"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""SwordHeavyAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7358fec-365f-41b7-9ea8-c08a52aaccec"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick;Gamepad"",
+                    ""action"": ""SwordHeavyAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""025ae365-8e3d-4e39-a644-b705cf134ea6"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch;Keyboard&Mouse"",
+                    ""action"": ""SwordHeavyAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cbc5c89b-bb6f-4128-a9dd-e56aa90ee082"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""SwordLightAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""086b4341-8b1b-4ab4-840b-f6ab62f18db1"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""SwordLightAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4e2b6e7-38e4-47b0-bc7d-afb14d54beb7"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""ChangeStance"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4691acd0-7345-4bb6-8190-ea0be572bba7"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick;Gamepad"",
+                    ""action"": ""ChangeStance"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bc2de8a-c92e-40e4-80f2-e5779abe1fa6"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick;Gamepad"",
+                    ""action"": ""SwordHeavyAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd6c7594-c6cb-4fa7-a5ff-58574696c8b0"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""SwordMediumAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""PlayerAxe"",
+            ""id"": ""2f7abf69-ac54-4265-9aed-1f47de51fc74"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""a32b8ea6-f0e8-4d7e-8cdd-02a118c9634b"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""fcc7cc3f-8987-4291-bf72-7a677b578306"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0be4aff-2cef-44c5-b765-9200d316a65c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""DoubleJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""d8e625a7-2729-426c-9c02-b9c8bdef4c48"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ArrowKeysMovement"",
+                    ""type"": ""Value"",
+                    ""id"": ""92c46a66-1a74-4331-a347-5b8d4cad7af4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b4c4076-5075-46c7-8b2e-2aa87d50f5d2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CrouchRoll"",
+                    ""type"": ""Button"",
+                    ""id"": ""ea28557a-c9d8-45c8-8484-5697f26b0f2f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""749a0acc-7c73-4e2f-8e3d-3633fe745298"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""AxeLightAttack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""bfd626f9-8e02-45a7-9a9d-d1537870fead"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""AxeLightAttack2"",
+                    ""type"": ""Button"",
+                    ""id"": ""5882b2f5-2b61-49ef-9ef9-18c5bb5891d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.2)""
+                },
+                {
+                    ""name"": ""AxeLightAttack3"",
+                    ""type"": ""Button"",
+                    ""id"": ""553c1807-016b-4bd0-a159-3f34911a9c1d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.2)""
+                },
+                {
+                    ""name"": ""AxeMediumAttack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""a54bdfff-f83e-4d4c-8c85-8af804bed289"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""AxeMediumAttack2"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a39e79a-6976-47b4-acf3-f2ba2e456bdb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""AxeHeavyAttack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff381f7d-7700-40c0-b209-cfad80dccb84"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""AxeHeavyAttack2"",
+                    ""type"": ""Button"",
+                    ""id"": ""09de757d-a59a-4b98-a12f-15fad79bf279"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Parry"",
+                    ""type"": ""Button"",
+                    ""id"": ""bbf6a93f-056a-49e7-be06-fd7e096d9860"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""f8fec13e-0a88-46c3-a839-bb4a95e5e043"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.2)""
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""b7e946ab-2e71-4f8c-82eb-c0657f64cdd6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ce52841-08c6-4b29-a8ec-05b93660b27d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ChangeStance"",
+                    ""type"": ""Button"",
+                    ""id"": ""5f108d97-9aeb-4e3e-a36c-ac43af9d5095"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""383f9304-6ec5-430b-8c00-010ee9761769"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""942e2d19-52b1-443c-87fa-3ec59ecfd401"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48b34af7-c5f4-4ad7-828c-4702149420ab"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DoubleJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""d2d4c22e-f4de-4539-b7c3-07444fe23c8c"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArrowKeysMovement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""3eb86231-8239-4c5d-9065-52d5dc6ee580"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ArrowKeysMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9c2b6132-c1ff-4f1e-82ce-c464cdce2ab9"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ArrowKeysMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d99f05e6-0a24-44f5-9d84-dc973b365b4f"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""86aaec35-8713-4dc3-866a-e92f1868d204"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""54f173d7-f373-4ea3-a03f-ce51fa2b089c"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""6659573f-8e15-407d-b15e-345c3389bd46"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""80b94291-9f6e-4396-854b-64cae6dd7dc9"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""397ce5b6-a767-4eed-ba27-ab08c0549f54"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d48d0b5e-5736-4d3e-bdcd-f56121c41bd1"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""055ee06d-ab5d-4a86-91c6-3e316ef7fb49"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""04437947-1272-47b8-b4cc-4810cc525835"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35cdba5a-aac2-4ff9-af58-387d2539ee91"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Parry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36602cbd-9043-4bc4-bac6-5273fb468df7"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d301ed54-f1e3-4360-b09b-1bdedc5af796"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CrouchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba910931-da5e-4048-a140-375fd15aed9c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fc756ac-559f-4a33-821a-4ac7a42ba5f9"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b442067-37c8-43b9-beff-c3b040bada26"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""381c5e18-3305-4a1e-958d-09254687c02d"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": ""Hold(duration=0.2)"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6e7383f-159f-484b-8d1e-b155ce1d23e2"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Parry"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b23a77a-b34a-4480-a155-ac8796c0c471"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""CrouchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f95e166b-c200-4c2a-81b0-4bcd5687cda0"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc013bb5-b43c-4c1a-97b4-1b0e0f704ba9"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DoubleJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d98b36a7-2326-4bfb-87c7-4eb6fe102aa3"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9e600c3-0f12-4cad-a8a9-3cd6be8327e9"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""8e5c71b0-cd4b-46a0-a7a6-7c826d9e2a4b"",
+                    ""path"": ""2DVector(mode=1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""39f0e775-4d6e-4572-8f50-f66226fa3800"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""d4e95b02-bf15-40d4-81d5-d75a0d5d7027"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""811a0a13-00f0-4020-aab9-afff8a9f2424"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch;Keyboard&Mouse"",
+                    ""action"": ""AxeHeavyAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bcd036ce-4ad0-4521-8acf-cb60c587059d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""AxeLightAttack3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""227dd359-f9d2-4c2a-9a03-84f47a942b38"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AxeLightAttack3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bbebf523-2ceb-4ca1-9506-14bff60e445f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch;Keyboard&Mouse"",
+                    ""action"": ""AxeLightAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""ad32b71f-b0f8-41d4-bdab-6831ba4f8e3a"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AxeMediumAttack1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""8a5b8dfc-7ed2-4338-a22d-0a0af6c24300"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""AxeMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""30d6f9cd-055d-4e07-8ea6-709b2f9315ae"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""AxeMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""dd6d7363-5d83-49a4-be14-c32c0ca0de20"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AxeMediumAttack1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""f0d1e50f-8f82-47ba-8887-3b0dbd0d0bd8"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""AxeMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""a424c4b0-e96f-49e6-964f-9be31cd9273f"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""AxeMediumAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1a6bcc0-58d7-481a-9568-cad5e0c28848"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""AxeHeavyAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93f84f23-830a-43a9-b77e-197c0ef03154"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AxeHeavyAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e40f759-d8cb-4b66-999b-cf207c82a050"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""AxeLightAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""80475bd9-14db-4d3d-a5f2-0329260a7b2e"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""AxeMediumAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14324afb-d771-4c25-b5ff-6248ca0d5caf"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""ChangeStance"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ce05418-353c-4dc5-b7ad-ea1433de8094"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""ChangeStance"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1cc0fe48-f817-4a1a-a38c-b5c3b1bc6f18"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AxeLightAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3fb4d69f-1905-4597-b942-a20c04911012"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AxeLightAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1171,23 +2028,50 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         }
     ]
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_DoubleJump = m_Player.FindAction("DoubleJump", throwIfNotFound: true);
-        m_Player_ArrowKeysMovement = m_Player.FindAction("ArrowKeysMovement", throwIfNotFound: true);
-        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
-        m_Player_CrouchRoll = m_Player.FindAction("CrouchRoll", throwIfNotFound: true);
-        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
-        m_Player_LightAttack = m_Player.FindAction("LightAttack", throwIfNotFound: true);
-        m_Player_MediumAttack = m_Player.FindAction("MediumAttack", throwIfNotFound: true);
-        m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
-        m_Player_Parry = m_Player.FindAction("Parry", throwIfNotFound: true);
-        m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
-        m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        // PlayerSword
+        m_PlayerSword = asset.FindActionMap("PlayerSword", throwIfNotFound: true);
+        m_PlayerSword_Move = m_PlayerSword.FindAction("Move", throwIfNotFound: true);
+        m_PlayerSword_Jump = m_PlayerSword.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerSword_Dash = m_PlayerSword.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerSword_DoubleJump = m_PlayerSword.FindAction("DoubleJump", throwIfNotFound: true);
+        m_PlayerSword_ArrowKeysMovement = m_PlayerSword.FindAction("ArrowKeysMovement", throwIfNotFound: true);
+        m_PlayerSword_Crouch = m_PlayerSword.FindAction("Crouch", throwIfNotFound: true);
+        m_PlayerSword_CrouchRoll = m_PlayerSword.FindAction("CrouchRoll", throwIfNotFound: true);
+        m_PlayerSword_Slide = m_PlayerSword.FindAction("Slide", throwIfNotFound: true);
+        m_PlayerSword_SwordLightAttack1 = m_PlayerSword.FindAction("SwordLightAttack1", throwIfNotFound: true);
+        m_PlayerSword_SwordLightAttack2 = m_PlayerSword.FindAction("SwordLightAttack2", throwIfNotFound: true);
+        m_PlayerSword_SwordLightAttack3 = m_PlayerSword.FindAction("SwordLightAttack3", throwIfNotFound: true);
+        m_PlayerSword_SwordMediumAttack1 = m_PlayerSword.FindAction("SwordMediumAttack1", throwIfNotFound: true);
+        m_PlayerSword_SwordMediumAttack2 = m_PlayerSword.FindAction("SwordMediumAttack2", throwIfNotFound: true);
+        m_PlayerSword_SwordHeavyAttack1 = m_PlayerSword.FindAction("SwordHeavyAttack1", throwIfNotFound: true);
+        m_PlayerSword_SwordHeavyAttack2 = m_PlayerSword.FindAction("SwordHeavyAttack2", throwIfNotFound: true);
+        m_PlayerSword_Parry = m_PlayerSword.FindAction("Parry", throwIfNotFound: true);
+        m_PlayerSword_Block = m_PlayerSword.FindAction("Block", throwIfNotFound: true);
+        m_PlayerSword_PauseGame = m_PlayerSword.FindAction("PauseGame", throwIfNotFound: true);
+        m_PlayerSword_Interact = m_PlayerSword.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerSword_ChangeStance = m_PlayerSword.FindAction("ChangeStance", throwIfNotFound: true);
+        // PlayerAxe
+        m_PlayerAxe = asset.FindActionMap("PlayerAxe", throwIfNotFound: true);
+        m_PlayerAxe_Move = m_PlayerAxe.FindAction("Move", throwIfNotFound: true);
+        m_PlayerAxe_Jump = m_PlayerAxe.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerAxe_Dash = m_PlayerAxe.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerAxe_DoubleJump = m_PlayerAxe.FindAction("DoubleJump", throwIfNotFound: true);
+        m_PlayerAxe_ArrowKeysMovement = m_PlayerAxe.FindAction("ArrowKeysMovement", throwIfNotFound: true);
+        m_PlayerAxe_Crouch = m_PlayerAxe.FindAction("Crouch", throwIfNotFound: true);
+        m_PlayerAxe_CrouchRoll = m_PlayerAxe.FindAction("CrouchRoll", throwIfNotFound: true);
+        m_PlayerAxe_Slide = m_PlayerAxe.FindAction("Slide", throwIfNotFound: true);
+        m_PlayerAxe_AxeLightAttack1 = m_PlayerAxe.FindAction("AxeLightAttack1", throwIfNotFound: true);
+        m_PlayerAxe_AxeLightAttack2 = m_PlayerAxe.FindAction("AxeLightAttack2", throwIfNotFound: true);
+        m_PlayerAxe_AxeLightAttack3 = m_PlayerAxe.FindAction("AxeLightAttack3", throwIfNotFound: true);
+        m_PlayerAxe_AxeMediumAttack1 = m_PlayerAxe.FindAction("AxeMediumAttack1", throwIfNotFound: true);
+        m_PlayerAxe_AxeMediumAttack2 = m_PlayerAxe.FindAction("AxeMediumAttack2", throwIfNotFound: true);
+        m_PlayerAxe_AxeHeavyAttack1 = m_PlayerAxe.FindAction("AxeHeavyAttack1", throwIfNotFound: true);
+        m_PlayerAxe_AxeHeavyAttack2 = m_PlayerAxe.FindAction("AxeHeavyAttack2", throwIfNotFound: true);
+        m_PlayerAxe_Parry = m_PlayerAxe.FindAction("Parry", throwIfNotFound: true);
+        m_PlayerAxe_Block = m_PlayerAxe.FindAction("Block", throwIfNotFound: true);
+        m_PlayerAxe_PauseGame = m_PlayerAxe.FindAction("PauseGame", throwIfNotFound: true);
+        m_PlayerAxe_Interact = m_PlayerAxe.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerAxe_ChangeStance = m_PlayerAxe.FindAction("ChangeStance", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1247,99 +2131,124 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Dash;
-    private readonly InputAction m_Player_DoubleJump;
-    private readonly InputAction m_Player_ArrowKeysMovement;
-    private readonly InputAction m_Player_Crouch;
-    private readonly InputAction m_Player_CrouchRoll;
-    private readonly InputAction m_Player_Slide;
-    private readonly InputAction m_Player_LightAttack;
-    private readonly InputAction m_Player_MediumAttack;
-    private readonly InputAction m_Player_HeavyAttack;
-    private readonly InputAction m_Player_Parry;
-    private readonly InputAction m_Player_Block;
-    private readonly InputAction m_Player_PauseGame;
-    private readonly InputAction m_Player_Interact;
-    public struct PlayerActions
+    // PlayerSword
+    private readonly InputActionMap m_PlayerSword;
+    private IPlayerSwordActions m_PlayerSwordActionsCallbackInterface;
+    private readonly InputAction m_PlayerSword_Move;
+    private readonly InputAction m_PlayerSword_Jump;
+    private readonly InputAction m_PlayerSword_Dash;
+    private readonly InputAction m_PlayerSword_DoubleJump;
+    private readonly InputAction m_PlayerSword_ArrowKeysMovement;
+    private readonly InputAction m_PlayerSword_Crouch;
+    private readonly InputAction m_PlayerSword_CrouchRoll;
+    private readonly InputAction m_PlayerSword_Slide;
+    private readonly InputAction m_PlayerSword_SwordLightAttack1;
+    private readonly InputAction m_PlayerSword_SwordLightAttack2;
+    private readonly InputAction m_PlayerSword_SwordLightAttack3;
+    private readonly InputAction m_PlayerSword_SwordMediumAttack1;
+    private readonly InputAction m_PlayerSword_SwordMediumAttack2;
+    private readonly InputAction m_PlayerSword_SwordHeavyAttack1;
+    private readonly InputAction m_PlayerSword_SwordHeavyAttack2;
+    private readonly InputAction m_PlayerSword_Parry;
+    private readonly InputAction m_PlayerSword_Block;
+    private readonly InputAction m_PlayerSword_PauseGame;
+    private readonly InputAction m_PlayerSword_Interact;
+    private readonly InputAction m_PlayerSword_ChangeStance;
+    public struct PlayerSwordActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
-        public PlayerActions(@ApologuePlayerInput_Actions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Dash => m_Wrapper.m_Player_Dash;
-        public InputAction @DoubleJump => m_Wrapper.m_Player_DoubleJump;
-        public InputAction @ArrowKeysMovement => m_Wrapper.m_Player_ArrowKeysMovement;
-        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
-        public InputAction @CrouchRoll => m_Wrapper.m_Player_CrouchRoll;
-        public InputAction @Slide => m_Wrapper.m_Player_Slide;
-        public InputAction @LightAttack => m_Wrapper.m_Player_LightAttack;
-        public InputAction @MediumAttack => m_Wrapper.m_Player_MediumAttack;
-        public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
-        public InputAction @Parry => m_Wrapper.m_Player_Parry;
-        public InputAction @Block => m_Wrapper.m_Player_Block;
-        public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public PlayerSwordActions(@ApologuePlayerInput_Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_PlayerSword_Move;
+        public InputAction @Jump => m_Wrapper.m_PlayerSword_Jump;
+        public InputAction @Dash => m_Wrapper.m_PlayerSword_Dash;
+        public InputAction @DoubleJump => m_Wrapper.m_PlayerSword_DoubleJump;
+        public InputAction @ArrowKeysMovement => m_Wrapper.m_PlayerSword_ArrowKeysMovement;
+        public InputAction @Crouch => m_Wrapper.m_PlayerSword_Crouch;
+        public InputAction @CrouchRoll => m_Wrapper.m_PlayerSword_CrouchRoll;
+        public InputAction @Slide => m_Wrapper.m_PlayerSword_Slide;
+        public InputAction @SwordLightAttack1 => m_Wrapper.m_PlayerSword_SwordLightAttack1;
+        public InputAction @SwordLightAttack2 => m_Wrapper.m_PlayerSword_SwordLightAttack2;
+        public InputAction @SwordLightAttack3 => m_Wrapper.m_PlayerSword_SwordLightAttack3;
+        public InputAction @SwordMediumAttack1 => m_Wrapper.m_PlayerSword_SwordMediumAttack1;
+        public InputAction @SwordMediumAttack2 => m_Wrapper.m_PlayerSword_SwordMediumAttack2;
+        public InputAction @SwordHeavyAttack1 => m_Wrapper.m_PlayerSword_SwordHeavyAttack1;
+        public InputAction @SwordHeavyAttack2 => m_Wrapper.m_PlayerSword_SwordHeavyAttack2;
+        public InputAction @Parry => m_Wrapper.m_PlayerSword_Parry;
+        public InputAction @Block => m_Wrapper.m_PlayerSword_Block;
+        public InputAction @PauseGame => m_Wrapper.m_PlayerSword_PauseGame;
+        public InputAction @Interact => m_Wrapper.m_PlayerSword_Interact;
+        public InputAction @ChangeStance => m_Wrapper.m_PlayerSword_ChangeStance;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerSword; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void SetCallbacks(IPlayerActions instance)
+        public static implicit operator InputActionMap(PlayerSwordActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerSwordActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
+            if (m_Wrapper.m_PlayerSwordActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @DoubleJump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleJump;
-                @DoubleJump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleJump;
-                @DoubleJump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleJump;
-                @ArrowKeysMovement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
-                @ArrowKeysMovement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
-                @ArrowKeysMovement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnArrowKeysMovement;
-                @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
-                @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
-                @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
-                @CrouchRoll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchRoll;
-                @Slide.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
-                @Slide.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
-                @Slide.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
-                @LightAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
-                @LightAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
-                @LightAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack;
-                @MediumAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMediumAttack;
-                @MediumAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMediumAttack;
-                @MediumAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMediumAttack;
-                @HeavyAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
-                @HeavyAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
-                @HeavyAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack;
-                @Parry.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnParry;
-                @Parry.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnParry;
-                @Parry.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnParry;
-                @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
-                @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
-                @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
-                @PauseGame.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
-                @PauseGame.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
-                @PauseGame.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
-                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Move.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnMove;
+                @Jump.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnJump;
+                @Dash.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDash;
+                @DoubleJump.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDoubleJump;
+                @DoubleJump.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDoubleJump;
+                @DoubleJump.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDoubleJump;
+                @ArrowKeysMovement.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement;
+                @ArrowKeysMovement.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement;
+                @ArrowKeysMovement.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement;
+                @Crouch.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
+                @CrouchRoll.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouchRoll;
+                @CrouchRoll.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouchRoll;
+                @CrouchRoll.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouchRoll;
+                @Slide.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSlide;
+                @SwordLightAttack1.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack1;
+                @SwordLightAttack1.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack1;
+                @SwordLightAttack1.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack1;
+                @SwordLightAttack2.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack2;
+                @SwordLightAttack2.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack2;
+                @SwordLightAttack2.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack2;
+                @SwordLightAttack3.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack3;
+                @SwordLightAttack3.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack3;
+                @SwordLightAttack3.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordLightAttack3;
+                @SwordMediumAttack1.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordMediumAttack1;
+                @SwordMediumAttack1.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordMediumAttack1;
+                @SwordMediumAttack1.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordMediumAttack1;
+                @SwordMediumAttack2.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordMediumAttack2;
+                @SwordMediumAttack2.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordMediumAttack2;
+                @SwordMediumAttack2.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordMediumAttack2;
+                @SwordHeavyAttack1.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack1;
+                @SwordHeavyAttack1.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack1;
+                @SwordHeavyAttack1.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack1;
+                @SwordHeavyAttack2.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack2;
+                @SwordHeavyAttack2.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack2;
+                @SwordHeavyAttack2.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack2;
+                @Parry.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
+                @Parry.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
+                @Parry.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
+                @Block.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnBlock;
+                @PauseGame.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnPauseGame;
+                @Interact.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnInteract;
+                @ChangeStance.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
+                @ChangeStance.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
+                @ChangeStance.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
             }
-            m_Wrapper.m_PlayerActionsCallbackInterface = instance;
+            m_Wrapper.m_PlayerSwordActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
@@ -1366,15 +2275,27 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Slide.started += instance.OnSlide;
                 @Slide.performed += instance.OnSlide;
                 @Slide.canceled += instance.OnSlide;
-                @LightAttack.started += instance.OnLightAttack;
-                @LightAttack.performed += instance.OnLightAttack;
-                @LightAttack.canceled += instance.OnLightAttack;
-                @MediumAttack.started += instance.OnMediumAttack;
-                @MediumAttack.performed += instance.OnMediumAttack;
-                @MediumAttack.canceled += instance.OnMediumAttack;
-                @HeavyAttack.started += instance.OnHeavyAttack;
-                @HeavyAttack.performed += instance.OnHeavyAttack;
-                @HeavyAttack.canceled += instance.OnHeavyAttack;
+                @SwordLightAttack1.started += instance.OnSwordLightAttack1;
+                @SwordLightAttack1.performed += instance.OnSwordLightAttack1;
+                @SwordLightAttack1.canceled += instance.OnSwordLightAttack1;
+                @SwordLightAttack2.started += instance.OnSwordLightAttack2;
+                @SwordLightAttack2.performed += instance.OnSwordLightAttack2;
+                @SwordLightAttack2.canceled += instance.OnSwordLightAttack2;
+                @SwordLightAttack3.started += instance.OnSwordLightAttack3;
+                @SwordLightAttack3.performed += instance.OnSwordLightAttack3;
+                @SwordLightAttack3.canceled += instance.OnSwordLightAttack3;
+                @SwordMediumAttack1.started += instance.OnSwordMediumAttack1;
+                @SwordMediumAttack1.performed += instance.OnSwordMediumAttack1;
+                @SwordMediumAttack1.canceled += instance.OnSwordMediumAttack1;
+                @SwordMediumAttack2.started += instance.OnSwordMediumAttack2;
+                @SwordMediumAttack2.performed += instance.OnSwordMediumAttack2;
+                @SwordMediumAttack2.canceled += instance.OnSwordMediumAttack2;
+                @SwordHeavyAttack1.started += instance.OnSwordHeavyAttack1;
+                @SwordHeavyAttack1.performed += instance.OnSwordHeavyAttack1;
+                @SwordHeavyAttack1.canceled += instance.OnSwordHeavyAttack1;
+                @SwordHeavyAttack2.started += instance.OnSwordHeavyAttack2;
+                @SwordHeavyAttack2.performed += instance.OnSwordHeavyAttack2;
+                @SwordHeavyAttack2.canceled += instance.OnSwordHeavyAttack2;
                 @Parry.started += instance.OnParry;
                 @Parry.performed += instance.OnParry;
                 @Parry.canceled += instance.OnParry;
@@ -1387,10 +2308,198 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @ChangeStance.started += instance.OnChangeStance;
+                @ChangeStance.performed += instance.OnChangeStance;
+                @ChangeStance.canceled += instance.OnChangeStance;
             }
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public PlayerSwordActions @PlayerSword => new PlayerSwordActions(this);
+
+    // PlayerAxe
+    private readonly InputActionMap m_PlayerAxe;
+    private IPlayerAxeActions m_PlayerAxeActionsCallbackInterface;
+    private readonly InputAction m_PlayerAxe_Move;
+    private readonly InputAction m_PlayerAxe_Jump;
+    private readonly InputAction m_PlayerAxe_Dash;
+    private readonly InputAction m_PlayerAxe_DoubleJump;
+    private readonly InputAction m_PlayerAxe_ArrowKeysMovement;
+    private readonly InputAction m_PlayerAxe_Crouch;
+    private readonly InputAction m_PlayerAxe_CrouchRoll;
+    private readonly InputAction m_PlayerAxe_Slide;
+    private readonly InputAction m_PlayerAxe_AxeLightAttack1;
+    private readonly InputAction m_PlayerAxe_AxeLightAttack2;
+    private readonly InputAction m_PlayerAxe_AxeLightAttack3;
+    private readonly InputAction m_PlayerAxe_AxeMediumAttack1;
+    private readonly InputAction m_PlayerAxe_AxeMediumAttack2;
+    private readonly InputAction m_PlayerAxe_AxeHeavyAttack1;
+    private readonly InputAction m_PlayerAxe_AxeHeavyAttack2;
+    private readonly InputAction m_PlayerAxe_Parry;
+    private readonly InputAction m_PlayerAxe_Block;
+    private readonly InputAction m_PlayerAxe_PauseGame;
+    private readonly InputAction m_PlayerAxe_Interact;
+    private readonly InputAction m_PlayerAxe_ChangeStance;
+    public struct PlayerAxeActions
+    {
+        private @ApologuePlayerInput_Actions m_Wrapper;
+        public PlayerAxeActions(@ApologuePlayerInput_Actions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_PlayerAxe_Move;
+        public InputAction @Jump => m_Wrapper.m_PlayerAxe_Jump;
+        public InputAction @Dash => m_Wrapper.m_PlayerAxe_Dash;
+        public InputAction @DoubleJump => m_Wrapper.m_PlayerAxe_DoubleJump;
+        public InputAction @ArrowKeysMovement => m_Wrapper.m_PlayerAxe_ArrowKeysMovement;
+        public InputAction @Crouch => m_Wrapper.m_PlayerAxe_Crouch;
+        public InputAction @CrouchRoll => m_Wrapper.m_PlayerAxe_CrouchRoll;
+        public InputAction @Slide => m_Wrapper.m_PlayerAxe_Slide;
+        public InputAction @AxeLightAttack1 => m_Wrapper.m_PlayerAxe_AxeLightAttack1;
+        public InputAction @AxeLightAttack2 => m_Wrapper.m_PlayerAxe_AxeLightAttack2;
+        public InputAction @AxeLightAttack3 => m_Wrapper.m_PlayerAxe_AxeLightAttack3;
+        public InputAction @AxeMediumAttack1 => m_Wrapper.m_PlayerAxe_AxeMediumAttack1;
+        public InputAction @AxeMediumAttack2 => m_Wrapper.m_PlayerAxe_AxeMediumAttack2;
+        public InputAction @AxeHeavyAttack1 => m_Wrapper.m_PlayerAxe_AxeHeavyAttack1;
+        public InputAction @AxeHeavyAttack2 => m_Wrapper.m_PlayerAxe_AxeHeavyAttack2;
+        public InputAction @Parry => m_Wrapper.m_PlayerAxe_Parry;
+        public InputAction @Block => m_Wrapper.m_PlayerAxe_Block;
+        public InputAction @PauseGame => m_Wrapper.m_PlayerAxe_PauseGame;
+        public InputAction @Interact => m_Wrapper.m_PlayerAxe_Interact;
+        public InputAction @ChangeStance => m_Wrapper.m_PlayerAxe_ChangeStance;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerAxe; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerAxeActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerAxeActions instance)
+        {
+            if (m_Wrapper.m_PlayerAxeActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnMove;
+                @Jump.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnJump;
+                @Dash.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnDash;
+                @DoubleJump.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnDoubleJump;
+                @DoubleJump.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnDoubleJump;
+                @DoubleJump.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnDoubleJump;
+                @ArrowKeysMovement.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnArrowKeysMovement;
+                @ArrowKeysMovement.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnArrowKeysMovement;
+                @ArrowKeysMovement.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnArrowKeysMovement;
+                @Crouch.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouch;
+                @CrouchRoll.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouchRoll;
+                @CrouchRoll.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouchRoll;
+                @CrouchRoll.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouchRoll;
+                @Slide.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSlide;
+                @AxeLightAttack1.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack1;
+                @AxeLightAttack1.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack1;
+                @AxeLightAttack1.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack1;
+                @AxeLightAttack2.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack2;
+                @AxeLightAttack2.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack2;
+                @AxeLightAttack2.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack2;
+                @AxeLightAttack3.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack3;
+                @AxeLightAttack3.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack3;
+                @AxeLightAttack3.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeLightAttack3;
+                @AxeMediumAttack1.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeMediumAttack1;
+                @AxeMediumAttack1.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeMediumAttack1;
+                @AxeMediumAttack1.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeMediumAttack1;
+                @AxeMediumAttack2.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeMediumAttack2;
+                @AxeMediumAttack2.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeMediumAttack2;
+                @AxeMediumAttack2.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeMediumAttack2;
+                @AxeHeavyAttack1.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeHeavyAttack1;
+                @AxeHeavyAttack1.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeHeavyAttack1;
+                @AxeHeavyAttack1.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeHeavyAttack1;
+                @AxeHeavyAttack2.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeHeavyAttack2;
+                @AxeHeavyAttack2.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeHeavyAttack2;
+                @AxeHeavyAttack2.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnAxeHeavyAttack2;
+                @Parry.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnParry;
+                @Parry.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnParry;
+                @Parry.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnParry;
+                @Block.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnBlock;
+                @PauseGame.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnPauseGame;
+                @Interact.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnInteract;
+                @ChangeStance.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
+                @ChangeStance.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
+                @ChangeStance.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
+            }
+            m_Wrapper.m_PlayerAxeActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @DoubleJump.started += instance.OnDoubleJump;
+                @DoubleJump.performed += instance.OnDoubleJump;
+                @DoubleJump.canceled += instance.OnDoubleJump;
+                @ArrowKeysMovement.started += instance.OnArrowKeysMovement;
+                @ArrowKeysMovement.performed += instance.OnArrowKeysMovement;
+                @ArrowKeysMovement.canceled += instance.OnArrowKeysMovement;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @CrouchRoll.started += instance.OnCrouchRoll;
+                @CrouchRoll.performed += instance.OnCrouchRoll;
+                @CrouchRoll.canceled += instance.OnCrouchRoll;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
+                @AxeLightAttack1.started += instance.OnAxeLightAttack1;
+                @AxeLightAttack1.performed += instance.OnAxeLightAttack1;
+                @AxeLightAttack1.canceled += instance.OnAxeLightAttack1;
+                @AxeLightAttack2.started += instance.OnAxeLightAttack2;
+                @AxeLightAttack2.performed += instance.OnAxeLightAttack2;
+                @AxeLightAttack2.canceled += instance.OnAxeLightAttack2;
+                @AxeLightAttack3.started += instance.OnAxeLightAttack3;
+                @AxeLightAttack3.performed += instance.OnAxeLightAttack3;
+                @AxeLightAttack3.canceled += instance.OnAxeLightAttack3;
+                @AxeMediumAttack1.started += instance.OnAxeMediumAttack1;
+                @AxeMediumAttack1.performed += instance.OnAxeMediumAttack1;
+                @AxeMediumAttack1.canceled += instance.OnAxeMediumAttack1;
+                @AxeMediumAttack2.started += instance.OnAxeMediumAttack2;
+                @AxeMediumAttack2.performed += instance.OnAxeMediumAttack2;
+                @AxeMediumAttack2.canceled += instance.OnAxeMediumAttack2;
+                @AxeHeavyAttack1.started += instance.OnAxeHeavyAttack1;
+                @AxeHeavyAttack1.performed += instance.OnAxeHeavyAttack1;
+                @AxeHeavyAttack1.canceled += instance.OnAxeHeavyAttack1;
+                @AxeHeavyAttack2.started += instance.OnAxeHeavyAttack2;
+                @AxeHeavyAttack2.performed += instance.OnAxeHeavyAttack2;
+                @AxeHeavyAttack2.canceled += instance.OnAxeHeavyAttack2;
+                @Parry.started += instance.OnParry;
+                @Parry.performed += instance.OnParry;
+                @Parry.canceled += instance.OnParry;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+                @ChangeStance.started += instance.OnChangeStance;
+                @ChangeStance.performed += instance.OnChangeStance;
+                @ChangeStance.canceled += instance.OnChangeStance;
+            }
+        }
+    }
+    public PlayerAxeActions @PlayerAxe => new PlayerAxeActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -1549,7 +2658,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
             return asset.controlSchemes[m_XRSchemeIndex];
         }
     }
-    public interface IPlayerActions
+    public interface IPlayerSwordActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
@@ -1559,13 +2668,41 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnCrouchRoll(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
-        void OnLightAttack(InputAction.CallbackContext context);
-        void OnMediumAttack(InputAction.CallbackContext context);
-        void OnHeavyAttack(InputAction.CallbackContext context);
+        void OnSwordLightAttack1(InputAction.CallbackContext context);
+        void OnSwordLightAttack2(InputAction.CallbackContext context);
+        void OnSwordLightAttack3(InputAction.CallbackContext context);
+        void OnSwordMediumAttack1(InputAction.CallbackContext context);
+        void OnSwordMediumAttack2(InputAction.CallbackContext context);
+        void OnSwordHeavyAttack1(InputAction.CallbackContext context);
+        void OnSwordHeavyAttack2(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnChangeStance(InputAction.CallbackContext context);
+    }
+    public interface IPlayerAxeActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnDoubleJump(InputAction.CallbackContext context);
+        void OnArrowKeysMovement(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnCrouchRoll(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
+        void OnAxeLightAttack1(InputAction.CallbackContext context);
+        void OnAxeLightAttack2(InputAction.CallbackContext context);
+        void OnAxeLightAttack3(InputAction.CallbackContext context);
+        void OnAxeMediumAttack1(InputAction.CallbackContext context);
+        void OnAxeMediumAttack2(InputAction.CallbackContext context);
+        void OnAxeHeavyAttack1(InputAction.CallbackContext context);
+        void OnAxeHeavyAttack2(InputAction.CallbackContext context);
+        void OnParry(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnChangeStance(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
