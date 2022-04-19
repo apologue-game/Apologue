@@ -66,6 +66,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
             StartCoroutine(ShowHealthBar());
         }
     }
+
     public void FadeOutHealthBars()
     {
         healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);

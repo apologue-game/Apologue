@@ -10,20 +10,24 @@ public class PlayerControl : MonoBehaviour
 {
     //Helpers
     public TMP_Text currentStanceText;
-    string swordStance = "Sword stance";
-    string axeStance = "Axe stance";
+    readonly string swordStance = "Sword stance";
+    readonly string axeStance = "Axe stance";
     public GameObject shadow;
     public StaminaBar staminaBar;
     public float airHangForce;
     public float airHangTimer;
     public float airHangTimerLimit;
-    public float comboWindow;
+    public float comboWindow = 0.3f;
+    public float comboEnd;
+    public float currentTime;
+    public float help1;
+    public float help2;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
     public static PlayerInput playerInput;
     Rigidbody2D rigidBody2D;
-    Animator animator;
+    Animator animator;      
 
     //Particle and audio system
     public ParticleSystem movementAndJumpDust;
@@ -77,9 +81,10 @@ public class PlayerControl : MonoBehaviour
     //Falling
     bool falling = false;
 
-    //Dash
+    //Roll
     public float rollSpeedMultiplier = 2f;
     public float rollDuration;
+    public float rollEnd;
     float timeUntilNextRoll;
     bool rollDirectionIfStationary = true;
     public bool isRolling = false;
@@ -221,6 +226,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        currentTime = Time.time;
         AnimatorSwitchState(animationState);
         if (KarasuEntity.dead)
         {
@@ -471,6 +477,13 @@ public class PlayerControl : MonoBehaviour
             Flip();
             interactionTooltipSR.flipX = true;
         }
+        if (isRolling)
+        {
+            if (Time.time > rollEnd)
+            {
+                isRolling = false;
+            }
+        }
     }
 
     //Movement
@@ -547,7 +560,7 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
-        if (grounded && Time.time > timeUntilNextRoll && !isCrouching && callbackContext.performed)
+        if (grounded && Time.time > timeUntilNextRoll && !isCrouching && callbackContext.performed && attackState == AttackState.notAttacking)
         {
             if (inputX > 0)
             {
@@ -572,10 +585,11 @@ public class PlayerControl : MonoBehaviour
                     timeUntilNextRoll = Time.time + 1;
                 }
             }
-            //CreateDashParticleEffect();
             staminaBar.currentStamina -= 20;
             staminaBar.regenerationDelay = Time.time + 2;
-            StartCoroutine(IsRolling());
+            rollEnd = Time.time + rollDuration;
+            animationState = AnimationState.roll;
+            isRolling = true;
         }
     }
 
@@ -623,7 +637,6 @@ public class PlayerControl : MonoBehaviour
             isCrouching = true;
             slideDirection = inputX;
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2f, rigidBody2D.velocity.y);
-            //audioManager.PlaySound(SLIDESOUND);
             StartCoroutine(IsSliding());
         }
     }
@@ -635,14 +648,6 @@ public class PlayerControl : MonoBehaviour
         isSliding = false;
     }
 
-    
-    IEnumerator IsRolling()
-    {
-        animationState = AnimationState.roll;
-        isRolling = true;
-        yield return new WaitForSeconds(rollDuration);
-        isRolling = false;
-    }
 
     //Combat system
     public void OnSwordLightAttack(InputAction.CallbackContext callbackContext)
@@ -651,6 +656,8 @@ public class PlayerControl : MonoBehaviour
         {
             attackState = AttackState.lightAttackSword1;
             animationState = AnimationState.swordLight1;
+            help1++;
+            Debug.Log("attacking: " + help1);
         }
     }
 
@@ -942,24 +949,32 @@ public class PlayerControl : MonoBehaviour
 
     public void NotAttacking()
     {
+        help2++;
+        Debug.Log("not attacking: " + help2);
         if (mediumAttackSword2_Available || mediumAttackAxe2_Available || heavyAttackSword2_Available || heavyAttackAxe2_Available)
         {
-            StartCoroutine(ComboWindow());
+            comboEnd = Time.time + comboWindow;
+            Debug.Log("yes");
+            ComboWindow();
             return;
         }
         attackState = AttackState.notAttacking;
     }
 
-    IEnumerator ComboWindow()
+    void ComboWindow()
     {
-        yield return new WaitForSeconds(comboWindow);
+        if (Time.time <= comboWindow)
+        {
+            return;
+        }
         mediumAttackSword2_Available = false;
         mediumAttackAxe2_Available = false;
         heavyAttackSword2_Available = false;
         heavyAttackAxe2_Available = false;
+        
         if (attackState == AttackState.heavyAttackSword2 || attackState == AttackState.heavyAttackAxe2)
         {
-            yield return null;
+            return;
         }
         attackState = AttackState.notAttacking;
     }
@@ -986,10 +1001,10 @@ public class PlayerControl : MonoBehaviour
         parryColliderGO.SetActive(false);
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        /*Gizmos.DrawWireCube((Vector2)transform.position - slopeCheckOffset, a);*/
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.DrawWireCube((Vector2)transform.position - slopeCheckOffset, a);
+    //}
 
     void CreateDust()
     {
