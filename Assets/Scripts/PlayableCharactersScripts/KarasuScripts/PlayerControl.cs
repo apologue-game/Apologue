@@ -14,14 +14,9 @@ public class PlayerControl : MonoBehaviour
     readonly string axeStance = "Axe stance";
     public GameObject shadow;
     public StaminaBar staminaBar;
-    public float airHangForce;
-    public float airHangTimer;
-    public float airHangTimerLimit;
     public float comboWindow = 0.3f;
     public float comboEnd;
-    public float currentTime;
-    public float help1;
-    public float help2;
+    public float switchStanceCooldown = 0.5f;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -143,7 +138,7 @@ public class PlayerControl : MonoBehaviour
     public bool mediumAttackAxe2_Available = false;
     public bool heavyAttackAxe2_Available = false;
 
-    public float swordHeavyAttackJumpForce;
+    public float swordHeavyAttack1JumpForce;
 
     //Axe attacks
     public static bool axePickedUp = false; //Axe attacks only usable after finding the axe
@@ -189,7 +184,9 @@ public class PlayerControl : MonoBehaviour
         swordLight2,
         swordLight3,
         swordHeavy1,
-        swordHeavy2,
+        swordHeavy2Start,
+        swordHeavy2Fall,
+        swordHeavy2Landing,
         swordMedium1,
         swordMedium2,
         axeLight1,
@@ -226,7 +223,6 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        currentTime = Time.time;
         AnimatorSwitchState(animationState);
         if (KarasuEntity.dead)
         {
@@ -250,6 +246,11 @@ public class PlayerControl : MonoBehaviour
         else
         {
             grounded = false;
+        }
+
+        if (animationState == AnimationState.swordHeavy2Fall)
+        {
+            return;
         }
 
         if (grounded)
@@ -358,23 +359,23 @@ public class PlayerControl : MonoBehaviour
         }
         if (holdingJump)
         {
-            rigidBody2D.AddForce(Vector2.up * jumpForce * 2);
+            rigidBody2D.AddForce(jumpForce * 2 * Vector2.up);
         }
         if (verticalSpeed < -1)
         {
             holdingJump = false;
-            rigidBody2D.AddForce(Vector2.down * 25);
+            rigidBody2D.AddForce(25 * Vector2.down);
         }
         if (initiatePushBackCounter)
         {
             wallJumpPushBackCounter++;
             if (facingRight)
             {
-                rigidBody2D.AddForce(Vector2.left * wallJumpAdditionalForce);
+                rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.left);
             }
             else
             {
-                rigidBody2D.AddForce(Vector2.right * wallJumpAdditionalForce);
+                rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.right);
             }
             if (wallJumpPushBackCounter > 10)
             {
@@ -382,16 +383,16 @@ public class PlayerControl : MonoBehaviour
                 wallJumpPushBackCounter = 0;
             }
         }
-        if (heavyAttackSword2_Available && airHangTimer < airHangTimerLimit)
-        {
-            rigidBody2D.AddForce(Vector2.up * airHangForce);
-            airHangTimer++;
-        }
-        else
-        {
-            airHangTimer = 0;
-            heavyAttackSword2_Available = false;
-        }
+        //if (heavyAttackSword2_Available && airHangTimer < airHangTimerLimit)
+        //{
+        //    rigidBody2D.AddForce(Vector2.up * airHangForce);
+        //    airHangTimer++;
+        //}
+        //else
+        //{
+        //    airHangTimer = 0;
+        //    heavyAttackSword2_Available = false;
+        //}
     }
 
     private void Slopes()
@@ -482,6 +483,14 @@ public class PlayerControl : MonoBehaviour
             if (Time.time > rollEnd)
             {
                 isRolling = false;
+            }
+        }
+        if (animationState == AnimationState.swordHeavy2Fall)
+        {
+            if (grounded)
+            {
+                SwordHeavyAttack2Landing();
+                return;
             }
         }
     }
@@ -650,14 +659,12 @@ public class PlayerControl : MonoBehaviour
 
 
     //Combat system
-    public void OnSwordLightAttack(InputAction.CallbackContext callbackContext)
+    public void OnSwordLightAttack1(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackSword2_Available)
         {
             attackState = AttackState.lightAttackSword1;
             animationState = AnimationState.swordLight1;
-            help1++;
-            Debug.Log("attacking: " + help1);
         }
     }
 
@@ -711,7 +718,7 @@ public class PlayerControl : MonoBehaviour
 
     void SwordHeavyAttackJump()
     {
-        rigidBody2D.velocity = (Vector2.up * swordHeavyAttackJumpForce);
+        rigidBody2D.velocity = (Vector2.up * swordHeavyAttack1JumpForce);
     }
 
     public void OnSwordHeavyAttack2(InputAction.CallbackContext callbackContext)
@@ -719,9 +726,20 @@ public class PlayerControl : MonoBehaviour
         if (callbackContext.performed && heavyAttackSword2_Available)
         {
             attackState = AttackState.heavyAttackSword2;
-            animationState = AnimationState.swordHeavy2;
+            animationState = AnimationState.swordHeavy2Start;
             heavyAttackSword2_Available = false;
         }
+    }
+
+    void SwordHeavyAttack2Fall()
+    {
+        animationState = AnimationState.swordHeavy2Fall;
+    }
+
+    void SwordHeavyAttack2Landing()
+    {
+        animationState = AnimationState.swordHeavy2Landing;
+        NotAttacking();
     }
 
     public void OnAxeLightAttack1(InputAction.CallbackContext callbackContext)
@@ -771,40 +789,12 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public float heavyAttackAxe1JumpForce;
     public void OnAxeHeavyAttack1(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed  && attackState == AttackState.notAttacking && !heavyAttackAxe2_Available)
         {
             attackState = AttackState.heavyAttackAxe1;
             animationState = AnimationState.axeHeavy1;
-            rigidBody2D.velocity = new Vector2(0, heavyAttackAxe1JumpForce);
-            StartCoroutine(HeavyAttack1JumpOffset());
-        }
-    }
-
-    int jumpOffsetCounter = 0;
-    public float jumpOffsetForce;
-    IEnumerator HeavyAttack1JumpOffset()
-    {
-        if (facingRight)
-        {
-            rigidBody2D.AddForce(Vector2.left * jumpOffsetForce);
-        }
-        else
-        {
-            rigidBody2D.AddForce(Vector2.right * jumpOffsetForce);
-        }
-        yield return new WaitForSeconds(0.1f);
-        jumpOffsetCounter++;
-        if (jumpOffsetCounter >= 5)
-        {
-            StopCoroutine(HeavyAttack1JumpOffset());
-            jumpOffsetCounter = 0;
-        }
-        else
-        {
-            StartCoroutine(HeavyAttack1JumpOffset());
         }
     }
 
@@ -820,18 +810,19 @@ public class PlayerControl : MonoBehaviour
 
     public void ChangeStance(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed/*  && attackState == AttackState.notAttacking*/)
+        if (callbackContext.performed/*  && attackState == AttackState.notAttacking*/  && Time.time >= switchStanceCooldown)
         {
             if (swordOrAxeStance)
             {
                 playerInput.SwitchCurrentActionMap("PlayerAxe");
                 currentStanceText.text = axeStance;
             }
-            else
+            else if (!swordOrAxeStance)
             {
                 playerInput.SwitchCurrentActionMap("PlayerSword");
                 currentStanceText.text = swordStance;
             }
+            switchStanceCooldown = Time.time + 0.5f;
             swordOrAxeStance = !swordOrAxeStance;
         }
     }
@@ -949,12 +940,9 @@ public class PlayerControl : MonoBehaviour
 
     public void NotAttacking()
     {
-        help2++;
-        Debug.Log("not attacking: " + help2);
         if (mediumAttackSword2_Available || mediumAttackAxe2_Available || heavyAttackSword2_Available || heavyAttackAxe2_Available)
         {
             comboEnd = Time.time + comboWindow;
-            Debug.Log("yes");
             ComboWindow();
             return;
         }

@@ -54,14 +54,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "CrouchRoll",
-                    "type": "Button",
-                    "id": "f7e2dc46-d2ab-40b8-9ba8-f657c9a8ee49",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Slide",
                     "type": "Button",
                     "id": "9d964a69-039b-4573-a7b4-2660749e1bbb",
@@ -132,14 +124,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Tap"
-                },
-                {
-                    "name": "Block",
-                    "type": "Button",
-                    "id": "5f68c7aa-ed77-4242-9fda-80ba8bb474cd",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=0.2)"
                 },
                 {
                     "name": "PauseGame",
@@ -356,28 +340,6 @@
                 },
                 {
                     "name": "",
-                    "id": "e9ffb277-e418-4137-9a67-5ff50fabb53d",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Block",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "af110233-9008-4f1d-bcfc-d051b15e44a0",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CrouchRoll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c1585635-7e85-4449-ad6a-50c85bfa0c41",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -411,17 +373,6 @@
                 },
                 {
                     "name": "",
-                    "id": "c4c66701-0b2b-4095-b228-5b7c9c60b2a2",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "Hold(duration=0.2)",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Block",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "51368483-62da-4237-9bd8-df172445961d",
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "Tap",
@@ -439,17 +390,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "SwordLightAttack1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0473faa7-fd72-4433-b234-ea779f1bb884",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "CrouchRoll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -533,7 +473,7 @@
                 {
                     "name": "",
                     "id": "5de8491d-6776-4371-9f0c-1bcefdea17e3",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch;Keyboard&Mouse",
@@ -761,14 +701,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "CrouchRoll",
-                    "type": "Button",
-                    "id": "ea28557a-c9d8-45c8-8484-5697f26b0f2f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Slide",
                     "type": "Button",
                     "id": "749a0acc-7c73-4e2f-8e3d-3633fe745298",
@@ -839,14 +771,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Tap"
-                },
-                {
-                    "name": "Block",
-                    "type": "Button",
-                    "id": "f8fec13e-0a88-46c3-a839-bb4a95e5e043",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold(duration=0.2)"
                 },
                 {
                     "name": "PauseGame",
@@ -1052,28 +976,6 @@
                 },
                 {
                     "name": "",
-                    "id": "36602cbd-9043-4bc4-bac6-5273fb468df7",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Block",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d301ed54-f1e3-4360-b09b-1bdedc5af796",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CrouchRoll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ba910931-da5e-4048-a140-375fd15aed9c",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -1107,34 +1009,12 @@
                 },
                 {
                     "name": "",
-                    "id": "381c5e18-3305-4a1e-958d-09254687c02d",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "Hold(duration=0.2)",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Block",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e6e7383f-159f-484b-8d1e-b155ce1d23e2",
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "Tap",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Parry",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4b23a77a-b34a-4480-a155-ac8796c0c471",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "CrouchRoll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1229,7 +1109,7 @@
                 {
                     "name": "",
                     "id": "bcd036ce-4ad0-4521-8acf-cb60c587059d",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Touch",

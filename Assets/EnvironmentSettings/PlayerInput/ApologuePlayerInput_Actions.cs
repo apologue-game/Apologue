@@ -67,14 +67,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""CrouchRoll"",
-                    ""type"": ""Button"",
-                    ""id"": ""f7e2dc46-d2ab-40b8-9ba8-f657c9a8ee49"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Slide"",
                     ""type"": ""Button"",
                     ""id"": ""9d964a69-039b-4573-a7b4-2660749e1bbb"",
@@ -145,14 +137,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Tap""
-                },
-                {
-                    ""name"": ""Block"",
-                    ""type"": ""Button"",
-                    ""id"": ""5f68c7aa-ed77-4242-9fda-80ba8bb474cd"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.2)""
                 },
                 {
                     ""name"": ""PauseGame"",
@@ -369,28 +353,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e9ffb277-e418-4137-9a67-5ff50fabb53d"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Block"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""af110233-9008-4f1d-bcfc-d051b15e44a0"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CrouchRoll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c1585635-7e85-4449-ad6a-50c85bfa0c41"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -424,17 +386,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c4c66701-0b2b-4095-b228-5b7c9c60b2a2"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": ""Hold(duration=0.2)"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Block"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""51368483-62da-4237-9bd8-df172445961d"",
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": ""Tap"",
@@ -452,17 +403,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""SwordLightAttack1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0473faa7-fd72-4433-b234-ea779f1bb884"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CrouchRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -546,7 +486,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5de8491d-6776-4371-9f0c-1bcefdea17e3"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch;Keyboard&Mouse"",
@@ -774,14 +714,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""CrouchRoll"",
-                    ""type"": ""Button"",
-                    ""id"": ""ea28557a-c9d8-45c8-8484-5697f26b0f2f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""Slide"",
                     ""type"": ""Button"",
                     ""id"": ""749a0acc-7c73-4e2f-8e3d-3633fe745298"",
@@ -852,14 +784,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Tap""
-                },
-                {
-                    ""name"": ""Block"",
-                    ""type"": ""Button"",
-                    ""id"": ""f8fec13e-0a88-46c3-a839-bb4a95e5e043"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.2)""
                 },
                 {
                     ""name"": ""PauseGame"",
@@ -1065,28 +989,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""36602cbd-9043-4bc4-bac6-5273fb468df7"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Block"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d301ed54-f1e3-4360-b09b-1bdedc5af796"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CrouchRoll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""ba910931-da5e-4048-a140-375fd15aed9c"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -1120,34 +1022,12 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""381c5e18-3305-4a1e-958d-09254687c02d"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": ""Hold(duration=0.2)"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Block"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""e6e7383f-159f-484b-8d1e-b155ce1d23e2"",
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Parry"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4b23a77a-b34a-4480-a155-ac8796c0c471"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CrouchRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1242,7 +1122,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bcd036ce-4ad0-4521-8acf-cb60c587059d"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -2036,7 +1916,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerSword_DoubleJump = m_PlayerSword.FindAction("DoubleJump", throwIfNotFound: true);
         m_PlayerSword_ArrowKeysMovement = m_PlayerSword.FindAction("ArrowKeysMovement", throwIfNotFound: true);
         m_PlayerSword_Crouch = m_PlayerSword.FindAction("Crouch", throwIfNotFound: true);
-        m_PlayerSword_CrouchRoll = m_PlayerSword.FindAction("CrouchRoll", throwIfNotFound: true);
         m_PlayerSword_Slide = m_PlayerSword.FindAction("Slide", throwIfNotFound: true);
         m_PlayerSword_SwordLightAttack1 = m_PlayerSword.FindAction("SwordLightAttack1", throwIfNotFound: true);
         m_PlayerSword_SwordLightAttack2 = m_PlayerSword.FindAction("SwordLightAttack2", throwIfNotFound: true);
@@ -2046,7 +1925,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerSword_SwordHeavyAttack1 = m_PlayerSword.FindAction("SwordHeavyAttack1", throwIfNotFound: true);
         m_PlayerSword_SwordHeavyAttack2 = m_PlayerSword.FindAction("SwordHeavyAttack2", throwIfNotFound: true);
         m_PlayerSword_Parry = m_PlayerSword.FindAction("Parry", throwIfNotFound: true);
-        m_PlayerSword_Block = m_PlayerSword.FindAction("Block", throwIfNotFound: true);
         m_PlayerSword_PauseGame = m_PlayerSword.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerSword_Interact = m_PlayerSword.FindAction("Interact", throwIfNotFound: true);
         m_PlayerSword_ChangeStance = m_PlayerSword.FindAction("ChangeStance", throwIfNotFound: true);
@@ -2058,7 +1936,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerAxe_DoubleJump = m_PlayerAxe.FindAction("DoubleJump", throwIfNotFound: true);
         m_PlayerAxe_ArrowKeysMovement = m_PlayerAxe.FindAction("ArrowKeysMovement", throwIfNotFound: true);
         m_PlayerAxe_Crouch = m_PlayerAxe.FindAction("Crouch", throwIfNotFound: true);
-        m_PlayerAxe_CrouchRoll = m_PlayerAxe.FindAction("CrouchRoll", throwIfNotFound: true);
         m_PlayerAxe_Slide = m_PlayerAxe.FindAction("Slide", throwIfNotFound: true);
         m_PlayerAxe_AxeLightAttack1 = m_PlayerAxe.FindAction("AxeLightAttack1", throwIfNotFound: true);
         m_PlayerAxe_AxeLightAttack2 = m_PlayerAxe.FindAction("AxeLightAttack2", throwIfNotFound: true);
@@ -2068,7 +1945,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerAxe_AxeHeavyAttack1 = m_PlayerAxe.FindAction("AxeHeavyAttack1", throwIfNotFound: true);
         m_PlayerAxe_AxeHeavyAttack2 = m_PlayerAxe.FindAction("AxeHeavyAttack2", throwIfNotFound: true);
         m_PlayerAxe_Parry = m_PlayerAxe.FindAction("Parry", throwIfNotFound: true);
-        m_PlayerAxe_Block = m_PlayerAxe.FindAction("Block", throwIfNotFound: true);
         m_PlayerAxe_PauseGame = m_PlayerAxe.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerAxe_Interact = m_PlayerAxe.FindAction("Interact", throwIfNotFound: true);
         m_PlayerAxe_ChangeStance = m_PlayerAxe.FindAction("ChangeStance", throwIfNotFound: true);
@@ -2140,7 +2016,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerSword_DoubleJump;
     private readonly InputAction m_PlayerSword_ArrowKeysMovement;
     private readonly InputAction m_PlayerSword_Crouch;
-    private readonly InputAction m_PlayerSword_CrouchRoll;
     private readonly InputAction m_PlayerSword_Slide;
     private readonly InputAction m_PlayerSword_SwordLightAttack1;
     private readonly InputAction m_PlayerSword_SwordLightAttack2;
@@ -2150,7 +2025,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerSword_SwordHeavyAttack1;
     private readonly InputAction m_PlayerSword_SwordHeavyAttack2;
     private readonly InputAction m_PlayerSword_Parry;
-    private readonly InputAction m_PlayerSword_Block;
     private readonly InputAction m_PlayerSword_PauseGame;
     private readonly InputAction m_PlayerSword_Interact;
     private readonly InputAction m_PlayerSword_ChangeStance;
@@ -2164,7 +2038,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @DoubleJump => m_Wrapper.m_PlayerSword_DoubleJump;
         public InputAction @ArrowKeysMovement => m_Wrapper.m_PlayerSword_ArrowKeysMovement;
         public InputAction @Crouch => m_Wrapper.m_PlayerSword_Crouch;
-        public InputAction @CrouchRoll => m_Wrapper.m_PlayerSword_CrouchRoll;
         public InputAction @Slide => m_Wrapper.m_PlayerSword_Slide;
         public InputAction @SwordLightAttack1 => m_Wrapper.m_PlayerSword_SwordLightAttack1;
         public InputAction @SwordLightAttack2 => m_Wrapper.m_PlayerSword_SwordLightAttack2;
@@ -2174,7 +2047,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @SwordHeavyAttack1 => m_Wrapper.m_PlayerSword_SwordHeavyAttack1;
         public InputAction @SwordHeavyAttack2 => m_Wrapper.m_PlayerSword_SwordHeavyAttack2;
         public InputAction @Parry => m_Wrapper.m_PlayerSword_Parry;
-        public InputAction @Block => m_Wrapper.m_PlayerSword_Block;
         public InputAction @PauseGame => m_Wrapper.m_PlayerSword_PauseGame;
         public InputAction @Interact => m_Wrapper.m_PlayerSword_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerSword_ChangeStance;
@@ -2205,9 +2077,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Crouch.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
-                @CrouchRoll.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouchRoll;
                 @Slide.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSlide;
                 @Slide.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSlide;
                 @Slide.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSlide;
@@ -2235,9 +2104,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Parry.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
                 @Parry.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
                 @Parry.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
-                @Block.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnBlock;
-                @Block.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnBlock;
-                @Block.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnBlock;
                 @PauseGame.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnPauseGame;
                 @PauseGame.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnPauseGame;
                 @PauseGame.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnPauseGame;
@@ -2269,9 +2135,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
-                @CrouchRoll.started += instance.OnCrouchRoll;
-                @CrouchRoll.performed += instance.OnCrouchRoll;
-                @CrouchRoll.canceled += instance.OnCrouchRoll;
                 @Slide.started += instance.OnSlide;
                 @Slide.performed += instance.OnSlide;
                 @Slide.canceled += instance.OnSlide;
@@ -2299,9 +2162,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Parry.started += instance.OnParry;
                 @Parry.performed += instance.OnParry;
                 @Parry.canceled += instance.OnParry;
-                @Block.started += instance.OnBlock;
-                @Block.performed += instance.OnBlock;
-                @Block.canceled += instance.OnBlock;
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
@@ -2325,7 +2185,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerAxe_DoubleJump;
     private readonly InputAction m_PlayerAxe_ArrowKeysMovement;
     private readonly InputAction m_PlayerAxe_Crouch;
-    private readonly InputAction m_PlayerAxe_CrouchRoll;
     private readonly InputAction m_PlayerAxe_Slide;
     private readonly InputAction m_PlayerAxe_AxeLightAttack1;
     private readonly InputAction m_PlayerAxe_AxeLightAttack2;
@@ -2335,7 +2194,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerAxe_AxeHeavyAttack1;
     private readonly InputAction m_PlayerAxe_AxeHeavyAttack2;
     private readonly InputAction m_PlayerAxe_Parry;
-    private readonly InputAction m_PlayerAxe_Block;
     private readonly InputAction m_PlayerAxe_PauseGame;
     private readonly InputAction m_PlayerAxe_Interact;
     private readonly InputAction m_PlayerAxe_ChangeStance;
@@ -2349,7 +2207,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @DoubleJump => m_Wrapper.m_PlayerAxe_DoubleJump;
         public InputAction @ArrowKeysMovement => m_Wrapper.m_PlayerAxe_ArrowKeysMovement;
         public InputAction @Crouch => m_Wrapper.m_PlayerAxe_Crouch;
-        public InputAction @CrouchRoll => m_Wrapper.m_PlayerAxe_CrouchRoll;
         public InputAction @Slide => m_Wrapper.m_PlayerAxe_Slide;
         public InputAction @AxeLightAttack1 => m_Wrapper.m_PlayerAxe_AxeLightAttack1;
         public InputAction @AxeLightAttack2 => m_Wrapper.m_PlayerAxe_AxeLightAttack2;
@@ -2359,7 +2216,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @AxeHeavyAttack1 => m_Wrapper.m_PlayerAxe_AxeHeavyAttack1;
         public InputAction @AxeHeavyAttack2 => m_Wrapper.m_PlayerAxe_AxeHeavyAttack2;
         public InputAction @Parry => m_Wrapper.m_PlayerAxe_Parry;
-        public InputAction @Block => m_Wrapper.m_PlayerAxe_Block;
         public InputAction @PauseGame => m_Wrapper.m_PlayerAxe_PauseGame;
         public InputAction @Interact => m_Wrapper.m_PlayerAxe_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerAxe_ChangeStance;
@@ -2390,9 +2246,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Crouch.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouch;
-                @CrouchRoll.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouchRoll;
-                @CrouchRoll.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnCrouchRoll;
                 @Slide.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSlide;
                 @Slide.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSlide;
                 @Slide.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSlide;
@@ -2420,9 +2273,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Parry.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnParry;
                 @Parry.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnParry;
                 @Parry.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnParry;
-                @Block.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnBlock;
-                @Block.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnBlock;
-                @Block.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnBlock;
                 @PauseGame.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnPauseGame;
                 @PauseGame.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnPauseGame;
                 @PauseGame.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnPauseGame;
@@ -2454,9 +2304,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
-                @CrouchRoll.started += instance.OnCrouchRoll;
-                @CrouchRoll.performed += instance.OnCrouchRoll;
-                @CrouchRoll.canceled += instance.OnCrouchRoll;
                 @Slide.started += instance.OnSlide;
                 @Slide.performed += instance.OnSlide;
                 @Slide.canceled += instance.OnSlide;
@@ -2484,9 +2331,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @Parry.started += instance.OnParry;
                 @Parry.performed += instance.OnParry;
                 @Parry.canceled += instance.OnParry;
-                @Block.started += instance.OnBlock;
-                @Block.performed += instance.OnBlock;
-                @Block.canceled += instance.OnBlock;
                 @PauseGame.started += instance.OnPauseGame;
                 @PauseGame.performed += instance.OnPauseGame;
                 @PauseGame.canceled += instance.OnPauseGame;
@@ -2666,7 +2510,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnDoubleJump(InputAction.CallbackContext context);
         void OnArrowKeysMovement(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
-        void OnCrouchRoll(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnSwordLightAttack1(InputAction.CallbackContext context);
         void OnSwordLightAttack2(InputAction.CallbackContext context);
@@ -2676,7 +2519,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnSwordHeavyAttack1(InputAction.CallbackContext context);
         void OnSwordHeavyAttack2(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
-        void OnBlock(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
@@ -2689,7 +2531,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnDoubleJump(InputAction.CallbackContext context);
         void OnArrowKeysMovement(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
-        void OnCrouchRoll(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnAxeLightAttack1(InputAction.CallbackContext context);
         void OnAxeLightAttack2(InputAction.CallbackContext context);
@@ -2699,7 +2540,6 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnAxeHeavyAttack1(InputAction.CallbackContext context);
         void OnAxeHeavyAttack2(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
-        void OnBlock(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
