@@ -161,6 +161,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SpawnBox"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6eb7056-ec67-43e7-b642-f5d522736d20"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -495,37 +503,26 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Button With One Modifier"",
-                    ""id"": ""61cc1ab8-acea-496a-8cc9-6432d02b4db9"",
-                    ""path"": ""ButtonWithOneModifier"",
+                    ""name"": """",
+                    ""id"": ""3414c92e-b3ff-44dd-8ea3-d016bc297c0a"",
+                    ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwordMediumAttack1"",
-                    ""isComposite"": true,
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""SwordLightAttack3"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""modifier"",
-                    ""id"": ""a6a3dcae-5bf8-4a50-869c-23f381f7b77f"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""name"": """",
+                    ""id"": ""1bbf7b43-b02e-46e3-910d-2336e01d37d2"",
+                    ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
                     ""action"": ""SwordMediumAttack1"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""button"",
-                    ""id"": ""f2cfe943-4bcd-4903-8a0d-169cf9042b1d"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Touch;Keyboard&Mouse"",
-                    ""action"": ""SwordMediumAttack1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Button With One Modifier"",
@@ -656,6 +653,28 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
                     ""action"": ""SwordMediumAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81e9aeec-0375-43b4-a8d0-6ea92dde15c8"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""SwordMediumAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""257a4f3f-9cc0-4ee7-9063-ddb927369d62"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad;Joystick;Touch"",
+                    ""action"": ""SpawnBox"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -805,6 +824,14 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""name"": ""ChangeStance"",
                     ""type"": ""Button"",
                     ""id"": ""5f108d97-9aeb-4e3e-a36c-ac43af9d5095"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SpawnBox"",
+                    ""type"": ""Button"",
+                    ""id"": ""1fb5b9a2-f76c-4dfe-bf0d-be4a87f7a701"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -1121,6 +1148,17 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""e257af42-6698-4458-bbaf-f989fc8b47d4"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""AxeHeavyAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""bcd036ce-4ad0-4521-8acf-cb60c587059d"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
@@ -1133,10 +1171,10 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""227dd359-f9d2-4c2a-9a03-84f47a942b38"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""AxeLightAttack3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1153,37 +1191,15 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Button With One Modifier"",
-                    ""id"": ""ad32b71f-b0f8-41d4-bdab-6831ba4f8e3a"",
-                    ""path"": ""ButtonWithOneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AxeMediumAttack1"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""8a5b8dfc-7ed2-4338-a22d-0a0af6c24300"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""AxeMediumAttack1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""button"",
-                    ""id"": ""30d6f9cd-055d-4e07-8ea6-709b2f9315ae"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""name"": """",
+                    ""id"": ""3fadd814-e133-4702-b8c7-6b2c012a81e1"",
+                    ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
                     ""action"": ""AxeMediumAttack1"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Button With One Modifier"",
@@ -1210,7 +1226,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""button"",
                     ""id"": ""a424c4b0-e96f-49e6-964f-9be31cd9273f"",
-                    ""path"": ""<XInputController>/buttonWest"",
+                    ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -1235,7 +1251,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""AxeHeavyAttack1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1258,6 +1274,17 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
+                    ""action"": ""AxeMediumAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3f2c7fd-7ccc-4351-af7b-0ccccc3fd68c"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""AxeMediumAttack2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1303,6 +1330,17 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""AxeLightAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cda3c51-4667-4de6-b501-c14817b1fd35"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad;Joystick;Touch"",
+                    ""action"": ""SpawnBox"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1928,6 +1966,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerSword_PauseGame = m_PlayerSword.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerSword_Interact = m_PlayerSword.FindAction("Interact", throwIfNotFound: true);
         m_PlayerSword_ChangeStance = m_PlayerSword.FindAction("ChangeStance", throwIfNotFound: true);
+        m_PlayerSword_SpawnBox = m_PlayerSword.FindAction("SpawnBox", throwIfNotFound: true);
         // PlayerAxe
         m_PlayerAxe = asset.FindActionMap("PlayerAxe", throwIfNotFound: true);
         m_PlayerAxe_Move = m_PlayerAxe.FindAction("Move", throwIfNotFound: true);
@@ -1948,6 +1987,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         m_PlayerAxe_PauseGame = m_PlayerAxe.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerAxe_Interact = m_PlayerAxe.FindAction("Interact", throwIfNotFound: true);
         m_PlayerAxe_ChangeStance = m_PlayerAxe.FindAction("ChangeStance", throwIfNotFound: true);
+        m_PlayerAxe_SpawnBox = m_PlayerAxe.FindAction("SpawnBox", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -2028,6 +2068,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerSword_PauseGame;
     private readonly InputAction m_PlayerSword_Interact;
     private readonly InputAction m_PlayerSword_ChangeStance;
+    private readonly InputAction m_PlayerSword_SpawnBox;
     public struct PlayerSwordActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -2050,6 +2091,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @PauseGame => m_Wrapper.m_PlayerSword_PauseGame;
         public InputAction @Interact => m_Wrapper.m_PlayerSword_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerSword_ChangeStance;
+        public InputAction @SpawnBox => m_Wrapper.m_PlayerSword_SpawnBox;
         public InputActionMap Get() { return m_Wrapper.m_PlayerSword; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2113,6 +2155,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @ChangeStance.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
+                @SpawnBox.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
+                @SpawnBox.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
+                @SpawnBox.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
             }
             m_Wrapper.m_PlayerSwordActionsCallbackInterface = instance;
             if (instance != null)
@@ -2171,6 +2216,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @ChangeStance.started += instance.OnChangeStance;
                 @ChangeStance.performed += instance.OnChangeStance;
                 @ChangeStance.canceled += instance.OnChangeStance;
+                @SpawnBox.started += instance.OnSpawnBox;
+                @SpawnBox.performed += instance.OnSpawnBox;
+                @SpawnBox.canceled += instance.OnSpawnBox;
             }
         }
     }
@@ -2197,6 +2245,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerAxe_PauseGame;
     private readonly InputAction m_PlayerAxe_Interact;
     private readonly InputAction m_PlayerAxe_ChangeStance;
+    private readonly InputAction m_PlayerAxe_SpawnBox;
     public struct PlayerAxeActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -2219,6 +2268,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         public InputAction @PauseGame => m_Wrapper.m_PlayerAxe_PauseGame;
         public InputAction @Interact => m_Wrapper.m_PlayerAxe_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerAxe_ChangeStance;
+        public InputAction @SpawnBox => m_Wrapper.m_PlayerAxe_SpawnBox;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAxe; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2282,6 +2332,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @ChangeStance.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
+                @SpawnBox.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSpawnBox;
+                @SpawnBox.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSpawnBox;
+                @SpawnBox.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSpawnBox;
             }
             m_Wrapper.m_PlayerAxeActionsCallbackInterface = instance;
             if (instance != null)
@@ -2340,6 +2393,9 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
                 @ChangeStance.started += instance.OnChangeStance;
                 @ChangeStance.performed += instance.OnChangeStance;
                 @ChangeStance.canceled += instance.OnChangeStance;
+                @SpawnBox.started += instance.OnSpawnBox;
+                @SpawnBox.performed += instance.OnSpawnBox;
+                @SpawnBox.canceled += instance.OnSpawnBox;
             }
         }
     }
@@ -2522,6 +2578,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
+        void OnSpawnBox(InputAction.CallbackContext context);
     }
     public interface IPlayerAxeActions
     {
@@ -2543,6 +2600,7 @@ public class @ApologuePlayerInput_Actions : IInputActionCollection, IDisposable
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
+        void OnSpawnBox(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

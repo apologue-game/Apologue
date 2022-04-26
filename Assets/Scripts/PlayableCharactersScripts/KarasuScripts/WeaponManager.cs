@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    const float swordLight1Damage =  1;
+    const float swordLight1Damage =  4;
     const float swordLight2Damage = 2;
-    const float swordLight3Damage = 3;
+    const float swordLight3Damage = 2;
     const float swordHeavy1Damage = 2;
     const float swordHeavy2Damage = 3.5f;
     const float swordMedium1Damage = 1.3f;
@@ -68,27 +68,31 @@ public class WeaponManager : MonoBehaviour
             }
             else if (playerControl.attackState == PlayerControl.AttackState.lightAttackAxe2)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeLight2Damage, false);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.lightAttackAxe3)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeLight3Damage, false);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.heavyAttackAxe1)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeHeavy1Damage, false);
+                playerControl.heavyAttackAxe2_Available = true;
+                StartCoroutine(ComboCountdown());
             }
             else if (playerControl.attackState == PlayerControl.AttackState.heavyAttackAxe2)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeHeavy2Damage, false);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.mediumAttackAxe1)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeMedium1Damage, false);
+                playerControl.mediumAttackAxe2_Available = true;
+                StartCoroutine(ComboCountdown());
             }
             else if (playerControl.attackState == PlayerControl.AttackState.mediumAttackAxe2)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeMedium2Damage, false);
             }
         }
     }

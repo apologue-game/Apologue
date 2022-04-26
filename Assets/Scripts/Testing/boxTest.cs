@@ -17,17 +17,28 @@ public class boxTest : MonoBehaviour, IEnemy
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
 
+    public HealthBar healthBar;
+    public Image healthBarFill;
+    public Image healthBarBorder;
+    public GameObject healthBarFillGO;
+    public GameObject healthBarBorderGO;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 500;
+        maxHealth = 50;
         enemyType = IEnemy.EnemyType.normal;
     }
 
     void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaximumHealth(maxHealth);
+
+        healthBarFill.canvasRenderer.SetAlpha(0f);
+        healthBarBorder.canvasRenderer.SetAlpha(0f);
+        ShowHealthBar();
     }
 
     public void TakeDamage(float damage, bool? specialInteraction)
@@ -36,21 +47,22 @@ public class boxTest : MonoBehaviour, IEnemy
         {
             return;
         }
-        if (BlockCollider.blockedOrParried)
-        {
-            Debug.Log("Soldier blocked an attack!!");
-            return;
-        }
         else
         {
             currentHealth -= damage;
             if (currentHealth <= 0)
             {
-                return;
+                currentHealth = maxHealth;
             }
+            healthBar.SetHealth(currentHealth);
         }
     }
 
+    void ShowHealthBar()
+    {
+        healthBarFill.canvasRenderer.SetAlpha(1f);
+        healthBarBorder.canvasRenderer.SetAlpha(1f);
+    }
 
     public IEnumerator Death()
     {

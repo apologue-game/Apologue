@@ -17,6 +17,10 @@ public class PlayerControl : MonoBehaviour
     public float comboWindow = 0.3f;
     public float comboEnd;
     public float switchStanceCooldown = 0.5f;
+    public GameObject BoxPrefab;
+
+    public float inputXHelp;
+    public float movementSpeedHelp;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -223,6 +227,8 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        inputXHelp = inputX;
+        movementSpeedHelp = movementSpeed;
         AnimatorSwitchState(animationState);
         if (KarasuEntity.dead)
         {
@@ -692,9 +698,15 @@ public class PlayerControl : MonoBehaviour
         {
             attackState = AttackState.mediumAttackSword1;
             animationState = AnimationState.swordMedium1;
-            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2.15f, rigidBody2D.velocity.y);
         }
-    } 
+    }
+    
+    void SwordMediumAttackDash()
+    {
+        rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2.15f, rigidBody2D.velocity.y);
+        Debug.Log(rigidBody2D.velocity.x);
+        Debug.Log(inputX * movementSpeed * 2.15f);
+    }
     
     public void OnSwordMediumAttack2(InputAction.CallbackContext callbackContext)
     {
@@ -744,7 +756,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        if (callbackContext.performed && attackState == AttackState.notAttacking)
         {
             attackState = AttackState.lightAttackAxe1;
             animationState = AnimationState.axeLight1;
@@ -753,7 +765,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        if (callbackContext.performed && attackState == AttackState.notAttacking)
         {
             attackState = AttackState.lightAttackAxe2;
             animationState = AnimationState.axeLight2;
@@ -762,7 +774,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
         {
             attackState = AttackState.lightAttackAxe3;
             animationState = AnimationState.axeLight3;
@@ -771,17 +783,24 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeMediumAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
+        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
         {
             attackState = AttackState.mediumAttackAxe1;
             animationState = AnimationState.axeMedium1;
-            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2.15f, rigidBody2D.velocity.y);
         }
+    }
+
+    public float axeMediumAttackDashSpeed;
+    void AxeMediumAttackDash()
+    {
+        rigidBody2D.velocity = new Vector2(inputX * movementSpeed * axeMediumAttackDashSpeed, rigidBody2D.velocity.y);
+        Debug.Log(rigidBody2D.velocity.x);
+        Debug.Log(inputX * movementSpeed * axeMediumAttackDashSpeed);
     }
 
     public void OnAxeMediumAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking && mediumAttackAxe2_Available)
+        if (callbackContext.performed && attackState == AttackState.notAttacking && mediumAttackAxe2_Available)
         {
             attackState = AttackState.mediumAttackAxe2;
             animationState = AnimationState.axeMedium2;
@@ -791,7 +810,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeHeavyAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking && !heavyAttackAxe2_Available)
+        if (callbackContext.performed && attackState == AttackState.notAttacking && !heavyAttackAxe2_Available && !mediumAttackAxe2_Available)
         {
             attackState = AttackState.heavyAttackAxe1;
             animationState = AnimationState.axeHeavy1;
@@ -800,7 +819,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeHeavyAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking && heavyAttackAxe2_Available)
+        if (callbackContext.performed/* && attackState == AttackState.notAttacking*/ && heavyAttackAxe2_Available)
         {
             attackState = AttackState.heavyAttackAxe2;
             animationState = AnimationState.axeHeavy2;
@@ -810,7 +829,7 @@ public class PlayerControl : MonoBehaviour
 
     public void ChangeStance(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed/*  && attackState == AttackState.notAttacking*/  && Time.time >= switchStanceCooldown)
+        if (callbackContext.performed && Time.time >= switchStanceCooldown)
         {
             if (swordOrAxeStance)
             {
@@ -823,6 +842,7 @@ public class PlayerControl : MonoBehaviour
                 currentStanceText.text = swordStance;
             }
             switchStanceCooldown = Time.time + 0.5f;
+            attackState = AttackState.notAttacking;
             swordOrAxeStance = !swordOrAxeStance;
         }
     }
@@ -940,30 +960,6 @@ public class PlayerControl : MonoBehaviour
 
     public void NotAttacking()
     {
-        if (mediumAttackSword2_Available || mediumAttackAxe2_Available || heavyAttackSword2_Available || heavyAttackAxe2_Available)
-        {
-            comboEnd = Time.time + comboWindow;
-            ComboWindow();
-            return;
-        }
-        attackState = AttackState.notAttacking;
-    }
-
-    void ComboWindow()
-    {
-        if (Time.time <= comboWindow)
-        {
-            return;
-        }
-        mediumAttackSword2_Available = false;
-        mediumAttackAxe2_Available = false;
-        heavyAttackSword2_Available = false;
-        heavyAttackAxe2_Available = false;
-        
-        if (attackState == AttackState.heavyAttackSword2 || attackState == AttackState.heavyAttackAxe2)
-        {
-            return;
-        }
         attackState = AttackState.notAttacking;
     }
 
@@ -1003,6 +999,16 @@ public class PlayerControl : MonoBehaviour
     {
         dashParticleEffect.Play();
     }   
+
+    public void CreateBox(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            Quaternion spawnRotation = new Quaternion();
+            Vector3 boxSpawnPosition = new Vector3(transform.position.x + 3, transform.position.y + 3, transform.position.z);
+            Instantiate(BoxPrefab, boxSpawnPosition, spawnRotation);
+        }
+    }
 
     //Animation manager
     public void AnimatorSwitchState(AnimationState newState)
