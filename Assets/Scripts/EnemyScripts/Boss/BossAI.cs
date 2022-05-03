@@ -13,9 +13,6 @@ public class BossAI : MonoBehaviour
     Boss boss;
     public GameObject bossHealthBar;
     public ParticleSystem lungeDownAttackParticleEffect;
-    public ParticleSystem attackIndicatorGreen;
-    public ParticleSystem attackIndicatorRed;
-    public ParticleSystem attackIndicatorBlue;
 
     //Targeting
     GameObject karasu;
@@ -483,7 +480,7 @@ public class BossAI : MonoBehaviour
             }
         }
         //If the target is within stopping distance, but the enemy is turned the opposite way, flip the enemy
-        else
+        else if (distanceFromTarget < stoppingDistance)
         {
             if (distanceFromTarget > flipDistance)
             {
@@ -739,14 +736,6 @@ public class BossAI : MonoBehaviour
         nextGlobalAttack = 0;
     }
     
-    //*DEP* -> mostly deprecated
-    //IEnumerator BlockedAndHitAnimation()
-    //{
-    //    playerControl.AnimatorSwitchState(playerControl.);
-    //    yield return new WaitForSeconds(0);
-    //    playerControl.AnimatorSwitchState("karasuBlockAnimation");
-    //}
-
     IEnumerator StopMovingWhileAttacking()
     {
         if (attackDecision == AttackDecision.lunge)

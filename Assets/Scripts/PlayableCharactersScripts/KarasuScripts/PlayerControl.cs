@@ -18,6 +18,7 @@ public class PlayerControl : MonoBehaviour
     public float comboEnd;
     public float switchStanceCooldown = 0.5f;
     public GameObject BoxPrefab;
+    public float axeMediumAttackDashSpeed;
 
     public float inputXHelp;
     public float movementSpeedHelp;
@@ -694,7 +695,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordMediumAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed  && attackState == AttackState.notAttacking &&!mediumAttackSword2_Available)
+        if (callbackContext.performed  && attackState == AttackState.notAttacking &&!mediumAttackSword2_Available && inputX != 0)
         {
             attackState = AttackState.mediumAttackSword1;
             animationState = AnimationState.swordMedium1;
@@ -783,19 +784,16 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeMediumAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
+        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available && inputX != 0)
         {
             attackState = AttackState.mediumAttackAxe1;
             animationState = AnimationState.axeMedium1;
         }
     }
 
-    public float axeMediumAttackDashSpeed;
     void AxeMediumAttackDash()
     {
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed * axeMediumAttackDashSpeed, rigidBody2D.velocity.y);
-        Debug.Log(rigidBody2D.velocity.x);
-        Debug.Log(inputX * movementSpeed * axeMediumAttackDashSpeed);
     }
 
     public void OnAxeMediumAttack2(InputAction.CallbackContext callbackContext)

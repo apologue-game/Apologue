@@ -14,6 +14,7 @@ namespace UnityStandardAssets._2D
         public float lookAheadReturnSpeed = 0.5f;
         public float lookAheadMoveThreshold = 0.1f;
         public float verticalPositionLimit = -1;
+        public float position;
 
         private float m_OffsetZ;
         public float cameraYPositionOffset = 0f;
@@ -22,31 +23,20 @@ namespace UnityStandardAssets._2D
         private Vector3 m_LookAheadPos;
 
 
-        //float screenAspect;
-        //float cameraHeight;
-        //Bounds bounds;
-
         // Use this for initialization
         private void Start()
         {
             m_LastTargetPosition = target.position;
             m_OffsetZ = (transform.position - target.position).z;
             transform.parent = null;
-
-            //horzExtent = Camera.main.orthographicSize * Screen.width / Screen.height;
-            //screenAspect = (float)Screen.width / (float)Screen.height;
-            //cameraHeight = Camera.main.orthographicSize * 2;
-            //bounds = new Bounds(Camera.main.transform.position, new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
         }
 
-        float nextTimeWritePosition = 0;
-        public float position;
         // Update is called once per frame
         private void Update()
         {            
             if (target == null)
             {
-                StartCoroutine("SearchForPlayer");
+                StartCoroutine(SearchForPlayer());
                 return;
             }
             // only update lookahead pos if accelerating or changed direction
@@ -56,14 +46,14 @@ namespace UnityStandardAssets._2D
 
             if (updateLookAheadTarget)
             {
-                m_LookAheadPos = lookAheadFactor*Vector3.right*Mathf.Sign(xMoveDelta);
+                m_LookAheadPos = lookAheadFactor * Mathf.Sign(xMoveDelta) * Vector3.right;
             }
             else
             {
-                m_LookAheadPos = Vector3.MoveTowards(m_LookAheadPos, Vector3.zero, Time.deltaTime*lookAheadReturnSpeed);
+                m_LookAheadPos = Vector3.MoveTowards(m_LookAheadPos, Vector3.zero, Time.deltaTime * lookAheadReturnSpeed);
             }
 
-            Vector3 aheadTargetPos = target.position + m_LookAheadPos + Vector3.forward*m_OffsetZ;
+            Vector3 aheadTargetPos = target.position + m_LookAheadPos + Vector3.forward * m_OffsetZ;
             Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref m_CurrentVelocity, damping);
 
             newPos = new Vector3(Mathf.Clamp(newPos.x, startBounds.position.x, endBounds.position.x), Mathf.Clamp(newPos.y, target.position.y + cameraYPositionOffset, Mathf.Infinity), newPos.z);
@@ -87,7 +77,7 @@ namespace UnityStandardAssets._2D
             else if (playerObject == null)
             {
                 yield return new WaitForSeconds(0.5f);
-                StartCoroutine("SearchForPlayer");
+                StartCoroutine(SearchForPlayer());
             }
         }
     }
