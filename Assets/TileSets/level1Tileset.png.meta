@@ -189,6 +189,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1463,6 +1464,59 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      level1Tileset_25: -2306716280420876511
+      level1Tileset_39: -1444981986815562425
+      level1Tileset_13: 662638488927992319
+      level1Tileset_1: 574370316296267694
+      level1Tileset_33: -7925170753137003088
+      level1Tileset_4: -3935624496045988019
+      level1Tileset_20: -7020692380229429168
+      level1Tileset_5: 640355557391150367
+      level1Tileset_14: -146876305157192759
+      level1Tileset_6: -452596167798274691
+      level1Tileset_37: -8878391776722876271
+      level1Tileset_24: -6697558328133817515
+      level1Tileset_45: -5819762591302279348
+      level1Tileset_9: -8644992701547580603
+      level1Tileset_28: -3231642002882540994
+      level1Tileset_35: 4986401722550754012
+      level1Tileset_46: -8389493286225702817
+      level1Tileset_29: 4564117936142816865
+      level1Tileset_22: -4754625854400214982
+      level1Tileset_23: 8715342234387378879
+      level1Tileset_26: 6809843171182199152
+      level1Tileset_52: -710636966520161352
+      level1Tileset_49: 1084461404849051915
+      level1Tileset_12: 8163781041221423994
+      level1Tileset_48: 7403169441536981032
+      level1Tileset_47: 1299661000328589218
+      level1Tileset_53: 4526739704256779729
+      level1Tileset_3: 8721596449751154964
+      level1Tileset_44: -4402180950437754420
+      level1Tileset_2: 8353240806992091725
+      level1Tileset_41: 1496327457900827396
+      level1Tileset_18: -5009949903609207688
+      level1Tileset_10: -5313815182376939733
+      level1Tileset_40: 826354194441273708
+      level1Tileset_31: -2139718225206211532
+      level1Tileset_11: -2070397897515490131
+      level1Tileset_21: 6212109402529210876
+      level1Tileset_15: -4138945739025981945
+      level1Tileset_0: 4715902436457732812
+      level1Tileset_42: 2034420924363200188
+      level1Tileset_32: 3031796833345353914
+      level1Tileset_19: 2928746025164445587
+      level1Tileset_38: 8714506260880156823
+      level1Tileset_34: -4878105098207866863
+      level1Tileset_16: 7099076480122994635
+      level1Tileset_8: -3816529265216973624
+      level1Tileset_30: -6523925516704868622
+      level1Tileset_36: -2604317575794471681
+      level1Tileset_7: -1846011140787045331
+      level1Tileset_17: -2226804016436120677
+      level1Tileset_50: -3107899810370311490
+      level1Tileset_27: 3030437161589325382
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

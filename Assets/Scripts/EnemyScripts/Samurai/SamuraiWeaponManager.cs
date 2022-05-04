@@ -48,6 +48,7 @@ public class SamuraiWeaponManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Samurai hit: " + collision.name);
         if (collision.name == "ParryCollider")
         {
             samuraiAI.SamuraiParryStagger();

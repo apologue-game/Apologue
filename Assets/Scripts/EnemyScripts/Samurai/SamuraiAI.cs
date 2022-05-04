@@ -11,7 +11,11 @@ public class SamuraiAI : MonoBehaviour
     int myID;
     string myName = "";
     Samurai samurai;
-    public GameObject samuraiHealthBar;
+    public bool staggered = false;
+    public float staggerTimer = 0f;
+    public float staggerDuration = 0.5f;
+    public HealthBar healthBar;
+
 
     //Targeting
     GameObject karasu;
@@ -76,13 +80,14 @@ public class SamuraiAI : MonoBehaviour
     //Attacks
     public LayerMask enemiesLayers;
     float nextGlobalAttack = 0f;
-    bool currentlyAttacking = false;
+    public bool currentlyAttacking = false;
     float lastTimeAttack = 0f;
-    bool currentlyLunging = false;
-    bool currentlyJumpingForward = false;
+    public bool currentlyLunging = false;
+    public bool currentlyJumpingForward = false;
     float nextBasicAttack = 0f;
     float nextLungeAttack = 0f;
     float nextJumpForwardAttack = 0f;
+    public float fallingSpeed = 0f;
 
     //Animations manager
     string oldState = "";
@@ -151,6 +156,7 @@ public class SamuraiAI : MonoBehaviour
             if (grounded)
             {
                 rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                AnimatorSwitchState(DEATHANIMATION);
             }
             return;
         }
@@ -159,30 +165,19 @@ public class SamuraiAI : MonoBehaviour
             return;
         }
 
+        if (staggered)
+        {
+            AnimatorSwitchState(STAGGERANIMATION);
+            if (Time.time < staggerTimer)
+            {
+                return;
+            }
+            staggered = false;  
+        }
+
         if (!currentlyAttacking)
         {
             currentlyLunging = false;
-        }
-
-        if (currentlyJumpingForward)
-        {
-            if (grounded)
-            {
-                currentlyJumpingForward = false;
-                JumpForwardAttackLanding();
-            }
-        }
-
-        if (!currentlyLunging)
-        {
-            if (direction == -1 && !facingLeft)
-            {
-                Flip();
-            }
-            if (direction == 1 && facingLeft)
-            {
-                Flip();
-            }
         }
 
         //Movement
@@ -197,6 +192,33 @@ public class SamuraiAI : MonoBehaviour
         else
         {
             CalculateDirection(spawnHorizontalDistance);
+        }
+
+
+        if (currentlyJumpingForward)
+        {
+            if (grounded)
+            {
+                JumpForwardAttackLanding();
+            }
+            else if (!grounded)
+            {
+                rigidBody2D.velocity = new Vector2(direction * fallingSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+            }
+        }
+
+        if (!currentlyLunging && !currentlyJumpingForward)
+        {
+            if (direction == -1 && !facingLeft)
+            {
+                Flip();
+                healthBar.Flip();
+            }
+            if (direction == 1 && facingLeft)
+            {
+                Flip();
+                healthBar.Flip();
+            }
         }
 
         //Attacking
@@ -352,6 +374,7 @@ public class SamuraiAI : MonoBehaviour
                 if (!facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = -1;
             }
@@ -360,6 +383,7 @@ public class SamuraiAI : MonoBehaviour
                 if (facingLeft && !currentlyAttacking)
                 {
                     Flip();
+                    healthBar.Flip();
                 }
                 direction = 1;
             }
@@ -378,6 +402,7 @@ public class SamuraiAI : MonoBehaviour
                     if (!facingLeft && !currentlyAttacking)
                     {
                         Flip();
+                        healthBar.Flip();
                     }
                 }
                 else if (transform.position.x < currentTarget.position.x)
@@ -389,6 +414,7 @@ public class SamuraiAI : MonoBehaviour
                     if (facingLeft && !currentlyAttacking)
                     {
                         Flip();
+                        healthBar.Flip();
                     }
                 }
             }
@@ -443,7 +469,6 @@ public class SamuraiAI : MonoBehaviour
 
     void JumpForwardAttackStart()
     {
-        currentlyJumpingForward = true;
         lastTimeAttack = Time.time;
         AnimatorSwitchState(ATTACK3JUMPSTARTANIMATION);
     }
@@ -470,11 +495,19 @@ public class SamuraiAI : MonoBehaviour
     void JumpForwardAttackFallStrike()
     {
         AnimatorSwitchState(ATTACK3FALLSTRIKEANIMATION);
+        currentlyJumpingForward = true;
     }
 
     void JumpForwardAttackLanding()
     {
         AnimatorSwitchState(ATTACK3LANDINGANIMATION);
+    }
+
+    void LandingEvent()
+    {
+        currentlyJumpingForward = false;
+        currentlyAttacking = false;
+        attackDecision = AttackDecision.none;
     }
 
     //Utilities
@@ -512,7 +545,8 @@ public class SamuraiAI : MonoBehaviour
     public void SamuraiParryStagger()
     {
         attackDecision = AttackDecision.none;
-
+        staggered = true;
+        staggerTimer = Time.time + staggerDuration;
     }
 
     void NotAttacking()
@@ -526,13 +560,13 @@ public class SamuraiAI : MonoBehaviour
         if (hDistance < 15 && currentTarget != karasuTransform)
         {
             currentTarget = karasuTransform;
-            samuraiHealthBar.SetActive(true);
         }
         else if (hDistance > 25 && currentTarget != spawn.transform)
         {
             currentTarget = spawn.transform;
             //heal enemy if target gets out of range
             samurai.currentHealth = samurai.maxHealth;
+            healthBar.SetHealth(samurai.currentHealth);
         }
     }
 

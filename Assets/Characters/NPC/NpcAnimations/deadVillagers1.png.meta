@@ -45,6 +45,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -268,6 +269,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      deadVillagers1_1: -2178976932495636259
+      deadVillagers1_5: 2267650946660583987
+      deadVillagers1_0: -4944517893539207473
+      deadVillagers1_6: 7486773351680316910
+      deadVillagers1_2: 3544264177313892304
+      deadVillagers1_4: 7421241882300348852
+      deadVillagers1_3: -2512438472036276097
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

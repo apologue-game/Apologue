@@ -105,6 +105,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -748,6 +749,34 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      allCharactersImproved_12: 1452167031357435647
+      allCharactersImproved_20: -3614427516505938215
+      allCharactersImproved_11: -6425976643375981243
+      allCharactersImproved_24: 5420451052264158187
+      allCharactersImproved_21: -6751935958171479498
+      allCharactersImproved_13: 4155617181117883655
+      allCharactersImproved_14: 690768984774602048
+      allCharactersImproved_23: 2532143897742612033
+      allCharactersImproved_7: -6242358012403678614
+      allCharactersImproved_5: -7235794427817247392
+      allCharactersImproved_0: 4418728341916642218
+      allCharactersImproved_19: -8611570893631526699
+      allCharactersImproved_18: 7226531901187944190
+      allCharactersImproved_26: -924404065727289153
+      allCharactersImproved_2: -1176285643419477451
+      allCharactersImproved_8: -1403708910614281912
+      allCharactersImproved_15: -5526806233554222080
+      allCharactersImproved_25: -4097232950127581996
+      allCharactersImproved_1: -4550542508734398470
+      allCharactersImproved_4: -689241535360324827
+      allCharactersImproved_16: 8306840779338367733
+      allCharactersImproved_22: -3715931304834946046
+      allCharactersImproved_17: -4876759682647275088
+      allCharactersImproved_6: -381398490423332895
+      allCharactersImproved_10: 4730195468741913551
+      allCharactersImproved_3: -8373865581204804834
+      allCharactersImproved_9: 2771729821817865631
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

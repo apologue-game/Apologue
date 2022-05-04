@@ -189,6 +189,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1381,6 +1382,59 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      helperTilesetLevel1_14: -495783338485840471
+      helperTilesetLevel1_21: -3073110174957276817
+      helperTilesetLevel1_7: 2401557016555783691
+      helperTilesetLevel1_31: 5870128704378890150
+      helperTilesetLevel1_28: -3543487487389011063
+      helperTilesetLevel1_46: 6673005216099467084
+      helperTilesetLevel1_5: -1787574492349407640
+      helperTilesetLevel1_44: 5925721478211604763
+      helperTilesetLevel1_10: -152196203615587083
+      helperTilesetLevel1_13: 6356781557246153166
+      helperTilesetLevel1_49: 9063661402179817997
+      helperTilesetLevel1_36: -4307057269885469120
+      helperTilesetLevel1_48: -1827084925708403277
+      helperTilesetLevel1_0: -5897410656494031140
+      helperTilesetLevel1_52: 8491379538580647900
+      helperTilesetLevel1_35: 4981866014706963317
+      helperTilesetLevel1_39: 4501201160623650227
+      helperTilesetLevel1_9: 1404488922554717643
+      helperTilesetLevel1_43: 1784506831269636069
+      helperTilesetLevel1_16: -5308432734256166580
+      helperTilesetLevel1_50: -7734715213412050060
+      helperTilesetLevel1_25: -3315457740896832842
+      helperTilesetLevel1_3: 8985365369940112427
+      helperTilesetLevel1_2: -2985979757238419703
+      helperTilesetLevel1_12: -1581963002259155668
+      helperTilesetLevel1_32: -6740507876046112983
+      helperTilesetLevel1_27: -5995298569353552856
+      helperTilesetLevel1_26: -830483309088627400
+      helperTilesetLevel1_45: -3949603662003680746
+      helperTilesetLevel1_34: -1533216354788096595
+      helperTilesetLevel1_1: 5112785454718103215
+      helperTilesetLevel1_29: 2762900131191822561
+      helperTilesetLevel1_19: -8763425730695472482
+      helperTilesetLevel1_37: 4422165541229290576
+      helperTilesetLevel1_23: 5734792530994844753
+      helperTilesetLevel1_30: -350564680741137971
+      helperTilesetLevel1_41: 5032103142084405089
+      helperTilesetLevel1_8: -4696210386888669016
+      helperTilesetLevel1_53: -7115101263815527705
+      helperTilesetLevel1_15: 6313306716124556693
+      helperTilesetLevel1_24: 4773856718818095610
+      helperTilesetLevel1_40: 2944557532856265720
+      helperTilesetLevel1_18: 6052365478029368502
+      helperTilesetLevel1_11: -7614971186035884323
+      helperTilesetLevel1_17: 2651275833526570297
+      helperTilesetLevel1_33: -2491753223440766217
+      helperTilesetLevel1_38: 4579806359962113887
+      helperTilesetLevel1_20: 2948921170850489923
+      helperTilesetLevel1_47: 438508751448652722
+      helperTilesetLevel1_4: -7167145974261840321
+      helperTilesetLevel1_22: -596102988515574866
+      helperTilesetLevel1_6: -2185858371225711383
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

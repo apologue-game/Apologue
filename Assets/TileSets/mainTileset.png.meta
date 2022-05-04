@@ -150,6 +150,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1193,6 +1194,49 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      mainTileset_13: -2820296415235775743
+      mainTileset_7: -5524320956809842979
+      mainTileset_4: -3936861310452233036
+      mainTileset_27: 3733020040973838586
+      mainTileset_37: -4628550403184765159
+      mainTileset_29: -8212089674040767491
+      mainTileset_31: -1427656811643639314
+      mainTileset_23: -8010705929231731660
+      mainTileset_41: 4151481868252651825
+      mainTileset_2: 9114024730303981834
+      mainTileset_12: 2435212918287417491
+      mainTileset_10: -5787013689183518506
+      mainTileset_21: 4571104504494296147
+      mainTileset_25: 3296387656501766157
+      mainTileset_22: 8588034592962989736
+      mainTileset_26: -6655546819247212738
+      mainTileset_33: 5237414585451325884
+      mainTileset_35: 6751135139529424019
+      mainTileset_38: 8574678162851745404
+      mainTileset_24: -4635664475666075789
+      mainTileset_16: -2296060400892964689
+      mainTileset_15: -7731407402565566418
+      mainTileset_40: 2464072446279674392
+      mainTileset_9: 3237179559672644184
+      mainTileset_11: -5122458264404358197
+      mainTileset_5: 4138083866449677531
+      mainTileset_18: -7258216925022601700
+      mainTileset_17: 1530825571122602516
+      mainTileset_20: -1429866153447231886
+      mainTileset_8: 3392554579563798649
+      mainTileset_0: -1861991340339354741
+      mainTileset_3: -8175057947346863667
+      mainTileset_28: 6080257741767699511
+      mainTileset_14: -8451444086991925132
+      mainTileset_32: -4073527984681133524
+      mainTileset_39: 2755222624791436944
+      mainTileset_36: -5022249423401617208
+      mainTileset_1: -8258273767235175912
+      mainTileset_30: 7345672235821920882
+      mainTileset_6: 7174902552420463891
+      mainTileset_19: 2299444052333389631
+      mainTileset_34: -3824166137631012221
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

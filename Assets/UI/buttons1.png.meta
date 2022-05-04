@@ -135,6 +135,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -988,6 +989,44 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      buttons1_38: 6225233654633383188
+      buttons1_26: -5631266397382170595
+      buttons1_27: 4236441087857783207
+      buttons1_25: 6052075646305961135
+      buttons1_13: -6906283665033122226
+      buttons1_14: -4528643615642937741
+      buttons1_8: -3717731414822902761
+      buttons1_12: 7086286261444014782
+      buttons1_22: -7374298548117537829
+      buttons1_3: 5742488625507994923
+      buttons1_24: 2100769916440732172
+      buttons1_36: -2782284103857297589
+      buttons1_39: -4597472954382961038
+      buttons1_1: 2090120122608641202
+      buttons1_18: 3797737249033625198
+      buttons1_34: 3753623083412730940
+      buttons1_28: 1554746832753936206
+      buttons1_6: 2540972415133600316
+      buttons1_33: 8510356072371550685
+      buttons1_5: 5366720526986609045
+      buttons1_23: -4410934906418112274
+      buttons1_35: -2105199784596277552
+      buttons1_19: 5157277338007416274
+      buttons1_15: -587865035551618825
+      buttons1_4: 4899118659744971211
+      buttons1_0: -4250866967973211306
+      buttons1_29: -5406079197520690419
+      buttons1_17: 7697054786571371937
+      buttons1_31: -3089451818415211989
+      buttons1_37: -662690690599618246
+      buttons1_30: -7722301789677960773
+      buttons1_10: 4052442792024577192
+      buttons1_20: 7936618202369087786
+      buttons1_32: -6066399916960029174
+      buttons1_40: 539894709427723873
+      buttons1_16: 3731681837096690313
+      buttons1_7: 8742285639226960651
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

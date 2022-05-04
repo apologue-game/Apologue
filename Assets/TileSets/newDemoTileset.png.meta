@@ -204,6 +204,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1590,6 +1591,67 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      newDemoTileset_36: 7318193709557490596
+      newDemoTileset_56: 5755794126553430914
+      newDemoTileset_26: -6473763212497080538
+      newDemoTileset_19: -7415164803988444005
+      newDemoTileset_22: 8281049248631952139
+      newDemoTileset_38: -2512675244687805248
+      newDemoTileset_9: -7231082953959742845
+      newDemoTileset_12: 7742700478478045695
+      newDemoTileset_18: -5359859515940308233
+      newDemoTileset_42: 3501312825013754453
+      newDemoTileset_8: -5388673187034188529
+      newDemoTileset_21: -6688792941052622930
+      newDemoTileset_23: 7656454553625203259
+      newDemoTileset_24: -7900802105624567897
+      newDemoTileset_28: -4532191763196478371
+      newDemoTileset_5: 3929373307211823009
+      newDemoTileset_27: 2571636682240897502
+      newDemoTileset_49: 6939288836009439180
+      newDemoTileset_53: -190553657187823300
+      newDemoTileset_2: 4167089677742364948
+      newDemoTileset_54: 1841441990053569443
+      newDemoTileset_40: 4687313792038751774
+      newDemoTileset_30: -5510108265482797376
+      newDemoTileset_39: -5575776005517187804
+      newDemoTileset_37: 6169611275364430654
+      newDemoTileset_41: 693554279312477433
+      newDemoTileset_29: -94683032116628299
+      newDemoTileset_7: -4230678023457325582
+      newDemoTileset_50: -1697432806750749608
+      newDemoTileset_6: -9027184412246669453
+      newDemoTileset_16: 5859460831682766866
+      newDemoTileset_34: 7546166463225677706
+      newDemoTileset_47: -725788939820525229
+      newDemoTileset_43: -5325385619665608560
+      newDemoTileset_13: 4582214007342126746
+      newDemoTileset_46: -5898842414817683052
+      newDemoTileset_44: -3239429657352371508
+      newDemoTileset_32: 8743034101698532038
+      newDemoTileset_31: 2942618224051949169
+      newDemoTileset_33: -2829565741362502389
+      newDemoTileset_25: -6655360810471854980
+      newDemoTileset_57: -430386942093800145
+      newDemoTileset_58: -1919968785954003054
+      newDemoTileset_11: 8398903159255106513
+      newDemoTileset_15: 3520058596166366912
+      newDemoTileset_59: 5546785772937556041
+      newDemoTileset_55: -2005858552360826935
+      newDemoTileset_20: 3701086245775111120
+      newDemoTileset_17: -7179198775188574842
+      newDemoTileset_48: 8974381169226455488
+      newDemoTileset_51: 7300833460843131119
+      newDemoTileset_52: 6579194520909696858
+      newDemoTileset_45: -1311367448489737046
+      newDemoTileset_35: -3266116334064546094
+      newDemoTileset_0: 8928907347192599997
+      newDemoTileset_10: 1193034431954486311
+      newDemoTileset_14: -3359558485768719934
+      newDemoTileset_1: 7756578052167353247
+      newDemoTileset_3: -5509495166632327377
+      newDemoTileset_4: 1072952059770506462
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

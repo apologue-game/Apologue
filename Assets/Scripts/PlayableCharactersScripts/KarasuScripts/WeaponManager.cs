@@ -27,6 +27,7 @@ public class WeaponManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("We hit: " + collision.name);
         if (collision.GetComponent<IEnemy>() != null)
         {
             if (playerControl.attackState == PlayerControl.AttackState.lightAttackSword1)

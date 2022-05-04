@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Samurai : MonoBehaviour
+public class Samurai : MonoBehaviour, IEnemy
 {
     SamuraiAI samuraiAI;
     public HealthBar healthBar;
@@ -57,7 +57,10 @@ public class Samurai : MonoBehaviour
             StartCoroutine(Death());
             return;
         }
-        StartCoroutine(SamuraiStaggered()); //only if not currently attacking
+        //if (!samuraiAI.currentlyAttacking)
+        //{
+        //    StartCoroutine(SamuraiStaggered()); //only if not currently attacking
+        //}
         ShowHealthBar();
     }
 
@@ -97,7 +100,6 @@ public class Samurai : MonoBehaviour
     public IEnumerator Death()
     {
         isDead = true;
-        animator.SetTrigger("animSamuraiDeath");
         yield return new WaitForSeconds(3f);
         FadeOutHealthBars();
         GameMaster.DestroyGameObject(gameObject);
