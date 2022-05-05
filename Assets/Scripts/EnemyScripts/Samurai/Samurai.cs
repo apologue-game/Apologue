@@ -76,27 +76,6 @@ public class Samurai : MonoBehaviour, IEnemy
         healthBarBorder.canvasRenderer.SetAlpha(1f);
     }
 
-    IEnumerator SamuraiStaggered()
-    {
-        isTakingDamage = true;
-        animator.SetTrigger("animSamuraiTakingDamage");
-        yield return new WaitForSeconds(0.2f);
-        isTakingDamage = false;
-    }
-
-    public void SamuraiParryStaggerCall()
-    {
-        StartCoroutine(SamuraiParryStaggered());
-    }
-
-    IEnumerator SamuraiParryStaggered()
-    {
-        isTakingDamage = true;
-        animator.SetTrigger("animSamuraiTakingDamage");
-        yield return new WaitForSeconds(1f);
-        isTakingDamage = false;
-    }
-
     public IEnumerator Death()
     {
         isDead = true;
