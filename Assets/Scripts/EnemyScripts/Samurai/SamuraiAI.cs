@@ -78,7 +78,6 @@ public class SamuraiAI : MonoBehaviour
     int higherChanceAttack = 1;
     int lowerChanceAttacks = 0;
     //Attacks
-    public LayerMask enemiesLayers;
     float nextGlobalAttack = 0f;
     public bool currentlyAttacking = false;
     float lastTimeAttack = 0f;
@@ -207,20 +206,6 @@ public class SamuraiAI : MonoBehaviour
             }
         }
 
-        if (!currentlyLunging && !currentlyJumpingForward)
-        {
-            if (direction == -1 && !facingLeft)
-            {
-                Flip();
-                healthBar.Flip();
-            }
-            if (direction == 1 && facingLeft)
-            {
-                Flip();
-                healthBar.Flip();
-            }
-        }
-
         //Attacking
 
         //Only decide on attacks if no decision has yet been made
@@ -261,13 +246,6 @@ public class SamuraiAI : MonoBehaviour
                 JumpForwardAttackStart();
             }
         }
-
-        //If the target hits the enemy while he is winding up an attack, the enemy gets confused, so we gotta set their attack conditions manually
-        //If the enemy hasn't attacked within 1.75 seconds, they're probably stuck and need some help
-        //if (Time.time > lastTimeAttack + 1.75 && currentTarget == karasuTransform)
-        //{
-        //    ManuallySetAttackConditions();
-        //}
 
         //Animations
         speed = Mathf.Abs(rigidBody2D.velocity.x);
@@ -511,14 +489,6 @@ public class SamuraiAI : MonoBehaviour
     }
 
     //Utilities
-    void ManuallySetAttackConditions()
-    {
-        nextBasicAttack = 0;
-        nextLungeAttack = 0;
-        nextJumpForwardAttack = 0;
-        nextGlobalAttack = 0;
-    }
-
     IEnumerator StopMovingWhileAttacking()
     {
         if (attackDecision == AttackDecision.dashStrike)
