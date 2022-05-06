@@ -27,7 +27,6 @@ public class WeaponManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("We hit: " + collision.name);
         if (collision.GetComponent<IEnemy>() != null)
         {
             if (playerControl.attackState == PlayerControl.AttackState.lightAttackSword1)
@@ -77,7 +76,7 @@ public class WeaponManager : MonoBehaviour
             }
             else if (playerControl.attackState == PlayerControl.AttackState.heavyAttackAxe1)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeHeavy1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeHeavy1Damage, true);
                 playerControl.heavyAttackAxe2_Available = true;
                 StartCoroutine(ComboCountdown());
             }

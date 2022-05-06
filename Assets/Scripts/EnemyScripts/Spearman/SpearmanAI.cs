@@ -14,7 +14,7 @@ public class SpearmanAI : MonoBehaviour
     public float staggerTimer = 0f;
     public float staggerDuration = 0.5f;
     public HealthBar healthBar;
-
+    public GameObject scrap;
 
     //Targeting
     GameObject karasu;
@@ -81,7 +81,9 @@ public class SpearmanAI : MonoBehaviour
     const string ATTACKFLURRYANIMATION = "attackFlurry";
     const string SHIELDBASHANIMATION = "shieldBash";
     const string SHIELDBLOCKANIMATION = "shieldBlock";
-    const string SHIELDDESTROYEDANIMATION = "shieldDestroyed";
+    const string SHIELDDESTROYEDANIMATION = "shieldDestroyed";    
+    const string STAGGERANIMATION = "stagger";
+    const string STAGGERNOSHIELDANIMATION = "staggerNoShield";
 
     private void Awake()
     {
@@ -131,15 +133,34 @@ public class SpearmanAI : MonoBehaviour
             return;
         }
 
-        //if (staggered)
-        //{
-        //    AnimatorSwitchState(STAGGERANIMATION);
-        //    if (Time.time < staggerTimer)
-        //    {
-        //        return;
-        //    }
-        //    staggered = false;
-        //}
+        if (staggered)
+        {
+            if (Spearman.shield)
+            {
+                AnimatorSwitchState(STAGGERANIMATION);
+            }
+            else
+            {
+                AnimatorSwitchState(STAGGERNOSHIELDANIMATION);
+            }
+            if (Time.time < staggerTimer)
+            {
+                return;
+            }
+            staggered = false;
+        }
+
+        if (Spearman.blocking)
+        {
+            AnimatorSwitchState(SHIELDBLOCKANIMATION);
+            return;
+        }
+
+        if (Spearman.shieldBreak)
+        {
+            AnimatorSwitchState(SHIELDDESTROYEDANIMATION);
+            return;
+        }
 
         //Movement
         hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
@@ -342,6 +363,18 @@ public class SpearmanAI : MonoBehaviour
     {
         attackDecision = AttackDecision.none;
         currentlyAttacking = false;
+    }
+
+    void NotBlocking()
+    {
+        Spearman.blocking = false;
+    }
+
+    void ShieldBroken()
+    {
+        Spearman.shieldBreak = false;
+        scrap.SetActive(true);
+        scrap.transform.parent = null;
     }
 
     void InCombatOrGoBackToSpawn()

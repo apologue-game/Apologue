@@ -6,6 +6,8 @@ using static AttackSystem;
 public class SamuraiWeaponManager : MonoBehaviour
 {
     SamuraiAI samuraiAI;
+    GameObject playerKarasu;
+    GameObject parryCollider;
 
     //Attacks
     //Samurai basic attack
@@ -36,9 +38,15 @@ public class SamuraiWeaponManager : MonoBehaviour
     int jumpForwardAttackDamage = 3;
     float nextJumpForwardAttack = 0f;
 
+    bool parried = false;
+    float parryTimer = 0f;
+
     private void Start()
     {
         samuraiAI = GetComponentInParent<SamuraiAI>();
+
+        playerKarasu = GameObject.FindGameObjectWithTag("Player");
+        parryCollider = playerKarasu.transform.Find("ParryCollider").gameObject;
 
         //Attack types
         basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
@@ -48,18 +56,16 @@ public class SamuraiWeaponManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Samurai hit: " + collision.name);
-        if (collision.name == "ParryCollider")
-        {
-            samuraiAI.SamuraiParryStagger();
-            return;
-        }
         if (collision.GetComponent<KarasuEntity>() != null)
         {
+            if (parryCollider.activeInHierarchy)
+            {
+                samuraiAI.SamuraiParryStagger();
+                return;
+            }
             if (samuraiAI.attackDecision == SamuraiAI.AttackDecision.basic)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
-                Debug.Log("yes");
             } 
             else if (samuraiAI.attackDecision == SamuraiAI.AttackDecision.dashStrike)
             {

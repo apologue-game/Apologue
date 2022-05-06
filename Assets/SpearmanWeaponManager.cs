@@ -6,6 +6,8 @@ using static AttackSystem;
 public class SpearmanWeaponManager : MonoBehaviour
 {
     SpearmanAI spearmanAI;
+    GameObject playerKarasu;
+    GameObject parryCollider;
 
     //Attacks
     //Spearman basic attack
@@ -25,9 +27,15 @@ public class SpearmanWeaponManager : MonoBehaviour
     public AttackType flurryAttackType = AttackType.normal;
     int flurryAttackDamage = 3;
 
+    bool parried = false;
+    float parryTimer = 0f;
+
     private void Start()
     {
         spearmanAI = GetComponentInParent<SpearmanAI>();
+
+        playerKarasu = GameObject.FindGameObjectWithTag("Player");
+        parryCollider = playerKarasu.transform.Find("ParryCollider").gameObject;
 
         //Attack types
         basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
@@ -39,17 +47,16 @@ public class SpearmanWeaponManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Spearman hit: " + collision.name);
-        if (collision.name == "ParryCollider")
+        if (collision.GetComponent<KarasuEntity>() != null/* && !parried*/)
         {
-            spearmanAI.SpearmanParryStagger();
-            return;
-        }
-        if (collision.GetComponent<KarasuEntity>() != null)
-        {
+            if (parryCollider.activeInHierarchy)
+            {
+                spearmanAI.SpearmanParryStagger();
+                return;
+            }
             if (spearmanAI.attackDecision == SpearmanAI.AttackDecision.basic)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
-                Debug.Log("yes");
             }
             else if (spearmanAI.attackDecision == SpearmanAI.AttackDecision.dashAttack)
             {

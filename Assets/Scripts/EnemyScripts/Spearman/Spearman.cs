@@ -25,6 +25,8 @@ public class Spearman : MonoBehaviour, IEnemy
     public IEnemy.EnemyType enemyType { get; set; }
 
     public static bool shield = true;
+    public static bool blocking = false;
+    public static bool shieldBreak = false;
 
     private void Awake()
     {
@@ -51,9 +53,18 @@ public class Spearman : MonoBehaviour, IEnemy
         {
             return;
         }
-        if (shield)
+        if (shield && !spearmanAI.staggered)
         {
-            //Play shield block animation
+            if (specialInteraction == true)
+            {
+                shieldBreak = true;
+                shield = false;
+                return;
+            }
+            if (!spearmanAI.currentlyAttacking)
+            {
+                blocking = true;
+            }
             return;
         }
         currentHealth -= damage;
@@ -63,10 +74,6 @@ public class Spearman : MonoBehaviour, IEnemy
             StartCoroutine(Death());
             return;
         }
-        //if (!spearmanAI.currentlyAttacking)
-        //{
-        //    StartCoroutine(SpearmanStaggered()); //only if not currently attacking
-        //}
         ShowHealthBar();
     }
 

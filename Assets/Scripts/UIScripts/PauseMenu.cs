@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -15,9 +16,32 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         playerControl.pauseMenuPanel.SetActive(false);
-        PlayerControl.playerInput.SwitchCurrentActionMap("Player");
+        if (playerControl.swordOrAxeStance)
+        {
+            PlayerControl.playerInput.SwitchCurrentActionMap("PlayerSword");
+        }
+        else if (!playerControl.swordOrAxeStance)
+        {
+            PlayerControl.playerInput.SwitchCurrentActionMap("PlayerAxe");
+        }
         Time.timeScale = 1f;
         PlayerControl.isGamePaused = false;
+    }
+
+    public void ReloadScene()
+    {
+        playerControl.pauseMenuPanel.SetActive(false);
+        if (playerControl.swordOrAxeStance)
+        {
+            PlayerControl.playerInput.SwitchCurrentActionMap("PlayerSword");
+        }
+        else if (!playerControl.swordOrAxeStance)
+        {
+            PlayerControl.playerInput.SwitchCurrentActionMap("PlayerAxe");
+        }
+        Time.timeScale = 1f;
+        PlayerControl.isGamePaused = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void QuitGame()
