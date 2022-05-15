@@ -1,0 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static AttackSystem;
+
+public class SicklemanWeaponManager : MonoBehaviour
+{
+    SicklemanAI sicklemanAI;
+    GameObject playerKarasu;
+    GameObject parryCollider;
+
+    //Attacks
+    //Sickleman basic attack
+    public AttackSystem basicAttack;
+    public Transform basicAttackPosition;
+    public AttackType basicAttackType = AttackType.normal;
+    int basicAttackDamage = 3;
+    float nextBasicAttack = 0f;
+    //Sickleman scream attack
+    public AttackSystem screamAttack;
+    public Transform screamAttackPosition;
+    public AttackType screamAttackType = AttackType.special;
+    int screamAttackDamage = 3;
+    //Sickleman stomp attack
+    public AttackSystem stompAttack;
+    public Transform stompAttackPosition;
+    public AttackType stompAttackType = AttackType.onlyParryable;
+    int stompAttackDamage = 3;  
+    //Sickleman stomp attack
+    public AttackSystem teleportStrikeAttack;
+    public Transform teleportStrikePosition;
+    public AttackType teleportStrikeAttackType = AttackType.onlyParryable;
+    int teleportStrikeAttackDamage = 3;
+
+    bool parried = false;
+    float parryTimer = 0f;
+
+    private void Start()
+    {
+        sicklemanAI = GetComponentInParent<SicklemanAI>();
+
+        playerKarasu = GameObject.FindGameObjectWithTag("Player");
+        parryCollider = playerKarasu.transform.Find("ParryCollider").gameObject;
+
+        //Attack types
+        basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
+        screamAttack = new AttackSystem(screamAttackDamage, screamAttackType);
+        stompAttack = new AttackSystem(stompAttackDamage, stompAttackType);
+        teleportStrikeAttack = new AttackSystem(teleportStrikeAttackDamage, teleportStrikeAttackType);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<KarasuEntity>() != null)
+        {
+            if (parryCollider.activeInHierarchy)
+            {
+                return;
+            }
+            if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.basic)
+            {
+                collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
+            }
+            else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.scream)
+            {
+                collision.GetComponent<KarasuEntity>().TakeDamage(screamAttack.AttackDamage, screamAttack.AttackMake);
+            }
+            else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.stomp)
+            {
+                collision.GetComponent<KarasuEntity>().TakeDamage(stompAttack.AttackDamage, stompAttack.AttackMake);
+            }            
+            else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.teleportStrike)
+            {
+                collision.GetComponent<KarasuEntity>().TakeDamage(teleportStrikeAttack.AttackDamage, teleportStrikeAttack.AttackMake);
+            }
+        }
+    }
+}

@@ -281,17 +281,6 @@ public class BossAI : MonoBehaviour
         //Other attacks are reset after using the lunge down attack
         if (usedBasicAttack && usedLungeAttack && usedJumpForwardAttack && !currentlyAttacking && Time.time > timeUntilNextDecision)
         {
-            //lungeDownChance = rnd.Next(0, 10);
-            //if (lungeDownChance >= 5)
-            //{
-            //    attackDecision = AttackDecision.lungeDown;
-            //    currentlyAttacking = true;
-            //    LungeDownAttack();
-
-            //    usedBasicAttack = false;
-            //    usedLungeAttack = false;
-            //    usedJumpForwardAttack = false;
-            //}
             attackDecision = AttackDecision.lungeDown;
             usedBasicAttack = false;
             usedLungeAttack = false;
