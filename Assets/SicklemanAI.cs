@@ -5,6 +5,7 @@ using UnityEngine;
 public class SicklemanAI : MonoBehaviour
 {
     //Utilities
+    //TODO: Centralize random number generation by creating a function in the game master-> utilities class
     System.Random rnd = new System.Random();
     public int randomNumber = 0;
     int myID;
@@ -47,17 +48,24 @@ public class SicklemanAI : MonoBehaviour
     CircleCollider2D karasuParryCollider;
 
     //Combat system
+    public Decision basicAttack;
+    public Decision screamAttack;
+    public Decision stompAttack;
+    public Decision teleportAttack;
+    List<Decision> decisions;
+    public DecisionMaking decisionMaking;
+    public Decision currentDecision;
     //Attack decision
-    public enum AttackDecision
-    {
-        basic,
-        scream,
-        stomp,
-        teleportStrike,
-        none
-    }
-    public AttackDecision attackDecision = new AttackDecision();
-    public float decisionTimer = 2.5f;
+    //public enum AttackDecision
+    //{
+    //    basic,
+    //    scream,
+    //    stomp,
+    //    teleportStrike,
+    //    none
+    //}
+    //public AttackDecision attackDecision = new AttackDecision();
+    public float decisionTimer = 0f;
 
     //Attacks
     public bool currentlyAttacking = false;
@@ -70,13 +78,13 @@ public class SicklemanAI : MonoBehaviour
     const string IDLEANIMATION = "idle";
     const string WALKANIMATION = "walk";
     const string DEATHANIMATION = "death";
-    const string IDLENOSHIELDANIMATION = "idleNoShield";
-    const string WALKNOSHIELDANIMATION = "walkNoShield";
-    const string BASICATTACKANIMATION = "basicAttack";
-    const string DASHATTACKANIMATION = "dashAttack";
-    const string ATTACKFLURRYANIMATION = "attackFlurry";
-    const string SHIELDBASHANIMATION = "shieldBash";
-    const string SHIELDBLOCKANIMATION = "shieldBlock";
+    const string BASICATTACKANIMATION = "basic";
+    const string SCREAMATTACKANIMATION = "scream";
+    const string STOMPPREPARATIONANIMATION = "stompPreparation";
+    const string STOMPFALLINGNIMATION = "stompFalling";
+    const string STOMPLANDINGANIMATION = "stompLanding";
+    const string SICKLETHROWANIMATION = "sickleThrow";
+    const string SICKLETHROWCATCHANIMATION = "sickleThrowCatch";
     const string SHIELDDESTROYEDANIMATION = "shieldDestroyed";
     const string STAGGERANIMATION = "stagger";
     const string STAGGERNOSHIELDANIMATION = "staggerNoShield";
@@ -91,6 +99,18 @@ public class SicklemanAI : MonoBehaviour
 
     void Start()
     {
+        //New decision system
+        basicAttack = new Decision(0, 2f);
+        screamAttack = new Decision(1, 7f);
+        stompAttack = new Decision(2, 5f);
+        teleportAttack = new Decision(3, 10f);
+        decisions = new List<Decision>();
+        decisions.Add(basicAttack);
+        decisions.Add(screamAttack);
+        decisions.Add(stompAttack);
+        decisions.Add(teleportAttack);
+        decisionMaking = new DecisionMaking(decisions);
+
         //Neccessary references for targeting
         karasu = GameObject.FindGameObjectWithTag("Player");
         karasuEntity = karasu.GetComponent<KarasuEntity>();
@@ -109,7 +129,7 @@ public class SicklemanAI : MonoBehaviour
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
 
-        attackDecision = AttackDecision.none;
+        //attackDecision = AttackDecision.none;
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
@@ -134,11 +154,6 @@ public class SicklemanAI : MonoBehaviour
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
         spawnHorizontalDistance = Mathf.Abs(transform.position.x - spawn.transform.position.x);
 
-        if (hDistance > stoppingDistance)
-        {
-            rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
-        }
-
         if (currentTarget == karasuTransform)
         {
             CalculateDirection(hDistance);
@@ -149,11 +164,43 @@ public class SicklemanAI : MonoBehaviour
         }
 
         //Attacking
-        if (hDistance < stoppingDistance && Time.time > lastTimeAttack + decisionTimer && !currentlyAttacking)
+        if (/*attackDecision == AttackDecision.none*/currentDecision == null && Time.time > decisionTimer)
         {
-            currentlyAttacking = true;
+            currentDecision = decisionMaking.DecisionCalculation();
         }
+        if (currentDecision != null && !currentlyAttacking)
+        {
+            if (currentDecision.id == 0)
+            {
+                //if (hDistance < stoppingDistance && !currentlyAttacking)
+                //{
+                //    currentlyAttacking = true;
+                //    BasicAttack();
+                //}
+                //else
+                //{
+                //    rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+                //}
+                currentlyAttacking = true;
+                BasicAttack();
+            }
+            else if (currentDecision.id == 1)
+            {
+                currentlyAttacking = true;
+                ScreamAttack();
+            }
+            else if (currentDecision.id == 2)
+            {
+                currentlyAttacking = true;
+                StompAttack();
+            }
+            else if (currentDecision.id == 3)
+            {
+                currentlyAttacking = true;
+                TeleportStrikeAttack();
+            }
 
+        }
 
         //Animations
         speed = Mathf.Abs(rigidBody2D.velocity.x);
@@ -162,11 +209,11 @@ public class SicklemanAI : MonoBehaviour
         {
             if (speed > 1)
             {
-                AnimatorSwitchState(WALKNOSHIELDANIMATION);
+                AnimatorSwitchState(WALKANIMATION);
             }
             else
             {
-                AnimatorSwitchState(IDLENOSHIELDANIMATION);
+                AnimatorSwitchState(IDLEANIMATION);
             }
         }
 
@@ -232,35 +279,57 @@ public class SicklemanAI : MonoBehaviour
     }
 
     //Combat system
+    //void CalculateDecision()
+    //{
+    //    randomNumber = rnd.Next(0, 4);
+    //    if (randomNumber == 0)
+    //    {
+    //        attackDecision = AttackDecision.basic;
+    //    }
+    //    else if (randomNumber == 1)
+    //    {
+    //        attackDecision = AttackDecision.stomp;
+    //    }
+    //    else if (randomNumber == 2)
+    //    {
+    //        attackDecision = AttackDecision.scream;
+    //    }
+    //    else if (randomNumber == 3)
+    //    {
+    //        attackDecision = AttackDecision.teleportStrike;
+    //    }
+    //    currentlyDeciding = false;
+    //}
+
     void BasicAttack()
     {
-        attackDecision = AttackDecision.basic;
-        lastTimeAttack = Time.time;
+        Debug.Log("basic");
+        basicAttack.currentCooldown = basicAttack.baseCooldown + Time.time;
         AnimatorSwitchState(BASICATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
 
     void ScreamAttack()
     {
-        attackDecision = AttackDecision.scream;
-        lastTimeAttack = Time.time;
-        AnimatorSwitchState(SHIELDBASHANIMATION);
+        Debug.Log("scream");
+        screamAttack.currentCooldown = screamAttack.baseCooldown + Time.time;
+        AnimatorSwitchState(SCREAMATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
 
     void StompAttack()
     {
-        attackDecision = AttackDecision.stomp;
-        lastTimeAttack = Time.time;
-        AnimatorSwitchState(ATTACKFLURRYANIMATION);
+        Debug.Log("stomp");
+        stompAttack.currentCooldown = stompAttack.baseCooldown + Time.time;
+        AnimatorSwitchState(STOMPPREPARATIONANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
 
     void TeleportStrikeAttack()
     {
-        attackDecision = AttackDecision.teleportStrike;
-        lastTimeAttack = Time.time;
-        AnimatorSwitchState(DASHATTACKANIMATION);
+        Debug.Log("teleport");
+        teleportAttack.currentCooldown = teleportAttack.baseCooldown + Time.time;
+        AnimatorSwitchState(SICKLETHROWANIMATION);
     }
 
     //Utilities
@@ -274,7 +343,9 @@ public class SicklemanAI : MonoBehaviour
 
     void NotAttacking()
     {
-        attackDecision = AttackDecision.none;
+        //attackDecision = AttackDecision.none;
+        decisionTimer = Time.time + 2f;
+        currentDecision = null;
         currentlyAttacking = false;
     }
 

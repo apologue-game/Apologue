@@ -12,23 +12,19 @@ public class SicklemanWeaponManager : MonoBehaviour
     //Attacks
     //Sickleman basic attack
     public AttackSystem basicAttack;
-    public Transform basicAttackPosition;
     public AttackType basicAttackType = AttackType.normal;
     int basicAttackDamage = 3;
     float nextBasicAttack = 0f;
     //Sickleman scream attack
     public AttackSystem screamAttack;
-    public Transform screamAttackPosition;
     public AttackType screamAttackType = AttackType.special;
     int screamAttackDamage = 3;
     //Sickleman stomp attack
     public AttackSystem stompAttack;
-    public Transform stompAttackPosition;
     public AttackType stompAttackType = AttackType.onlyParryable;
     int stompAttackDamage = 3;  
     //Sickleman stomp attack
     public AttackSystem teleportStrikeAttack;
-    public Transform teleportStrikePosition;
     public AttackType teleportStrikeAttackType = AttackType.onlyParryable;
     int teleportStrikeAttackDamage = 3;
 
@@ -57,19 +53,35 @@ public class SicklemanWeaponManager : MonoBehaviour
             {
                 return;
             }
-            if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.basic)
+            //if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.basic)
+            //{
+            //    collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
+            //}
+            //else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.scream)
+            //{
+            //    collision.GetComponent<KarasuEntity>().TakeDamage(screamAttack.AttackDamage, screamAttack.AttackMake);
+            //}
+            //else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.stomp)
+            //{
+            //    collision.GetComponent<KarasuEntity>().TakeDamage(stompAttack.AttackDamage, stompAttack.AttackMake);
+            //}            
+            //else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.teleportStrike)
+            //{
+            //    collision.GetComponent<KarasuEntity>().TakeDamage(teleportStrikeAttack.AttackDamage, teleportStrikeAttack.AttackMake);
+            //}
+            if (sicklemanAI.currentDecision.id == 0)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
             }
-            else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.scream)
+            else if (sicklemanAI.currentDecision.id == 1)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(screamAttack.AttackDamage, screamAttack.AttackMake);
             }
-            else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.stomp)
+            else if (sicklemanAI.currentDecision.id == 2)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(stompAttack.AttackDamage, stompAttack.AttackMake);
-            }            
-            else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.teleportStrike)
+            }
+            else if (sicklemanAI.currentDecision.id == 3)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(teleportStrikeAttack.AttackDamage, teleportStrikeAttack.AttackMake);
             }

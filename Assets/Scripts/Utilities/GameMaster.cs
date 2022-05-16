@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameMaster : MonoBehaviour
+public sealed class GameMaster : MonoBehaviour
 {
     //Singleton
     public static GameMaster gameMaster;
