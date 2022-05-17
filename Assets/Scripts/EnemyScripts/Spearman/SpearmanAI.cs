@@ -340,7 +340,6 @@ public class SpearmanAI : MonoBehaviour
         if (attackDecision == AttackDecision.dashAttack)
         {
             yield return new WaitForSeconds(1.15f);
-            currentlyAttacking = false;
             rigidBody2D.velocity = Vector2.zero;
         }
         else
@@ -348,7 +347,6 @@ public class SpearmanAI : MonoBehaviour
             movementSpeed = 0;
             yield return new WaitForSeconds(1f);
             movementSpeed = movementSpeedHelper;
-            currentlyAttacking = false;
         }
     }
 

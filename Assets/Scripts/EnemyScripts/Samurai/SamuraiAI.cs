@@ -451,19 +451,6 @@ public class SamuraiAI : MonoBehaviour
         AnimatorSwitchState(ATTACK3JUMPSTARTANIMATION);
     }
 
-    //    rigidBody2D.AddForce(Vector2.up* jumpForceJumpForward);
-    //        moveForceJumpForward = hDistance* moveForceJumpForwardMultiplier;
-    //        if (direction == -1)
-    //        {
-    //            rigidBody2D.AddForce(Vector2.left* moveForceJumpForward);
-    //        }
-    //        else if (direction == 1)
-    //{
-    //    rigidBody2D.AddForce(Vector2.right * moveForceJumpForward);
-    //}
-
-    //StartCoroutine(Jump());
-
     public float jumpForce;
     void JumpEvent()
     {
@@ -494,13 +481,11 @@ public class SamuraiAI : MonoBehaviour
         if (attackDecision == AttackDecision.dashStrike)
         {
             yield return new WaitForSeconds(1.15f);
-            currentlyAttacking = false;
             rigidBody2D.velocity = Vector2.zero;
         }
         else if (attackDecision == AttackDecision.jumpForward)
         {
             yield return new WaitForSeconds(0.3f);
-            currentlyAttacking = false;
             rigidBody2D.velocity = Vector2.zero;
         }
         else
@@ -508,7 +493,6 @@ public class SamuraiAI : MonoBehaviour
             movementSpeed = 0;
             yield return new WaitForSeconds(1f);
             movementSpeed = movementSpeedHelper;
-            currentlyAttacking = false;
         }
     }
 

@@ -69,19 +69,19 @@ public class SicklemanWeaponManager : MonoBehaviour
             //{
             //    collision.GetComponent<KarasuEntity>().TakeDamage(teleportStrikeAttack.AttackDamage, teleportStrikeAttack.AttackMake);
             //}
-            if (sicklemanAI.currentDecision.id == 0)
+            if (sicklemanAI.currentDecision.Id == 0)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
             }
-            else if (sicklemanAI.currentDecision.id == 1)
+            else if (sicklemanAI.currentDecision.Id == 1)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(screamAttack.AttackDamage, screamAttack.AttackMake);
             }
-            else if (sicklemanAI.currentDecision.id == 2)
+            else if (sicklemanAI.currentDecision.Id == 2)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(stompAttack.AttackDamage, stompAttack.AttackMake);
             }
-            else if (sicklemanAI.currentDecision.id == 3)
+            else if (sicklemanAI.currentDecision.Id == 3)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(teleportStrikeAttack.AttackDamage, teleportStrikeAttack.AttackMake);
             }

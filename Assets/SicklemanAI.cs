@@ -12,6 +12,7 @@ public class SicklemanAI : MonoBehaviour
     string myName = "";
     Sickleman sickleman;
     public HealthBar healthBar;
+    public GameObject healthBarGO;
 
     //Targeting
     GameObject karasu;
@@ -20,6 +21,9 @@ public class SicklemanAI : MonoBehaviour
     Transform currentTarget;
     [HideInInspector]
     public GameObject spawn;
+    public Transform groundCheck;
+    public float groundCheckRange = 0.1f;
+    public LayerMask whatIsGround;
 
     //Animation control
     Animator animator;
@@ -41,6 +45,8 @@ public class SicklemanAI : MonoBehaviour
     public float vDistance;
     float spawnHorizontalDistance;
     float speed;
+    bool grounded = true;
+    public int currentDecisionTest = 50;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -55,22 +61,25 @@ public class SicklemanAI : MonoBehaviour
     List<Decision> decisions;
     public DecisionMaking decisionMaking;
     public Decision currentDecision;
-    //Attack decision
-    //public enum AttackDecision
-    //{
-    //    basic,
-    //    scream,
-    //    stomp,
-    //    teleportStrike,
-    //    none
-    //}
-    //public AttackDecision attackDecision = new AttackDecision();
     public float decisionTimer = 0f;
 
     //Attacks
     public bool currentlyAttacking = false;
     float lastTimeAttack = 0f;
-    public bool currentlyDashing = false;
+    public bool currentlyStomping = false;
+    public float stompingSpeed = 30f;
+    public float jumpForce = 1000f;
+    //Teleport strike
+    public bool currentlyTeleporting = false;
+    public Transform sickleWeapon;
+    Transform initialPosition;
+    public bool weaponThrow = false;
+    public bool weaponTraveling = false;
+    public float throwSpeed = 15f;
+    Vector3 rotation;
+    Quaternion rotationQuaternion;
+    Vector3 teleportOutOfBounds;
+    Vector3 offsetTeleportExit;
 
     //Animations manager
     string oldState = "";
@@ -83,11 +92,8 @@ public class SicklemanAI : MonoBehaviour
     const string STOMPPREPARATIONANIMATION = "stompPreparation";
     const string STOMPFALLINGNIMATION = "stompFalling";
     const string STOMPLANDINGANIMATION = "stompLanding";
-    const string SICKLETHROWANIMATION = "sickleThrow";
-    const string SICKLETHROWCATCHANIMATION = "sickleThrowCatch";
-    const string SHIELDDESTROYEDANIMATION = "shieldDestroyed";
-    const string STAGGERANIMATION = "stagger";
-    const string STAGGERNOSHIELDANIMATION = "staggerNoShield";
+    const string PORTALENTERANIMATION = "portalEnter";
+    const string PORTALEXITANIMATION = "portalExit";
 
     private void Awake()
     {
@@ -95,19 +101,22 @@ public class SicklemanAI : MonoBehaviour
         animator = GetComponent<Animator>();
         rigidBody2D = GetComponent<Rigidbody2D>();
         sickleman = GetComponent<Sickleman>();
+
+        rotation = new Vector3(0f, 0f, 1f);
+        rotationQuaternion = new Quaternion(0f, 0f, 0f, 0f);
     }
 
     void Start()
     {
         //New decision system
         basicAttack = new Decision(0, 2f);
-        screamAttack = new Decision(1, 7f);
+        screamAttack = new Decision(1, 7f, 4f);
         stompAttack = new Decision(2, 5f);
         teleportAttack = new Decision(3, 10f);
         decisions = new List<Decision>();
-        decisions.Add(basicAttack);
-        decisions.Add(screamAttack);
-        decisions.Add(stompAttack);
+        //decisions.Add(basicAttack);
+        //decisions.Add(screamAttack);
+        //decisions.Add(stompAttack);
         decisions.Add(teleportAttack);
         decisionMaking = new DecisionMaking(decisions);
 
@@ -129,23 +138,61 @@ public class SicklemanAI : MonoBehaviour
         spawn.transform.position = spawnLocation;
         currentTarget = spawn.transform;
 
-        //attackDecision = AttackDecision.none;
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
+
+        initialPosition = sickleWeapon;
     }
 
     private void FixedUpdate()
     {
+        //Karasu parry collider needs to be ignored repeatedly because it is getting disabled and enabled multiple times
+        if (currentTarget == karasuTransform)
+        {
+            Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
+        }
+
+        if (currentDecision != null)
+        {
+            currentDecisionTest = currentDecision.Id;
+        }
+
+        grounded = false;
+        //Colliders->check to see if the player is currently on the ground
+        Collider2D[] collidersGround = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRange, whatIsGround);
+        for (int i = 0; i < collidersGround.Length; i++)
+        {
+            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap")
+            {
+                grounded = true;
+            }
+        }
         //Exceptions
         if (sickleman.isDead)
         {
-            rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
-            AnimatorSwitchState(DEATHANIMATION);
+            if (grounded)
+            {
+                rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                AnimatorSwitchState(DEATHANIMATION);
+            }
             return;
         }
-        if (KarasuEntity.dead)
+        if (KarasuEntity.dead || currentlyTeleporting)
         {
+            return;
+        }
+        if (currentlyStomping)
+        {
+            if (grounded)
+            {
+                StompLanding();
+            }
+            else if (!grounded)
+            {
+                //TODO: Sickleman and samurai should lock on to the last known location, not follow around
+                rigidBody2D.velocity = new Vector2(direction * stompingSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+            }
             return;
         }
 
@@ -164,42 +211,39 @@ public class SicklemanAI : MonoBehaviour
         }
 
         //Attacking
-        if (/*attackDecision == AttackDecision.none*/currentDecision == null && Time.time > decisionTimer)
+        if (currentDecision == null && Time.time > decisionTimer && currentTarget == karasuTransform)
         {
-            currentDecision = decisionMaking.DecisionCalculation();
+            currentDecision = decisionMaking.DecisionCalculation_Cooldown_Range(hDistance);
         }
         if (currentDecision != null && !currentlyAttacking)
         {
-            if (currentDecision.id == 0)
+            if (currentDecision.Id == 0)
             {
-                //if (hDistance < stoppingDistance && !currentlyAttacking)
-                //{
-                //    currentlyAttacking = true;
-                //    BasicAttack();
-                //}
-                //else
-                //{
-                //    rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
-                //}
-                currentlyAttacking = true;
-                BasicAttack();
+                if (hDistance < stoppingDistance && !currentlyAttacking)
+                {
+                    currentlyAttacking = true;
+                    BasicAttack();
+                }
+                else
+                {
+                    rigidBody2D.velocity = new Vector2(direction * movementSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+                }
             }
-            else if (currentDecision.id == 1)
+            else if (currentDecision.Id == 1)
             {
                 currentlyAttacking = true;
                 ScreamAttack();
             }
-            else if (currentDecision.id == 2)
+            else if (currentDecision.Id == 2)
             {
                 currentlyAttacking = true;
                 StompAttack();
             }
-            else if (currentDecision.id == 3)
+            else if (currentDecision.Id == 3)
             {
                 currentlyAttacking = true;
                 TeleportStrikeAttack();
             }
-
         }
 
         //Animations
@@ -216,11 +260,18 @@ public class SicklemanAI : MonoBehaviour
                 AnimatorSwitchState(IDLEANIMATION);
             }
         }
+    }
 
-        //Karasu parry collider needs to be ignored repeatedly because it is getting disabled and enabled multiple times
-        if (currentTarget == karasuTransform)
+    private void Update()
+    {
+        if (weaponThrow)
         {
-            Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
+            sickleWeapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            sickleWeapon.Rotate(rotation);
+            if (weaponTraveling)
+            {
+                sickleWeapon.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * throwSpeed * Time.deltaTime, 0);
+            }
         }
     }
 
@@ -279,71 +330,123 @@ public class SicklemanAI : MonoBehaviour
     }
 
     //Combat system
-    //void CalculateDecision()
-    //{
-    //    randomNumber = rnd.Next(0, 4);
-    //    if (randomNumber == 0)
-    //    {
-    //        attackDecision = AttackDecision.basic;
-    //    }
-    //    else if (randomNumber == 1)
-    //    {
-    //        attackDecision = AttackDecision.stomp;
-    //    }
-    //    else if (randomNumber == 2)
-    //    {
-    //        attackDecision = AttackDecision.scream;
-    //    }
-    //    else if (randomNumber == 3)
-    //    {
-    //        attackDecision = AttackDecision.teleportStrike;
-    //    }
-    //    currentlyDeciding = false;
-    //}
 
     void BasicAttack()
     {
-        Debug.Log("basic");
-        basicAttack.currentCooldown = basicAttack.baseCooldown + Time.time;
+        basicAttack.CurrentCooldown = basicAttack.BaseCooldown + Time.time;
         AnimatorSwitchState(BASICATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
 
     void ScreamAttack()
     {
-        Debug.Log("scream");
-        screamAttack.currentCooldown = screamAttack.baseCooldown + Time.time;
+        screamAttack.CurrentCooldown = screamAttack.BaseCooldown + Time.time;
         AnimatorSwitchState(SCREAMATTACKANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
     }
 
     void StompAttack()
     {
-        Debug.Log("stomp");
-        stompAttack.currentCooldown = stompAttack.baseCooldown + Time.time;
+        stompAttack.CurrentCooldown = stompAttack.BaseCooldown + Time.time;
         AnimatorSwitchState(STOMPPREPARATIONANIMATION);
-        StartCoroutine(StopMovingWhileAttacking());
+    }
+
+    void JumpEvent()
+    {
+        rigidBody2D.AddForce(Vector2.up * jumpForce);
+    }
+
+    void StompFalling()
+    {
+        currentlyStomping = true;
+        AnimatorSwitchState(STOMPFALLINGNIMATION);
+    }
+
+    void StompLanding()
+    {
+        AnimatorSwitchState(STOMPLANDINGANIMATION);
+        currentlyStomping = false;
+        rigidBody2D.velocity = Vector2.zero;
     }
 
     void TeleportStrikeAttack()
     {
-        Debug.Log("teleport");
-        teleportAttack.currentCooldown = teleportAttack.baseCooldown + Time.time;
-        AnimatorSwitchState(SICKLETHROWANIMATION);
+        currentlyTeleporting = true;
+        teleportAttack.CurrentCooldown = teleportAttack.BaseCooldown + Time.time;
+        AnimatorSwitchState(PORTALENTERANIMATION);
+    }
+
+    void ThrowSickle()
+    {
+        weaponThrow = true;
+        weaponTraveling = true;
+        sickleWeapon.parent = null;
+        StartCoroutine(WeaponTravelDuration());
+    }
+
+    IEnumerator WeaponTravelDuration()
+    {
+        yield return new WaitForSeconds(1f);
+        weaponTraveling = false;
+    }
+
+    void DisappearThroughPortal()
+    {
+        teleportOutOfBounds = new Vector3(transform.position.x, transform.position.y + 1000f, 0f);
+        transform.position = teleportOutOfBounds;
+        StartCoroutine(TravelingThroughThePortal());
+    }
+
+    IEnumerator TravelingThroughThePortal()
+    {
+        yield return new WaitForSeconds(1.5f);
+        ExitPortal();
+    }
+
+    void ExitPortal()
+    {
+        AnimatorSwitchState(PORTALEXITANIMATION);
+        if (facingLeft)
+        {
+            offsetTeleportExit = sickleWeapon.position;
+            offsetTeleportExit.x -= 0.5f;
+            transform.position = offsetTeleportExit;
+        }
+        else if (!facingLeft)
+        {
+            offsetTeleportExit = sickleWeapon.position;
+            offsetTeleportExit.x += 0.5f;
+            transform.position = offsetTeleportExit;
+        }
+    }
+
+    void FinishTeleporting()
+    {
+        currentlyTeleporting = false;
+        currentlyAttacking = false;
+        currentDecision = null;
+    }
+
+    void CatchWeapon()
+    {
+        weaponThrow = false;
+        sickleWeapon.parent = transform;
+        sickleWeapon.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        sickleWeapon = initialPosition;
+        sickleWeapon.rotation = rotationQuaternion;
     }
 
     //Utilities
     IEnumerator StopMovingWhileAttacking()
     {
+        rigidBody2D.velocity = Vector2.zero;
         movementSpeed = 0;
         yield return new WaitForSeconds(1f);
         movementSpeed = movementSpeedHelper;
-        currentlyAttacking = false;
     }
 
     void NotAttacking()
     {
-        //attackDecision = AttackDecision.none;
         decisionTimer = Time.time + 2f;
         currentDecision = null;
         currentlyAttacking = false;
