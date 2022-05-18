@@ -15,7 +15,6 @@ public class WallTilemaps : MonoBehaviour
         wallHangingCollider = playerKarasu.transform.Find("WallHangingCollider").transform;
     }
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.name == "PlayerKarasu")
@@ -25,7 +24,8 @@ public class WallTilemaps : MonoBehaviour
             {
                 PlayerControl.hangingOnTheWall = true;
                 PlayerControl.wallJump = true;
-                playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                //playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                //playerKarasu.GetComponent<Rigidbody2D>().drag = 35f;
                 StartCoroutine(HangingOnTheWall());
             }
         }
@@ -37,7 +37,8 @@ public class WallTilemaps : MonoBehaviour
         {
             PlayerControl.hangingOnTheWall = false;
             PlayerControl.wallJump = false;
-            playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            //playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            //playerKarasu.GetComponent<Rigidbody2D>().drag = 0.2f;
             StopAllCoroutines();
         }
     }
@@ -47,7 +48,8 @@ public class WallTilemaps : MonoBehaviour
         yield return new WaitForSeconds(PlayerControl.hangingOnTheWallTimer);
         if (PlayerControl.hangingOnTheWall)
         {
-            playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            //playerKarasu.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            //playerKarasu.GetComponent<Rigidbody2D>().drag = 0.2f;
             PlayerControl.wallJump = false;
             PlayerControl.hangingOnTheWall = false;
         }

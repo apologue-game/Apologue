@@ -13,6 +13,7 @@ TagManager:
   - Canvas
   - Ground
   - Slope
+  - Throwable
   layers:
   - Default
   - TransparentFX

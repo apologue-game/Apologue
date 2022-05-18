@@ -47,9 +47,7 @@ public class DecisionMaking
             }
         }
         randomNumber = rnd.Next(0, Decisions.Count);
-        Debug.Log("RND: " + randomNumber);
         madeDecision = Decisions[randomNumber];
-        Debug.Log("DECISION: " + madeDecision.Id);
         if (Time.time < madeDecision.CurrentCooldown || !madeDecision.InRange)
         {
             return null;

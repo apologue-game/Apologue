@@ -19,6 +19,7 @@ public class PlayerControl : MonoBehaviour
     public float switchStanceCooldown = 0.5f;
     public GameObject BoxPrefab;
     public float axeMediumAttackDashSpeed;
+    public bool hangingOnTheWallHelp = false;
 
     public float inputXHelp;
     public float movementSpeedHelp;
@@ -74,9 +75,10 @@ public class PlayerControl : MonoBehaviour
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 1f;
-    float wallJumpAdditionalForce = 150f;
+    public float wallJumpAdditionalForce = 150f;
     int wallJumpPushBackCounter = 0;
     bool initiatePushBackCounter = false;
+    public float fallingClamp = 5f;
 
     //Falling
     bool falling = false;
@@ -151,7 +153,7 @@ public class PlayerControl : MonoBehaviour
     //Parry and block
     public Transform parryCollider;
     public GameObject parryColliderGO;
-    float parryWindow = 0.4f;
+    float parryWindow = 0.27f;
     float nextParry = 0;
     float parryCooldown = 4f;
 
@@ -173,7 +175,7 @@ public class PlayerControl : MonoBehaviour
         roll,
         doubleJump,
         wallJump,
-        wallHanging,
+        wallSlide,
         falling,
         crouchMove,
         crouchIdle,
@@ -228,6 +230,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        hangingOnTheWallHelp = hangingOnTheWall;
         inputXHelp = inputX;
         movementSpeedHelp = movementSpeed;
         AnimatorSwitchState(animationState);
@@ -275,6 +278,7 @@ public class PlayerControl : MonoBehaviour
         {
             rigidBody2D.velocity = Vector2.ClampMagnitude(rigidBody2D.velocity, 10);
             animationState = AnimationState.slide;
+            doubleJump = true;
             return;
         }
         if (isSliding)
@@ -358,7 +362,8 @@ public class PlayerControl : MonoBehaviour
         }
         else if (hangingOnTheWall)
         {
-            animationState = AnimationState.wallHanging;
+            animationState = AnimationState.wallSlide;
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, Mathf.Clamp(rigidBody2D.velocity.y, fallingClamp, Mathf.Infinity));
         }
         else if (parryColliderGO.activeSelf)
         {

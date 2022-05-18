@@ -13,6 +13,7 @@ public class SicklemanAI : MonoBehaviour
     Sickleman sickleman;
     public HealthBar healthBar;
     public GameObject healthBarGO;
+    int sicklemanWeaponSpecificID = 1;
 
     //Targeting
     GameObject karasu;
@@ -71,15 +72,16 @@ public class SicklemanAI : MonoBehaviour
     public float jumpForce = 1000f;
     //Teleport strike
     public bool currentlyTeleporting = false;
+    Throwable weapon;
     public Transform sickleWeapon;
-    Transform initialPosition;
     public bool weaponThrow = false;
     public bool weaponTraveling = false;
     public float throwSpeed = 15f;
-    Vector3 rotation;
+    Vector3 rotate;
     Quaternion rotationQuaternion;
     Vector3 teleportOutOfBounds;
     Vector3 offsetTeleportExit;
+    Vector3 putWeaponBackInThePool_Teleport;
 
     //Animations manager
     string oldState = "";
@@ -102,8 +104,9 @@ public class SicklemanAI : MonoBehaviour
         rigidBody2D = GetComponent<Rigidbody2D>();
         sickleman = GetComponent<Sickleman>();
 
-        rotation = new Vector3(0f, 0f, 1f);
+        rotate = new Vector3(0f, 0f, 15f);
         rotationQuaternion = new Quaternion(0f, 0f, 0f, 0f);
+        putWeaponBackInThePool_Teleport = new Vector3(-43.9000015f, -57.5999985f, 0);
     }
 
     void Start()
@@ -112,7 +115,7 @@ public class SicklemanAI : MonoBehaviour
         basicAttack = new Decision(0, 2f);
         screamAttack = new Decision(1, 7f, 4f);
         stompAttack = new Decision(2, 5f);
-        teleportAttack = new Decision(3, 10f);
+        teleportAttack = new Decision(3, 5f);
         decisions = new List<Decision>();
         //decisions.Add(basicAttack);
         //decisions.Add(screamAttack);
@@ -141,12 +144,19 @@ public class SicklemanAI : MonoBehaviour
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
         InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
-
-        initialPosition = sickleWeapon;
     }
 
     private void FixedUpdate()
     {
+        if (weaponThrow)
+        {
+            weapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            weapon.transform.Rotate(rotate);
+            if (weaponTraveling)
+            {
+                weapon.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * throwSpeed * Time.deltaTime, 0);
+            }
+        }
         //Karasu parry collider needs to be ignored repeatedly because it is getting disabled and enabled multiple times
         if (currentTarget == karasuTransform)
         {
@@ -264,15 +274,7 @@ public class SicklemanAI : MonoBehaviour
 
     private void Update()
     {
-        if (weaponThrow)
-        {
-            sickleWeapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            sickleWeapon.Rotate(rotation);
-            if (weaponTraveling)
-            {
-                sickleWeapon.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * throwSpeed * Time.deltaTime, 0);
-            }
-        }
+
     }
 
     //Movement
@@ -330,7 +332,6 @@ public class SicklemanAI : MonoBehaviour
     }
 
     //Combat system
-
     void BasicAttack()
     {
         basicAttack.CurrentCooldown = basicAttack.BaseCooldown + Time.time;
@@ -378,16 +379,27 @@ public class SicklemanAI : MonoBehaviour
 
     void ThrowSickle()
     {
+        for (int i = 0; i < Throwables.throwables[sicklemanWeaponSpecificID].Count; i++)
+        {
+            if (!Throwables.throwables[sicklemanWeaponSpecificID][i].inUse)
+            {
+                weapon = Throwables.throwables[sicklemanWeaponSpecificID][i];
+                break;
+            }
+        }
+        weapon.transform.position = sickleWeapon.position;
+        weapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        weapon.inUse = true;
         weaponThrow = true;
         weaponTraveling = true;
-        sickleWeapon.parent = null;
         StartCoroutine(WeaponTravelDuration());
     }
 
     IEnumerator WeaponTravelDuration()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.1f);
         weaponTraveling = false;
+        weapon.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 
     void DisappearThroughPortal()
@@ -399,7 +411,7 @@ public class SicklemanAI : MonoBehaviour
 
     IEnumerator TravelingThroughThePortal()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.2f);
         ExitPortal();
     }
 
@@ -408,13 +420,13 @@ public class SicklemanAI : MonoBehaviour
         AnimatorSwitchState(PORTALEXITANIMATION);
         if (facingLeft)
         {
-            offsetTeleportExit = sickleWeapon.position;
+            offsetTeleportExit = weapon.transform.position;
             offsetTeleportExit.x -= 0.5f;
             transform.position = offsetTeleportExit;
         }
         else if (!facingLeft)
         {
-            offsetTeleportExit = sickleWeapon.position;
+            offsetTeleportExit = weapon.transform.position;
             offsetTeleportExit.x += 0.5f;
             transform.position = offsetTeleportExit;
         }
@@ -430,10 +442,10 @@ public class SicklemanAI : MonoBehaviour
     void CatchWeapon()
     {
         weaponThrow = false;
-        sickleWeapon.parent = transform;
-        sickleWeapon.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        sickleWeapon = initialPosition;
-        sickleWeapon.rotation = rotationQuaternion;
+        weapon.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        weapon.transform.rotation = rotationQuaternion;
+        weapon.inUse = false;
+        weapon.transform.position = putWeaponBackInThePool_Teleport;
     }
 
     //Utilities
