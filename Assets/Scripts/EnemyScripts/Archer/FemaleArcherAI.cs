@@ -156,7 +156,7 @@ public class FemaleArcherAI : MonoBehaviour
         {
             Instantiate(arrowPrefab, arrowPointMiddle.position, arrowPointMiddle.rotation);
         }
-        else if(position == 1)
+        else if (position == 1)
         {
             Instantiate(arrowPrefab, arrowPointUp.position, arrowPointUp.rotation);
         }
@@ -168,7 +168,7 @@ public class FemaleArcherAI : MonoBehaviour
 
     void Reload()
     {
-        AnimatorSwitchState(RELOADANIMATION);
+        //AnimatorSwitchState(RELOADANIMATION);
         currentlyAttacking = false;
     }
 

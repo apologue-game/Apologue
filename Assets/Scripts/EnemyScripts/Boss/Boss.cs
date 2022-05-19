@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour, IEnemy
 {
+    public GameObject healthBarGO;
     public HealthBar healthBar;
     public Animator animator { get; set; }
     Rigidbody2D rigidBody2D;
@@ -102,6 +103,7 @@ public class Boss : MonoBehaviour, IEnemy
 
     void DeathCall()
     {
+        healthBarGO.SetActive(false);
         animator.Play("death");
         StartCoroutine(Death());
     }
