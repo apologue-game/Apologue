@@ -6,6 +6,7 @@ public class Boss : MonoBehaviour, IEnemy
 {
     public HealthBar healthBar;
     public Animator animator { get; set; }
+    Rigidbody2D rigidBody2D;
 
     public bool isDead { get; set; }
     public bool isTakingDamage { get; set; }
@@ -18,6 +19,9 @@ public class Boss : MonoBehaviour, IEnemy
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
 
+    bool beforeDeath = false;
+    bool executed = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -29,25 +33,27 @@ public class Boss : MonoBehaviour, IEnemy
     void Start()
     {
         currentHealth = maxHealth;
-
+        rigidBody2D = GetComponent<Rigidbody2D>();
         healthBar.SetMaximumHealth(maxHealth);
     }
 
     public void TakeDamage(float damage, bool? specialInteraction)
     {
+        if (beforeDeath)
+        {
+            executed = true;
+            DeathCall();
+        }
         if (isDead)
         {
             return;
         }
-        else
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+        if (currentHealth <= 0)
         {
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
-            if (currentHealth <= 0)
-            {
-                BeforeDeath();
-                return;
-            }
+            BeforeDeath();
+            return;
         }
         //StartCoroutine(BossTakingDamage());
     }
@@ -76,6 +82,22 @@ public class Boss : MonoBehaviour, IEnemy
     {
         isDead = true;
         animator.Play("beforeDeath");
+        beforeDeath = true;
+        StartCoroutine(ExecutionWindow());
+    }
+
+    IEnumerator ExecutionWindow()
+    {
+        yield return new WaitForSeconds(2f);
+        if (!executed)
+        {
+            isDead = false;
+            currentHealth += 5;
+            healthBar.SetHealth(currentHealth);
+            beforeDeath = false;
+            rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            animator.Play("idle");
+        }
     }
 
     void DeathCall()

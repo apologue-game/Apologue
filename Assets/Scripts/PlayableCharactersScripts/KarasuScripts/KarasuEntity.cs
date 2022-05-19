@@ -71,7 +71,7 @@ public class KarasuEntity : MonoBehaviour
         {
             return;
         }
-        if (invulnerableToNextAttack)
+        if (invulnerableToNextAttack && damage != 501)
         {
             healthBarFill.color = healthBarColor;
             invulnerableToNextAttack = false;
@@ -134,6 +134,11 @@ public class KarasuEntity : MonoBehaviour
     {
         PlayerControl.TurnOnControlsOnRespawn();
         playerControl.animationState = PlayerControl.AnimationState.idle;
+        if (playerControl.isCrouching)
+        {
+            playerControl.isCrouching = false;
+        }
+        playerControl.attackState = PlayerControl.AttackState.notAttacking;
         currentHealth = maxHealth;
         healthBar.SetHealth(maxHealth);
         dead = false;

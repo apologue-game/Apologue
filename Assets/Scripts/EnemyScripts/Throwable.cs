@@ -9,6 +9,7 @@ public class Throwable : MonoBehaviour
 
     public int specificID;
     public bool inUse = false;
+    public bool hasDamaged = false;
 
     private void Start()
     {

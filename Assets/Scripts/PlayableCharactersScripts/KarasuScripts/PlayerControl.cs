@@ -19,10 +19,7 @@ public class PlayerControl : MonoBehaviour
     public float switchStanceCooldown = 0.5f;
     public GameObject BoxPrefab;
     public float axeMediumAttackDashSpeed;
-    public bool hangingOnTheWallHelp = false;
-
-    public float inputXHelp;
-    public float movementSpeedHelp;
+    Vector3 theScale;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -94,7 +91,7 @@ public class PlayerControl : MonoBehaviour
     //Crouch
     public LayerMask whatIsCeiling;
     Transform ceilingCheck;
-    bool isCrouching = false;
+    public bool isCrouching = false;
     bool canStandUp;
     public float crouchSpeedMultiplier = 0.5f;
 
@@ -230,9 +227,6 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        hangingOnTheWallHelp = hangingOnTheWall;
-        inputXHelp = inputX;
-        movementSpeedHelp = movementSpeed;
         AnimatorSwitchState(animationState);
         if (KarasuEntity.dead)
         {
@@ -710,8 +704,6 @@ public class PlayerControl : MonoBehaviour
     void SwordMediumAttackDash()
     {
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2.15f, rigidBody2D.velocity.y);
-        Debug.Log(rigidBody2D.velocity.x);
-        Debug.Log(inputX * movementSpeed * 2.15f);
     }
     
     public void OnSwordMediumAttack2(InputAction.CallbackContext callbackContext)
@@ -976,7 +968,7 @@ public class PlayerControl : MonoBehaviour
         facingRight = !facingRight;
 
         //Multiply the player's x local scale by -1.
-        Vector3 theScale = transform.localScale;
+        theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
     }   

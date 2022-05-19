@@ -20,23 +20,25 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: b2736395db3f0574fb227e290e523d70, type: 3}
-    - time: 0.1
-      value: {fileID: 21300000, guid: e4b3b92182307c04781985a334d5579d, type: 3}
-    - time: 0.2
-      value: {fileID: 21300000, guid: 0c7387ee75dc4524ba3ee2b33d77158d, type: 3}
-    - time: 0.28333333
-      value: {fileID: 21300000, guid: 28c2494cdc8a74f4ab5b5a31329992db, type: 3}
-    - time: 0.36666667
-      value: {fileID: 21300000, guid: 7d95e0d149250f54db45bfa70daa6bc7, type: 3}
-    - time: 0.45
-      value: {fileID: 21300000, guid: b057283202bbe65459ebd0f9aafcd53b, type: 3}
-    - time: 0.53333336
-      value: {fileID: 21300000, guid: 9a77e9fcc619c2d4d951aa322ac8e7ae, type: 3}
-    - time: 0.6333333
-      value: {fileID: 21300000, guid: e95172e61a9dc2b4e8ff713f7b407d74, type: 3}
-    - time: 0.73333335
-      value: {fileID: 21300000, guid: ea6408f4b3f628143b1bebf7a0a933d3, type: 3}
+      value: {fileID: 21300000, guid: a83ad61da28552841913a71d14a3cdfa, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: dac2fb0cd8eff534b8de79f922f5bbd0, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 96a0fe22dca73c441bdc2682d04e6e41, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: c023026ac5e40dd49a1b6986d39378e0, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 479ba5164bac2e9419c522300a71fc50, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: ae13795ff11639049a47b9f42aef333c, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 824793562ca6b5d4ab540b5ea77995c0, type: 3}
+    - time: 0.5833333
+      value: {fileID: 21300000, guid: 28cf3754552787a4eb94d2c3020e2dce, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: 429b5ec596cf3a3429343ae7b7b68593, type: 3}
+    - time: 0.75
+      value: {fileID: 21300000, guid: 08180c9a8e3bee946a43f544ead396a3, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -56,21 +58,22 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: b2736395db3f0574fb227e290e523d70, type: 3}
-    - {fileID: 21300000, guid: e4b3b92182307c04781985a334d5579d, type: 3}
-    - {fileID: 21300000, guid: 0c7387ee75dc4524ba3ee2b33d77158d, type: 3}
-    - {fileID: 21300000, guid: 28c2494cdc8a74f4ab5b5a31329992db, type: 3}
-    - {fileID: 21300000, guid: 7d95e0d149250f54db45bfa70daa6bc7, type: 3}
-    - {fileID: 21300000, guid: b057283202bbe65459ebd0f9aafcd53b, type: 3}
-    - {fileID: 21300000, guid: 9a77e9fcc619c2d4d951aa322ac8e7ae, type: 3}
-    - {fileID: 21300000, guid: e95172e61a9dc2b4e8ff713f7b407d74, type: 3}
-    - {fileID: 21300000, guid: ea6408f4b3f628143b1bebf7a0a933d3, type: 3}
+    - {fileID: 21300000, guid: a83ad61da28552841913a71d14a3cdfa, type: 3}
+    - {fileID: 21300000, guid: dac2fb0cd8eff534b8de79f922f5bbd0, type: 3}
+    - {fileID: 21300000, guid: 96a0fe22dca73c441bdc2682d04e6e41, type: 3}
+    - {fileID: 21300000, guid: c023026ac5e40dd49a1b6986d39378e0, type: 3}
+    - {fileID: 21300000, guid: 479ba5164bac2e9419c522300a71fc50, type: 3}
+    - {fileID: 21300000, guid: ae13795ff11639049a47b9f42aef333c, type: 3}
+    - {fileID: 21300000, guid: 824793562ca6b5d4ab540b5ea77995c0, type: 3}
+    - {fileID: 21300000, guid: 28cf3754552787a4eb94d2c3020e2dce, type: 3}
+    - {fileID: 21300000, guid: 429b5ec596cf3a3429343ae7b7b68593, type: 3}
+    - {fileID: 21300000, guid: 08180c9a8e3bee946a43f544ead396a3, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.75
+    m_StopTime: 0.76666665
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -90,21 +93,14 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.21666667
+  - time: 0.28333333
     functionName: BossOverheadAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.3
-    functionName: BossOverheadAttack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.38333333
+  - time: 0.36666667
     functionName: BossOverheadAttack
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -112,6 +108,13 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.45
+    functionName: BossOverheadAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.51666665
     functionName: BossOverheadAttack
     data: 
     objectReferenceParameter: {fileID: 0}

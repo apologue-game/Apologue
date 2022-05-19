@@ -597,10 +597,14 @@ public class BossAI : MonoBehaviour
         AnimatorSwitchState(JUMPFORWARDATTACKPREPARATIONANIMATION);
     }
 
+    void JumpEvent()
+    {
+        rigidBody2D.AddForce(Vector2.up * jumpForceJumpForward);
+    }
+
     void JumpForwardAttackJump()
     {
         AnimatorSwitchState(JUMPFORWARDATTACKJUMPANIMATION);
-        rigidBody2D.AddForce(Vector2.up * jumpForceJumpForward);
         moveForceJumpForward = hDistance * moveForceJumpForwardMultiplier;
         if (direction == -1)
         {

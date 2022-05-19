@@ -117,9 +117,9 @@ public class SicklemanAI : MonoBehaviour
         stompAttack = new Decision(2, 5f);
         teleportAttack = new Decision(3, 5f);
         decisions = new List<Decision>();
-        //decisions.Add(basicAttack);
-        //decisions.Add(screamAttack);
-        //decisions.Add(stompAttack);
+        decisions.Add(basicAttack);
+        decisions.Add(screamAttack);
+        decisions.Add(stompAttack);
         decisions.Add(teleportAttack);
         decisionMaking = new DecisionMaking(decisions);
 
@@ -446,6 +446,7 @@ public class SicklemanAI : MonoBehaviour
         weapon.transform.rotation = rotationQuaternion;
         weapon.inUse = false;
         weapon.transform.position = putWeaponBackInThePool_Teleport;
+        weapon.hasDamaged = false;
     }
 
     //Utilities
