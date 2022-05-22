@@ -15,7 +15,7 @@ public class SamuraiAI : MonoBehaviour
     public float staggerTimer = 0f;
     public float staggerDuration = 0.5f;
     public HealthBar healthBar;
-
+    public float jumpForce;
 
     //Targeting
     GameObject karasu;
@@ -83,9 +83,6 @@ public class SamuraiAI : MonoBehaviour
     float lastTimeAttack = 0f;
     public bool currentlyLunging = false;
     public bool currentlyJumpingForward = false;
-    float nextBasicAttack = 0f;
-    float nextLungeAttack = 0f;
-    float nextJumpForwardAttack = 0f;
     public float fallingSpeed = 0f;
 
     //Animations manager
@@ -409,7 +406,6 @@ public class SamuraiAI : MonoBehaviour
         lastTimeAttack = Time.time;
         AnimatorSwitchState(ATTACK1ANIMATION);
         StartCoroutine(StopMovingWhileAttacking());
-        nextBasicAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
     }
 
@@ -436,7 +432,6 @@ public class SamuraiAI : MonoBehaviour
 
         }
         currentlyLunging = true;
-        nextLungeAttack = Time.time + 5f;
         nextGlobalAttack = Time.time + 2f;
     }
 
@@ -451,7 +446,6 @@ public class SamuraiAI : MonoBehaviour
         AnimatorSwitchState(ATTACK3JUMPSTARTANIMATION);
     }
 
-    public float jumpForce;
     void JumpEvent()
     {
         rigidBody2D.AddForce(Vector2.up * jumpForce);

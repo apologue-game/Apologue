@@ -27,9 +27,6 @@ public class SpearmanWeaponManager : MonoBehaviour
     public AttackType flurryAttackType = AttackType.normal;
     int flurryAttackDamage = 3;
 
-    bool parried = false;
-    float parryTimer = 0f;
-
     private void Start()
     {
         spearmanAI = GetComponentInParent<SpearmanAI>();

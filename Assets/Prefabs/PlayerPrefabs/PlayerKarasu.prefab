@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 4
@@ -46,7 +47,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &283000176
 Transform:
   m_ObjectHideFlags: 0
@@ -57,6 +58,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.038, y: 0.005, z: 0}
   m_LocalScale: {x: 0.75156254, y: 0.15, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 8
@@ -141,6 +143,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 5
@@ -4895,6 +4898,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -4918,6 +4922,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &2016919000
 GameObject:
@@ -4946,6 +4954,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.037, y: 1.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 7
@@ -5029,6 +5038,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.81, y: 0.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 2
@@ -5043,12 +5053,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.24595642, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.7459564
 --- !u!1 &6094411650202629064
 GameObject:
   m_ObjectHideFlags: 0
@@ -5076,6 +5086,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.81, y: 0.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 3
@@ -5129,6 +5140,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 106.094, y: -2.9992, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 983116570953087657}
   - {fileID: 6984563776866466308}
@@ -5156,6 +5168,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStanceText: {fileID: 0}
   shadow: {fileID: 283000175}
+  staminaBar: {fileID: 0}
+  comboWindow: 0.3
+  comboEnd: 0
+  switchStanceCooldown: 0.5
+  BoxPrefab: {fileID: 5686548081171745774, guid: c359a4cd3e9976a42b81a5759e083617, type: 3}
+  axeMediumAttackDashSpeed: 18.5
   movementAndJumpDust: {fileID: 751296179}
   dashParticleEffect: {fileID: 3911957396758720265}
   interactionIconPrefab: {fileID: 2016919000}
@@ -5172,10 +5190,16 @@ MonoBehaviour:
     m_Bits: 591872
   doubleJumpForce: 10.5
   wallHangingCollider: {fileID: 61917985}
-  dashSpeed: 3
+  wallJumpAdditionalForce: 100
+  fallingClamp: -0.3
+  rollSpeedMultiplier: 2
+  rollDuration: 0.3
+  rollEnd: 0
+  isRolling: 0
   whatIsCeiling:
     serializedVersion: 2
     m_Bits: 6360064
+  isCrouching: 0
   crouchSpeedMultiplier: 0.5
   slideSpeed: 0
   onASlope: 0
@@ -5191,10 +5215,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 921600
   attackState: 0
-  swordHeavyAttackJumpForce: 17
+  nextTimeAttack: 0
+  mediumAttackSword2_Available: 0
+  heavyAttackSword2_Available: 0
+  mediumAttackAxe2_Available: 0
+  heavyAttackAxe2_Available: 0
+  swordHeavyAttack1JumpForce: 16
   parryCollider: {fileID: 1919832363277656011}
   parryColliderGO: {fileID: 2922116141284790644}
-  currentlyAttacking: 0
   pauseMenuPanel: {fileID: 0}
   tooltipPanel: {fileID: 0}
   animationState: 0
@@ -5283,7 +5311,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: OnDash
+        m_MethodName: OnRoll
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5363,7 +5391,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: OnSwordLightAttack
+        m_MethodName: OnSwordLightAttack1
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5407,38 +5435,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b3d4f02b-27cf-41ab-8b08-e5bd07aca939
     m_ActionName: Player/Parry[/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6984563776060638097}
-        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: OnBlock
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5f68c7aa-ed77-4242-9fda-80ba8bb474cd
-    m_ActionName: Player/Block[/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6984563776060638097}
-        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: OnCrouchRoll
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f7e2dc46-d2ab-40b8-9ba8-f657c9a8ee49
-    m_ActionName: Player/CrouchRoll[/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
@@ -5504,7 +5500,19 @@ MonoBehaviour:
     m_ActionId: ac3b5176-f9ad-4457-8bba-b908371a6bcb
     m_ActionName: Player/LightAttack2[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnSwordLightAttack3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 955b36eb-5eb6-43bb-b5f4-db8244cd416f
     m_ActionName: Player/LightAttack3[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -5559,8 +5567,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: OnSwordHeavyAttack2
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5607,7 +5615,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: OnDash
+        m_MethodName: OnRoll
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5667,22 +5675,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8b4c4076-5075-46c7-8b2e-2aa87d50f5d2
     m_ActionName: PlayerAxe/Crouch[/Keyboard/leftCtrl,/XInputControllerWindows/leftTrigger]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6984563776060638100}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: ea28557a-c9d8-45c8-8484-5697f26b0f2f
-    m_ActionName: PlayerAxe/CrouchRoll[/Keyboard/leftShift,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
@@ -5799,8 +5791,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: OnAxeHeavyAttack2
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5827,10 +5819,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: bbf6a93f-056a-49e7-be06-fd7e096d9860
     m_ActionName: PlayerAxe/Parry[/Keyboard/r,/XInputControllerWindows/leftShoulder]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f8fec13e-0a88-46c3-a839-bb4a95e5e043
-    m_ActionName: PlayerAxe/Block[/Keyboard/r,/XInputControllerWindows/leftShoulder]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6984563776060638097}
@@ -5895,6 +5883,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5f108d97-9aeb-4e3e-a36c-ac43af9d5095
     m_ActionName: PlayerAxe/ChangeStance[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: CreateBox
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d6eb7056-ec67-43e7-b642-f5d522736d20
+    m_ActionName: PlayerSword/SpawnBox[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: CreateBox
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1fb5b9a2-f76c-4dfe-bf0d-be4a87f7a701
+    m_ActionName: PlayerAxe/SpawnBox[/Keyboard/g]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerSword
@@ -5934,18 +5954,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.047504425, y: 0.64419353}
+  m_Offset: {x: 0.047504425, y: 0.5008905}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.84375, y: 1.375}
-    newSize: {x: 0.25, y: 0.48}
+    oldSize: {x: 0.84375, y: 1.40625}
+    newSize: {x: 0.84375, y: 1.40625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4969101, y: 1.2680781}
+  m_Size: {x: 0.4969101, y: 1.0399632}
   m_EdgeRadius: 0
 --- !u!212 &6984563776060638092
 SpriteRenderer:
@@ -5988,12 +6008,12 @@ SpriteRenderer:
   m_SortingLayerID: 496549353
   m_SortingLayer: 3
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: 22c6e6b89283eb845bcca4b82fe44319, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 64f171d999472c8498f7d9f54aa53c6f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.25, y: 0.48}
+  m_Size: {x: 0.84375, y: 1.40625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -6001,7 +6021,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &6984563776060638099
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -6014,6 +6034,7 @@ Animator:
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -6033,7 +6054,6 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   healthBarFill: {fileID: 0}
   healthBarColor: {r: 0.6627451, g: 0.20000002, b: 0.20000002, a: 1}
-  audioManager: {fileID: 0}
   maxHealth: 15
   currentHealth: 0
   nextTimeVulnerable: 0
@@ -6063,6 +6083,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.038, y: 0.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 1
@@ -6095,6 +6116,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984563776060638098}
   m_RootOrder: 0
@@ -6112,7 +6134,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.3585451}
+  m_Offset: {x: 0, y: 0.7555454}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6123,7 +6145,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.5190053}
+  m_Size: {x: 1, y: 1.5223198}
   m_EdgeRadius: 0
 --- !u!114 &7837893167337227373
 MonoBehaviour:
@@ -6138,6 +6160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerControl: {fileID: 6984563776060638097}
+  heavyAttack1KnockupForce: 350
+  comboTimer: 1
 --- !u!1001 &487142015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6195,13 +6219,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8694f95936e2c8349a6f8be7f85e3c91, type: 3}
---- !u!4 &6762322215477009400 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6762322215828744583, guid: 8694f95936e2c8349a6f8be7f85e3c91, type: 3}
-  m_PrefabInstance: {fileID: 487142015}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &3911957396758720265 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3911957397245713782, guid: 8694f95936e2c8349a6f8be7f85e3c91, type: 3}
+  m_PrefabInstance: {fileID: 487142015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6762322215477009400 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6762322215828744583, guid: 8694f95936e2c8349a6f8be7f85e3c91, type: 3}
   m_PrefabInstance: {fileID: 487142015}
   m_PrefabAsset: {fileID: 0}

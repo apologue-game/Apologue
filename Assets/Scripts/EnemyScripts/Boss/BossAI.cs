@@ -80,7 +80,6 @@ public class BossAI : MonoBehaviour
     int lowerChanceAttacks = 0;
     //Attacks
     public LayerMask enemiesLayers;
-    float nextGlobalAttack = 0f;
     bool currentlyAttacking = false;
     float lastTimeAttack = 0f;
     //Boss basic attack
@@ -89,16 +88,12 @@ public class BossAI : MonoBehaviour
     public AttackType basicAttackType = AttackType.normal;
     public Vector3 basicAttackRange;
     int basicAttackDamage = 3;
-    //float basicAttackSpeed = 0.75f;
-    float nextBasicAttack = 0f;
     //Boss lunge attack
     public AttackSystem lungeAttack;
     public Transform lungeAttackPosition;
     public AttackType lungeAttackType = AttackType.normal;
     public Vector3 lungeAttackRange;
     int lungeAttackDamage = 3;
-    //float lungeAttackSpeed = 0.75f;
-    float nextLungeAttack = 0f;
     public bool currentlyLunging = false;
     //Boss jump forward attack
     public AttackSystem jumpForwardAttack;
@@ -111,8 +106,6 @@ public class BossAI : MonoBehaviour
     public float moveForceJumpForwardMultiplier = 0f;
     public bool currentlyJumpingForward = false;
     int jumpForwardAttackDamage = 3;
-    //float jumpForwardAttackSpeed = 0.75f;
-    float nextJumpForwardAttack = 0f;
     //Boss lunge down attack
     public AttackSystem lungeDownAttack;
     public Transform lungeDownAttackPosition;
@@ -120,8 +113,6 @@ public class BossAI : MonoBehaviour
     public Vector3 lungeDownAttackRange;
     public float jumpForceLungeDown = 0f;
     int lungeDownAttackDamage = 3;
-    float lungeDownAttackSpeed = 0.75f;
-    float nextLungeDownAttack = 0f;
     public bool currentlyLungingDown = false;
     //Boss overhead attack
     public AttackSystem overheadAttack;
@@ -130,7 +121,6 @@ public class BossAI : MonoBehaviour
     public float overheadAttackRange = 0.5f;
     int overheadAttackDamage = 3;
     //float overheadAttackSpeed = 0.75f;
-    float nextOverheadAttack = 0f;
     bool isKarasuAboveTheBossByX = false;
     bool isKarasuAboveTheBossByY = false;
     //Parry and block system for Player
@@ -536,8 +526,6 @@ public class BossAI : MonoBehaviour
             }
         }
         parriedOrBlocked = false;
-        nextBasicAttack = Time.time + 5f;
-        nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
     }
 
@@ -587,8 +575,6 @@ public class BossAI : MonoBehaviour
 
         }
         parriedOrBlocked = false;
-        nextLungeAttack = Time.time + 5f;
-        nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
     }
 
@@ -655,8 +641,6 @@ public class BossAI : MonoBehaviour
             }
         }
         parriedOrBlocked = false;
-        nextJumpForwardAttack = Time.time + 5f;
-        nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
     }
 
@@ -685,8 +669,6 @@ public class BossAI : MonoBehaviour
         {
             Debug.LogError(nre);
         }
-        nextLungeDownAttack = Time.time + 5f;
-        nextGlobalAttack = Time.time + 2f;
         attackDecision = AttackDecision.none;
         timeUntilNextDecision = Time.time + decisionTimer;
     }
@@ -712,8 +694,7 @@ public class BossAI : MonoBehaviour
         {
             Debug.LogError(nre);
         }
-        nextOverheadAttack = Time.time + 5f;
-        nextGlobalAttack = Time.time + 2f;
+
         attackDecision = AttackDecision.none;
     }
 
@@ -721,12 +702,7 @@ public class BossAI : MonoBehaviour
     void ManuallySetAttackConditions()
     {
         parriedOrBlocked = false;
-        nextBasicAttack = 0;
-        nextLungeAttack = 0;
-        nextJumpForwardAttack = 0;
-        nextLungeDownAttack = 0;
-        nextOverheadAttack = 0;
-        nextGlobalAttack = 0;
+
     }
     
     IEnumerator StopMovingWhileAttacking()

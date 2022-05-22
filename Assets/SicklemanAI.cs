@@ -66,7 +66,6 @@ public class SicklemanAI : MonoBehaviour
 
     //Attacks
     public bool currentlyAttacking = false;
-    float lastTimeAttack = 0f;
     public bool currentlyStomping = false;
     public float stompingSpeed = 30f;
     public float jumpForce = 1000f;

@@ -14,7 +14,6 @@ public class SicklemanWeaponManager : MonoBehaviour
     public AttackSystem basicAttack;
     public AttackType basicAttackType = AttackType.normal;
     int basicAttackDamage = 3;
-    float nextBasicAttack = 0f;
     //Sickleman scream attack
     public AttackSystem screamAttack;
     public AttackType screamAttackType = AttackType.special;
@@ -27,9 +26,6 @@ public class SicklemanWeaponManager : MonoBehaviour
     public AttackSystem teleportStrikeAttack;
     public AttackType teleportStrikeAttackType = AttackType.onlyParryable;
     int teleportStrikeAttackDamage = 3;
-
-    bool parried = false;
-    float parryTimer = 0f;
 
     private void Start()
     {
