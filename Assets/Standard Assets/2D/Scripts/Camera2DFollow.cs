@@ -55,7 +55,10 @@ namespace UnityStandardAssets._2D
             Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref m_CurrentVelocity, damping);
 
             newPos = new Vector3(newPos.x, Mathf.Clamp(newPos.y, target.position.y + cameraYPositionOffset, Mathf.Infinity), newPos.z);
-
+            if (newPos.y < verticalPositionLimit)
+            {
+                newPos.y = verticalPositionLimit;
+            }
             transform.position = newPos;
 
             m_LastTargetPosition = target.position;

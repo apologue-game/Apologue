@@ -14,9 +14,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ApologueDemo.unity
     guid: 42e863d9b879a184f99f300302961584
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level1.unity
     guid: a6b1225c46552f9409b9d0e705e1711f
+  - enabled: 1
+    path: Assets/Scenes/NewDemoLevel1.unity
+    guid: 4cc1ebc9bbbbf6e4abd4e4ee4b30af2f
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 72bd89ae210ac764299ae1a7a9d16f4b, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 99ec959859fe72f43abb4b8f301ea2a7, type: 2}

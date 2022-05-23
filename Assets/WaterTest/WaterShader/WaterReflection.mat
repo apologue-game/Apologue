@@ -119,13 +119,13 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RefractionStrength: 7.96
+    - _RefractionStrength: 1.57
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WaterSpeed: 0.01
+    - _WaterSpeed: 0.02
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

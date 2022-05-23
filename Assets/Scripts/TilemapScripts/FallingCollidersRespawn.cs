@@ -6,6 +6,8 @@ public class FallingCollidersRespawn : MonoBehaviour
 {
     public Transform respawnLocation;
     public Transform playerKarasu;
+    public bool spriteRendererDisable = false;
+    public ParticleSystem waterSplash;
 
     private void Start()
     {
@@ -16,6 +18,12 @@ public class FallingCollidersRespawn : MonoBehaviour
     {
         if (collision.name == "PlayerKarasu")
         {
+            if (spriteRendererDisable)
+            {
+                waterSplash.transform.position = collision.transform.position;
+                collision.GetComponent<SpriteRenderer>().enabled = false;
+                waterSplash.Play();
+            }
             StartCoroutine(RespawnDelay());
         }
     }
@@ -24,5 +32,6 @@ public class FallingCollidersRespawn : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         playerKarasu.position = respawnLocation.position;
+        playerKarasu.GetComponent<SpriteRenderer>().enabled = true;
     }
 }

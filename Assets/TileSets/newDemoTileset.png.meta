@@ -1581,6 +1581,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: newDemoTileset_60
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d6ca5db6d57e57449432b38e2ac8d62
+      internalID: 324900743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1599,6 +1620,7 @@ TextureImporter:
       newDemoTileset_22: 8281049248631952139
       newDemoTileset_38: -2512675244687805248
       newDemoTileset_9: -7231082953959742845
+      newDemoTileset_60: 324900743
       newDemoTileset_12: 7742700478478045695
       newDemoTileset_18: -5359859515940308233
       newDemoTileset_42: 3501312825013754453
