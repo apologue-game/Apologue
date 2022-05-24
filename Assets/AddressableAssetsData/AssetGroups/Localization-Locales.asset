@@ -10,17 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Localization-Locales
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: Localization-Locales
   m_Data:
     m_SerializedData: []
-  m_GUID: 0bb05d7d1a770a64cbdcbebc1e2157df
-  m_SerializeEntries: []
-  m_ReadOnly: 0
+  m_GUID: 7c74fd2852d1db74c981e9249ee842d6
+  m_SerializeEntries:
+  - m_GUID: 6bc0e84c62c5f544790a65dba884bf22
+    m_Address: English (en)
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale
+  m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 84ae2db63082ec74aa9efdb02193b227, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: c69acac87dd0dd2439ba6b1913094840, type: 2}
-    - {fileID: 11400000, guid: e88930d7ad79cec4c93373ca2b597bfa, type: 2}
-    - {fileID: 11400000, guid: dc6d852c5ec5d974d8b429c8e005d5e5, type: 2}
+    - {fileID: 11400000, guid: 83b0d6442d5fafd4594c06d70c033cd8, type: 2}
+    - {fileID: 11400000, guid: 8162f07e9d73d3149b58b1f2d84e2aee, type: 2}

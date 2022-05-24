@@ -43,6 +43,8 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: 9152da6668cd61f4eadbeb214938d496, type: 2}
   - {fileID: 11400000, guid: 78a64fb8b3f38574abde1f6a426ecc31, type: 2}
+  - {fileID: 11400000, guid: 456f3d85284ab7840b2e6a67b6c7a46c, type: 2}
+  - {fileID: 11400000, guid: c11e5f33415413445a2f25e7954b7395, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -64,6 +66,10 @@ MonoBehaviour:
         m_Value: ServerData/[BuildTarget]
       - m_Id: 037ac842e3ebf364485ada7ceec1cf61
         m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+      - m_Id: 3360ffe72e697064191595c4bf85204f
+        m_Value: C:/Users/Steva/Documents/GitHub/Apologue/Assets
+      - m_Id: d4b1c1c6607c84c40a6cce0059acfaaf
+        m_Value: C:/Users/Steva/Documents/GitHub/Apologue/Assets
     m_ProfileEntryNames:
     - m_Id: a894f065d13176145ad741f861e2d31c
       m_Name: BuildTarget
@@ -80,10 +86,17 @@ MonoBehaviour:
     - m_Id: 037ac842e3ebf364485ada7ceec1cf61
       m_Name: Remote.LoadPath
       m_InlineUsage: 0
+    - m_Id: 3360ffe72e697064191595c4bf85204f
+      m_Name: New Entry.BuildPath
+      m_InlineUsage: 0
+    - m_Id: d4b1c1c6607c84c40a6cce0059acfaaf
+      m_Name: New Entry.LoadPath
+      m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
     - default
+    - Locale
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 6e1b07a86a315a4479afbcbdf97a0062, type: 2}
