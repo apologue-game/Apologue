@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChangeShaderCameraPosition : MonoBehaviour
 {
-    public Camera camera;
+    public Camera shaderCamera;
     public Transform newPosition;
     public Transform oldPosition;
 
@@ -12,12 +12,12 @@ public class ChangeShaderCameraPosition : MonoBehaviour
     {
         if (collision.name == "PlayerKarasu")
         {
-            if (camera.transform.position == newPosition.position)
+            if (GetComponent<Camera>().transform.position == newPosition.position)
             {
-                camera.transform.position = oldPosition.position;
+                GetComponent<Camera>().transform.position = oldPosition.position;
                 return;
             }
-            camera.transform.position = newPosition.position;
+            GetComponent<Camera>().transform.position = newPosition.position;
         }
     }
 }

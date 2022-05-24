@@ -666,11 +666,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 675
-        y: 229
+        y: 218
         width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 43
+      alignment: 9
+      pivot: {x: 0.49858856, y: 0.62793607}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1341,7 +1341,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -13.5, y: -5}
+        - {x: -15.5, y: 7}
+        - {x: 15.5, y: 7}
+        - {x: 11.5, y: -4}
+        - {x: 4.5, y: -11}
+        - {x: -6.5, y: -11}
       tessellationDetail: 0
       bones: []
       spriteID: 0c992b600286b8c70800000000000000
@@ -1590,7 +1596,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1598,6 +1604,27 @@ TextureImporter:
       bones: []
       spriteID: 7d6ca5db6d57e57449432b38e2ac8d62
       internalID: 324900743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: newDemoTileset_61
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55286208bf066a04ab6139a5a52bf403
+      internalID: -939706910
       vertices: []
       indices: 
       edges: []
@@ -1660,6 +1687,7 @@ TextureImporter:
       newDemoTileset_11: 8398903159255106513
       newDemoTileset_15: 3520058596166366912
       newDemoTileset_59: 5546785772937556041
+      newDemoTileset_61: -939706910
       newDemoTileset_55: -2005858552360826935
       newDemoTileset_20: 3701086245775111120
       newDemoTileset_17: -7179198775188574842

@@ -20,6 +20,7 @@ public class PlayerControl : MonoBehaviour
     public GameObject BoxPrefab;
     public float axeMediumAttackDashSpeed;
     Vector3 theScale;
+    public float stuckTimer = 0f;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -389,16 +390,18 @@ public class PlayerControl : MonoBehaviour
                 wallJumpPushBackCounter = 0;
             }
         }
-        //if (heavyAttackSword2_Available && airHangTimer < airHangTimerLimit)
-        //{
-        //    rigidBody2D.AddForce(Vector2.up * airHangForce);
-        //    airHangTimer++;
-        //}
-        //else
-        //{
-        //    airHangTimer = 0;
-        //    heavyAttackSword2_Available = false;
-        //}
+        if (attackState != AttackState.notAttacking || attackState != AttackState.cannotAttack)
+        {
+            if (stuckTimer == 0)
+            {
+                stuckTimer = Time.time + 1.5f;
+            }
+            if (Time.time >= stuckTimer)
+            {
+                attackState = AttackState.notAttacking;
+                stuckTimer = 0;
+            }
+        }
     }
 
     private void Slopes()
@@ -566,6 +569,7 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = (Vector2.up * doubleJumpForce);
             jumpCounter++;
             doubleJump = false;
+            CreateDust();
         }
     }
 
@@ -822,7 +826,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public void ChangeStance(InputAction.CallbackContext callbackContext)
+    public void ChangeCurrentStance(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed && Time.time >= switchStanceCooldown)
         {
@@ -839,6 +843,8 @@ public class PlayerControl : MonoBehaviour
             switchStanceCooldown = Time.time + 0.5f;
             attackState = AttackState.notAttacking;
             swordOrAxeStance = !swordOrAxeStance;
+
+            ChangeStance.ChangeCurrentStance();
         }
     }
 

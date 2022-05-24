@@ -13,7 +13,7 @@ public class StaminaBar : MonoBehaviour
     public int maxStamina = 100;
     public float currentStamina;
     public float nextStaminaValue;
-
+    public DarkGreenStaminaBar darkGreenStaminaBar;
 
     private void Awake()
     {
@@ -24,6 +24,8 @@ public class StaminaBar : MonoBehaviour
     {
         currentStamina = maxStamina;
         SetMaximumStamina(maxStamina);
+        darkGreenStaminaBar.slider.maxValue = maxStamina;
+        darkGreenStaminaBar.slider.value = maxStamina;
     }
 
     private void Update()
@@ -55,7 +57,25 @@ public class StaminaBar : MonoBehaviour
 
     public void SetStamina(float stamina)
     {
+        if (slider.value > stamina)
+        {
+            StartCoroutine(StaminaDepletionDelay());
+        }
+        if (slider.value < stamina)
+        {
+            darkGreenStaminaBar.slider.value = stamina;
+        }
         slider.value = stamina;
+    }
+
+    IEnumerator StaminaDepletionDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        for (int i = (int)darkGreenStaminaBar.slider.value; i >= slider.value; i--)
+        {
+            darkGreenStaminaBar.slider.value -= 1f;
+            yield return new WaitForSeconds(0.02f);
+        }
     }
 
     public void Flip()
