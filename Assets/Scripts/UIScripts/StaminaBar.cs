@@ -8,7 +8,7 @@ public class StaminaBar : MonoBehaviour
     public Slider slider;
     bool facingLeft = true;
     public float regenerationDelay;
-    public float currentTime;
+    public static bool inCombat = false;
 
     public int maxStamina = 100;
     public float currentStamina;
@@ -35,7 +35,6 @@ public class StaminaBar : MonoBehaviour
 
     void StaminaRegeneration()
     {
-        currentTime = Time.time;
         if (Time.time >= regenerationDelay && slider.value <= slider.maxValue)
         {
             if (currentStamina + 5 > maxStamina)
@@ -57,6 +56,10 @@ public class StaminaBar : MonoBehaviour
 
     public void SetStamina(float stamina)
     {
+        if (!inCombat)
+        {
+            return;
+        }
         if (slider.value > stamina)
         {
             StartCoroutine(StaminaDepletionDelay());

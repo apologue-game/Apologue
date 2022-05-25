@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Samurai : MonoBehaviour, IEnemy
 {
     SamuraiAI samuraiAI;
-    public HealthBar healthBar;
+    public EnemyHealthBar healthBar;
     public Image healthBarFill;
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
@@ -23,6 +23,7 @@ public class Samurai : MonoBehaviour, IEnemy
     public int maxHealth { get; set; }
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
+    public bool inCombat { get; set; }
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class Samurai : MonoBehaviour, IEnemy
         isDead = false;
         maxHealth = 15;
         enemyType = IEnemy.EnemyType.normal;
+        inCombat = false;
     }
 
     void Start()

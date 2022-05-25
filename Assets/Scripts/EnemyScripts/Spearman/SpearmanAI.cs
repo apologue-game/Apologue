@@ -6,21 +6,21 @@ public class SpearmanAI : MonoBehaviour
 {
     //Utilities
     System.Random rnd = new System.Random();
-    public int randomNumber = 0;
+    public int randomNumber = -5;
     int myID;
     string myName = "";
     Spearman spearman;
     public bool staggered = false;
     public float staggerTimer = 0f;
     public float staggerDuration = 0.5f;
-    public HealthBar healthBar;
+    public EnemyHealthBar healthBar;
     public GameObject scrap;
 
     //Targeting
     GameObject karasu;
     Transform karasuTransform;
     Vector3 spawnLocation;
-    Transform currentTarget;
+    public Transform currentTarget;
     [HideInInspector]
     public GameObject spawn;
 
@@ -116,11 +116,29 @@ public class SpearmanAI : MonoBehaviour
         attackDecision = AttackDecision.none;
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
+        //InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
     private void FixedUpdate()
     {
+        if (spearman.inCombat)
+        {
+            currentTarget = karasuTransform;
+        }
+        if (!spearman.inCombat)
+        {
+            currentTarget = null;
+            healthBar.SetHealth(15);
+            transform.position = spawn.transform.position;
+            if (!facingLeft)
+            {
+                healthBar.Flip();
+                Flip();
+            }
+            currentlyAttacking = false;
+            attackDecision = AttackDecision.none;
+            AnimatorSwitchState(IDLEANIMATION);
+        }
         //Exceptions
         if (spearman.isDead)
         {
@@ -128,7 +146,7 @@ public class SpearmanAI : MonoBehaviour
             AnimatorSwitchState(DEATHANIMATION);
             return;
         }
-        if (KarasuEntity.dead)
+        if (KarasuEntity.dead || currentTarget == null)
         {
             return;
         }
@@ -375,20 +393,20 @@ public class SpearmanAI : MonoBehaviour
         scrap.transform.parent = null;
     }
 
-    void InCombatOrGoBackToSpawn()
-    {
-        if (hDistance < 15 && currentTarget != karasuTransform)
-        {
-            currentTarget = karasuTransform;
-        }
-        else if (hDistance > 25 && currentTarget != spawn.transform)
-        {
-            currentTarget = spawn.transform;
-            //heal enemy if target gets out of range
-            spearman.currentHealth = spearman.maxHealth;
-            healthBar.SetHealth(spearman.currentHealth);
-        }
-    }
+    //void InCombatOrGoBackToSpawn()
+    //{
+    //    if (hDistance < 15 && currentTarget != karasuTransform)
+    //    {
+    //        currentTarget = karasuTransform;
+    //    }
+    //    else if (hDistance > 25 && currentTarget != spawn.transform)
+    //    {
+    //        currentTarget = spawn.transform;
+    //        //heal enemy if target gets out of range
+    //        spearman.currentHealth = spearman.maxHealth;
+    //        healthBar.SetHealth(spearman.currentHealth);
+    //    }
+    //}
 
     void Flip()
     {

@@ -14,7 +14,7 @@ public class SamuraiAI : MonoBehaviour
     public bool staggered = false;
     public float staggerTimer = 0f;
     public float staggerDuration = 0.5f;
-    public HealthBar healthBar;
+    public EnemyHealthBar healthBar;
     public float jumpForce;
 
     //Targeting
@@ -131,11 +131,33 @@ public class SamuraiAI : MonoBehaviour
         attackDecision = AttackDecision.none;
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
+        //InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
     private void FixedUpdate()
     {
+        if (samurai.inCombat)
+        {
+            currentTarget = karasuTransform;
+        }
+        if (!samurai.inCombat)
+        {
+            currentTarget = null;
+            healthBar.SetHealth(15);
+            if (transform.position.x != spawn.transform.position.x)
+            {
+                transform.position = spawn.transform.position;
+            }
+
+            if (!facingLeft)
+            {
+                healthBar.Flip();
+                Flip();
+            }
+            currentlyAttacking = false;
+            attackDecision = AttackDecision.none;
+            AnimatorSwitchState(IDLEANIMATION);
+        }
         grounded = false;
         //Colliders->check to see if the player is currently on the ground
         Collider2D[] collidersGround = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRange, whatIsGround);
@@ -156,7 +178,7 @@ public class SamuraiAI : MonoBehaviour
             }
             return;
         }
-        if (KarasuEntity.dead)
+        if (KarasuEntity.dead || currentTarget == null)
         {
             return;
         }
@@ -503,20 +525,20 @@ public class SamuraiAI : MonoBehaviour
         currentlyAttacking = false;
     }
 
-    void InCombatOrGoBackToSpawn()
-    {
-        if (hDistance < 15 && currentTarget != karasuTransform)
-        {
-            currentTarget = karasuTransform;
-        }
-        else if (hDistance > 25 && currentTarget != spawn.transform)
-        {
-            currentTarget = spawn.transform;
-            //heal enemy if target gets out of range
-            samurai.currentHealth = samurai.maxHealth;
-            healthBar.SetHealth(samurai.currentHealth);
-        }
-    }
+    //void InCombatOrGoBackToSpawn()
+    //{
+    //    if (hDistance < 15 && currentTarget != karasuTransform)
+    //    {
+    //        currentTarget = karasuTransform;
+    //    }
+    //    else if (hDistance > 25 && currentTarget != spawn.transform)
+    //    {
+    //        currentTarget = spawn.transform;
+    //        //heal enemy if target gets out of range
+    //        samurai.currentHealth = samurai.maxHealth;
+    //        healthBar.SetHealth(samurai.currentHealth);
+    //    }
+    //}
 
     void Flip()
     {

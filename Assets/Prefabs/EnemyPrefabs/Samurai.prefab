@@ -74,7 +74,7 @@ BoxCollider2D:
   m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -102,16 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114593d8c5a3d86468e0a592a404ad1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicAttackPosition: {fileID: 0}
   basicAttackType: 0
-  basicAttackRange: {x: 0, y: 0, z: 0}
-  dashStrikeAttackPosition: {fileID: 0}
   dashStrikeAttackType: 0
-  dashStrikeAttackRange: {x: 0, y: 0, z: 0}
-  currentlyLunging: 0
-  jumpForwardAttackPosition: {fileID: 0}
   jumpForwardAttackType: 1
-  jumpForwardAttackRange: 0.5
   jumpForceJumpForward: 0
   moveForceJumpForward: 0
   moveForceJumpForwardBaseValue: 0
@@ -288,7 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73415ec789fc12340b03507fcb94e5f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 5971248474307861764}
+  healthBar: {fileID: 1153251891855910007}
   healthBarFill: {fileID: 5971248474704875878}
   healthBarBorder: {fileID: 5971248474380368642}
   healthBarFillGO: {fileID: 5971248474704875876}
@@ -308,7 +301,8 @@ MonoBehaviour:
   staggered: 0
   staggerTimer: 0
   staggerDuration: 0.5
-  healthBar: {fileID: 5971248474307861764}
+  healthBar: {fileID: 1153251891855910007}
+  jumpForce: 1000
   spawn: {fileID: 0}
   movementSpeed: 150
   dashSpeed: 5
@@ -324,7 +318,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 68608
   boxCollider2D: {fileID: 8479023713329416730}
-  weaponManagerCollider2D: {fileID: 5352882573891926202}
   attackDecision: 0
   decisionTimer: 2
   timeUntilNextDecision: 0
@@ -334,14 +327,10 @@ MonoBehaviour:
   lungeDownChance: 0
   chooseAttack: 0
   lungeAttackCheck: 0
-  enemiesLayers:
-    serializedVersion: 2
-    m_Bits: 64
   currentlyAttacking: 0
   currentlyLunging: 0
   currentlyJumpingForward: 0
   fallingSpeed: 500
-  jumpForce: 1000
 --- !u!1001 &2470230917365827564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -471,15 +460,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
---- !u!114 &5971248474307861764 stripped
+--- !u!114 &1153251891855910007 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8112714899260545768, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3623473083049403291, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
   m_PrefabInstance: {fileID: 2470230917365827564}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e7fdf9aa592054e8c34f84ebba7016, type: 3}
+  m_Script: {fileID: 11500000, guid: f141affd9fb73474a9ae4347eedea900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5971248474380368640 stripped

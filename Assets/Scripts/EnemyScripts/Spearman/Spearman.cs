@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Spearman : MonoBehaviour, IEnemy
 {
     SpearmanAI spearmanAI;
-    public HealthBar healthBar;
+    public EnemyHealthBar healthBar;
     public Image healthBarFill;
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
@@ -23,6 +23,7 @@ public class Spearman : MonoBehaviour, IEnemy
     public int maxHealth { get; set; }
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
+    public bool inCombat { get; set; }
 
     public static bool shield = true;
     public static bool blocking = false;
@@ -34,6 +35,7 @@ public class Spearman : MonoBehaviour, IEnemy
         isDead = false;
         maxHealth = 15;
         enemyType = IEnemy.EnemyType.normal;
+        inCombat = false;
     }
 
     void Start()

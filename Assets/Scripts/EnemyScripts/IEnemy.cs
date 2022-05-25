@@ -17,6 +17,8 @@ public interface IEnemy
     
     bool isDead { get; set; }
 
+    bool inCombat { get; set; }
+
     enum EnemyType
     {
         weak,

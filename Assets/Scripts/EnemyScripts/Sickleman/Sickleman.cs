@@ -23,6 +23,7 @@ public class Sickleman : MonoBehaviour, IEnemy
     public int maxHealth { get; set; }
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
+    public bool inCombat { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     private void Awake()
     {

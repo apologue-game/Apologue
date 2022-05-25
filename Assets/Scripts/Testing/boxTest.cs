@@ -16,6 +16,7 @@ public class boxTest : MonoBehaviour, IEnemy
     public int maxHealth { get; set; }
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
+    public bool inCombat { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public HealthBar healthBar;
     public Image healthBarFill;
