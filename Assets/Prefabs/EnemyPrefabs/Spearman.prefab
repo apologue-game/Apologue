@@ -180,7 +180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5023680663034425376
 Transform:
   m_ObjectHideFlags: 0
@@ -217,6 +217,7 @@ MonoBehaviour:
   staggerDuration: 0.5
   healthBar: {fileID: 3727384037601320245}
   scrap: {fileID: 3005611763279810627}
+  currentTarget: {fileID: 0}
   spawn: {fileID: 0}
   movementSpeed: 150
   dashSpeed: 50
@@ -462,11 +463,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8112714899129865865, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8112714899129865865, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}

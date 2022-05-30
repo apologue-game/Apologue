@@ -21,6 +21,8 @@ public class PlayerControl : MonoBehaviour
     public float axeMediumAttackDashSpeed;
     Vector3 theScale;
     public float stuckTimer = 0f;
+    public Transform currentParent;
+    public bool groundedCoroutineActive = false;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -44,6 +46,7 @@ public class PlayerControl : MonoBehaviour
     public bool swordOrAxeStance = true;
 
     //Movement system
+    public LayerMask movingPlatforms;
     //Move
     public float movementSpeed = 5.8f;
     float movementSpeedHelper; //No need for it if the movement doesn't stop while attacking
@@ -135,6 +138,7 @@ public class PlayerControl : MonoBehaviour
         heavyAttackAxe2
     }
     public AttackState attackState;
+    public AttackState helperAttackState;
     public float nextTimeAttack;
 
     //Combos
@@ -226,6 +230,21 @@ public class PlayerControl : MonoBehaviour
 
     Vector3 rotation = new Vector3(0, 0, -35f);
 
+    IEnumerator GroundedDelay()
+    {
+        yield return new WaitForSeconds(0.12f);
+        if (rigidBody2D.IsTouchingLayers(whatIsGround))
+        {
+            grounded = true;
+            falling = false;
+        }
+        else 
+        {
+            grounded = false;
+        }
+        groundedCoroutineActive = false; 
+    }
+
     void FixedUpdate()
     {
         AnimatorSwitchState(animationState);
@@ -250,7 +269,12 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            grounded = false;
+            if (!groundedCoroutineActive)
+            {
+                groundedCoroutineActive = true;
+                StartCoroutine(GroundedDelay());
+            }
+            
         }
 
         if (animationState == AnimationState.swordHeavy2Fall)
@@ -392,14 +416,14 @@ public class PlayerControl : MonoBehaviour
         }
         if (attackState != AttackState.notAttacking || attackState != AttackState.cannotAttack)
         {
-            if (stuckTimer == 0)
+            if (helperAttackState != attackState)
             {
-                stuckTimer = Time.time + 1.5f;
+                helperAttackState = attackState;
+                stuckTimer = Time.time + 1f;
             }
             if (Time.time >= stuckTimer)
             {
                 attackState = AttackState.notAttacking;
-                stuckTimer = 0;
             }
         }
     }
@@ -454,6 +478,21 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+        if (rigidBody2D.IsTouchingLayers(movingPlatforms))
+        {
+            if (transform.parent != null)
+            {
+                currentParent = transform.parent;
+            }
+            if (inputX != 0)
+            {
+                transform.SetParent(null);
+            }
+            else
+            {
+                transform.SetParent(currentParent);
+            }
+        }
         if (inputX > 0)
         {
             rollDirectionIfStationary = true;

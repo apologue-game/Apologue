@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Sickleman : MonoBehaviour, IEnemy
 {
     SicklemanAI sicklemanAI;
-    public HealthBar healthBar;
+    public EnemyHealthBar healthBar;
     public Image healthBarFill;
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
@@ -23,7 +23,7 @@ public class Sickleman : MonoBehaviour, IEnemy
     public int maxHealth { get; set; }
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
-    public bool inCombat { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool inCombat { get; set; }
 
     private void Awake()
     {
@@ -31,6 +31,7 @@ public class Sickleman : MonoBehaviour, IEnemy
         isDead = false;
         maxHealth = 30;
         enemyType = IEnemy.EnemyType.elite;
+        inCombat = false;
     }
 
     void Start()

@@ -11,7 +11,7 @@ public class SicklemanAI : MonoBehaviour
     int myID;
     string myName = "";
     Sickleman sickleman;
-    public HealthBar healthBar;
+    public EnemyHealthBar healthBar;
     public GameObject healthBarGO;
     int sicklemanWeaponSpecificID = 1;
 
@@ -47,7 +47,6 @@ public class SicklemanAI : MonoBehaviour
     float spawnHorizontalDistance;
     float speed;
     bool grounded = true;
-    public int currentDecisionTest = 50;
 
     //Ignore collision with player
     public BoxCollider2D boxCollider2D;
@@ -116,9 +115,9 @@ public class SicklemanAI : MonoBehaviour
         stompAttack = new Decision(2, 5f);
         teleportAttack = new Decision(3, 5f);
         decisions = new List<Decision>();
-        decisions.Add(basicAttack);
-        decisions.Add(screamAttack);
-        decisions.Add(stompAttack);
+        //decisions.Add(basicAttack);
+        //decisions.Add(screamAttack);
+        //decisions.Add(stompAttack);
         decisions.Add(teleportAttack);
         decisionMaking = new DecisionMaking(decisions);
 
@@ -147,24 +146,43 @@ public class SicklemanAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (sickleman.inCombat)
+        {
+            currentTarget = karasuTransform;
+        }
+        if (!sickleman.inCombat)
+        {
+            currentTarget = null;
+            healthBar.SetHealth(sickleman.maxHealth);
+            if (transform.position.x != spawn.transform.position.x)
+            {
+                transform.position = spawn.transform.position;
+            }
+            if (!facingLeft)
+            {
+                healthBar.Flip();
+                Flip();
+            }
+            currentlyAttacking = false;
+            currentDecision = null;
+            AnimatorSwitchState(IDLEANIMATION);
+        }
         if (weaponThrow)
         {
             weapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             weapon.transform.Rotate(rotate);
             if (weaponTraveling)
             {
-                weapon.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * throwSpeed * Time.deltaTime, 0);
+                if (!weapon.stop)
+                {
+                    weapon.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * throwSpeed * Time.deltaTime, 0);
+                }
             }
         }
         //Karasu parry collider needs to be ignored repeatedly because it is getting disabled and enabled multiple times
         if (currentTarget == karasuTransform)
         {
             Physics2D.IgnoreCollision(boxCollider2D, karasuParryCollider);
-        }
-
-        if (currentDecision != null)
-        {
-            currentDecisionTest = currentDecision.Id;
         }
 
         grounded = false;
@@ -269,11 +287,6 @@ public class SicklemanAI : MonoBehaviour
                 AnimatorSwitchState(IDLEANIMATION);
             }
         }
-    }
-
-    private void Update()
-    {
-
     }
 
     //Movement

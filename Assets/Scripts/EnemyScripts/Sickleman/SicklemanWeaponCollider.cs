@@ -6,9 +6,11 @@ public class SicklemanWeaponCollider : MonoBehaviour
 {
     Throwable throwable;
     GameObject parryCollider;
+    Rigidbody2D rigidBody2D;
 
     private void Awake()
     {
+        rigidBody2D = GetComponent<Rigidbody2D>();
         throwable = GetComponent<Throwable>();
         parryCollider = GameObject.FindGameObjectWithTag("Player").transform.Find("ParryCollider").gameObject;
     }
@@ -27,6 +29,10 @@ public class SicklemanWeaponCollider : MonoBehaviour
                 throwable.hasDamaged = true;
                 collision.GetComponent<KarasuEntity>().TakeDamage(3, null);
             }
+        }
+        if (collision.CompareTag("Grid"))
+        {
+            rigidBody2D.velocity = Vector3.zero;
         }
     }
 }

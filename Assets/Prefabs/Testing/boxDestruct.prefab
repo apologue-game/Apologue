@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30385f8c668dc34c8839dbdecb4b810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 4502625934218242901}
+  healthBar: {fileID: 0}
   healthBarFill: {fileID: 4502625933007267639}
   healthBarBorder: {fileID: 4502625934128729427}
   healthBarFillGO: {fileID: 4502625933007267637}
@@ -296,16 +296,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4502625934218242901 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8112714899260545768, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
-  m_PrefabInstance: {fileID: 5686548080023548349}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e7fdf9aa592054e8c34f84ebba7016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

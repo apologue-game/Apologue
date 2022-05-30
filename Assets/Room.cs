@@ -16,12 +16,15 @@ public class Room : MonoBehaviour
         enemyList = new List<IEnemy>();
     }
 
+    //TODO: Optimization: disable a room if it's finished
     private void Update()
     {
         if (enemyCount == 0)
         {
             StaminaBar.inCombat = false;
             enemiesDefeated = true;
+            entrance.gameObject.SetActive(false);
+            exit.gameObject.SetActive(false);
         }
     }
 
@@ -62,7 +65,6 @@ public class Room : MonoBehaviour
             StaminaBar.inCombat = false;
             entrance.gameObject.SetActive(false);
             exit.gameObject.SetActive(false);
-
         }
         else if (collision.CompareTag("Enemy"))
         {
