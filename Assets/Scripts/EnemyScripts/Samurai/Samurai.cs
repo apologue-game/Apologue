@@ -6,11 +6,16 @@ using UnityEngine.UI;
 public class Samurai : MonoBehaviour, IEnemy
 {
     SamuraiAI samuraiAI;
-    public EnemyHealthBar healthBar;
+    public HealthBar healthBar;
     public Image healthBarFill;
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
     public GameObject healthBarBorderGO;
+    public Image yellowHealthBarFill;
+    public GameObject yellowHealthBarFillGO;    
+    public Image healthBarShadingFill;
+    public GameObject healthBarShadingFillGO;
+
     public Animator animator { get; set; }
 
     public bool isDead { get; set; }
@@ -31,7 +36,7 @@ public class Samurai : MonoBehaviour, IEnemy
         isDead = false;
         maxHealth = 15;
         enemyType = IEnemy.EnemyType.normal;
-        inCombat = false;
+        inCombat = true;
     }
 
     void Start()
@@ -43,6 +48,8 @@ public class Samurai : MonoBehaviour, IEnemy
 
         healthBarFill.canvasRenderer.SetAlpha(0f);
         healthBarBorder.canvasRenderer.SetAlpha(0f);
+        yellowHealthBarFill.canvasRenderer.SetAlpha(0f);
+        healthBarShadingFill.canvasRenderer.SetAlpha(0f);
     }
 
     public void TakeDamage(float damage, bool? specialInteraction)
@@ -70,19 +77,23 @@ public class Samurai : MonoBehaviour, IEnemy
     {
         healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        yellowHealthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        healthBarShadingFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
     void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
+        yellowHealthBarFill.canvasRenderer.SetAlpha(1f);
+        healthBarShadingFill.canvasRenderer.SetAlpha(1f);
     }
 
     public IEnumerator Death()
     {
         isDead = true;
-        yield return new WaitForSeconds(3f);
         FadeOutHealthBars();
+        yield return new WaitForSeconds(3f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(samuraiAI.spawn);
     }

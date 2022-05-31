@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Spearman : MonoBehaviour, IEnemy
 {
     SpearmanAI spearmanAI;
-    public EnemyHealthBar healthBar;
+    public HealthBar healthBar;
     public Image healthBarFill;
     public Image healthBarBorder;
     public GameObject healthBarFillGO;

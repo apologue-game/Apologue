@@ -11,7 +11,7 @@ public class SicklemanAI : MonoBehaviour
     int myID;
     string myName = "";
     Sickleman sickleman;
-    public EnemyHealthBar healthBar;
+    public HealthBar healthBar;
     public GameObject healthBarGO;
     int sicklemanWeaponSpecificID = 1;
 

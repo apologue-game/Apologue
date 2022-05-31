@@ -13,7 +13,7 @@ public class SpearmanAI : MonoBehaviour
     public bool staggered = false;
     public float staggerTimer = 0f;
     public float staggerDuration = 0.5f;
-    public EnemyHealthBar healthBar;
+    public HealthBar healthBar;
     public GameObject scrap;
 
     //Targeting

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Sickleman : MonoBehaviour, IEnemy
 {
     SicklemanAI sicklemanAI;
-    public EnemyHealthBar healthBar;
+    public HealthBar healthBar;
     public Image healthBarFill;
     public Image healthBarBorder;
     public GameObject healthBarFillGO;

@@ -8,8 +8,11 @@ public class Room : MonoBehaviour
     public bool enemiesDefeated;
     public int enemyCount;
 
-    public Transform entrance;
-    public Transform exit;
+    public Animator entrance;
+    public Animator exit;
+
+    const string OPENGATEANIMATION = "open";
+    const string CLOSEGATEANIMATION = "close";
 
     private void Start()
     {
@@ -23,8 +26,6 @@ public class Room : MonoBehaviour
         {
             StaminaBar.inCombat = false;
             enemiesDefeated = true;
-            entrance.gameObject.SetActive(false);
-            exit.gameObject.SetActive(false);
         }
     }
 
@@ -35,8 +36,7 @@ public class Room : MonoBehaviour
             StaminaBar.inCombat = true;
             if (enemyCount > 0)
             {
-                entrance.gameObject.SetActive(true);
-                exit.gameObject.SetActive(true);
+                entrance.Play(CLOSEGATEANIMATION);
             }
 
             foreach (IEnemy enemy in enemyList)
@@ -61,15 +61,20 @@ public class Room : MonoBehaviour
                 {
                     enemy.inCombat = false;
                 }
+                entrance.Play(OPENGATEANIMATION);
             }
             StaminaBar.inCombat = false;
-            entrance.gameObject.SetActive(false);
-            exit.gameObject.SetActive(false);
+
         }
         else if (collision.CompareTag("Enemy"))
         {
             enemyList.Remove(collision.GetComponent<IEnemy>());
             enemyCount--;
+            if (enemiesDefeated)
+            {
+                entrance.Play(OPENGATEANIMATION);
+                exit.Play(CLOSEGATEANIMATION);
+            }
         }
     }
 }
