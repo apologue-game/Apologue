@@ -18,7 +18,7 @@ public class TilemapFadeOut : MonoBehaviour
         }
     }
 
-    IEnumerator TilemapFadeOutDelay()
+    IEnumerator TilemapFadeOutDelay()   
     {
         for (int i = 100 - (int)(currentAlpha * 100); i < 100; i++)
         {

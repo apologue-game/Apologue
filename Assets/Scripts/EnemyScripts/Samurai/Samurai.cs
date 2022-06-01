@@ -36,7 +36,7 @@ public class Samurai : MonoBehaviour, IEnemy
         isDead = false;
         maxHealth = 15;
         enemyType = IEnemy.EnemyType.normal;
-        inCombat = true;
+        inCombat = false;
     }
 
     void Start()

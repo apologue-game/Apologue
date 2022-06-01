@@ -11,8 +11,13 @@ public class Room : MonoBehaviour
     public Animator entrance;
     public Animator exit;
 
-    const string OPENGATEANIMATION = "open";
-    const string CLOSEGATEANIMATION = "close";
+    const string OPENGATEANIMATION = "openGate";
+    const string CLOSEGATEANIMATION = "closeGate";
+    const string IDLEENTRANCECLOSEDANIMATION = "idleEntranceClosed";
+    const string IDLEENTRANCEOPENANIMATION = "idleEntrance";
+    const string IDLEEXITANIMATION = "idleExit";
+    const string OPENGATEEXITANIMATION = "openGateExit";
+    const string IDLEEXITOPENANIMATION = "idleExitOpen";
 
     private void Start()
     {
@@ -20,15 +25,6 @@ public class Room : MonoBehaviour
     }
 
     //TODO: Optimization: disable a room if it's finished
-    private void Update()
-    {
-        if (enemyCount == 0)
-        {
-            StaminaBar.inCombat = false;
-            enemiesDefeated = true;
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -37,6 +33,7 @@ public class Room : MonoBehaviour
             if (enemyCount > 0)
             {
                 entrance.Play(CLOSEGATEANIMATION);
+                StartCoroutine(IdleAfterClosing());
             }
 
             foreach (IEnemy enemy in enemyList)
@@ -62,6 +59,7 @@ public class Room : MonoBehaviour
                     enemy.inCombat = false;
                 }
                 entrance.Play(OPENGATEANIMATION);
+                StartCoroutine(IdleAfterOpeningEntrance());
             }
             StaminaBar.inCombat = false;
 
@@ -70,11 +68,33 @@ public class Room : MonoBehaviour
         {
             enemyList.Remove(collision.GetComponent<IEnemy>());
             enemyCount--;
-            if (enemiesDefeated)
+            if (enemyCount == 0)
             {
+                StaminaBar.inCombat = false;
+                enemiesDefeated = true;
                 entrance.Play(OPENGATEANIMATION);
-                exit.Play(CLOSEGATEANIMATION);
+                StartCoroutine(IdleAfterOpeningEntrance());
+                exit.Play(OPENGATEEXITANIMATION);
+                StartCoroutine(IdleAfterOpeningExit());
             }
         }
     }
+
+    IEnumerator IdleAfterClosing()
+    {
+        yield return new WaitForSeconds(0.517f);
+        entrance.Play(IDLEENTRANCECLOSEDANIMATION);
+    }
+
+    IEnumerator IdleAfterOpeningEntrance()
+    {
+        yield return new WaitForSeconds(0.517f);
+        entrance.Play(IDLEENTRANCEOPENANIMATION);
+    }
+    IEnumerator IdleAfterOpeningExit()
+    {
+        yield return new WaitForSeconds(0.517f);
+        exit.Play(IDLEEXITOPENANIMATION);
+    }
+
 }

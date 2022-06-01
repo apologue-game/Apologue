@@ -23,6 +23,9 @@ public class PlayerControl : MonoBehaviour
     public float stuckTimer = 0f;
     public Transform currentParent;
     public bool groundedCoroutineActive = false;
+    Vector3 slopeRotation = new Vector3(0, 0, -45f);
+    public float crouchMoveOnMovingPlatformSpeed = 0f;
+
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -76,7 +79,7 @@ public class PlayerControl : MonoBehaviour
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 1f;
-    public float wallJumpAdditionalForce = 150f;
+    //public float wallJumpAdditionalForce = 150f;
     int wallJumpPushBackCounter = 0;
     bool initiatePushBackCounter = false;
     public float fallingClamp = 5f;
@@ -106,7 +109,6 @@ public class PlayerControl : MonoBehaviour
 
     //Slopes
     public bool onASlope = false;
-    bool jumpAvailable = true;
     public float slopeXPosition = 0f;
     public Vector2 slopeCheckOffset;
     public Vector2 slopeCheck = new Vector2(0.7f, 0.7f);
@@ -228,8 +230,6 @@ public class PlayerControl : MonoBehaviour
         interactionTooltipSR = interactionTooltip.GetComponent<SpriteRenderer>();
     }
 
-    Vector3 rotation = new Vector3(0, 0, -35f);
-
     IEnumerator GroundedDelay()
     {
         yield return new WaitForSeconds(0.12f);
@@ -331,7 +331,14 @@ public class PlayerControl : MonoBehaviour
         }
         else if (isCrouching && attackState != AttackState.mediumAttackSword1)
         {
-            rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
+            if (transform.parent != null)
+            {
+                rigidBody2D.velocity = new Vector2(inputX * crouchMoveOnMovingPlatformSpeed, rigidBody2D.velocity.y);
+            }
+            else
+            {
+                rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
+            }
         }
 
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
@@ -397,23 +404,23 @@ public class PlayerControl : MonoBehaviour
             holdingJump = false;
             rigidBody2D.AddForce(25 * Vector2.down);
         }
-        if (initiatePushBackCounter)
-        {
-            wallJumpPushBackCounter++;
-            if (facingRight)
-            {
-                rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.left);
-            }
-            else
-            {
-                rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.right);
-            }
-            if (wallJumpPushBackCounter > 10)
-            {
-                initiatePushBackCounter = false;
-                wallJumpPushBackCounter = 0;
-            }
-        }
+        //if (initiatePushBackCounter)
+        //{
+        //    wallJumpPushBackCounter++;
+        //    if (facingRight)
+        //    {
+        //        rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.left);
+        //    }
+        //    else
+        //    {
+        //        rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.right);
+        //    }
+        //    if (wallJumpPushBackCounter > 10)
+        //    {
+        //        initiatePushBackCounter = false;
+        //        wallJumpPushBackCounter = 0;
+        //    }
+        //}
         if (attackState != AttackState.notAttacking || attackState != AttackState.cannotAttack)
         {
             if (helperAttackState != attackState)
@@ -440,6 +447,7 @@ public class PlayerControl : MonoBehaviour
                 exitInterruption = true;
                 slopeXPosition = transform.position.x;
                 isOnSlope = true;
+                doubleJump = true;
             }
         }
         if (isOnSlope)
@@ -450,7 +458,7 @@ public class PlayerControl : MonoBehaviour
             }
             if (!rotated)
             {
-                transform.Rotate(rotation);
+                transform.Rotate(slopeRotation);
                 rotated = true;
             }
             onASlope = true;
@@ -466,10 +474,10 @@ public class PlayerControl : MonoBehaviour
         exitInterruption = false;
         if (rotated)
         {
-            transform.Rotate(-rotation);
+            transform.Rotate(-slopeRotation);
             rotated = false;
         }
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.16f);
         if (!exitInterruption)
         {
             onASlope = false;
@@ -484,7 +492,7 @@ public class PlayerControl : MonoBehaviour
             {
                 currentParent = transform.parent;
             }
-            if (inputX != 0)
+            if (inputX != 0 && !isCrouching)
             {
                 transform.SetParent(null);
             }
@@ -505,10 +513,10 @@ public class PlayerControl : MonoBehaviour
         {
             doubleJump = true;
         }
-        if (transform.position.x > slopeXPosition + 3)
-        {
-            jumpAvailable = true;
-        }
+        //if (transform.position.x > slopeXPosition + 3)
+        //{
+        //    jumpAvailable = true;
+        //}
         if (grounded)
         {
             if (attackState == AttackState.cannotAttack)
@@ -569,9 +577,9 @@ public class PlayerControl : MonoBehaviour
             holdingJump = false;
             jumpHoldCounter = 0;
         }
-        if (onASlope && callbackContext.performed && jumpAvailable)
+        if (onASlope && callbackContext.performed/* && jumpAvailable*/)
         {
-            jumpAvailable = false;
+            //jumpAvailable = false;
             rigidBody2D.velocity = new Vector2(1 * jumpForce/2, 1 * jumpForce);
             CreateDust();
             return;

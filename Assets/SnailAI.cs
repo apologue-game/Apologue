@@ -12,7 +12,6 @@ public class SnailAI : MonoBehaviour, IEnemy
     public Transform[] positions;
     public bool facingLeft = true;
 
-
     public float distance;
     #region IEnemy clutter
     Animator IEnemy.animator { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

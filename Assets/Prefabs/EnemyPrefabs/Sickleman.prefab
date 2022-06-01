@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomNumber: 0
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1924039498390655346}
   healthBarGO: {fileID: 7198366679632391238}
   spawn: {fileID: 0}
   groundCheck: {fileID: 3303638951493857136}
@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e303e15b7d50034ab520d28d5039ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1924039498390655346}
   healthBarFill: {fileID: 7198366679814095842}
   healthBarBorder: {fileID: 7198366679191759238}
   healthBarFillGO: {fileID: 7198366679814095840}
@@ -425,6 +425,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1401634801434604535}
     m_Modifications:
+    - target: {fileID: 8102154547936980519, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102154547936980519, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8112714898775701806, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
       propertyPath: m_Name
       value: EnemyHealthBar
@@ -523,6 +531,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
+--- !u!114 &1924039498390655346 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 702584452241490970, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}
+  m_PrefabInstance: {fileID: 1401634801226896744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e7fdf9aa592054e8c34f84ebba7016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7198366679191759236 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8112714899216399596, guid: 959dd3ce3297f084980d9de1519637b4, type: 3}

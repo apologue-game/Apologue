@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static KarasuEntity;
 
 public class MovingPlatforms : MonoBehaviour
 {
@@ -35,7 +36,10 @@ public class MovingPlatforms : MonoBehaviour
         {
             if (collision.transform.position.y > transform.position.y)
             {
-                collision.transform.parent = transform;
+                if (!dead)
+                {
+                    collision.transform.parent = transform;
+                } 
             }
         }
     }

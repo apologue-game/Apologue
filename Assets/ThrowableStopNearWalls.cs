@@ -6,7 +6,6 @@ public class ThrowableStopNearWalls : MonoBehaviour
 {
     Throwable throwable;
     public Rigidbody2D rigidBody2D;
-    public LayerMask whatIsAWall;
     public BoxCollider2D stopNearWallsCollider;
 
     private void Start()
