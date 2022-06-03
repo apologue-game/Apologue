@@ -14,6 +14,7 @@ public class SpearmanAI : MonoBehaviour
     public float staggerTimer = 0f;
     public float staggerDuration = 0.5f;
     public HealthBar healthBar;
+    public HealthBar shieldHealthBar;
     public GameObject scrap;
 
     //Targeting
@@ -128,11 +129,13 @@ public class SpearmanAI : MonoBehaviour
         if (!spearman.inCombat)
         {
             currentTarget = null;
-            healthBar.SetHealth(15);
+            healthBar.SetHealth(spearman.maxHealth);
+            shieldHealthBar.SetHealth(spearman.shieldMaxHealth);
             transform.position = spawn.transform.position;
             if (!facingLeft)
             {
                 healthBar.Flip();
+                shieldHealthBar.Flip();
                 Flip();
             }
             currentlyAttacking = false;
@@ -278,6 +281,7 @@ public class SpearmanAI : MonoBehaviour
                 {
                     Flip();
                     healthBar.Flip();
+                    shieldHealthBar.Flip();
                 }
                 direction = -1;
             }
@@ -287,6 +291,7 @@ public class SpearmanAI : MonoBehaviour
                 {
                     Flip();
                     healthBar.Flip();
+                    shieldHealthBar.Flip();
                 }
                 direction = 1;
             }
@@ -303,6 +308,7 @@ public class SpearmanAI : MonoBehaviour
                     {
                         Flip();
                         healthBar.Flip();
+                        shieldHealthBar.Flip();
                     }
                 }
                 else if (transform.position.x < currentTarget.position.x)
@@ -312,6 +318,7 @@ public class SpearmanAI : MonoBehaviour
                     {
                         Flip();
                         healthBar.Flip();
+                        shieldHealthBar.Flip();
                     }
                 }
                 return;

@@ -54,8 +54,8 @@ public class PlayerControl : MonoBehaviour
     public float movementSpeed = 5.8f;
     float movementSpeedHelper; //No need for it if the movement doesn't stop while attacking
     public bool facingRight = true;
-    [SerializeField]
-    float inputX;
+    
+    public float inputX;
 
     //Jump
     public float jumpForce = 11f;
@@ -80,8 +80,8 @@ public class PlayerControl : MonoBehaviour
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 1f;
     //public float wallJumpAdditionalForce = 150f;
-    int wallJumpPushBackCounter = 0;
-    bool initiatePushBackCounter = false;
+    //int wallJumpPushBackCounter = 0;
+    //bool initiatePushBackCounter = false;
     public float fallingClamp = 5f;
 
     //Falling
@@ -152,7 +152,7 @@ public class PlayerControl : MonoBehaviour
     public float swordHeavyAttack1JumpForce;
 
     //Axe attacks
-    public static bool axePickedUp = false; //Axe attacks only usable after finding the axe
+    public static bool axePickedUp = true; //Axe attacks only usable after finding the axe
 
     //Parry and block
     public Transform parryCollider;
@@ -601,7 +601,7 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = Vector2.up * jumpForce;
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             attackState = AttackState.cannotAttack;
-            initiatePushBackCounter = true;
+            //initiatePushBackCounter = true;
         }
     }
 
@@ -875,7 +875,7 @@ public class PlayerControl : MonoBehaviour
 
     public void ChangeCurrentStance(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed && Time.time >= switchStanceCooldown)
+        if (callbackContext.performed && Time.time >= switchStanceCooldown && axePickedUp)
         {
             if (swordOrAxeStance)
             {

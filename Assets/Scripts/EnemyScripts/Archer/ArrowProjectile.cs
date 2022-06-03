@@ -96,11 +96,11 @@ public class ArrowProjectile : MonoBehaviour
         {
             arrowForceDynamic -= 2f;
         }
-        if (!femaleArcherAI.targetBeneathArcher)
+        if (!femaleArcherAI.targetInLine)
         {
             arrowForceDynamic *= 4.3f;
         }
-        else if (femaleArcherAI.targetInLine )
+        else if (femaleArcherAI.targetInLine)
         {
             arrowForceDynamic *= 4.3f;
         }

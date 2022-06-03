@@ -64,7 +64,7 @@ public class WeaponManager : MonoBehaviour
             }
             else if (playerControl.attackState == PlayerControl.AttackState.lightAttackAxe1)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeLight1Damage, true);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.lightAttackAxe2)
             {
@@ -82,17 +82,17 @@ public class WeaponManager : MonoBehaviour
             }
             else if (playerControl.attackState == PlayerControl.AttackState.heavyAttackAxe2)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeHeavy2Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeHeavy2Damage, true);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.mediumAttackAxe1)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeMedium1Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeMedium1Damage, true);
                 playerControl.mediumAttackAxe2_Available = true;
                 StartCoroutine(ComboCountdown());
             }
             else if (playerControl.attackState == PlayerControl.AttackState.mediumAttackAxe2)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeMedium2Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeMedium2Damage, true);
             }
         }
     }

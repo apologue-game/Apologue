@@ -41,7 +41,7 @@ public class Room : MonoBehaviour
                 enemy.inCombat = true;
             }
         }
-        else if (collision.CompareTag("Enemy"))
+        else if (collision.GetComponent<IEnemy>() != null)
         {
             enemyList.Add(collision.GetComponent<IEnemy>());
             enemyCount++;
@@ -64,7 +64,7 @@ public class Room : MonoBehaviour
             StaminaBar.inCombat = false;
 
         }
-        else if (collision.CompareTag("Enemy"))
+        else if (collision.GetComponent<IEnemy>() != null)
         {
             enemyList.Remove(collision.GetComponent<IEnemy>());
             enemyCount--;

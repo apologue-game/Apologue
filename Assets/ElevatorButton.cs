@@ -2,28 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElevatorButton : MonoBehaviour
+public class ElevatorButton : Interactable
 {
     public Sprite inactiveButton;
     public Sprite activeButton;
     public bool activated = false;
     public SpriteRenderer spriteRenderer;
+    bool isPressed = false;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void Interact()
     {
-        if (collision.CompareTag("Player"))
+        if (!isPressed)
         {
+            isPressed = true;
+            if (!activated)
+            {
+                activated = true;
+            }
             spriteRenderer.sprite = activeButton;
-            activated = true;
+            StartCoroutine(PressedButton());
         }
+    }
+    
+    IEnumerator PressedButton()
+    {
+        yield return new WaitForSeconds(0.3f);
+        spriteRenderer.sprite = inactiveButton;
+        isPressed = false;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            spriteRenderer.sprite = inactiveButton;
-            activated = false;
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Player"))
+    //    {
+    //        spriteRenderer.sprite = activeButton;
+    //        activated = true;
+    //    }
+    //}
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Player"))
+    //    {
+    //        spriteRenderer.sprite = inactiveButton;
+    //        activated = false;
+    //    }
+    //}
 }

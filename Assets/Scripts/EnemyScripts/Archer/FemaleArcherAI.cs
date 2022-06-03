@@ -16,7 +16,6 @@ public class FemaleArcherAI : MonoBehaviour
     public float hDistance;
     public float vDistance;
     public bool facingLeft = true;
-    public bool targetBeneathArcher = false;
     public bool targetInLine = false;
 
     //Ignore collision with player
@@ -79,7 +78,6 @@ public class FemaleArcherAI : MonoBehaviour
         currentTarget = spawn.transform;
 
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        InvokeRepeating(nameof(InCombat), 0f, 0.5f);
     }
 
     // Update is called once per frame
@@ -88,6 +86,23 @@ public class FemaleArcherAI : MonoBehaviour
         if (femaleArcher.isDead)
         {
             return;
+        }
+        if (femaleArcher.inCombat)
+        {
+            currentTarget = karasuTransform;
+        }
+        if (!femaleArcher.inCombat)
+        {
+            currentTarget = null;
+            healthBar.SetHealth(femaleArcher.maxHealth);
+
+            if (!facingLeft)
+            {
+                healthBar.Flip();
+                Flip();
+            }
+            currentlyAttacking = false;
+            AnimatorSwitchState(IDLEANIMATION);
         }
         hDistance = Mathf.Abs(transform.position.x - karasuTransform.position.x);
         vDistance = Mathf.Abs(transform.position.y - karasuTransform.position.y);
@@ -132,14 +147,6 @@ public class FemaleArcherAI : MonoBehaviour
         }
         else
         {
-            if (currentTarget != null && transform.position.y > currentTarget.position.y + 1)
-            {
-                targetBeneathArcher = true;
-            }
-            else
-            {
-                targetBeneathArcher = false;
-            }
             AnimatorSwitchState(ATTACKUPWARDSANIMATION);
         }
     }
@@ -160,10 +167,6 @@ public class FemaleArcherAI : MonoBehaviour
         {
             Instantiate(arrowPrefab, arrowPointUp.position, arrowPointUp.rotation);
         }
-        else 
-        {
-            Instantiate(arrowPrefab, arrowPointDown.position, arrowPointDown.rotation);
-        }
     }
 
     void Reload()
@@ -173,19 +176,19 @@ public class FemaleArcherAI : MonoBehaviour
     }
 
     //Utilities
-    void InCombat()
-    {
-        if (hDistance <= 17 && hDistance >= 4 && currentTarget != karasuTransform)
-        {
-            currentTarget = karasuTransform;
-        }
-        else if (hDistance > 17 || hDistance <= 4 && currentTarget != null)
-        {
-            currentTarget = null;
-            //Heal archer if target gets out of range
-            //femaleArcher.currentHealth = femaleArcher.maxHealth;
-        }
-    }
+    //void InCombat()
+    //{
+    //    if (hDistance <= 17 && hDistance >= 4 && currentTarget != karasuTransform)
+    //    {
+    //        currentTarget = karasuTransform;
+    //    }
+    //    else if (hDistance > 17 || hDistance <= 4 && currentTarget != null)
+    //    {
+    //        currentTarget = null;
+    //        //Heal archer if target gets out of range
+    //        //femaleArcher.currentHealth = femaleArcher.maxHealth;
+    //    }
+    //}
 
     void Flip()
     {

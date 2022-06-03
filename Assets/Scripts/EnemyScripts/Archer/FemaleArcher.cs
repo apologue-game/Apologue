@@ -11,6 +11,10 @@ public class FemaleArcher : MonoBehaviour, IEnemy
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
     public GameObject healthBarBorderGO;
+    public Image yellowHealthBarFill;
+    public GameObject yellowHealthBarFillGO;
+    public Image healthBarShadingFill;
+    public GameObject healthBarShadingFillGO;
 
     public Animator animator { get; set; }
 
@@ -23,7 +27,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
     public int maxHealth { get; set; }
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
-    public bool inCombat { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool inCombat { get; set; }
 
     private void Awake()
     {
@@ -32,6 +36,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
         isDead = false;
         maxHealth = 1;
         enemyType = IEnemy.EnemyType.ranged;
+        inCombat = false;
     }
 
     void Start()
@@ -41,6 +46,8 @@ public class FemaleArcher : MonoBehaviour, IEnemy
 
         healthBarFill.canvasRenderer.SetAlpha(0f);
         healthBarBorder.canvasRenderer.SetAlpha(0f);
+        yellowHealthBarFill.canvasRenderer.SetAlpha(0f);
+        healthBarShadingFill.canvasRenderer.SetAlpha(0f);
     }
 
     public void TakeDamage(float damage, bool? specialInteraction)
@@ -64,7 +71,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
                 return;
             }
             //StartCoroutine(ArcherStaggered());
-            StartCoroutine(ShowHealthBar());
+            ShowHealthBar();
         }
     }
 
@@ -72,14 +79,16 @@ public class FemaleArcher : MonoBehaviour, IEnemy
     {
         healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        yellowHealthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        healthBarShadingFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
-    IEnumerator ShowHealthBar()
+    void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
-        yield return new WaitForSeconds(1.5f);
-        FadeOutHealthBars();
+        yellowHealthBarFill.canvasRenderer.SetAlpha(1f);
+        healthBarShadingFill.canvasRenderer.SetAlpha(1f);
     }
 
     //IEnumerator ArcherStaggered()
@@ -93,7 +102,6 @@ public class FemaleArcher : MonoBehaviour, IEnemy
     public IEnumerator Death()
     {
         isDead = true;
-        Debug.Log("Archer died");
         animator.Play("deathAnimation");
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
@@ -105,6 +113,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
         isDead = true;
         Debug.Log("Archer died by deflection");
         animator.Play("deathByArrowAnimation");
+        FadeOutHealthBars();
         yield return new WaitForSeconds(3.5f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(femaleArcherAI.spawn);

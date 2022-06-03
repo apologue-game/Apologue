@@ -43,6 +43,8 @@ public class MovingPlatformSwitch : MonoBehaviour
                     movingTowardsIndex = 0;
                 }
                 activated = false;
+                buttonUP.activated = false;
+                buttonDOWN.activated = false;
                 activationTimer = Time.time + 0.1f;
             }
             if (transform.position.y < positions[movingTowardsIndex].position.y)

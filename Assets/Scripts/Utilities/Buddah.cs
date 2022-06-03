@@ -17,7 +17,6 @@ public class Buddah : Interactable
         karasuEntity = GameObject.FindGameObjectWithTag("Player").GetComponent<KarasuEntity>();
 
         healthBar = canvas.transform.Find("HealthBar").gameObject;
-        healthBarFill = healthBar.transform.Find("Fill").GetComponent<Image>();
     }
 
     public override void Interact()
