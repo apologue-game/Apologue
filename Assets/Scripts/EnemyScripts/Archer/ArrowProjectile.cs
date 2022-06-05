@@ -18,6 +18,7 @@ public class ArrowProjectile : MonoBehaviour
     float oldDistance = 0;
     float newDistance;
     int archerIndex = 0;
+    bool deflected = false;
 
     private void Awake()
     {
@@ -122,20 +123,19 @@ public class ArrowProjectile : MonoBehaviour
             Vector2 direction = ((Vector2)femaleArcherAI.transform.position - rigidBody2D.position).normalized;
             Vector2 force = direction * deflectForce * Time.deltaTime;
             rigidBody2D.AddForce(force);
-            //particle effects
+            deflected = true;
             return;
         }
         if (collision.name == "PlayerKarasu" && parried == false)
         {
             karasuEntity.TakeDamage(1, null);
-            //particle effects
         }
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha") && deflected)
         {
             collision.GetComponent<IEnemy>().TakeDamage(1, null);
             GameMaster.DestroyGameObject(gameObject);
         }
-        if (collision.CompareTag("Archer"))
+        if (collision.CompareTag("Archer") && deflected)
         {
             collision.GetComponent<IEnemy>().TakeDamage(1, true);
             GameMaster.DestroyGameObject(gameObject);
@@ -143,7 +143,6 @@ public class ArrowProjectile : MonoBehaviour
         if (collision.name == "GroundTilemap" || collision.name == "PlatformsTilemap" || collision.name == "WallTilemap")
         {
             rigidBody2D.simulated = false;
-            //particle effects
         }
     }
 

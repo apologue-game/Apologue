@@ -16,7 +16,7 @@ public class MovingPlatforms : MonoBehaviour
         transform.position = positions[0].position;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Vector2.Distance(transform.position, positions[movingTowardsIndex].position) < 0.05f)
         {

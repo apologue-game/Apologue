@@ -14,6 +14,7 @@ public class SicklemanAI : MonoBehaviour
     public HealthBar healthBar;
     public GameObject healthBarGO;
     int sicklemanWeaponSpecificID = 1;
+    public GameObject sickleWeaponPrefab;
 
     //Targeting
     GameObject karasu;
@@ -66,6 +67,7 @@ public class SicklemanAI : MonoBehaviour
     //Attacks
     public bool currentlyAttacking = false;
     public bool currentlyStomping = false;
+    public float stompingTimer = 0f;
     public float stompingSpeed = 30f;
     public float jumpForce = 1000f;
     //Teleport strike
@@ -218,6 +220,10 @@ public class SicklemanAI : MonoBehaviour
             else if (!grounded)
             {
                 //TODO: Sickleman and samurai should lock on to the last known location, not follow around
+                //if (Time.time <= stompingTimer)
+                //{
+                //    rigidBody2D.velocity = new Vector2(direction * stompingSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
+                //}
                 rigidBody2D.velocity = new Vector2(direction * stompingSpeed * Time.fixedDeltaTime, rigidBody2D.velocity.y);
             }
             return;
@@ -371,6 +377,7 @@ public class SicklemanAI : MonoBehaviour
 
     void StompFalling()
     {
+        stompingTimer = Time.time + 2.5f;
         currentlyStomping = true;
         AnimatorSwitchState(STOMPFALLINGNIMATION);
     }
@@ -398,6 +405,12 @@ public class SicklemanAI : MonoBehaviour
                 weapon = Throwables.throwables[sicklemanWeaponSpecificID][i];
                 break;
             }
+        }
+        if (weapon is null)
+        {
+            Instantiate(sickleWeaponPrefab);
+            ThrowSickle();
+            return;
         }
         weapon.transform.position = sickleWeapon.position;
         weapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;

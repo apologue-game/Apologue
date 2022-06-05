@@ -30,11 +30,8 @@ public class Room : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             StaminaBar.inCombat = true;
-            if (enemyCount > 0)
-            {
-                entrance.Play(CLOSEGATEANIMATION);
-                StartCoroutine(IdleAfterClosing());
-            }
+            entrance.Play(CLOSEGATEANIMATION);
+            StartCoroutine(IdleAfterClosing());
 
             foreach (IEnemy enemy in enemyList)
             {
@@ -95,6 +92,7 @@ public class Room : MonoBehaviour
     {
         yield return new WaitForSeconds(0.517f);
         exit.Play(IDLEEXITOPENANIMATION);
+        this.enabled = false;
     }
 
 }

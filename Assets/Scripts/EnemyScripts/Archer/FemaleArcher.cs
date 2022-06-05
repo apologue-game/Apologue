@@ -111,7 +111,6 @@ public class FemaleArcher : MonoBehaviour, IEnemy
     public IEnumerator DeathByArrow()
     {
         isDead = true;
-        Debug.Log("Archer died by deflection");
         animator.Play("deathByArrowAnimation");
         FadeOutHealthBars();
         yield return new WaitForSeconds(3.5f);

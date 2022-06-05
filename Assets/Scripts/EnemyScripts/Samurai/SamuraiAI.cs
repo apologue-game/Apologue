@@ -16,6 +16,7 @@ public class SamuraiAI : MonoBehaviour
     public float staggerDuration = 0.5f;
     public HealthBar healthBar;
     public float jumpForce;
+    public bool minimumRangeForJumpingAttack = false;
 
     //Targeting
     GameObject karasu;
@@ -356,6 +357,12 @@ public class SamuraiAI : MonoBehaviour
             {
                 attackDecision = AttackDecision.dashStrike;
             }
+        }
+        minimumRangeForJumpingAttack = GameMaster.Utilities.IsFloatInRange(transform.position.x - 3.5f, transform.position.x + 3.5f, karasuTransform.position.x);
+        if (attackDecision == AttackDecision.jumpForward && minimumRangeForJumpingAttack)
+        {
+            attackDecision = AttackDecision.none;
+            return;
         }
         timeUntilNextDecision = Time.time + decisionTimer;
     }

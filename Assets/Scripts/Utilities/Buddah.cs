@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Buddah : Interactable
 {
+    public Animator animator;
     GameObject canvas;
     public KarasuEntity karasuEntity;
     public GameObject healthBar;
@@ -34,6 +35,7 @@ public class Buddah : Interactable
                 karasuEntity.currentHealth = karasuEntity.maxHealth;
                 healthBar.GetComponent<HealthBar>().SetHealth(karasuEntity.currentHealth);
             }
+            animator.Play("inactiveBuddah");
         }
     }
 }

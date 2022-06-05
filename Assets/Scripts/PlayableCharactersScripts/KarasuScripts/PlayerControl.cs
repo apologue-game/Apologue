@@ -331,14 +331,14 @@ public class PlayerControl : MonoBehaviour
         }
         else if (isCrouching && attackState != AttackState.mediumAttackSword1)
         {
-            if (transform.parent != null)
-            {
-                rigidBody2D.velocity = new Vector2(inputX * crouchMoveOnMovingPlatformSpeed, rigidBody2D.velocity.y);
-            }
-            else
-            {
+            //if (transform.parent != null)
+            //{
+            //    rigidBody2D.velocity = new Vector2(inputX * crouchMoveOnMovingPlatformSpeed, rigidBody2D.velocity.y);
+            //}
+            //else
+            //{
                 rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
-            }
+            //}
         }
 
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);

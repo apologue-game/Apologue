@@ -26,7 +26,6 @@ public class CaveRoom : MonoBehaviour
                 StaminaBar.inCombat = false;
                 enemiesDefeated = true;
                 caveRoomTilemap.GetComponent<TilemapCollider2D>().isTrigger = true;
-                enabled = false;
                 StartCoroutine(TilemapFadeOut());
             }
         }
@@ -35,6 +34,10 @@ public class CaveRoom : MonoBehaviour
     //TODO: Optimization: disable a room if it's finished
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (enemiesDefeated)
+        {
+            return;
+        }
         if (collision.CompareTag("Player"))
         {
             StaminaBar.inCombat = true;
@@ -62,7 +65,6 @@ public class CaveRoom : MonoBehaviour
                 }
             }
             StaminaBar.inCombat = false;
-
         }
         //else if (collision.CompareTag("Enemy"))
         //{
@@ -87,7 +89,7 @@ public class CaveRoom : MonoBehaviour
             caveRoomTilemap.color = new Color(1, 1, 1, currentAlpha);
             yield return new WaitForSeconds(0.01f);
         }
-
+        this.enabled = false;
     }
 
 }

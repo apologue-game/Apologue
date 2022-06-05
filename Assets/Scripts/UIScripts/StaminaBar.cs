@@ -17,7 +17,7 @@ public class StaminaBar : MonoBehaviour
 
     private void Awake()
     {
-        InvokeRepeating(nameof(StaminaRegeneration), 0f, 0.5f);
+        InvokeRepeating(nameof(StaminaRegeneration), 0f, 0.35f);
     }
 
     void Start()
@@ -35,17 +35,22 @@ public class StaminaBar : MonoBehaviour
 
     void StaminaRegeneration()
     {
-        if (Time.time >= regenerationDelay && slider.value <= slider.maxValue)
+        if (inCombat)
         {
-            if (currentStamina + 5 > maxStamina)
+            if (Time.time >= regenerationDelay && slider.value <= slider.maxValue)
             {
-                currentStamina = maxStamina;
+                if (currentStamina + 10 > maxStamina)
+                {
+                    currentStamina = maxStamina;
+                }
+                else
+                {
+                    currentStamina += 10;
+                }
             }
-            else
-            {
-                currentStamina += 5;
-            }
+            return;
         }
+        currentStamina = maxStamina;
     }
 
     public void SetMaximumStamina(int stamina)
