@@ -11,6 +11,8 @@ public sealed class GameMaster : MonoBehaviour
     public static Transform respawnLocation;
     Transform closestCheckpoint = null;
 
+    public FixedJoint2D fixedJoint2D;
+
     //Enemy identification needed for destroying spawn locations object
     public static int enemyID = 0;
 
@@ -32,6 +34,7 @@ public sealed class GameMaster : MonoBehaviour
         }
         else
         {
+            karasuEntity.GetComponent<FixedJoint2D>().enabled = false;
             GameObject[] checkPointArray = GameObject.FindGameObjectsWithTag("Respawn");
             gameMaster.closestCheckpoint = checkPointArray[0].transform;
             for (int i = 0; i < checkPointArray.Length; i++)
@@ -43,6 +46,7 @@ public sealed class GameMaster : MonoBehaviour
             }
             karasuEntity.transform.position = gameMaster.closestCheckpoint.position;
         }
+        gameMaster.fixedJoint2D.enabled = false;
     }
 
     public static void DestroyGameObject(GameObject gameObject)

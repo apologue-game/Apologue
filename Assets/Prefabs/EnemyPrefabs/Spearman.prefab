@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 496549353
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2da8ee7e9b2283f4d9ac44f24b0e81a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -296,7 +296,7 @@ MonoBehaviour:
   scrap: {fileID: 3005611763279810627}
   currentTarget: {fileID: 0}
   spawn: {fileID: 0}
-  movementSpeed: 150
+  movementSpeed: 133
   dashSpeed: 50
   flipDistance: 0.12
   direction: 0
@@ -398,7 +398,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 496549353
+  m_SortingLayerID: 2029672963
   m_SortingLayer: 3
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 861147d2ee672944386d137a215a3bed, type: 3}

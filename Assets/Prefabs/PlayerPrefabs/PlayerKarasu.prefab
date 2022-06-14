@@ -5290,7 +5290,9 @@ MonoBehaviour:
   stuckTimer: 0
   currentParent: {fileID: 0}
   groundedCoroutineActive: 0
-  joint2D: {fileID: 0}
+  joint2D: {fileID: 6315730572134208589}
+  fallingDownForce: 12
+  jumpForceMultiplier: 1.1
   movementAndJumpDust: {fileID: 751296179}
   dashParticleEffect: {fileID: 3911957396758720265}
   interactionIconPrefab: {fileID: 2016919000}
@@ -5300,14 +5302,19 @@ MonoBehaviour:
   movingPlatforms:
     serializedVersion: 2
     m_Bits: 8388608
+  movingPlatformsRigidbody:
+    serializedVersion: 2
+    m_Bits: 16777216
   movementSpeed: 5.8
   facingRight: 1
   inputX: 0
-  jumpForce: 11
+  inputY: 0
+  jumpForce: 10
+  verticalSpeed: 0
   grounded: 0
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 8980480
+    m_Bits: 25757696
   doubleJumpForce: 10.5
   wallHangingCollider: {fileID: 61917985}
   fallingClamp: -0.3
@@ -6019,6 +6026,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1fb5b9a2-f76c-4dfe-bf0d-be4a87f7a701
     m_ActionName: PlayerAxe/SpawnBox[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: OnMove1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d7e49175-9f3f-46cb-beab-7790796a16b6
+    m_ActionName: PlayerSword/ArrowKeysMovement1[/Keyboard/upArrow,/Keyboard/downArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: IncreaseSpeed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4966438d-dde8-4aba-ae15-4309a6be6e86
+    m_ActionName: PlayerSword/IncreaseSpeed[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6984563776060638097}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: DecreaseSpeed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ae3bc19a-619f-4abf-86fc-91b05fcfec74
+    m_ActionName: PlayerSword/DecreaseSpeed[/Keyboard/v]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerSword
@@ -6031,15 +6086,15 @@ FixedJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6984563776060638100}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 1
-  m_ConnectedRigidBody: {fileID: 6984563776060638103}
+  m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -3.1200104, y: 1.4799998}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!50 &6984563776060638103
@@ -6176,6 +6231,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   healthBarFill: {fileID: 0}
   healthBarColor: {r: 0.64705884, g: 0.18431373, b: 0.18431373, a: 1}
+  joint2D: {fileID: 6315730572134208589}
   maxHealth: 30
   currentHealth: 0
   nextTimeVulnerable: 0

@@ -25,6 +25,9 @@ public class PlayerControl : MonoBehaviour
     public bool groundedCoroutineActive = false;
     Vector3 slopeRotation = new Vector3(0, 0, -45f);
     public Joint2D joint2D;
+    public static bool dontEnableJoint = false;
+    public float fallingDownForce = 0f;
+    public float jumpForceMultiplier = 0f;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -49,6 +52,7 @@ public class PlayerControl : MonoBehaviour
 
     //Movement system
     public LayerMask movingPlatforms;
+    public LayerMask movingPlatformsRigidbody;
     //Move
     public float movementSpeed = 5.8f;
     float movementSpeedHelper; //No need for it if the movement doesn't stop while attacking
@@ -56,10 +60,12 @@ public class PlayerControl : MonoBehaviour
     
     public float inputX;
 
+    public float inputY;
+
     //Jump
     public float jumpForce = 11f;
     float verticalSpeedAbsolute;
-    float verticalSpeed;
+    public float verticalSpeed;
     public bool grounded;
     private const float ceilingCheckRadius = .3f;
     public LayerMask whatIsGround;
@@ -322,6 +328,7 @@ public class PlayerControl : MonoBehaviour
         if (!isCrouching && attackState != AttackState.mediumAttackSword1)
         {
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed, rigidBody2D.velocity.y);
+            //rigidBody2D.velocity = new Vector2(inputX * movementSpeed, inputY * movementSpeed);
         }
         else if (isCrouching && attackState != AttackState.mediumAttackSword1)
         {
@@ -396,7 +403,7 @@ public class PlayerControl : MonoBehaviour
         if (verticalSpeed < -1)
         {
             holdingJump = false;
-            rigidBody2D.AddForce(25 * Vector2.down);
+            rigidBody2D.AddForce(fallingDownForce * Vector2.down);
         }
         if (attackState != AttackState.notAttacking || attackState != AttackState.cannotAttack)
         {
@@ -410,12 +417,27 @@ public class PlayerControl : MonoBehaviour
                 attackState = AttackState.notAttacking;
             }
         }
+        if (holdingAxeLightAttack2)
+        {
+            staminaBar.currentStamina -= 0.5f;
+            staminaBar.regenerationDelay = Time.time + 2;
+            animationState = AnimationState.axeLight2;
+        }
     }
 
     void Update()
     {
-        if (rigidBody2D.IsTouchingLayers(movingPlatforms))
+        if (KarasuEntity.dead)
         {
+            joint2D.enabled = false;
+        }
+        if (rigidBody2D.IsTouchingLayers(movingPlatformsRigidbody))
+        {
+            if (KarasuEntity.dead)
+            {
+                joint2D.enabled = false;
+                return;
+            }
             if (transform.parent != null)
             {
                 currentParent = transform.parent;
@@ -426,10 +448,27 @@ public class PlayerControl : MonoBehaviour
                 joint2D.enabled = false;
                 //rigidBody2D.isKinematic = false;
             }
-            else
+            else if (!dontEnableJoint)
             {
                 transform.SetParent(currentParent);
                 joint2D.enabled = true;
+                //rigidBody2D.isKinematic = true;
+            }
+        }
+        if (rigidBody2D.IsTouchingLayers(movingPlatforms))
+        {
+            if (transform.parent != null)
+            {
+                currentParent = transform.parent;
+            }
+            if (inputX != 0/* && !isCrouching*/ || holdingJump)
+            {
+                transform.SetParent(null);
+                //rigidBody2D.isKinematic = false;
+            }
+            else
+            {
+                transform.SetParent(currentParent);
                 //rigidBody2D.isKinematic = true;
             }
         }
@@ -483,6 +522,22 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void IncreaseSpeed(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            movementSpeed += 1;
+        }
+    }    
+    
+    public void DecreaseSpeed(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            movementSpeed -= 1;
+        }
+    }
+
     //Movement
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
@@ -495,6 +550,11 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
+    }
+
+    public void OnMove1(InputAction.CallbackContext callbackContext)
+    {
+        inputY = callbackContext.ReadValue<Vector2>().y;
     }
 
     public void OnJump(InputAction.CallbackContext callbackContext)
@@ -530,7 +590,7 @@ public class PlayerControl : MonoBehaviour
         {
             hangingOnTheWall = false;
             wallJump = false;
-            rigidBody2D.velocity = Vector2.up * jumpForce;
+            rigidBody2D.velocity = Vector2.up * jumpForce * jumpForceMultiplier;
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             attackState = AttackState.cannotAttack;
         }
@@ -743,8 +803,23 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    int holdingAxeLightAttack2Counter = 0;
+    bool holdingAxeLightAttack2 = false;
     public void OnAxeLightAttack2(InputAction.CallbackContext callbackContext)
     {
+        holdingAxeLightAttack2Counter++;
+        if (holdingAxeLightAttack2Counter == 2)
+        {
+            holdingAxeLightAttack2 = true;
+        }
+        if (holdingAxeLightAttack2Counter == 3)
+        {
+            Debug.Log(holdingAxeLightAttack2);
+            attackState = AttackState.notAttacking;
+            holdingAxeLightAttack2 = false;
+            holdingAxeLightAttack2Counter = 0;
+            Debug.Log(holdingAxeLightAttack2);
+        }
         if (callbackContext.performed && attackState == AttackState.notAttacking)
         {
             attackState = AttackState.lightAttackAxe2;

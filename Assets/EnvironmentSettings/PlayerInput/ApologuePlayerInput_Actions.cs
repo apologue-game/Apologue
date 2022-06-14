@@ -73,6 +73,15 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""ArrowKeysMovement1"",
+                    ""type"": ""Value"",
+                    ""id"": ""d7e49175-9f3f-46cb-beab-7790796a16b6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Crouch"",
                     ""type"": ""Button"",
                     ""id"": ""f6b52529-fb49-4e10-a1a3-eb56379a087a"",
@@ -188,6 +197,24 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""IncreaseSpeed"",
+                    ""type"": ""Button"",
+                    ""id"": ""4966438d-dde8-4aba-ae15-4309a6be6e86"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DecreaseSpeed"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae3bc19a-619f-4abf-86fc-91b05fcfec74"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -269,6 +296,17 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""76c488f8-8b67-4440-b828-a569f8743a61"",
+                    ""path"": ""<Keyboard>/rightCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""1D Axis"",
                     ""id"": ""33c2fcc0-504a-403b-a0fc-923d018f501e"",
                     ""path"": ""1DAxis"",
@@ -285,15 +323,26 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
+                    ""id"": ""109fd2e8-f6e6-41cd-83b1-e90ba87e6aeb"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5bfca69a-d0bc-4af2-bd7b-7c94887d2e15"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -302,45 +351,23 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Keyboard"",
-                    ""id"": ""d206bd45-0d38-4991-8469-5955b44071f2"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""bf1bb3bd-9747-4d3c-8c2d-be79540807a9"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""22fd10f5-3a32-4937-a8bd-4bed93448c28"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""b4290461-9ac0-40e1-9a0c-caa91bf65b2d"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68763a74-4f9f-4f93-9926-5f4387ab158d"",
+                    ""path"": ""<Keyboard>/rightCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -362,10 +389,21 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ef686e9-82b9-49e5-aea2-3aad938f3591"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -513,7 +551,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""5de8491d-6776-4371-9f0c-1bcefdea17e3"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch;Keyboard&Mouse"",
@@ -524,7 +562,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""3414c92e-b3ff-44dd-8ea3-d016bc297c0a"",
-                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -535,7 +573,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""1bbf7b43-b02e-46e3-910d-2336e01d37d2"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -557,7 +595,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": ""modifier"",
                     ""id"": ""5c8adcd3-0c92-49e3-9c15-94f7b970a9ea"",
-                    ""path"": ""<XInputController>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -568,7 +606,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": ""button"",
                     ""id"": ""3de34b7a-ef6d-4a53-aded-f2080a6699d5"",
-                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -579,7 +617,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""6e9d59c2-10dd-49b3-9c8c-6559474c3d1e"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -590,7 +628,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""b7358fec-365f-41b7-9ea8-c08a52aaccec"",
-                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick;Gamepad"",
@@ -601,7 +639,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""cbc5c89b-bb6f-4128-a9dd-e56aa90ee082"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -612,7 +650,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""086b4341-8b1b-4ab4-840b-f6ab62f18db1"",
-                    ""path"": ""<XInputController>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -645,7 +683,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""fd6c7594-c6cb-4fa7-a5ff-58574696c8b0"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -656,7 +694,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""81e9aeec-0375-43b4-a8d0-6ea92dde15c8"",
-                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
@@ -672,6 +710,61 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad;Joystick;Touch"",
                     ""action"": ""SpawnBox"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""065b5203-2260-44ba-9745-5752ca65ae2b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ArrowKeysMovement1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""efc0b4d3-8206-4a6c-95b5-bd47e4180c39"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ArrowKeysMovement1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c7378b64-63db-433a-bb30-0de251ddfba8"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ArrowKeysMovement1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d41bb73-8979-420a-a7ca-392a24f30da0"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""IncreaseSpeed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""831c0816-d09c-4e01-abc3-8abd28e66d1b"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DecreaseSpeed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -954,39 +1047,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Keyboard"",
-                    ""id"": ""6659573f-8e15-407d-b15e-345c3389bd46"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""80b94291-9f6e-4396-854b-64cae6dd7dc9"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""397ce5b6-a767-4eed-ba27-ab08c0549f54"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""d48d0b5e-5736-4d3e-bdcd-f56121c41bd1"",
                     ""path"": ""<Keyboard>/leftCtrl"",
@@ -1154,7 +1214,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""811a0a13-00f0-4020-aab9-afff8a9f2424"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch;Keyboard&Mouse"",
@@ -1176,7 +1236,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""bcd036ce-4ad0-4521-8acf-cb60c587059d"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -1198,7 +1258,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""bbebf523-2ceb-4ca1-9506-14bff60e445f"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch;Keyboard&Mouse"",
@@ -1209,7 +1269,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""3fadd814-e133-4702-b8c7-6b2c012a81e1"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -1253,7 +1313,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""e1a6bcc0-58d7-481a-9568-cad5e0c28848"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -1275,7 +1335,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""1e40f759-d8cb-4b66-999b-cf207c82a050"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -1286,7 +1346,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 {
                     ""name"": """",
                     ""id"": ""80475bd9-14db-4d3d-a5f2-0329260a7b2e"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Touch"",
@@ -1980,6 +2040,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         m_PlayerSword_Dash = m_PlayerSword.FindAction("Dash", throwIfNotFound: true);
         m_PlayerSword_DoubleJump = m_PlayerSword.FindAction("DoubleJump", throwIfNotFound: true);
         m_PlayerSword_ArrowKeysMovement = m_PlayerSword.FindAction("ArrowKeysMovement", throwIfNotFound: true);
+        m_PlayerSword_ArrowKeysMovement1 = m_PlayerSword.FindAction("ArrowKeysMovement1", throwIfNotFound: true);
         m_PlayerSword_Crouch = m_PlayerSword.FindAction("Crouch", throwIfNotFound: true);
         m_PlayerSword_Slide = m_PlayerSword.FindAction("Slide", throwIfNotFound: true);
         m_PlayerSword_SwordLightAttack1 = m_PlayerSword.FindAction("SwordLightAttack1", throwIfNotFound: true);
@@ -1993,6 +2054,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         m_PlayerSword_Interact = m_PlayerSword.FindAction("Interact", throwIfNotFound: true);
         m_PlayerSword_ChangeStance = m_PlayerSword.FindAction("ChangeStance", throwIfNotFound: true);
         m_PlayerSword_SpawnBox = m_PlayerSword.FindAction("SpawnBox", throwIfNotFound: true);
+        m_PlayerSword_IncreaseSpeed = m_PlayerSword.FindAction("IncreaseSpeed", throwIfNotFound: true);
+        m_PlayerSword_DecreaseSpeed = m_PlayerSword.FindAction("DecreaseSpeed", throwIfNotFound: true);
         // PlayerAxe
         m_PlayerAxe = asset.FindActionMap("PlayerAxe", throwIfNotFound: true);
         m_PlayerAxe_Move = m_PlayerAxe.FindAction("Move", throwIfNotFound: true);
@@ -2091,6 +2154,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
     private readonly InputAction m_PlayerSword_Dash;
     private readonly InputAction m_PlayerSword_DoubleJump;
     private readonly InputAction m_PlayerSword_ArrowKeysMovement;
+    private readonly InputAction m_PlayerSword_ArrowKeysMovement1;
     private readonly InputAction m_PlayerSword_Crouch;
     private readonly InputAction m_PlayerSword_Slide;
     private readonly InputAction m_PlayerSword_SwordLightAttack1;
@@ -2104,6 +2168,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
     private readonly InputAction m_PlayerSword_Interact;
     private readonly InputAction m_PlayerSword_ChangeStance;
     private readonly InputAction m_PlayerSword_SpawnBox;
+    private readonly InputAction m_PlayerSword_IncreaseSpeed;
+    private readonly InputAction m_PlayerSword_DecreaseSpeed;
     public struct PlayerSwordActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -2113,6 +2179,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         public InputAction @Dash => m_Wrapper.m_PlayerSword_Dash;
         public InputAction @DoubleJump => m_Wrapper.m_PlayerSword_DoubleJump;
         public InputAction @ArrowKeysMovement => m_Wrapper.m_PlayerSword_ArrowKeysMovement;
+        public InputAction @ArrowKeysMovement1 => m_Wrapper.m_PlayerSword_ArrowKeysMovement1;
         public InputAction @Crouch => m_Wrapper.m_PlayerSword_Crouch;
         public InputAction @Slide => m_Wrapper.m_PlayerSword_Slide;
         public InputAction @SwordLightAttack1 => m_Wrapper.m_PlayerSword_SwordLightAttack1;
@@ -2126,6 +2193,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         public InputAction @Interact => m_Wrapper.m_PlayerSword_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerSword_ChangeStance;
         public InputAction @SpawnBox => m_Wrapper.m_PlayerSword_SpawnBox;
+        public InputAction @IncreaseSpeed => m_Wrapper.m_PlayerSword_IncreaseSpeed;
+        public InputAction @DecreaseSpeed => m_Wrapper.m_PlayerSword_DecreaseSpeed;
         public InputActionMap Get() { return m_Wrapper.m_PlayerSword; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2150,6 +2219,9 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ArrowKeysMovement.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement;
                 @ArrowKeysMovement.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement;
                 @ArrowKeysMovement.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement;
+                @ArrowKeysMovement1.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement1;
+                @ArrowKeysMovement1.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement1;
+                @ArrowKeysMovement1.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnArrowKeysMovement1;
                 @Crouch.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnCrouch;
@@ -2189,6 +2261,12 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @SpawnBox.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
                 @SpawnBox.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
                 @SpawnBox.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
+                @IncreaseSpeed.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
+                @IncreaseSpeed.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
+                @IncreaseSpeed.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
+                @DecreaseSpeed.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
+                @DecreaseSpeed.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
+                @DecreaseSpeed.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
             }
             m_Wrapper.m_PlayerSwordActionsCallbackInterface = instance;
             if (instance != null)
@@ -2208,6 +2286,9 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ArrowKeysMovement.started += instance.OnArrowKeysMovement;
                 @ArrowKeysMovement.performed += instance.OnArrowKeysMovement;
                 @ArrowKeysMovement.canceled += instance.OnArrowKeysMovement;
+                @ArrowKeysMovement1.started += instance.OnArrowKeysMovement1;
+                @ArrowKeysMovement1.performed += instance.OnArrowKeysMovement1;
+                @ArrowKeysMovement1.canceled += instance.OnArrowKeysMovement1;
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
@@ -2247,6 +2328,12 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @SpawnBox.started += instance.OnSpawnBox;
                 @SpawnBox.performed += instance.OnSpawnBox;
                 @SpawnBox.canceled += instance.OnSpawnBox;
+                @IncreaseSpeed.started += instance.OnIncreaseSpeed;
+                @IncreaseSpeed.performed += instance.OnIncreaseSpeed;
+                @IncreaseSpeed.canceled += instance.OnIncreaseSpeed;
+                @DecreaseSpeed.started += instance.OnDecreaseSpeed;
+                @DecreaseSpeed.performed += instance.OnDecreaseSpeed;
+                @DecreaseSpeed.canceled += instance.OnDecreaseSpeed;
             }
         }
     }
@@ -2593,6 +2680,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         void OnDash(InputAction.CallbackContext context);
         void OnDoubleJump(InputAction.CallbackContext context);
         void OnArrowKeysMovement(InputAction.CallbackContext context);
+        void OnArrowKeysMovement1(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnSwordLightAttack1(InputAction.CallbackContext context);
@@ -2606,6 +2694,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
         void OnSpawnBox(InputAction.CallbackContext context);
+        void OnIncreaseSpeed(InputAction.CallbackContext context);
+        void OnDecreaseSpeed(InputAction.CallbackContext context);
     }
     public interface IPlayerAxeActions
     {

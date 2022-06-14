@@ -6,8 +6,10 @@ using static KarasuEntity;
 
 public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
 {
+    public FixedJoint2D fixedJoint2D;
     public Rigidbody2D rigidBody2D;
     Vector2 move;
+    public bool restarting = false;
 
     public int direction;
     public bool horizontalOrVerticalDirection;
@@ -20,8 +22,6 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
 
     public int movingTowardsIndex = 0;
 
-    public Joint2D joint2D;
-
     private void Start()
     {
         transform.position = positions[0].position;
@@ -32,7 +32,12 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
     {
         if (dead)
         {
-            StartCoroutine(Restart());
+            if (!restarting)
+            {
+                restarting = true;
+                StartCoroutine(Restart());
+            }
+            
             return;
         }
         if (activated)
@@ -59,50 +64,55 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
 
             rigidBody2D.MovePosition(move);
 
-            if (!courseSet)
+        }
+        if (!courseSet)
+        {
+            if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.y - 0.05f, positions[movingTowardsIndex].position.y + 0.05f, transform.position.y))
             {
-                if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.y - 0.05f, positions[movingTowardsIndex].position.y + 0.05f, transform.position.y))
-                {
-                    horizontalOrVerticalDirection = true;
-                }
-                if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.x - 0.05f, positions[movingTowardsIndex].position.x + 0.05f, transform.position.x))
-                {
-                    horizontalOrVerticalDirection = false;
-                }
-                if (horizontalOrVerticalDirection)
-                {
-                    if (transform.position.x < positions[movingTowardsIndex].position.x)
-                    {
-                        direction = 1;
-                    }
-                    if (transform.position.x > positions[movingTowardsIndex].position.x)
-                    {
-                        direction = -1;
-                    }
-                }
-                if (!horizontalOrVerticalDirection)
-                {
-                    if (transform.position.y < positions[movingTowardsIndex].position.y)
-                    {
-                        direction = 1;
-                    }
-                    if (transform.position.y > positions[movingTowardsIndex].position.y)
-                    {
-                        direction = -1;
-                    }
-                }
-                courseSet = true;
+                horizontalOrVerticalDirection = true;
             }
+            if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.x - 0.05f, positions[movingTowardsIndex].position.x + 0.05f, transform.position.x))
+            {
+                horizontalOrVerticalDirection = false;
+            }
+            if (horizontalOrVerticalDirection)
+            {
+                if (transform.position.x < positions[movingTowardsIndex].position.x)
+                {
+                    direction = 1;
+                }
+                if (transform.position.x > positions[movingTowardsIndex].position.x)
+                {
+                    direction = -1;
+                }
+            }
+            if (!horizontalOrVerticalDirection)
+            {
+                if (transform.position.y < positions[movingTowardsIndex].position.y)
+                {
+                    direction = 1;
+                }
+                if (transform.position.y > positions[movingTowardsIndex].position.y)
+                {
+                    direction = -1;
+                }
+            }
+            courseSet = true;
         }
     }
 
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(3.1f);
+        yield return new WaitForSeconds(3.0f);
+        horizontalOrVerticalDirection = false;
+        direction = 0;
+        courseSet = false;
         activated = false;
         transform.position = positions[0].position;
-        movingTowardsIndex = 0;
+        movingTowardsIndex = 1;
+        fixedJoint2D.enabled = false;
         //speed = starting speed
+        restarting = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -111,13 +121,9 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
         {
             if (collision.transform.position.y > transform.position.y)
             {
-                if (!dead)
-                {
-                    collision.transform.parent = transform;
-                    //collision.gameObject.GetComponent<FixedJoint2D>().enabled = true;
-                    //collision.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
-                    activated = true;
-                }
+                collision.transform.GetComponent<FixedJoint2D>().enabled = true;
+                collision.transform.parent = transform;
+                activated = true;
             }
         }
     }

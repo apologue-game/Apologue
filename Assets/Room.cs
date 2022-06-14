@@ -45,38 +45,6 @@ public class Room : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (!enemiesDefeated)
-            {
-                foreach (IEnemy enemy in enemyList)
-                {
-                    enemy.inCombat = false;
-                }
-                entrance.Play(OPENGATEANIMATION);
-                StartCoroutine(IdleAfterOpeningEntrance());
-            }
-            StaminaBar.inCombat = false;
-
-        }
-        else if (collision.GetComponent<IEnemy>() != null)
-        {
-            enemyList.Remove(collision.GetComponent<IEnemy>());
-            enemyCount--;
-            if (enemyCount == 0)
-            {
-                StaminaBar.inCombat = false;
-                enemiesDefeated = true;
-                entrance.Play(OPENGATEANIMATION);
-                StartCoroutine(IdleAfterOpeningEntrance());
-                exit.Play(OPENGATEEXITANIMATION);
-                StartCoroutine(IdleAfterOpeningExit());
-            }
-        }
-    }
-
     IEnumerator IdleAfterClosing()
     {
         yield return new WaitForSeconds(0.517f);

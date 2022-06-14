@@ -40,7 +40,7 @@ TagManager:
   - NothingTilemap
   - HazzardousTilemap
   - MovingPlatforms
-  - 
+  - MovingPlatformsRigidbody
   - 
   - 
   - 

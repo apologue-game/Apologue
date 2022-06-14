@@ -13,6 +13,7 @@ public class KarasuEntity : MonoBehaviour
     public static bool invulnerableToNextAttack = false;
     public Color healthBarColor;
     PlayerControl playerControl;
+    public FixedJoint2D joint2D;
 
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
@@ -143,5 +144,6 @@ public class KarasuEntity : MonoBehaviour
         healthBar.SetHealth(maxHealth);
         dead = false;
         spikesDeath = false;
+        joint2D.enabled = false;
     }
 }

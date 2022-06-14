@@ -1790,6 +1790,58 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: newDemoTileset_64
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 176
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -16, y: -16}
+        - {x: -16, y: 2}
+        - {x: -11, y: 2}
+        - {x: -11, y: 16}
+        - {x: 16, y: 16}
+        - {x: 16, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 989204629dfac9c45b8e9cecf3022dbe
+      internalID: -124052022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: newDemoTileset_65
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 80
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -15.5, y: -11}
+        - {x: -15.5, y: 16}
+        - {x: 10.5, y: 16}
+        - {x: 10.5, y: -11}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d60907b2d886622499a422dd1b37bea5
+      internalID: 1691303800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1853,10 +1905,12 @@ TextureImporter:
       newDemoTileset_61: -939706910
       newDemoTileset_55: -2005858552360826935
       newDemoTileset_20: 3701086245775111120
+      newDemoTileset_65: 1691303800
       newDemoTileset_17: -7179198775188574842
       newDemoTileset_48: 8974381169226455488
       newDemoTileset_51: 7300833460843131119
       newDemoTileset_52: 6579194520909696858
+      newDemoTileset_64: -124052022
       newDemoTileset_45: -1311367448489737046
       newDemoTileset_35: -3266116334064546094
       newDemoTileset_0: 8928907347192599997
