@@ -145,15 +145,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SwordHeavyAttack2"",
-                    ""type"": ""Button"",
-                    ""id"": ""970987a5-ce4f-448c-a21b-d3635e5e0477"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Parry"",
                     ""type"": ""Button"",
                     ""id"": ""b3d4f02b-27cf-41ab-8b08-e5bd07aca939"",
@@ -609,17 +600,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 },
                 {
                     ""name"": """",
-                    ""id"": ""025ae365-8e3d-4e39-a644-b705cf134ea6"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Touch;Keyboard&Mouse"",
-                    ""action"": ""SwordHeavyAttack2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""cbc5c89b-bb6f-4128-a9dd-e56aa90ee082"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -659,17 +639,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""processors"": """",
                     ""groups"": ""Joystick;Gamepad"",
                     ""action"": ""ChangeStance"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0bc2de8a-c92e-40e4-80f2-e5779abe1fa6"",
-                    ""path"": ""<XInputController>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick;Gamepad"",
-                    ""action"": ""SwordHeavyAttack2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -2019,7 +1988,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         m_PlayerSword_SwordMediumAttack1 = m_PlayerSword.FindAction("SwordMediumAttack1", throwIfNotFound: true);
         m_PlayerSword_SwordMediumAttack2 = m_PlayerSword.FindAction("SwordMediumAttack2", throwIfNotFound: true);
         m_PlayerSword_SwordHeavyAttack1 = m_PlayerSword.FindAction("SwordHeavyAttack1", throwIfNotFound: true);
-        m_PlayerSword_SwordHeavyAttack2 = m_PlayerSword.FindAction("SwordHeavyAttack2", throwIfNotFound: true);
         m_PlayerSword_Parry = m_PlayerSword.FindAction("Parry", throwIfNotFound: true);
         m_PlayerSword_PauseGame = m_PlayerSword.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerSword_Interact = m_PlayerSword.FindAction("Interact", throwIfNotFound: true);
@@ -2131,7 +2099,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
     private readonly InputAction m_PlayerSword_SwordMediumAttack1;
     private readonly InputAction m_PlayerSword_SwordMediumAttack2;
     private readonly InputAction m_PlayerSword_SwordHeavyAttack1;
-    private readonly InputAction m_PlayerSword_SwordHeavyAttack2;
     private readonly InputAction m_PlayerSword_Parry;
     private readonly InputAction m_PlayerSword_PauseGame;
     private readonly InputAction m_PlayerSword_Interact;
@@ -2154,7 +2121,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         public InputAction @SwordMediumAttack1 => m_Wrapper.m_PlayerSword_SwordMediumAttack1;
         public InputAction @SwordMediumAttack2 => m_Wrapper.m_PlayerSword_SwordMediumAttack2;
         public InputAction @SwordHeavyAttack1 => m_Wrapper.m_PlayerSword_SwordHeavyAttack1;
-        public InputAction @SwordHeavyAttack2 => m_Wrapper.m_PlayerSword_SwordHeavyAttack2;
         public InputAction @Parry => m_Wrapper.m_PlayerSword_Parry;
         public InputAction @PauseGame => m_Wrapper.m_PlayerSword_PauseGame;
         public InputAction @Interact => m_Wrapper.m_PlayerSword_Interact;
@@ -2208,9 +2174,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @SwordHeavyAttack1.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack1;
                 @SwordHeavyAttack1.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack1;
                 @SwordHeavyAttack1.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack1;
-                @SwordHeavyAttack2.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack2;
-                @SwordHeavyAttack2.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack2;
-                @SwordHeavyAttack2.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSwordHeavyAttack2;
                 @Parry.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
                 @Parry.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
                 @Parry.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnParry;
@@ -2269,9 +2232,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @SwordHeavyAttack1.started += instance.OnSwordHeavyAttack1;
                 @SwordHeavyAttack1.performed += instance.OnSwordHeavyAttack1;
                 @SwordHeavyAttack1.canceled += instance.OnSwordHeavyAttack1;
-                @SwordHeavyAttack2.started += instance.OnSwordHeavyAttack2;
-                @SwordHeavyAttack2.performed += instance.OnSwordHeavyAttack2;
-                @SwordHeavyAttack2.canceled += instance.OnSwordHeavyAttack2;
                 @Parry.started += instance.OnParry;
                 @Parry.performed += instance.OnParry;
                 @Parry.canceled += instance.OnParry;
@@ -2641,7 +2601,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         void OnSwordMediumAttack1(InputAction.CallbackContext context);
         void OnSwordMediumAttack2(InputAction.CallbackContext context);
         void OnSwordHeavyAttack1(InputAction.CallbackContext context);
-        void OnSwordHeavyAttack2(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);

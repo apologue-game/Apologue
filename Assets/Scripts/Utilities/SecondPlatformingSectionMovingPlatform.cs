@@ -1,0 +1,133 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static KarasuEntity;
+
+public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
+{
+    public Rigidbody2D rigidBody2D;
+    Vector2 move;
+
+    public int direction;
+    public bool horizontalOrVerticalDirection;
+    public bool courseSet = false;
+
+    public bool activated = false;
+    public float speed;
+
+    public Transform[] positions;
+
+    public int movingTowardsIndex = 0;
+
+    public Joint2D joint2D;
+
+    private void Start()
+    {
+        transform.position = positions[0].position;
+        //movingTowardsIndex++;
+    }
+
+    private void FixedUpdate()
+    {
+        if (dead)
+        {
+            StartCoroutine(Restart());
+            return;
+        }
+        if (activated)
+        {
+            if (Vector2.Distance(transform.position, positions[movingTowardsIndex].position) < 0.05f)
+            {
+                movingTowardsIndex++;
+                courseSet = false;
+                if (movingTowardsIndex == positions.Length)
+                {
+                    activated = false;
+                    return;
+                }
+            }
+
+            if (horizontalOrVerticalDirection)
+            {
+                move = new Vector2(transform.position.x + direction * speed, transform.position.y);
+            }
+            if (!horizontalOrVerticalDirection)
+            {
+                move = new Vector2(transform.position.x, transform.position.y + direction * speed);
+            }
+
+            rigidBody2D.MovePosition(move);
+
+            if (!courseSet)
+            {
+                if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.y - 0.05f, positions[movingTowardsIndex].position.y + 0.05f, transform.position.y))
+                {
+                    horizontalOrVerticalDirection = true;
+                }
+                if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.x - 0.05f, positions[movingTowardsIndex].position.x + 0.05f, transform.position.x))
+                {
+                    horizontalOrVerticalDirection = false;
+                }
+                if (horizontalOrVerticalDirection)
+                {
+                    if (transform.position.x < positions[movingTowardsIndex].position.x)
+                    {
+                        direction = 1;
+                    }
+                    if (transform.position.x > positions[movingTowardsIndex].position.x)
+                    {
+                        direction = -1;
+                    }
+                }
+                if (!horizontalOrVerticalDirection)
+                {
+                    if (transform.position.y < positions[movingTowardsIndex].position.y)
+                    {
+                        direction = 1;
+                    }
+                    if (transform.position.y > positions[movingTowardsIndex].position.y)
+                    {
+                        direction = -1;
+                    }
+                }
+                courseSet = true;
+            }
+        }
+    }
+
+    IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(3.1f);
+        activated = false;
+        transform.position = positions[0].position;
+        movingTowardsIndex = 0;
+        //speed = starting speed
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.name == "PlayerKarasu")
+        {
+            if (collision.transform.position.y > transform.position.y)
+            {
+                if (!dead)
+                {
+                    collision.transform.parent = transform;
+                    //collision.gameObject.GetComponent<FixedJoint2D>().enabled = true;
+                    //collision.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+                    activated = true;
+                }
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.name == "PlayerKarasu")
+        {
+            collision.transform.parent = null;
+        }
+    }
+}
+

@@ -58,10 +58,8 @@ public class MovingPlatformSwitch : MonoBehaviour
             move = new Vector2(transform.position.x, transform.position.y + direction * speed);
             rigidBody2D.MovePosition(move);
             return;
-            //transform.position = Vector2.MoveTowards(transform.position, positions[movingTowardsIndex].position, speed * Time.fixedDeltaTime);
         }
-        distanceFromDown = transform.position.y - positions[1].position.y;
-        distanceFromUp = transform.position.y - positions[0].position.y;
+
         if (transform.position.y - positions[0].position.y <= 0.15f)
         {
             currentPosition = true;

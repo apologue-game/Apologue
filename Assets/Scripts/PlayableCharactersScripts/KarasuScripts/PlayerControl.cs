@@ -24,8 +24,7 @@ public class PlayerControl : MonoBehaviour
     public Transform currentParent;
     public bool groundedCoroutineActive = false;
     Vector3 slopeRotation = new Vector3(0, 0, -45f);
-    public float crouchMoveOnMovingPlatformSpeed = 0f;
-
+    public Joint2D joint2D;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -74,14 +73,9 @@ public class PlayerControl : MonoBehaviour
 
     //Wall jump
     public Transform wallHangingCollider;
-    //Coroutine coroutineWallHanging = null;
-    //float wallHangingColliderRange = 0f;
     public static bool hangingOnTheWall = false;
     public static bool wallJump = false;
     public static float hangingOnTheWallTimer = 1f;
-    //public float wallJumpAdditionalForce = 150f;
-    //int wallJumpPushBackCounter = 0;
-    //bool initiatePushBackCounter = false;
     public float fallingClamp = 5f;
 
     //Falling
@@ -404,23 +398,6 @@ public class PlayerControl : MonoBehaviour
             holdingJump = false;
             rigidBody2D.AddForce(25 * Vector2.down);
         }
-        //if (initiatePushBackCounter)
-        //{
-        //    wallJumpPushBackCounter++;
-        //    if (facingRight)
-        //    {
-        //        rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.left);
-        //    }
-        //    else
-        //    {
-        //        rigidBody2D.AddForce(wallJumpAdditionalForce * Vector2.right);
-        //    }
-        //    if (wallJumpPushBackCounter > 10)
-        //    {
-        //        initiatePushBackCounter = false;
-        //        wallJumpPushBackCounter = 0;
-        //    }
-        //}
         if (attackState != AttackState.notAttacking || attackState != AttackState.cannotAttack)
         {
             if (helperAttackState != attackState)
@@ -435,55 +412,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void Slopes()
-    {
-        isOnSlope = false;
-        isOnGround = false;
-        RaycastHit2D[] slopes = Physics2D.LinecastAll(transform.position, (Vector2)transform.position - slopeCheckOffset, whatIsSlope);
-        foreach (RaycastHit2D tilemap in slopes)
-        {
-            if (tilemap.collider.transform.name == "SlopesTilemap")
-            {
-                exitInterruption = true;
-                slopeXPosition = transform.position.x;
-                isOnSlope = true;
-                doubleJump = true;
-            }
-        }
-        if (isOnSlope)
-        {
-            if (!facingRight)
-            {
-                Flip();
-            }
-            if (!rotated)
-            {
-                transform.Rotate(slopeRotation);
-                rotated = true;
-            }
-            onASlope = true;
-        }
-        else
-        {
-            StartCoroutine(SlopeExitDelay());
-        }
-    }
-
-    IEnumerator SlopeExitDelay()
-    {
-        exitInterruption = false;
-        if (rotated)
-        {
-            transform.Rotate(-slopeRotation);
-            rotated = false;
-        }
-        yield return new WaitForSeconds(0.16f);
-        if (!exitInterruption)
-        {
-            onASlope = false;
-        }
-    }
-
     void Update()
     {
         if (rigidBody2D.IsTouchingLayers(movingPlatforms))
@@ -492,13 +420,17 @@ public class PlayerControl : MonoBehaviour
             {
                 currentParent = transform.parent;
             }
-            if (inputX != 0 && !isCrouching)
+            if (inputX != 0/* && !isCrouching*/ || holdingJump)
             {
                 transform.SetParent(null);
+                joint2D.enabled = false;
+                //rigidBody2D.isKinematic = false;
             }
             else
             {
                 transform.SetParent(currentParent);
+                joint2D.enabled = true;
+                //rigidBody2D.isKinematic = true;
             }
         }
         if (inputX > 0)
@@ -601,7 +533,6 @@ public class PlayerControl : MonoBehaviour
             rigidBody2D.velocity = Vector2.up * jumpForce;
             rigidBody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             attackState = AttackState.cannotAttack;
-            //initiatePushBackCounter = true;
         }
     }
 
@@ -912,6 +843,57 @@ public class PlayerControl : MonoBehaviour
     }
 
     //Utilities
+
+    private void Slopes()
+    {
+        isOnSlope = false;
+        isOnGround = false;
+        RaycastHit2D[] slopes = Physics2D.LinecastAll(transform.position, (Vector2)transform.position - slopeCheckOffset, whatIsSlope);
+        foreach (RaycastHit2D tilemap in slopes)
+        {
+            if (tilemap.collider.transform.name == "SlopesTilemap")
+            {
+                exitInterruption = true;
+                slopeXPosition = transform.position.x;
+                isOnSlope = true;
+                doubleJump = true;
+            }
+        }
+        if (isOnSlope)
+        {
+            if (!facingRight)
+            {
+                Flip();
+            }
+            if (!rotated)
+            {
+                transform.Rotate(slopeRotation);
+                rotated = true;
+            }
+            onASlope = true;
+        }
+        else
+        {
+            StartCoroutine(SlopeExitDelay());
+        }
+    }
+
+    IEnumerator SlopeExitDelay()
+    {
+        exitInterruption = false;
+        if (rotated)
+        {
+            transform.Rotate(-slopeRotation);
+            rotated = false;
+        }
+        yield return new WaitForSeconds(0.16f);
+        if (!exitInterruption)
+        {
+            onASlope = false;
+        }
+    }
+    
+
     public void PauseGame(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed)
