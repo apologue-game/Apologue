@@ -13,11 +13,11 @@ public class SamuraiWeaponManager : MonoBehaviour
     //Samurai basic attack
     public AttackSystem basicAttack;
     public AttackType basicAttackType = AttackType.normal;
-    int basicAttackDamage = 3;
+    int basicAttackDamage = 15;
     //Samurai dash strike attack
     public AttackSystem dashStrikeAttack;
     public AttackType dashStrikeAttackType = AttackType.normal;
-    int dashStrikeAttackDamage = 3;
+    int dashStrikeAttackDamage = 5;
 
     //Samurai jump forward attack
     public AttackSystem jumpForwardAttack;
@@ -27,7 +27,7 @@ public class SamuraiWeaponManager : MonoBehaviour
     public float moveForceJumpForwardBaseValue = 0f;
     public float moveForceJumpForwardMultiplier = 0f;
     public bool currentlyJumpingForward = false;
-    int jumpForwardAttackDamage = 3;
+    int jumpForwardAttackDamage = 25;
 
     private void Start()
     {

@@ -142,7 +142,7 @@ public class Spearman : MonoBehaviour, IEnemy
     {
         isDead = true;
         FadeOutHealthBars();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(spearmanAI.spawn);
     }

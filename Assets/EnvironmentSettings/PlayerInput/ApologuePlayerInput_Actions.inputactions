@@ -29,7 +29,7 @@
                     "id": "93254501-c3d7-4ffd-9f83-c185690f0664",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -137,7 +137,7 @@
                     "id": "b3d4f02b-27cf-41ab-8b08-e5bd07aca939",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -168,27 +168,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SpawnBox",
+                    "name": "Show/HideControls",
                     "type": "Button",
-                    "id": "d6eb7056-ec67-43e7-b642-f5d522736d20",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "IncreaseSpeed",
-                    "type": "Button",
-                    "id": "4966438d-dde8-4aba-ae15-4309a6be6e86",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DecreaseSpeed",
-                    "type": "Button",
-                    "id": "ae3bc19a-619f-4abf-86fc-91b05fcfec74",
+                    "id": "09a2c206-1891-422e-b159-aa77308420b7",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -681,17 +663,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "257a4f3f-9cc0-4ee7-9063-ddb927369d62",
-                    "path": "<Keyboard>/g",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Joystick;Touch",
-                    "action": "SpawnBox",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "2D Vector",
                     "id": "065b5203-2260-44ba-9745-5752ca65ae2b",
                     "path": "2DVector",
@@ -726,23 +697,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7d41bb73-8979-420a-a7ca-392a24f30da0",
+                    "id": "453ac4ef-0355-4e6e-9baf-9e01cbcf5a9a",
                     "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "IncreaseSpeed",
+                    "action": "Show/HideControls",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "831c0816-d09c-4e01-abc3-8abd28e66d1b",
-                    "path": "<Keyboard>/v",
+                    "id": "bd2cb48e-6540-4c6f-8ee5-832088bb7a57",
+                    "path": "<Gamepad>/dpad/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "DecreaseSpeed",
+                    "groups": "Gamepad;Joystick",
+                    "action": "Show/HideControls",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -776,7 +747,7 @@
                     "id": "d0be4aff-2cef-44c5-b765-9200d316a65c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -884,7 +855,7 @@
                     "id": "bbf6a93f-056a-49e7-be06-fd7e096d9860",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -915,9 +886,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SpawnBox",
+                    "name": "Show/HideControls",
                     "type": "Button",
-                    "id": "1fb5b9a2-f76c-4dfe-bf0d-be4a87f7a701",
+                    "id": "2a14fae3-2ab7-4b51-9b28-de0f658a6362",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test",
+                    "type": "Button",
+                    "id": "568d21d9-29bf-438f-93d5-0b7fc01e3f25",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -942,7 +922,7 @@
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse;Touch",
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1003,28 +983,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "86aaec35-8713-4dc3-866a-e92f1868d204",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "positive",
-                    "id": "54f173d7-f373-4ea3-a03f-ce51fa2b089c",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "d48d0b5e-5736-4d3e-bdcd-f56121c41bd1",
                     "path": "<Keyboard>/leftCtrl",
@@ -1036,26 +994,15 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "055ee06d-ab5d-4a86-91c6-3e316ef7fb49",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Slide",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "positive",
-                    "id": "04437947-1272-47b8-b4cc-4810cc525835",
+                    "name": "",
+                    "id": "e4bb1314-7e8e-4b06-880b-7ada7c0a8d3d",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Slide",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -1140,7 +1087,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "Gamepad;Joystick",
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1389,12 +1336,56 @@
                 },
                 {
                     "name": "",
-                    "id": "8cda3c51-4667-4de6-b501-c14817b1fd35",
-                    "path": "<Keyboard>/g",
+                    "id": "dd6efe08-19e5-4a80-82f3-51d5ae808f93",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad;Joystick;Touch",
-                    "action": "SpawnBox",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Show/HideControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c160f3b6-0c84-4fff-81c3-b854b95ebece",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Joystick",
+                    "action": "Show/HideControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "86aaec35-8713-4dc3-866a-e92f1868d204",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "positive",
+                    "id": "54f173d7-f373-4ea3-a03f-ce51fa2b089c",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "a0233cc4-14ed-4d2e-a3b0-0099063d7d3d",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

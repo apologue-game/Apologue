@@ -34,7 +34,7 @@ public class Samurai : MonoBehaviour, IEnemy
     {
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 15;
+        maxHealth = 120;
         enemyType = IEnemy.EnemyType.normal;
         inCombat = false;
     }
@@ -58,13 +58,18 @@ public class Samurai : MonoBehaviour, IEnemy
         {
             return;
         }
-
         currentHealth -= damage;
+        Debug.Log(currentHealth);
         healthBar.SetHealth(currentHealth);
+        //if (currentHealth <= 0)
+        //{
+        //    StartCoroutine(Death());
+        //    return;
+        //}
         if (currentHealth <= 0)
         {
-            StartCoroutine(Death());
-            return;
+            currentHealth = maxHealth;
+            healthBar.SetHealth(currentHealth);
         }
         //if (!samuraiAI.currentlyAttacking)
         //{
@@ -93,7 +98,7 @@ public class Samurai : MonoBehaviour, IEnemy
     {
         isDead = true;
         FadeOutHealthBars();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(samuraiAI.spawn);
     }

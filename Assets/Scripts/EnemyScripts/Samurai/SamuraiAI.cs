@@ -467,6 +467,7 @@ public class SamuraiAI : MonoBehaviour
     void SamuraiLungeAttackFinish()
     {
         currentlyLunging = false;
+        rigidBody2D.velocity = Vector2.zero;
     }
 
     void JumpForwardAttackStart()

@@ -28,6 +28,13 @@ public class PlayerControl : MonoBehaviour
     public static bool dontEnableJoint = false;
     public float fallingDownForce = 0f;
     public float jumpForceMultiplier = 0f;
+    public float axeMedium1DashLength = 0f;
+    public float slideOutOfCrouchDelay = 0f;
+    public bool holdingSwordLightAttack2 = false;
+    bool holdingAxeLightAttack2 = false;
+    public float crouchMoveOnMovingPlatformSpeed = 0f;
+    public GameObject attackControls;
+    public GameObject basicControls;
 
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -332,14 +339,14 @@ public class PlayerControl : MonoBehaviour
         }
         else if (isCrouching && attackState != AttackState.mediumAttackSword1)
         {
-            //if (transform.parent != null)
-            //{
-            //    rigidBody2D.velocity = new Vector2(inputX * crouchMoveOnMovingPlatformSpeed, rigidBody2D.velocity.y);
-            //}
-            //else
-            //{
+            if (transform.parent != null)
+            {
+                rigidBody2D.velocity = new Vector2(inputX * crouchMoveOnMovingPlatformSpeed, rigidBody2D.velocity.y);
+            }
+            else
+            {
                 rigidBody2D.velocity = new Vector2(inputX * movementSpeed * crouchSpeedMultiplier, rigidBody2D.velocity.y);
-            //}
+            }
         }
 
         verticalSpeedAbsolute = Math.Abs(rigidBody2D.velocity.y);
@@ -351,7 +358,7 @@ public class PlayerControl : MonoBehaviour
             if (attackState == AttackState.notAttacking || attackState == AttackState.cannotAttack)
             {
                 //Falling
-                if (!grounded && verticalSpeed < -12 && !falling)
+                if (!grounded && verticalSpeed < -18 && !falling)
                 {
                     falling = true;
                     animationState = AnimationState.falling;
@@ -374,7 +381,7 @@ public class PlayerControl : MonoBehaviour
                     animationState = AnimationState.crouchIdle;
                 }
                 //Jumping
-                else if (!grounded && verticalSpeedAbsolute > 0)
+                else if (!grounded && verticalSpeedAbsolute > 0 && !falling)
                 {
                     if (jumpCounter == 2)
                     {
@@ -405,7 +412,7 @@ public class PlayerControl : MonoBehaviour
             holdingJump = false;
             rigidBody2D.AddForce(fallingDownForce * Vector2.down);
         }
-        if (attackState != AttackState.notAttacking || attackState != AttackState.cannotAttack)
+        if (attackState != AttackState.notAttacking || attackState != AttackState.lightAttackSword2 || attackState != AttackState.lightAttackAxe2 || attackState != AttackState.mediumAttackAxe2 || attackState != AttackState.mediumAttackSword2)
         {
             if (helperAttackState != attackState)
             {
@@ -419,9 +426,31 @@ public class PlayerControl : MonoBehaviour
         }
         if (holdingAxeLightAttack2)
         {
-            staminaBar.currentStamina -= 0.5f;
-            staminaBar.regenerationDelay = Time.time + 2;
+            if (!StaminaCheck(0.5f))
+            {
+                attackState = AttackState.notAttacking;
+                holdingAxeLightAttack2 = false;
+                NotAttacking();
+                return;
+            }
+            staminaBar.currentStamina -= 0.7f;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             animationState = AnimationState.axeLight2;
+            attackState = AttackState.lightAttackAxe2;
+        }
+        if (holdingSwordLightAttack2)
+        {
+            if (!StaminaCheck(0.5f))
+            {
+                attackState = AttackState.notAttacking;
+                holdingSwordLightAttack2 = false;
+                NotAttacking();
+                return;
+            }
+            staminaBar.currentStamina -= 0.5f;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
+            animationState = AnimationState.swordLight2;
+            attackState = AttackState.lightAttackSword2;
         }
     }
 
@@ -442,17 +471,15 @@ public class PlayerControl : MonoBehaviour
             {
                 currentParent = transform.parent;
             }
-            if (inputX != 0/* && !isCrouching*/ || holdingJump)
+            if (inputX != 0 && !isCrouching || holdingJump)
             {
                 transform.SetParent(null);
                 joint2D.enabled = false;
-                //rigidBody2D.isKinematic = false;
             }
             else if (!dontEnableJoint)
             {
                 transform.SetParent(currentParent);
                 joint2D.enabled = true;
-                //rigidBody2D.isKinematic = true;
             }
         }
         if (rigidBody2D.IsTouchingLayers(movingPlatforms))
@@ -461,15 +488,13 @@ public class PlayerControl : MonoBehaviour
             {
                 currentParent = transform.parent;
             }
-            if (inputX != 0/* && !isCrouching*/ || holdingJump)
+            if (inputX != 0 && !isCrouching || holdingJump)
             {
                 transform.SetParent(null);
-                //rigidBody2D.isKinematic = false;
             }
             else
             {
                 transform.SetParent(currentParent);
-                //rigidBody2D.isKinematic = true;
             }
         }
         if (inputX > 0)
@@ -559,6 +584,10 @@ public class PlayerControl : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(20))
+        {
+            return;
+        }
         jumpHoldCounter++;
         if (jumpHoldCounter == 2)
         {
@@ -583,7 +612,7 @@ public class PlayerControl : MonoBehaviour
             isSliding = false;
             jumpCounter = 1;
             staminaBar.currentStamina -= 20;
-            staminaBar.regenerationDelay = Time.time + 2;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             CreateDust();
         }
         if (hangingOnTheWall && wallJump && callbackContext.performed)
@@ -613,6 +642,10 @@ public class PlayerControl : MonoBehaviour
 
     public void OnRoll(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(25))
+        {
+            return;
+        }
         if (hangingOnTheWall || onASlope)
         {
             return;
@@ -643,7 +676,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
             staminaBar.currentStamina -= 20;
-            staminaBar.regenerationDelay = Time.time + 2;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             rollEnd = Time.time + rollDuration;
             animationState = AnimationState.roll;
             isRolling = true;
@@ -652,17 +685,17 @@ public class PlayerControl : MonoBehaviour
 
     public void OnCrouch(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || onASlope)
+        if (hangingOnTheWall || onASlope || attackState != AttackState.notAttacking)
         {
             return;
         }
-        if (playerInput.currentControlScheme == "Gamepad")
-        {
-            if (callbackContext.ReadValue<float>() != 1)
-            {
-                return;
-            }
-        }
+        //if (playerInput.currentControlScheme == "Gamepad")
+        //{
+        //    if (callbackContext.ReadValue<float>() != 1)
+        //    {
+        //        return;
+        //    }
+        //}
         if (callbackContext.performed && inputX == 0 && grounded && !isCrouching)
         {
             isCrouching = true;
@@ -678,22 +711,32 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSlide(InputAction.CallbackContext callbackContext)
     {
-        if (hangingOnTheWall || onASlope)
+        if (!StaminaCheck(10))
         {
             return;
         }
-        if (playerInput.currentControlScheme == "Gamepad")
+        if (hangingOnTheWall || onASlope || attackState != AttackState.notAttacking)
         {
-            if (callbackContext.ReadValue<float>() != 1)
+            return;
+        }
+        //if (playerInput.currentControlScheme == "Gamepad")
+        //{
+        //    if (callbackContext.ReadValue<float>() != 1)
+        //    {
+        //        return;
+        //    }
+        //}
+        if (callbackContext.performed && inputX != 0 && grounded)
+        {
+            if (isCrouching)
             {
                 return;
             }
-        }
-        if (callbackContext.performed && inputX != 0 && grounded && !isCrouching)
-        {
             isCrouching = true;
             slideDirection = inputX;
             rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2f, rigidBody2D.velocity.y);
+            staminaBar.currentStamina -= 10;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             StartCoroutine(IsSliding());
         }
     }
@@ -709,8 +752,14 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnSwordLightAttack1(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(40))
+        {
+            return;
+        }
         if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackSword2_Available)
         {
+            staminaBar.currentStamina -= 40;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.lightAttackSword1;
             animationState = AnimationState.swordLight1;
         }
@@ -718,8 +767,20 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordLightAttack2(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(15))
+        {
+            return;
+        }
+        if (callbackContext.phase == InputActionPhase.Canceled && holdingSwordLightAttack2)
+        {
+            attackState = AttackState.notAttacking;
+            holdingSwordLightAttack2 = false;
+            NotAttacking();
+        }
+
         if (callbackContext.performed && attackState == AttackState.notAttacking)
         {
+            holdingSwordLightAttack2 = true;
             attackState = AttackState.lightAttackSword2;
             animationState = AnimationState.swordLight2;
         }
@@ -727,8 +788,14 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordLightAttack3(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(60))
+        {
+            return;
+        }
         if (callbackContext.performed  && attackState == AttackState.notAttacking)
         {
+            staminaBar.currentStamina -= 60;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.lightAttackSword3;
             animationState = AnimationState.swordLight3;
         }
@@ -736,8 +803,14 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordMediumAttack1(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(50))
+        {
+            return;
+        }
         if (callbackContext.performed  && attackState == AttackState.notAttacking &&!mediumAttackSword2_Available && inputX != 0)
         {
+            staminaBar.currentStamina -= 50;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.mediumAttackSword1;
             animationState = AnimationState.swordMedium1;
         }
@@ -750,8 +823,14 @@ public class PlayerControl : MonoBehaviour
     
     public void OnSwordMediumAttack2(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(20))
+        {
+            return;
+        }
         if (callbackContext.performed  && attackState == AttackState.notAttacking && mediumAttackSword2_Available)
         {
+            staminaBar.currentStamina -= 20;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.mediumAttackSword2;
             animationState = AnimationState.swordMedium2;
             mediumAttackSword2_Available = false;
@@ -761,8 +840,14 @@ public class PlayerControl : MonoBehaviour
     
     public void OnSwordHeavyAttack1(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(30))
+        {
+            return;
+        }
         if (callbackContext.performed  && attackState == AttackState.notAttacking && !heavyAttackSword2_Available)
         {
+            staminaBar.currentStamina -= 30;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.heavyAttackSword1;
             animationState = AnimationState.swordHeavy1;
         }
@@ -796,32 +881,36 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack1(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(50))
+        {
+            return;
+        }
         if (callbackContext.performed && attackState == AttackState.notAttacking)
         {
+            staminaBar.currentStamina -= 50;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.lightAttackAxe1;
             animationState = AnimationState.axeLight1;
         }
     }
 
-    int holdingAxeLightAttack2Counter = 0;
-    bool holdingAxeLightAttack2 = false;
     public void OnAxeLightAttack2(InputAction.CallbackContext callbackContext)
     {
-        holdingAxeLightAttack2Counter++;
-        if (holdingAxeLightAttack2Counter == 2)
+        if (!StaminaCheck(15))
         {
-            holdingAxeLightAttack2 = true;
+            return;
         }
-        if (holdingAxeLightAttack2Counter == 3)
+        if (callbackContext.phase == InputActionPhase.Canceled && holdingAxeLightAttack2)
         {
-            Debug.Log(holdingAxeLightAttack2);
             attackState = AttackState.notAttacking;
             holdingAxeLightAttack2 = false;
-            holdingAxeLightAttack2Counter = 0;
-            Debug.Log(holdingAxeLightAttack2);
+            NotAttacking();
         }
+
+        
         if (callbackContext.performed && attackState == AttackState.notAttacking)
         {
+            holdingAxeLightAttack2 = true;
             attackState = AttackState.lightAttackAxe2;
             animationState = AnimationState.axeLight2;
         }
@@ -829,17 +918,30 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack3(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(70))
+        {
+            return;
+        }
         if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
         {
+            staminaBar.currentStamina -= 70;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.lightAttackAxe3;
             animationState = AnimationState.axeLight3;
+            Debug.Log("Current attack state:" + attackState);
         }
     }
 
     public void OnAxeMediumAttack1(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(40))
+        {
+            return;
+        }
         if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available && inputX != 0)
         {
+            staminaBar.currentStamina -= 40;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.mediumAttackAxe1;
             animationState = AnimationState.axeMedium1;
         }
@@ -848,12 +950,37 @@ public class PlayerControl : MonoBehaviour
     void AxeMediumAttackDash()
     {
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed * axeMediumAttackDashSpeed, rigidBody2D.velocity.y);
+
+        //if (facingRight)
+        //{
+        //    RaycastHit2D[] hits = Physics2D.LinecastAll(transform.position, transform.position + new Vector3(axeMedium1DashLength, 0.5f, 0), enemiesLayers);
+        //    if (hits.Length > 0)
+        //    {
+        //        rigidBody2D.velocity = Vector2.zero;
+        //    }
+        //    Debug.Log("Array length: " + hits.Length);
+        //}
+        //if (!facingRight)
+        //{
+        //    RaycastHit2D[] hits = Physics2D.LinecastAll(transform.position, transform.position - new Vector3(axeMedium1DashLength, -0.5f, 0), enemiesLayers);
+        //    if (hits.Length > 0)
+        //    {
+        //        rigidBody2D.velocity = Vector2.zero;
+        //    }
+        //    Debug.Log("Array length: " + hits.Length);
+        //}
     }
 
     public void OnAxeMediumAttack2(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(20))
+        {
+            return;
+        }
         if (callbackContext.performed && attackState == AttackState.notAttacking && mediumAttackAxe2_Available)
         {
+            staminaBar.currentStamina -= 20;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.mediumAttackAxe2;
             animationState = AnimationState.axeMedium2;
             mediumAttackAxe2_Available = false;
@@ -862,8 +989,14 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeHeavyAttack1(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(40))
+        {
+            return;
+        }
         if (callbackContext.performed && attackState == AttackState.notAttacking && !heavyAttackAxe2_Available && !mediumAttackAxe2_Available)
         {
+            staminaBar.currentStamina -= 40;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.heavyAttackAxe1;
             animationState = AnimationState.axeHeavy1;
         }
@@ -871,8 +1004,14 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeHeavyAttack2(InputAction.CallbackContext callbackContext)
     {
+        if (!StaminaCheck(50))
+        {
+            return;
+        }
         if (callbackContext.performed/* && attackState == AttackState.notAttacking*/ && heavyAttackAxe2_Available)
         {
+            staminaBar.currentStamina -= 50;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.heavyAttackAxe2;
             animationState = AnimationState.axeHeavy2;
             heavyAttackAxe2_Available = false;
@@ -917,7 +1056,34 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public bool controlsShown = true;
     //Utilities
+    public void OnShowOrHideControls(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.performed)
+        {
+            if (controlsShown)
+            {
+                controlsShown = false;
+                basicControls.SetActive(false);
+                attackControls.SetActive(false);
+                return;
+            }
+            controlsShown = true;
+            basicControls.SetActive(true);
+            attackControls.SetActive(true);
+        }
+    }
+
+
+    public bool StaminaCheck(float actionStaminaCost)
+    {
+        if (actionStaminaCost <= staminaBar.currentStamina)
+        {
+            return true;
+        }
+        return false;
+    }
 
     private void Slopes()
     {
@@ -1123,6 +1289,7 @@ public class PlayerControl : MonoBehaviour
             return;
         }
 
+        
         animator.Play(newState.ToString());
 
         oldAnimationState = newState.ToString();

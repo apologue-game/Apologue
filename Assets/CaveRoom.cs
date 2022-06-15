@@ -11,6 +11,7 @@ public class CaveRoom : MonoBehaviour
     public bool enemiesDefeated;
     public int enemyCount;
     public float currentAlpha = 1f;
+    public bool fadingOut = false;
 
     private void Start()
     {
@@ -26,7 +27,10 @@ public class CaveRoom : MonoBehaviour
                 StaminaBar.inCombat = false;
                 enemiesDefeated = true;
                 caveRoomTilemap.GetComponent<TilemapCollider2D>().isTrigger = true;
-                StartCoroutine(TilemapFadeOut());
+                if (!fadingOut)
+                {
+                    StartCoroutine(TilemapFadeOut());
+                }
             }
         }
     }
@@ -82,14 +86,15 @@ public class CaveRoom : MonoBehaviour
 
     IEnumerator TilemapFadeOut()
     {
-        yield return new WaitForSeconds(2f);
+        fadingOut = true;
+        yield return new WaitForSeconds(0.5f);
         for (int i = 100; i >= 0; i--)
         {
             currentAlpha -= 0.01f;
             caveRoomTilemap.color = new Color(1, 1, 1, currentAlpha);
             yield return new WaitForSeconds(0.01f);
         }
-        this.enabled = false;
+        //this.enabled = false;
     }
 
 }

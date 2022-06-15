@@ -13,6 +13,7 @@ public class BossAI : MonoBehaviour
     Boss boss;
     public GameObject bossHealthBar;
     public ParticleSystem lungeDownAttackParticleEffect;
+    public bool minimumRangeForJumpingAttack = false;
 
     //Targeting
     GameObject karasu;
@@ -218,6 +219,7 @@ public class BossAI : MonoBehaviour
             if (grounded)
             {
                 currentlyJumpingForward = false;
+                rigidBody2D.velocity = Vector2.zero;
                 JumpForwardAttack();
             }
         }
@@ -432,6 +434,12 @@ public class BossAI : MonoBehaviour
                 usedLungeAttack = true;
             }
         }
+        minimumRangeForJumpingAttack = GameMaster.Utilities.IsFloatInRange(transform.position.x - 4f, transform.position.x + 4f, karasuTransform.position.x);
+        if (attackDecision == AttackDecision.jumpForward && minimumRangeForJumpingAttack)
+        {
+            attackDecision = AttackDecision.none;
+            return;
+        }
         timeUntilNextDecision = Time.time + decisionTimer;
     }
 
@@ -576,6 +584,11 @@ public class BossAI : MonoBehaviour
         }
         parriedOrBlocked = false;
         attackDecision = AttackDecision.none;
+    }
+
+    void LungeAttackFinished()
+    {
+        rigidBody2D.velocity = Vector2.zero;
     }
 
     void JumpForwardAttackPreparation()

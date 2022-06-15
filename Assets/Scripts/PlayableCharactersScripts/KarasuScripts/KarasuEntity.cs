@@ -18,7 +18,7 @@ public class KarasuEntity : MonoBehaviour
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
-    public int maxHealth = 30;
+    public int maxHealth = 125;
     public float currentHealth;
 
     //Dying
@@ -61,41 +61,41 @@ public class KarasuEntity : MonoBehaviour
 
     public void TakeDamage(float damage, AttackType? attackType)
     {
-        if (damage == 500)
-        {
-            dead = true;
-            spikesDeath = true;
-            StartCoroutine(SpikesDeath());
-            return;
-        }
-        if (playerControl.isRolling)
-        {
-            return;
-        }
-        if (invulnerableToNextAttack && damage != 501)
-        {
-            healthBarFill.color = healthBarColor;
-            invulnerableToNextAttack = false;
-            return;
-        }
-        if (Time.time > nextTimeVulnerable && !invulnerable)
-        {
-            if (attackType == AttackType.onlyParryable || attackType == AttackType.special)
-            {
-                //StartCoroutine(Stagger());
-            }
-            invulnerable = true;
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
-            spriteRenderer.color = takeDamageColor;
-            takeDamageTimer = Time.time + invincibilityWindow;
-            nextTimeVulnerable = Time.time + invincibilityWindow;
-        }
-        if (currentHealth <= 0 && !dead)
-        {
-            dead = true;
-            StartCoroutine(Death());
-        }
+        //if (damage == 500)
+        //{
+        //    dead = true;
+        //    spikesDeath = true;
+        //    StartCoroutine(SpikesDeath());
+        //    return;
+        //}
+        //if (playerControl.isRolling)
+        //{
+        //    return;
+        //}
+        //if (invulnerableToNextAttack && damage != 501)
+        //{
+        //    healthBarFill.color = healthBarColor;
+        //    invulnerableToNextAttack = false;
+        //    return;
+        //}
+        //if (Time.time > nextTimeVulnerable && !invulnerable)
+        //{
+        //    if (attackType == AttackType.onlyParryable || attackType == AttackType.special)
+        //    {
+        //        //StartCoroutine(Stagger());
+        //    }
+        //    invulnerable = true;
+        //    currentHealth -= damage;
+        //    healthBar.SetHealth(currentHealth);
+        //    spriteRenderer.color = takeDamageColor;
+        //    takeDamageTimer = Time.time + invincibilityWindow;
+        //    nextTimeVulnerable = Time.time + invincibilityWindow;
+        //}
+        //if (currentHealth <= 0 && !dead)
+        //{
+        //    dead = true;
+        //    StartCoroutine(Death());
+        //}
     }
 
     IEnumerator SpikesDeath()

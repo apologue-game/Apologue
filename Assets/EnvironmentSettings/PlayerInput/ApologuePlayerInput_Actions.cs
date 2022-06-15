@@ -51,7 +51,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""id"": ""93254501-c3d7-4ffd-9f83-c185690f0664"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -159,7 +159,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""id"": ""b3d4f02b-27cf-41ab-8b08-e5bd07aca939"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -190,27 +190,9 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SpawnBox"",
+                    ""name"": ""Show/HideControls"",
                     ""type"": ""Button"",
-                    ""id"": ""d6eb7056-ec67-43e7-b642-f5d522736d20"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""IncreaseSpeed"",
-                    ""type"": ""Button"",
-                    ""id"": ""4966438d-dde8-4aba-ae15-4309a6be6e86"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""DecreaseSpeed"",
-                    ""type"": ""Button"",
-                    ""id"": ""ae3bc19a-619f-4abf-86fc-91b05fcfec74"",
+                    ""id"": ""09a2c206-1891-422e-b159-aa77308420b7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -703,17 +685,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""257a4f3f-9cc0-4ee7-9063-ddb927369d62"",
-                    ""path"": ""<Keyboard>/g"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Joystick;Touch"",
-                    ""action"": ""SpawnBox"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""065b5203-2260-44ba-9745-5752ca65ae2b"",
                     ""path"": ""2DVector"",
@@ -748,23 +719,23 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7d41bb73-8979-420a-a7ca-392a24f30da0"",
+                    ""id"": ""453ac4ef-0355-4e6e-9baf-9e01cbcf5a9a"",
                     ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""IncreaseSpeed"",
+                    ""action"": ""Show/HideControls"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""831c0816-d09c-4e01-abc3-8abd28e66d1b"",
-                    ""path"": ""<Keyboard>/v"",
+                    ""id"": ""bd2cb48e-6540-4c6f-8ee5-832088bb7a57"",
+                    ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""DecreaseSpeed"",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Show/HideControls"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -798,7 +769,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""id"": ""d0be4aff-2cef-44c5-b765-9200d316a65c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -906,7 +877,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""id"": ""bbf6a93f-056a-49e7-be06-fd7e096d9860"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -937,9 +908,18 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SpawnBox"",
+                    ""name"": ""Show/HideControls"",
                     ""type"": ""Button"",
-                    ""id"": ""1fb5b9a2-f76c-4dfe-bf0d-be4a87f7a701"",
+                    ""id"": ""2a14fae3-2ab7-4b51-9b28-de0f658a6362"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Test"",
+                    ""type"": ""Button"",
+                    ""id"": ""568d21d9-29bf-438f-93d5-0b7fc01e3f25"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -964,7 +944,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1025,28 +1005,6 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""86aaec35-8713-4dc3-866a-e92f1868d204"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Crouch"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""54f173d7-f373-4ea3-a03f-ce51fa2b089c"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Crouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""d48d0b5e-5736-4d3e-bdcd-f56121c41bd1"",
                     ""path"": ""<Keyboard>/leftCtrl"",
@@ -1058,26 +1016,15 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""055ee06d-ab5d-4a86-91c6-3e316ef7fb49"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Slide"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""04437947-1272-47b8-b4cc-4810cc525835"",
+                    ""name"": """",
+                    ""id"": ""e4bb1314-7e8e-4b06-880b-7ada7c0a8d3d"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Slide"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -1162,7 +1109,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1411,12 +1358,56 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8cda3c51-4667-4de6-b501-c14817b1fd35"",
-                    ""path"": ""<Keyboard>/g"",
+                    ""id"": ""dd6efe08-19e5-4a80-82f3-51d5ae808f93"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Gamepad;Joystick;Touch"",
-                    ""action"": ""SpawnBox"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Show/HideControls"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c160f3b6-0c84-4fff-81c3-b854b95ebece"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Show/HideControls"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""86aaec35-8713-4dc3-866a-e92f1868d204"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""54f173d7-f373-4ea3-a03f-ce51fa2b089c"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0233cc4-14ed-4d2e-a3b0-0099063d7d3d"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2053,9 +2044,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         m_PlayerSword_PauseGame = m_PlayerSword.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerSword_Interact = m_PlayerSword.FindAction("Interact", throwIfNotFound: true);
         m_PlayerSword_ChangeStance = m_PlayerSword.FindAction("ChangeStance", throwIfNotFound: true);
-        m_PlayerSword_SpawnBox = m_PlayerSword.FindAction("SpawnBox", throwIfNotFound: true);
-        m_PlayerSword_IncreaseSpeed = m_PlayerSword.FindAction("IncreaseSpeed", throwIfNotFound: true);
-        m_PlayerSword_DecreaseSpeed = m_PlayerSword.FindAction("DecreaseSpeed", throwIfNotFound: true);
+        m_PlayerSword_ShowHideControls = m_PlayerSword.FindAction("Show/HideControls", throwIfNotFound: true);
         // PlayerAxe
         m_PlayerAxe = asset.FindActionMap("PlayerAxe", throwIfNotFound: true);
         m_PlayerAxe_Move = m_PlayerAxe.FindAction("Move", throwIfNotFound: true);
@@ -2076,7 +2065,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         m_PlayerAxe_PauseGame = m_PlayerAxe.FindAction("PauseGame", throwIfNotFound: true);
         m_PlayerAxe_Interact = m_PlayerAxe.FindAction("Interact", throwIfNotFound: true);
         m_PlayerAxe_ChangeStance = m_PlayerAxe.FindAction("ChangeStance", throwIfNotFound: true);
-        m_PlayerAxe_SpawnBox = m_PlayerAxe.FindAction("SpawnBox", throwIfNotFound: true);
+        m_PlayerAxe_ShowHideControls = m_PlayerAxe.FindAction("Show/HideControls", throwIfNotFound: true);
+        m_PlayerAxe_Test = m_PlayerAxe.FindAction("Test", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -2167,9 +2157,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
     private readonly InputAction m_PlayerSword_PauseGame;
     private readonly InputAction m_PlayerSword_Interact;
     private readonly InputAction m_PlayerSword_ChangeStance;
-    private readonly InputAction m_PlayerSword_SpawnBox;
-    private readonly InputAction m_PlayerSword_IncreaseSpeed;
-    private readonly InputAction m_PlayerSword_DecreaseSpeed;
+    private readonly InputAction m_PlayerSword_ShowHideControls;
     public struct PlayerSwordActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -2192,9 +2180,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         public InputAction @PauseGame => m_Wrapper.m_PlayerSword_PauseGame;
         public InputAction @Interact => m_Wrapper.m_PlayerSword_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerSword_ChangeStance;
-        public InputAction @SpawnBox => m_Wrapper.m_PlayerSword_SpawnBox;
-        public InputAction @IncreaseSpeed => m_Wrapper.m_PlayerSword_IncreaseSpeed;
-        public InputAction @DecreaseSpeed => m_Wrapper.m_PlayerSword_DecreaseSpeed;
+        public InputAction @ShowHideControls => m_Wrapper.m_PlayerSword_ShowHideControls;
         public InputActionMap Get() { return m_Wrapper.m_PlayerSword; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2258,15 +2244,9 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ChangeStance.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnChangeStance;
-                @SpawnBox.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
-                @SpawnBox.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
-                @SpawnBox.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnSpawnBox;
-                @IncreaseSpeed.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
-                @IncreaseSpeed.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
-                @IncreaseSpeed.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
-                @DecreaseSpeed.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
-                @DecreaseSpeed.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
-                @DecreaseSpeed.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
+                @ShowHideControls.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnShowHideControls;
+                @ShowHideControls.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnShowHideControls;
+                @ShowHideControls.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnShowHideControls;
             }
             m_Wrapper.m_PlayerSwordActionsCallbackInterface = instance;
             if (instance != null)
@@ -2325,15 +2305,9 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ChangeStance.started += instance.OnChangeStance;
                 @ChangeStance.performed += instance.OnChangeStance;
                 @ChangeStance.canceled += instance.OnChangeStance;
-                @SpawnBox.started += instance.OnSpawnBox;
-                @SpawnBox.performed += instance.OnSpawnBox;
-                @SpawnBox.canceled += instance.OnSpawnBox;
-                @IncreaseSpeed.started += instance.OnIncreaseSpeed;
-                @IncreaseSpeed.performed += instance.OnIncreaseSpeed;
-                @IncreaseSpeed.canceled += instance.OnIncreaseSpeed;
-                @DecreaseSpeed.started += instance.OnDecreaseSpeed;
-                @DecreaseSpeed.performed += instance.OnDecreaseSpeed;
-                @DecreaseSpeed.canceled += instance.OnDecreaseSpeed;
+                @ShowHideControls.started += instance.OnShowHideControls;
+                @ShowHideControls.performed += instance.OnShowHideControls;
+                @ShowHideControls.canceled += instance.OnShowHideControls;
             }
         }
     }
@@ -2360,7 +2334,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
     private readonly InputAction m_PlayerAxe_PauseGame;
     private readonly InputAction m_PlayerAxe_Interact;
     private readonly InputAction m_PlayerAxe_ChangeStance;
-    private readonly InputAction m_PlayerAxe_SpawnBox;
+    private readonly InputAction m_PlayerAxe_ShowHideControls;
+    private readonly InputAction m_PlayerAxe_Test;
     public struct PlayerAxeActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -2383,7 +2358,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         public InputAction @PauseGame => m_Wrapper.m_PlayerAxe_PauseGame;
         public InputAction @Interact => m_Wrapper.m_PlayerAxe_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerAxe_ChangeStance;
-        public InputAction @SpawnBox => m_Wrapper.m_PlayerAxe_SpawnBox;
+        public InputAction @ShowHideControls => m_Wrapper.m_PlayerAxe_ShowHideControls;
+        public InputAction @Test => m_Wrapper.m_PlayerAxe_Test;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAxe; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2447,9 +2423,12 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ChangeStance.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
                 @ChangeStance.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnChangeStance;
-                @SpawnBox.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSpawnBox;
-                @SpawnBox.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSpawnBox;
-                @SpawnBox.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnSpawnBox;
+                @ShowHideControls.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnShowHideControls;
+                @ShowHideControls.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnShowHideControls;
+                @ShowHideControls.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnShowHideControls;
+                @Test.started -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnTest;
+                @Test.performed -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnTest;
+                @Test.canceled -= m_Wrapper.m_PlayerAxeActionsCallbackInterface.OnTest;
             }
             m_Wrapper.m_PlayerAxeActionsCallbackInterface = instance;
             if (instance != null)
@@ -2508,9 +2487,12 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ChangeStance.started += instance.OnChangeStance;
                 @ChangeStance.performed += instance.OnChangeStance;
                 @ChangeStance.canceled += instance.OnChangeStance;
-                @SpawnBox.started += instance.OnSpawnBox;
-                @SpawnBox.performed += instance.OnSpawnBox;
-                @SpawnBox.canceled += instance.OnSpawnBox;
+                @ShowHideControls.started += instance.OnShowHideControls;
+                @ShowHideControls.performed += instance.OnShowHideControls;
+                @ShowHideControls.canceled += instance.OnShowHideControls;
+                @Test.started += instance.OnTest;
+                @Test.performed += instance.OnTest;
+                @Test.canceled += instance.OnTest;
             }
         }
     }
@@ -2693,9 +2675,7 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
-        void OnSpawnBox(InputAction.CallbackContext context);
-        void OnIncreaseSpeed(InputAction.CallbackContext context);
-        void OnDecreaseSpeed(InputAction.CallbackContext context);
+        void OnShowHideControls(InputAction.CallbackContext context);
     }
     public interface IPlayerAxeActions
     {
@@ -2717,7 +2697,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
-        void OnSpawnBox(InputAction.CallbackContext context);
+        void OnShowHideControls(InputAction.CallbackContext context);
+        void OnTest(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

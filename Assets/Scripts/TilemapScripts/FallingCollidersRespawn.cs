@@ -33,5 +33,6 @@ public class FallingCollidersRespawn : MonoBehaviour
         yield return new WaitForSeconds(1f);
         playerKarasu.position = respawnLocation.position;
         playerKarasu.GetComponent<SpriteRenderer>().enabled = true;
+        playerKarasu.GetComponent<PlayerControl>().isCrouching = false;
     }
 }

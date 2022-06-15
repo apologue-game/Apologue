@@ -113,7 +113,7 @@ public class FemaleArcher : MonoBehaviour, IEnemy
         isDead = true;
         animator.Play("deathByArrowAnimation");
         FadeOutHealthBars();
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(femaleArcherAI.spawn);
     }

@@ -34,7 +34,7 @@ public class Sickleman : MonoBehaviour, IEnemy
     {
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 30;
+        maxHealth = 1;
         enemyType = IEnemy.EnemyType.elite;
         inCombat = false;
     }
@@ -88,7 +88,7 @@ public class Sickleman : MonoBehaviour, IEnemy
     {
         isDead = true;
         FadeOutHealthBars();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         GameMaster.DestroyGameObject(gameObject);
         GameMaster.DestroyGameObject(sicklemanAI.spawn);
     }

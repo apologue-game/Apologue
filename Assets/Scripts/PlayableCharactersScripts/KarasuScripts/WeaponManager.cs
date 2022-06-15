@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    const float swordLight1Damage =  4;
-    const float swordLight2Damage = 2;
-    const float swordLight3Damage = 2;
-    const float swordHeavy1Damage = 2;
-    const float swordHeavy2Damage = 3.5f;
-    const float swordMedium1Damage = 1.3f;
-    const float swordMedium2Damage = 2.4f;
-    const float axeLight1Damage = 2.3f;
-    const float axeLight2Damage = 3.5f;
-    const float axeLight3Damage = 4.5f;
-    const float axeHeavy1Damage = 3.5f;
-    const float axeHeavy2Damage = 5;
-    const float axeMedium1Damage = 1.8f;
-    const float axeMedium2Damage = 2.75f;
+    const float swordLight1Damage =  30;
+    const float swordLight2Damage = 3;
+    const float swordLight3Damage = 6;
+    const float swordMedium2Damage = 4;
+    const float swordMedium1Damage = 40;
+    const float swordHeavy1Damage = 20;
+    //const float swordHeavy2Damage = 40;
+    const float axeLight1Damage = 45;
+    const float axeLight2Damage = 4;
+    const float axeLight3Damage = 70;
+    const float axeMedium1Damage = 20;
+    const float axeMedium2Damage = 100;
+    const float axeHeavy1Damage = 20;
+    const float axeHeavy2Damage = 60;
 
     public PlayerControl playerControl;
 
@@ -47,10 +47,6 @@ public class WeaponManager : MonoBehaviour
                 collision.GetComponent<Rigidbody2D>().AddForce(Vector2.up * heavyAttack1KnockupForce);
                 playerControl.heavyAttackSword2_Available = true;
                 StartCoroutine(ComboCountdown());
-            }
-            else if (playerControl.attackState == PlayerControl.AttackState.heavyAttackSword2)
-            {
-                collision.GetComponent<IEnemy>().TakeDamage(swordHeavy2Damage, false);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.mediumAttackSword1)
             {
@@ -87,6 +83,7 @@ public class WeaponManager : MonoBehaviour
             else if (playerControl.attackState == PlayerControl.AttackState.mediumAttackAxe1)
             {
                 collision.GetComponent<IEnemy>().TakeDamage(axeMedium1Damage, true);
+                collision.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 playerControl.mediumAttackAxe2_Available = true;
                 StartCoroutine(ComboCountdown());
             }
