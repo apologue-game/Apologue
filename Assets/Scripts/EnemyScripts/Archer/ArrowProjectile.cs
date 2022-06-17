@@ -128,16 +128,16 @@ public class ArrowProjectile : MonoBehaviour
         }
         if (collision.name == "PlayerKarasu" && parried == false)
         {
-            karasuEntity.TakeDamage(1, null);
+            karasuEntity.TakeDamage(15, null);
         }
         if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha") && deflected)
         {
-            collision.GetComponent<IEnemy>().TakeDamage(1, null);
+            collision.GetComponent<IEnemy>().TakeDamage(15, null);
             GameMaster.DestroyGameObject(gameObject);
         }
         if (collision.CompareTag("Archer") && deflected)
         {
-            collision.GetComponent<IEnemy>().TakeDamage(1, true);
+            collision.GetComponent<IEnemy>().TakeDamage(15, true);
             GameMaster.DestroyGameObject(gameObject);
         }
         if (collision.name == "GroundTilemap" || collision.name == "PlatformsTilemap" || collision.name == "WallTilemap")

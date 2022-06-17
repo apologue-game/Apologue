@@ -5,9 +5,18 @@ using UnityEngine.Tilemaps;
 
 public class TilemapFadeOut : MonoBehaviour
 {
-    public Tilemap tilemap;
+    public SpriteRenderer spriteRenderer;
     public bool fadeOut;
     public float currentAlpha = 1f;
+
+    private void Start()
+    {
+        if (transform.name == "caveExitForeground")
+        {
+            currentAlpha = 0f;
+            spriteRenderer.color = new Color(1, 1, 1, currentAlpha);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,7 +36,7 @@ public class TilemapFadeOut : MonoBehaviour
                 yield break;
             }
             currentAlpha -= 0.01f;
-            tilemap.color = new Color(1, 1, 1, currentAlpha);
+            spriteRenderer.color = new Color(1, 1, 1, currentAlpha);
             yield return new WaitForSeconds(0.01f);
         }
         
@@ -42,7 +51,7 @@ public class TilemapFadeOut : MonoBehaviour
                 yield break;
             }
             currentAlpha += 0.01f;
-            tilemap.color = new Color(1, 1, 1, currentAlpha);
+            spriteRenderer.color = new Color(1, 1, 1, currentAlpha);
             yield return new WaitForSeconds(0.01f);
         }
         

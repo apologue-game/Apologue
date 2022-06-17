@@ -72,10 +72,13 @@ public class WeaponManager : MonoBehaviour
             else if (playerControl.attackState == PlayerControl.AttackState.heavyAttackSword1)
             {
                 collision.GetComponent<IEnemy>().TakeDamage(swordHeavy1Damage, false);
-                collision.GetComponent<Rigidbody2D>().AddForce(Vector2.up * heavyAttack1KnockupForce);
-                airCombo = true;
-                airComboTimer = Time.time + 1.5f;
-                StartCoroutine(ComboCountdown());
+                if (collision.transform.name != "Hwacha" && collision.transform.name != "Boss" && collision.transform.name != "Sickleman")
+                {
+                    collision.GetComponent<Rigidbody2D>().AddForce(Vector2.up * heavyAttack1KnockupForce);
+                    airCombo = true;
+                    airComboTimer = Time.time + 1.5f;
+                    StartCoroutine(ComboCountdown());
+                }
             }
             else if (playerControl.attackState == PlayerControl.AttackState.mediumAttackSword1)
             {
@@ -93,11 +96,11 @@ public class WeaponManager : MonoBehaviour
             }
             else if (playerControl.attackState == PlayerControl.AttackState.lightAttackAxe2)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight2Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeLight2Damage, true);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.lightAttackAxe3)
             {
-                collision.GetComponent<IEnemy>().TakeDamage(axeLight3Damage, false);
+                collision.GetComponent<IEnemy>().TakeDamage(axeLight3Damage, true);
             }
             else if (playerControl.attackState == PlayerControl.AttackState.heavyAttackAxe1)
             {

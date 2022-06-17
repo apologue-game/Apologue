@@ -9,9 +9,6 @@ using UnityEngine.UI;
 public class PlayerControl : MonoBehaviour
 {
     //Helpers
-    public TMP_Text currentStanceText;
-    readonly string swordStance = "Sword stance";
-    readonly string axeStance = "Axe stance";
     public GameObject shadow;
     public StaminaBar staminaBar;
     public float comboWindow = 0.3f;
@@ -35,6 +32,8 @@ public class PlayerControl : MonoBehaviour
     public float crouchMoveOnMovingPlatformSpeed = 0f;
     public GameObject attackControls;
     public GameObject basicControls;
+    public Button resumeButton;
+    public static bool lastCheckpoint = false;
     
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
@@ -198,6 +197,7 @@ public class PlayerControl : MonoBehaviour
         parry,
         block,
         hitWhileBlocking,
+        stagger,
         swordLight1,
         swordLight2,
         swordLight3,
@@ -235,6 +235,23 @@ public class PlayerControl : MonoBehaviour
 
         interactionTooltip = transform.Find("InteractionTooltip").gameObject;
         interactionTooltipSR = interactionTooltip.GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        if (lastCheckpoint)
+        {
+            if (PauseMenu.currentPosition != null)
+            {
+                transform.position = PauseMenu.currentPosition;
+            }
+            else
+            {
+                transform.position = new Vector3(0f, 0f, 0f);
+            }
+
+            lastCheckpoint = false;
+        }
     }
 
     IEnumerator GroundedDelay()
@@ -282,6 +299,12 @@ public class PlayerControl : MonoBehaviour
                 StartCoroutine(GroundedDelay());
             }
             
+        }
+
+        if (KarasuEntity.staggered)
+        {
+            animationState = AnimationState.stagger;
+            return;
         }
 
         if (animationState == AnimationState.swordHeavy2Fall)
@@ -407,11 +430,11 @@ public class PlayerControl : MonoBehaviour
         {
             rigidBody2D.AddForce(jumpForce * 2 * Vector2.up);
         }
-        if (verticalSpeed < -1)
-        {
-            holdingJump = false;
-            rigidBody2D.AddForce(fallingDownForce * Vector2.down);
-        }
+        //if (verticalSpeed < -1)
+        //{
+        //    holdingJump = false;
+        //    rigidBody2D.AddForce(fallingDownForce * Vector2.down);
+        //}
         if (attackState != AttackState.notAttacking || attackState != AttackState.lightAttackSword2 || attackState != AttackState.lightAttackAxe2 || attackState != AttackState.mediumAttackAxe2 || attackState != AttackState.mediumAttackSword2)
         {
             if (helperAttackState != attackState)
@@ -811,7 +834,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(60))
+        if (!StaminaCheck(60) || interactionIconPrefab.activeSelf)
         {
             return;
         }
@@ -957,7 +980,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(70))
+        if (!StaminaCheck(70) || interactionIconPrefab.activeSelf)
         {
             return;
         }
@@ -1046,12 +1069,10 @@ public class PlayerControl : MonoBehaviour
             if (swordOrAxeStance)
             {
                 playerInput.SwitchCurrentActionMap("PlayerAxe");
-                currentStanceText.text = axeStance;
             }
             else if (!swordOrAxeStance)
             {
                 playerInput.SwitchCurrentActionMap("PlayerSword");
-                currentStanceText.text = swordStance;
             }
             switchStanceCooldown = Time.time + 0.5f;
             attackState = AttackState.notAttacking;
@@ -1187,6 +1208,10 @@ public class PlayerControl : MonoBehaviour
             {
                 pauseMenuPanel.SetActive(true);
                 playerInput.SwitchCurrentActionMap("UI");
+                if (playerInput.currentControlScheme == "Gamepad")
+                {
+                    resumeButton.Select();
+                }
                 Time.timeScale = 0f;
                 isGamePaused = true;
             }

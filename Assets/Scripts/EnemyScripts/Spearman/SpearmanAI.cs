@@ -134,6 +134,7 @@ public class SpearmanAI : MonoBehaviour
         if (!spearman.inCombat)
         {
             currentTarget = null;
+            spearman.currentHealth = spearman.maxHealth;
             healthBar.SetHealth(spearman.maxHealth);
             shieldHealthBar.SetHealth(spearman.shieldMaxHealth);
             transform.position = spawn.transform.position;
@@ -175,7 +176,7 @@ public class SpearmanAI : MonoBehaviour
 
         if (staggered)
         {
-            if (Spearman.shield)
+            if (spearman.shield)
             {
                 AnimatorSwitchState(STAGGERANIMATION);
             }
@@ -198,15 +199,19 @@ public class SpearmanAI : MonoBehaviour
             attackDecision = AttackDecision.none;
         }
 
-        if (Spearman.blocking)
+        if (spearman.blocking)
         {
             AnimatorSwitchState(SHIELDBLOCKANIMATION);
+            currentlyAttacking = false;
+            attackDecision = AttackDecision.none;
             return;
         }
 
-        if (Spearman.shieldBreak)
+        if (spearman.shieldBreak)
         {
             AnimatorSwitchState(SHIELDDESTROYEDANIMATION);
+            currentlyAttacking = false;
+            attackDecision = AttackDecision.none;
             return;
         }
 
@@ -233,7 +238,7 @@ public class SpearmanAI : MonoBehaviour
         if (hDistance < stoppingDistance && Time.time > lastTimeAttack + decisionTimer && !currentlyAttacking)
         {
             randomNumber = rnd.Next(0, 2);
-            if (Spearman.shield)
+            if (spearman.shield)
             {
                 currentlyAttacking = true;
                 if (randomNumber == 0)
@@ -265,7 +270,7 @@ public class SpearmanAI : MonoBehaviour
 
         if (!currentlyAttacking && !spearman.isTakingDamage)
         {
-            if (Spearman.shield)
+            if (spearman.shield)
             {
                 if (speed > 1)
                 {
@@ -417,12 +422,12 @@ public class SpearmanAI : MonoBehaviour
 
     void NotBlocking()
     {
-        Spearman.blocking = false;
+        spearman.blocking = false;
     }
 
     void ShieldBroken()
     {
-        Spearman.shieldBreak = false;
+        spearman.shieldBreak = false;
         scrap.SetActive(true);
         scrap.transform.parent = null;
     }

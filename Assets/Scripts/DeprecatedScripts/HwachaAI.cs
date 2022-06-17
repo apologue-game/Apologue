@@ -8,7 +8,7 @@ public class HwachaAI : MonoBehaviour
     int myID;
     string myName = "";
     Hwacha hwacha;
-    HealthBar healthBar;
+    public HealthBar healthBar;
 
     //Targeting
     GameObject karasu;
@@ -74,11 +74,28 @@ public class HwachaAI : MonoBehaviour
         spawn = new GameObject(myName);
         spawn.transform.position = spawnLocation;
 
-        InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
+        //InvokeRepeating("InCombatOrGoBackToSpawn", 0f, 0.5f);
     }
 
     private void FixedUpdate()
     {
+        if (hwacha.inCombat)
+        {
+            currentTarget = karasuTransform;
+        }
+        if (!hwacha.inCombat)
+        {
+            currentTarget = null;
+            hwacha.currentHealth = hwacha.maxHealth;
+            healthBar.SetHealth(hwacha.maxHealth);
+            if (transform.position.x != spawn.transform.position.x)
+            {
+                transform.position = spawn.transform.position;
+            }
+
+            currentlyAttacking = false;
+            AnimatorSwitchState(IDLEANIMATION);
+        }
         //Exceptions
         if (hwacha.isDead)
         {
@@ -94,13 +111,10 @@ public class HwachaAI : MonoBehaviour
             AnimatorSwitchState(IDLEANIMATION);
         }
 
-        float distance = transform.position.x - karasuTransform.position.x;
-        hDistanceAbsolute = Mathf.Abs(transform.position.x - karasuTransform.position.x);
-
         //Attacking
         if (currentTarget == karasuTransform)
         {
-            if (Time.time > nextAttack && !currentlyAttacking && distance > 1)
+            if (Time.time > nextAttack && !currentlyAttacking/* && distance > 1*/)
             {
                 currentlyAttacking = true;
                 Attack();

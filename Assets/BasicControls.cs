@@ -9,13 +9,13 @@ public class BasicControls : MonoBehaviour
 
     public TMP_Text currentText;
 
-    const string basicControlsKB = "Move: Arrowkeys   Jump, Double jump: Space    Roll: LShift    Crouch toggle: LCtrl \n" +
+    const string basicControlsKB = "Move: Arrow keys   Jump, Double jump: Space    Roll: LShift    Crouch toggle: LCtrl \n" +
                                     "Slide: LCtrl while moving    Parry: R    Interact: E    Pause menu: Esc\n" +
-                                    "Change attack stance: X    Toggle the visibility of controls: C\n";
+                                    "Switch attack stance: X    Toggle the visibility of controls: C\n";
 
     const string basicControlsGP = "Move: Left stick    Jump, Double jump: A    Roll: B    Crouch toggle: Left trigger \n" +
                                     "Slide: Left trigger while moving     Parry: Left shoulder     Interact: Right shoulder\n" +
-                                    "Pause menu: Start button     Change attack stance: D-pad up    Toggle the visibility of controls: D-Pad left\n";
+                                    "Pause menu: Start button     Switch attack stance: D-pad up    Toggle the visibility of controls: D-Pad left\n";
 
     private void Update()
     {

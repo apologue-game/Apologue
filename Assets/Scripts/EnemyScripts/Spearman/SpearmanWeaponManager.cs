@@ -13,19 +13,19 @@ public class SpearmanWeaponManager : MonoBehaviour
     //Spearman basic attack
     public AttackSystem basicAttack;
     public AttackType basicAttackType = AttackType.normal;
-    int basicAttackDamage = 3;
+    int basicAttackDamage = 15;
     //Spearman dash attack
     public AttackSystem dashAttack;
     public AttackType dashAttackType = AttackType.normal;
-    int dashStrikeAttackDamage = 3;
+    int dashStrikeAttackDamage = 10;
     //Spearman shield bash attack
     public AttackSystem shieldBashAttack;
-    public AttackType shieldBashAttackType = AttackType.normal;
-    int jumpForwardAttackDamage = 3;    
+    public AttackType shieldBashAttackType = AttackType.special;
+    int jumpForwardAttackDamage = 0;    
     //Spearman flurry attack
     public AttackSystem flurryAttack;
     public AttackType flurryAttackType = AttackType.normal;
-    int flurryAttackDamage = 3;
+    int flurryAttackDamage = 15;
 
     private void Start()
     {

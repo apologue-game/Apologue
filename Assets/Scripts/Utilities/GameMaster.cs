@@ -8,7 +8,7 @@ public sealed class GameMaster : MonoBehaviour
     public static GameMaster gameMaster;
 
     public GameObject karasuPlayerPrefab;
-    public static Transform respawnLocation;
+    public Transform respawnLocation;
     Transform closestCheckpoint = null;
 
     public FixedJoint2D fixedJoint2D;
@@ -28,25 +28,26 @@ public sealed class GameMaster : MonoBehaviour
 
     public static void KillPlayer(KarasuEntity karasuEntity)
     {
-        if (respawnLocation != null)
+        if (gameMaster.respawnLocation != null)
         {
-            karasuEntity.transform.position = respawnLocation.position;
+            karasuEntity.transform.position = gameMaster.respawnLocation.position;
         }
-        else
-        {
-            karasuEntity.GetComponent<FixedJoint2D>().enabled = false;
-            GameObject[] checkPointArray = GameObject.FindGameObjectsWithTag("Respawn");
-            gameMaster.closestCheckpoint = checkPointArray[0].transform;
-            for (int i = 0; i < checkPointArray.Length; i++)
-            {
-                if (checkPointArray[i].transform.position.x - karasuEntity.transform.position.x < gameMaster.closestCheckpoint.position.x - karasuEntity.transform.position.x)
-                {
-                    gameMaster.closestCheckpoint = checkPointArray[i].transform;
-                }
-            }
-            karasuEntity.transform.position = gameMaster.closestCheckpoint.position;
-        }
-        gameMaster.fixedJoint2D.enabled = false;
+        karasuEntity.GetComponent<FixedJoint2D>().enabled = false;
+        //else
+        //{
+            
+        //    GameObject[] checkPointArray = GameObject.FindGameObjectsWithTag("Respawn");
+        //    gameMaster.closestCheckpoint = checkPointArray[0].transform;
+        //    for (int i = 0; i < checkPointArray.Length; i++)
+        //    {
+        //        if (checkPointArray[i].transform.position.x - karasuEntity.transform.position.x < gameMaster.closestCheckpoint.position.x - karasuEntity.transform.position.x)
+        //        {
+        //            gameMaster.closestCheckpoint = checkPointArray[i].transform;
+        //        }
+        //    }
+        //    karasuEntity.transform.position = gameMaster.closestCheckpoint.position;
+        //}
+        //gameMaster.fixedJoint2D.enabled = false;
     }
 
     public static void DestroyGameObject(GameObject gameObject)

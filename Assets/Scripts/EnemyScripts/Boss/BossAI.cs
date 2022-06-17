@@ -88,13 +88,13 @@ public class BossAI : MonoBehaviour
     public Transform basicAttackPosition;
     public AttackType basicAttackType = AttackType.normal;
     public Vector3 basicAttackRange;
-    int basicAttackDamage = 3;
+    int basicAttackDamage = 30;
     //Boss lunge attack
     public AttackSystem lungeAttack;
     public Transform lungeAttackPosition;
     public AttackType lungeAttackType = AttackType.normal;
     public Vector3 lungeAttackRange;
-    int lungeAttackDamage = 3;
+    int lungeAttackDamage = 15;
     public bool currentlyLunging = false;
     //Boss jump forward attack
     public AttackSystem jumpForwardAttack;
@@ -106,21 +106,21 @@ public class BossAI : MonoBehaviour
     public float moveForceJumpForwardBaseValue = 0f;
     public float moveForceJumpForwardMultiplier = 0f;
     public bool currentlyJumpingForward = false;
-    int jumpForwardAttackDamage = 3;
+    int jumpForwardAttackDamage = 40;
     //Boss lunge down attack
     public AttackSystem lungeDownAttack;
     public Transform lungeDownAttackPosition;
     public AttackType lungeDownAttackType = AttackType.special;
     public Vector3 lungeDownAttackRange;
     public float jumpForceLungeDown = 0f;
-    int lungeDownAttackDamage = 3;
+    int lungeDownAttackDamage = 60;
     public bool currentlyLungingDown = false;
     //Boss overhead attack
     public AttackSystem overheadAttack;
     public Transform overheadAttackPosition;
     public AttackType overheadAttackType = AttackType.special;
     public float overheadAttackRange = 0.5f;
-    int overheadAttackDamage = 3;
+    int overheadAttackDamage = 15;
     //float overheadAttackSpeed = 0.75f;
     bool isKarasuAboveTheBossByX = false;
     bool isKarasuAboveTheBossByY = false;
@@ -180,11 +180,31 @@ public class BossAI : MonoBehaviour
         attackDecision = AttackDecision.none;
         movementSpeedHelper = movementSpeed;
         Physics2D.IgnoreCollision(boxCollider2D, boxCollider2DKarasu);
-        InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
+        //InvokeRepeating(nameof(InCombatOrGoBackToSpawn), 0f, 0.5f);
     }
 
     private void FixedUpdate()
     {
+        if (boss.inCombat)
+        {
+            currentTarget = karasuTransform;
+            bossHealthBar.SetActive(true);
+        }
+        if (!boss.inCombat)
+        {
+            bossHealthBar.SetActive(false);
+            currentTarget = null;
+            boss.currentHealth = boss.maxHealth;
+            bossHealthBar.GetComponent<HealthBar>().SetHealth(boss.maxHealth);
+            if (transform.position.x != spawn.transform.position.x)
+            {
+                transform.position = spawn.transform.position;
+            }
+
+            currentlyAttacking = false;
+            attackDecision = AttackDecision.none;
+            AnimatorSwitchState(IDLEANIMATION);
+        }
         grounded = false;
         //Colliders->check to see if the player is currently on the ground
         Collider2D[] collidersGround = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRange, whatIsGround);

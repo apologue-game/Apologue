@@ -43,15 +43,16 @@ public class Spearman : MonoBehaviour, IEnemy
 
     public int shieldMaxHealth;
     public float currentShieldHealth;
-    public static bool shield = true;
-    public static bool blocking = false;
-    public static bool shieldBreak = false;
+    public bool shield = true;
+    public bool blocking = false;
+    public bool shieldBreak = false;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 15;
+        maxHealth = 70;
+        shieldMaxHealth = 60;
         enemyType = IEnemy.EnemyType.normal;
         inCombat = false;
     }

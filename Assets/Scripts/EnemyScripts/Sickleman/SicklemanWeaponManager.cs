@@ -13,19 +13,19 @@ public class SicklemanWeaponManager : MonoBehaviour
     //Sickleman basic attack
     public AttackSystem basicAttack;
     public AttackType basicAttackType = AttackType.normal;
-    int basicAttackDamage = 3;
+    int basicAttackDamage = 32;
     //Sickleman scream attack
     public AttackSystem screamAttack;
     public AttackType screamAttackType = AttackType.special;
-    int screamAttackDamage = 3;
+    int screamAttackDamage = 20;
     //Sickleman stomp attack
     public AttackSystem stompAttack;
     public AttackType stompAttackType = AttackType.onlyParryable;
-    int stompAttackDamage = 3;  
-    //Sickleman stomp attack
+    int stompAttackDamage = 43;  
+    //Sickleman teleport attack
     public AttackSystem teleportStrikeAttack;
     public AttackType teleportStrikeAttackType = AttackType.onlyParryable;
-    int teleportStrikeAttackDamage = 3;
+    int teleportStrikeAttackDamage = 15;
 
     private void Start()
     {

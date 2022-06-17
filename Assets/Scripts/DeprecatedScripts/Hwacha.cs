@@ -10,6 +10,10 @@ public class Hwacha : MonoBehaviour, IEnemy
     public Image healthBarBorder;
     public GameObject healthBarFillGO;
     public GameObject healthBarBorderGO;
+    public Image yellowHealthBarFill;
+    public GameObject yellowHealthBarFillGO;
+    public Image healthBarShadingFill;
+    public GameObject healthBarShadingFillGO;
     BoxCollider2D hwachaCollider;
     BoxCollider2D playerCollider;
 
@@ -26,7 +30,7 @@ public class Hwacha : MonoBehaviour, IEnemy
     public int maxHealth { get; set; }
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
-    public bool inCombat { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool inCombat { get; set; }
     public bool isStaggered { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     private void Awake()
@@ -34,8 +38,9 @@ public class Hwacha : MonoBehaviour, IEnemy
         hwachaCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 5;
+        maxHealth = 20;
         enemyType = IEnemy.EnemyType.ranged;
+        inCombat = false;
     }
 
     void Start()
@@ -47,6 +52,9 @@ public class Hwacha : MonoBehaviour, IEnemy
 
         healthBarFill.canvasRenderer.SetAlpha(0f);
         healthBarBorder.canvasRenderer.SetAlpha(0f);
+        yellowHealthBarFill.canvasRenderer.SetAlpha(0f);
+        healthBarShadingFill.canvasRenderer.SetAlpha(0f);
+        Physics2D.IgnoreCollision(hwachaCollider, playerCollider);
     }
 
     public void TakeDamage(float damage, bool? specialInteraction)
@@ -72,19 +80,23 @@ public class Hwacha : MonoBehaviour, IEnemy
     {
         healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        yellowHealthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+        healthBarShadingFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
     }
 
     void ShowHealthBar()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);
+        yellowHealthBarFill.canvasRenderer.SetAlpha(1f);
+        healthBarShadingFill.canvasRenderer.SetAlpha(1f);
     }
 
     public IEnumerator Death()
     {
         isDead = true;
         animator.Play("death");
-        Physics2D.IgnoreCollision(hwachaCollider, playerCollider);
+        
         yield return new WaitForSeconds(3f);
         FadeOutHealthBars();
         //GameMaster.DestroyGameObject(gameObject);

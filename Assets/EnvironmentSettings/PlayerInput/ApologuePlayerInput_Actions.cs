@@ -197,6 +197,24 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""IncreaseSpeed"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8d33b87-5996-4474-b249-b5953787d619"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DecreaseSpeed"",
+                    ""type"": ""Button"",
+                    ""id"": ""26e61222-1ef1-415a-a574-2e22b73f6140"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -736,6 +754,28 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                     ""processors"": """",
                     ""groups"": ""Gamepad;Joystick"",
                     ""action"": ""Show/HideControls"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45abd930-cfca-409e-a4b8-dc27f7f76a11"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""IncreaseSpeed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64c5e516-4363-4171-a4bd-ead5e2713fb3"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DecreaseSpeed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2045,6 +2085,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         m_PlayerSword_Interact = m_PlayerSword.FindAction("Interact", throwIfNotFound: true);
         m_PlayerSword_ChangeStance = m_PlayerSword.FindAction("ChangeStance", throwIfNotFound: true);
         m_PlayerSword_ShowHideControls = m_PlayerSword.FindAction("Show/HideControls", throwIfNotFound: true);
+        m_PlayerSword_IncreaseSpeed = m_PlayerSword.FindAction("IncreaseSpeed", throwIfNotFound: true);
+        m_PlayerSword_DecreaseSpeed = m_PlayerSword.FindAction("DecreaseSpeed", throwIfNotFound: true);
         // PlayerAxe
         m_PlayerAxe = asset.FindActionMap("PlayerAxe", throwIfNotFound: true);
         m_PlayerAxe_Move = m_PlayerAxe.FindAction("Move", throwIfNotFound: true);
@@ -2158,6 +2200,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
     private readonly InputAction m_PlayerSword_Interact;
     private readonly InputAction m_PlayerSword_ChangeStance;
     private readonly InputAction m_PlayerSword_ShowHideControls;
+    private readonly InputAction m_PlayerSword_IncreaseSpeed;
+    private readonly InputAction m_PlayerSword_DecreaseSpeed;
     public struct PlayerSwordActions
     {
         private @ApologuePlayerInput_Actions m_Wrapper;
@@ -2181,6 +2225,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         public InputAction @Interact => m_Wrapper.m_PlayerSword_Interact;
         public InputAction @ChangeStance => m_Wrapper.m_PlayerSword_ChangeStance;
         public InputAction @ShowHideControls => m_Wrapper.m_PlayerSword_ShowHideControls;
+        public InputAction @IncreaseSpeed => m_Wrapper.m_PlayerSword_IncreaseSpeed;
+        public InputAction @DecreaseSpeed => m_Wrapper.m_PlayerSword_DecreaseSpeed;
         public InputActionMap Get() { return m_Wrapper.m_PlayerSword; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2247,6 +2293,12 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ShowHideControls.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnShowHideControls;
                 @ShowHideControls.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnShowHideControls;
                 @ShowHideControls.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnShowHideControls;
+                @IncreaseSpeed.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
+                @IncreaseSpeed.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
+                @IncreaseSpeed.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnIncreaseSpeed;
+                @DecreaseSpeed.started -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
+                @DecreaseSpeed.performed -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
+                @DecreaseSpeed.canceled -= m_Wrapper.m_PlayerSwordActionsCallbackInterface.OnDecreaseSpeed;
             }
             m_Wrapper.m_PlayerSwordActionsCallbackInterface = instance;
             if (instance != null)
@@ -2308,6 +2360,12 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
                 @ShowHideControls.started += instance.OnShowHideControls;
                 @ShowHideControls.performed += instance.OnShowHideControls;
                 @ShowHideControls.canceled += instance.OnShowHideControls;
+                @IncreaseSpeed.started += instance.OnIncreaseSpeed;
+                @IncreaseSpeed.performed += instance.OnIncreaseSpeed;
+                @IncreaseSpeed.canceled += instance.OnIncreaseSpeed;
+                @DecreaseSpeed.started += instance.OnDecreaseSpeed;
+                @DecreaseSpeed.performed += instance.OnDecreaseSpeed;
+                @DecreaseSpeed.canceled += instance.OnDecreaseSpeed;
             }
         }
     }
@@ -2676,6 +2734,8 @@ public partial class @ApologuePlayerInput_Actions : IInputActionCollection2, IDi
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeStance(InputAction.CallbackContext context);
         void OnShowHideControls(InputAction.CallbackContext context);
+        void OnIncreaseSpeed(InputAction.CallbackContext context);
+        void OnDecreaseSpeed(InputAction.CallbackContext context);
     }
     public interface IPlayerAxeActions
     {

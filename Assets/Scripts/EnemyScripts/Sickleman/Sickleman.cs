@@ -34,7 +34,7 @@ public class Sickleman : MonoBehaviour, IEnemy
     {
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 1;
+        maxHealth = 180;
         enemyType = IEnemy.EnemyType.elite;
         inCombat = false;
     }

@@ -17,7 +17,7 @@ public class SamuraiWeaponManager : MonoBehaviour
     //Samurai dash strike attack
     public AttackSystem dashStrikeAttack;
     public AttackType dashStrikeAttackType = AttackType.normal;
-    int dashStrikeAttackDamage = 5;
+    int dashStrikeAttackDamage = 12;
 
     //Samurai jump forward attack
     public AttackSystem jumpForwardAttack;

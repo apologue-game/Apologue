@@ -60,15 +60,10 @@ public class Samurai : MonoBehaviour, IEnemy
         }
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
-        //if (currentHealth <= 0)
-        //{
-        //    StartCoroutine(Death());
-        //    return;
-        //}
         if (currentHealth <= 0)
         {
-            currentHealth = maxHealth;
-            healthBar.SetHealth(currentHealth);
+            StartCoroutine(Death());
+            return;
         }
         //if (!samuraiAI.currentlyAttacking)
         //{

@@ -38,6 +38,9 @@ public class HealthBar : MonoBehaviour
             yellowHealthBar.slider.value -= 1f;
             yield return new WaitForSeconds(0.02f);
         }
+        //Debug.Log("1. Yellow health bar value: " + yellowHealthBar.slider.value + " red health bar value: " + slider.value);
+        ////yellowHealthBar.slider.value = slider.value;
+        //Debug.Log("2. Yellow health bar value: " + yellowHealthBar.slider.value + " red health bar value: " + slider.value);
     }
 
     public void Flip()

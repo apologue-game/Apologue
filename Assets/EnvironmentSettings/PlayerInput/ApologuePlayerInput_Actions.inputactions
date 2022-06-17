@@ -175,6 +175,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "IncreaseSpeed",
+                    "type": "Button",
+                    "id": "a8d33b87-5996-4474-b249-b5953787d619",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DecreaseSpeed",
+                    "type": "Button",
+                    "id": "26e61222-1ef1-415a-a574-2e22b73f6140",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -714,6 +732,28 @@
                     "processors": "",
                     "groups": "Gamepad;Joystick",
                     "action": "Show/HideControls",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45abd930-cfca-409e-a4b8-dc27f7f76a11",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "IncreaseSpeed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64c5e516-4363-4171-a4bd-ead5e2713fb3",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DecreaseSpeed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

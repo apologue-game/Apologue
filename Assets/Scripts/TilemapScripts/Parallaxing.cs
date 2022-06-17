@@ -6,10 +6,12 @@ public class Parallaxing : MonoBehaviour
 {
 	private float length, startpos;
 	public GameObject cam;
+    public GameObject parallaxingParent;
 	public float parallaxEffect;
     public float verticalPosition;
     float temp;
     float dist;
+    public float parallaxLimit = 0f;
 
     private void Start()
     {
@@ -19,18 +21,24 @@ public class Parallaxing : MonoBehaviour
 
     private void Update()
     {
-        temp = (cam.transform.position.x * (1 - parallaxEffect));
-        dist = (cam.transform.position.x * parallaxEffect);
-
-        transform.position = new Vector3(startpos + dist, verticalPosition, transform.position.z);
-
-        if (temp > startpos + length)
+        if (cam.transform.position.x < parallaxLimit)
         {
-            startpos += length;
+            parallaxingParent.transform.parent = transform;
+            temp = (cam.transform.position.x * (1 - parallaxEffect));
+            dist = (cam.transform.position.x * parallaxEffect);
+
+            transform.position = new Vector3(startpos + dist, verticalPosition, transform.position.z);
+
+            if (temp > startpos + length)
+            {
+                startpos += length;
+            }
+            else if (temp < startpos - length)
+            {
+                startpos -= length;
+            }
+            return;
         }
-        else if (temp < startpos - length)
-        {
-            startpos -= length;
-        }
+        parallaxingParent.transform.parent = null;
     }
 }

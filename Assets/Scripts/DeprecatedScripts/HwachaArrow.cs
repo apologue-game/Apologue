@@ -71,17 +71,17 @@ public class HwachaArrow : MonoBehaviour
         }
         if (collision.CompareTag("Player") && parried == false)
         {
-            karasuEntity.TakeDamage(1, null);
+            karasuEntity.TakeDamage(18, null);
             //particle effects
         }
         if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha"))
         {
-            collision.GetComponent<IEnemy>().TakeDamage(1, null);
+            collision.GetComponent<IEnemy>().TakeDamage(18, null);
             GameMaster.DestroyGameObject(gameObject);
         }
         if (collision.CompareTag("Archer"))
         {
-            collision.GetComponent<IEnemy>().TakeDamage(1, true);
+            collision.GetComponent<IEnemy>().TakeDamage(18, true);
             GameMaster.DestroyGameObject(gameObject);
         }
         if (collision.name == "GroundTilemap" || collision.name == "PlatformsTilemap" || collision.name == "WallTilemap")

@@ -9,8 +9,11 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
     public Transform karasuTransform;
     public FixedJoint2D fixedJoint2D;
     public Rigidbody2D rigidBody2D;
+    public GameObject tooSlowScreen;
     Vector2 move;
     public bool restarting = false;
+
+    public Transform checkpoint8;
 
     public int direction;
     public bool horizontalOrVerticalDirection;
@@ -31,16 +34,20 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (dead)
+        if (currentCheckpoint == checkpoint8.position)
         {
-            if (!restarting)
+            if (dead)
             {
-                restarting = true;
-                StartCoroutine(Restart());
+                if (!restarting)
+                {
+                    restarting = true;
+                    StartCoroutine(Restart());
+                }
+
+                return;
             }
-            
-            return;
         }
+
         if (movingTowardsIndex == 4)
         {
             speed = 0.03f;
@@ -50,23 +57,17 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
             speed = 0.06f;
         }
 
-        if (movingTowardsIndex == 5)
+        if (movingTowardsIndex == 6)
         {
             if (karasuTransform.position.x < 278.02f)
             {
-                //Too slow
-                //ReloadSceenFromLastCheckpoint
+                StartCoroutine(TooSlow());
             }
-        }
-
-        if (movingTowardsIndex == 6)
-        {
-            speed = 0.08f;
         }
 
         if (activated)
         {
-            if (Vector2.Distance(transform.position, positions[movingTowardsIndex].position) < 0.05f)
+            if (Vector2.Distance(transform.position, positions[movingTowardsIndex].position) < 0.1f)
             {
                 movingTowardsIndex++;
                 courseSet = false;
@@ -89,13 +90,13 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
             rigidBody2D.MovePosition(move);
 
         }
-        if (!courseSet)
+        if (!courseSet && activated)
         {
-            if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.y - 0.05f, positions[movingTowardsIndex].position.y + 0.05f, transform.position.y))
+            if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.y - 0.1f, positions[movingTowardsIndex].position.y + 0.1f, transform.position.y))
             {
                 horizontalOrVerticalDirection = true;
             }
-            if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.x - 0.05f, positions[movingTowardsIndex].position.x + 0.05f, transform.position.x))
+            if (GameMaster.Utilities.IsFloatInRange(positions[movingTowardsIndex].position.x - 0.1f, positions[movingTowardsIndex].position.x + 0.1f, transform.position.x))
             {
                 horizontalOrVerticalDirection = false;
             }
@@ -125,9 +126,22 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
         }
     }
 
+    public void CallRestart()
+    {
+        StartCoroutine(Restart());
+    }
+
+    IEnumerator TooSlow()
+    {
+        tooSlowScreen.SetActive(true);
+        StartCoroutine(Restart());
+        yield return new WaitForSeconds(3);
+        tooSlowScreen.SetActive(false);
+    }
+
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(3f);
         horizontalOrVerticalDirection = false;
         direction = 0;
         courseSet = false;
@@ -135,6 +149,7 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
         transform.position = positions[0].position;
         movingTowardsIndex = 1;
         fixedJoint2D.enabled = false;
+        karasuTransform.position = new Vector3(241.630005f, 3.8900001f, 0);
         //speed = starting speed
         restarting = false;
     }
@@ -145,9 +160,12 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
         {
             if (collision.transform.position.y > transform.position.y)
             {
-                collision.transform.GetComponent<FixedJoint2D>().enabled = true;
-                collision.transform.parent = transform;
-                activated = true;
+                if (movingTowardsIndex < 6)
+                {
+                    collision.transform.GetComponent<FixedJoint2D>().enabled = true;
+                    collision.transform.parent = transform;
+                    activated = true;
+                }
             }
         }
     }

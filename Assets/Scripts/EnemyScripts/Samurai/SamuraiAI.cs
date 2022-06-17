@@ -144,6 +144,7 @@ public class SamuraiAI : MonoBehaviour
         if (!samurai.inCombat)
         {
             currentTarget = null;
+            samurai.currentHealth = samurai.maxHealth;
             healthBar.SetHealth(samurai.maxHealth);
             if (transform.position.x != spawn.transform.position.x)
             {

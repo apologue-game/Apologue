@@ -28,7 +28,7 @@ public class Boss : MonoBehaviour, IEnemy
     {
         animator = GetComponent<Animator>();
         isDead = false;
-        maxHealth = 15;
+        maxHealth = 250;
         enemyType = IEnemy.EnemyType.elite;
         inCombat = false;
     }

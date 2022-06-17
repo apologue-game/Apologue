@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class FallingCollidersRespawn : MonoBehaviour
 {
+    public SecondPlatformingSectionMovingPlatform secondPlatformingSection;
     public Transform respawnLocation;
     public Transform playerKarasu;
     public bool spriteRendererDisable = false;
     public ParticleSystem waterSplash;
+
+    public bool finalPlatformingSection = false;
 
     private void Start()
     {
@@ -24,13 +27,17 @@ public class FallingCollidersRespawn : MonoBehaviour
                 collision.GetComponent<SpriteRenderer>().enabled = false;
                 waterSplash.Play();
             }
+            if (finalPlatformingSection)
+            {
+                secondPlatformingSection.CallRestart();
+            }
             StartCoroutine(RespawnDelay());
         }
     }
 
     IEnumerator RespawnDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         playerKarasu.position = respawnLocation.position;
         playerKarasu.GetComponent<SpriteRenderer>().enabled = true;
         playerKarasu.GetComponent<PlayerControl>().isCrouching = false;

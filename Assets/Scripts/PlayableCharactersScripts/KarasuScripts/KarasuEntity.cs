@@ -25,11 +25,14 @@ public class KarasuEntity : MonoBehaviour
     float respawnDelay = 3f;
     public static bool dead = false;
     public static bool spikesDeath = false;
+    public static bool staggered = false;
 
     //Taking damage
     float invincibilityWindow = 0.2f;
     public float nextTimeVulnerable;
     bool invulnerable = false;
+
+    public static Vector3 currentCheckpoint;
 
     //Animations
     string oldState;
@@ -39,6 +42,8 @@ public class KarasuEntity : MonoBehaviour
         currentHealth = maxHealth;
 
         healthBar.SetMaximumHealth(maxHealth);
+
+        currentCheckpoint = PauseMenu.startingPosition;
     }
 
     private void Awake()
@@ -61,41 +66,41 @@ public class KarasuEntity : MonoBehaviour
 
     public void TakeDamage(float damage, AttackType? attackType)
     {
-        //if (damage == 500)
-        //{
-        //    dead = true;
-        //    spikesDeath = true;
-        //    StartCoroutine(SpikesDeath());
-        //    return;
-        //}
-        //if (playerControl.isRolling)
-        //{
-        //    return;
-        //}
-        //if (invulnerableToNextAttack && damage != 501)
-        //{
-        //    healthBarFill.color = healthBarColor;
-        //    invulnerableToNextAttack = false;
-        //    return;
-        //}
-        //if (Time.time > nextTimeVulnerable && !invulnerable)
-        //{
-        //    if (attackType == AttackType.onlyParryable || attackType == AttackType.special)
-        //    {
-        //        //StartCoroutine(Stagger());
-        //    }
-        //    invulnerable = true;
-        //    currentHealth -= damage;
-        //    healthBar.SetHealth(currentHealth);
-        //    spriteRenderer.color = takeDamageColor;
-        //    takeDamageTimer = Time.time + invincibilityWindow;
-        //    nextTimeVulnerable = Time.time + invincibilityWindow;
-        //}
-        //if (currentHealth <= 0 && !dead)
-        //{
-        //    dead = true;
-        //    StartCoroutine(Death());
-        //}
+        if (damage == 500)
+        {
+            dead = true;
+            spikesDeath = true;
+            StartCoroutine(SpikesDeath());
+            return;
+        }
+        if (playerControl.isRolling)
+        {
+            return;
+        }
+        if (invulnerableToNextAttack && damage != 501)
+        {
+            healthBarFill.color = healthBarColor;
+            invulnerableToNextAttack = false;
+            return;
+        }
+        if (Time.time > nextTimeVulnerable && !invulnerable)
+        {
+            if (attackType == AttackType.special)
+            {
+                StartCoroutine(Stagger());
+            }
+            invulnerable = true;
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
+            spriteRenderer.color = takeDamageColor;
+            takeDamageTimer = Time.time + invincibilityWindow;
+            nextTimeVulnerable = Time.time + invincibilityWindow;
+        }
+        if (currentHealth <= 0 && !dead)
+        {
+            dead = true;
+            StartCoroutine(Death());
+        }
     }
 
     IEnumerator SpikesDeath()
@@ -112,22 +117,21 @@ public class KarasuEntity : MonoBehaviour
         PlayerControl.TurnOffControlsOnDeath();
         spriteRenderer.color = normalColor;
         yield return new WaitForSeconds(respawnDelay);
-        KillPlayer();
+        Respawn();
     }
 
-    //IEnumerator Stagger()
-    //{
-    //    PlayerControl.TurnOffControlsOnDeath();
-    //    spriteRenderer.color = normalColor;
-    //    AnimatorSwitchState(KARASUSTAGGERANIMATION);
-    //    yield return new WaitForSeconds(0.2f);
-    //    AnimatorSwitchState("karasuIdleAnimation");
-    //    PlayerControl.TurnOnControlsOnRespawn();
-    //}
+    IEnumerator Stagger()
+    {
+        PlayerControl.TurnOffControlsOnDeath();
+        staggered = true;
+        yield return new WaitForSeconds(0.3f);
+        staggered = false;
+        PlayerControl.TurnOnControlsOnRespawn();
+    }
 
     void KillPlayer()
     {
-        GameMaster.KillPlayer(this);
+        //GameMaster.KillPlayer(this);
         Respawn();
     }
 
@@ -139,6 +143,7 @@ public class KarasuEntity : MonoBehaviour
         {
             playerControl.isCrouching = false;
         }
+        transform.position = currentCheckpoint;
         playerControl.attackState = PlayerControl.AttackState.notAttacking;
         currentHealth = maxHealth;
         healthBar.SetHealth(maxHealth);

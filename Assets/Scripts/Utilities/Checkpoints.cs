@@ -8,7 +8,8 @@ public class Checkpoints : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            GameMaster.respawnLocation = transform;
+            PauseMenu.currentPosition = transform.position;
+            KarasuEntity.currentCheckpoint = transform.position;
         }
     }
 }

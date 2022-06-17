@@ -11,6 +11,7 @@ public class BossRoomLockIn : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             bossRoomBoxCollider.enabled = true;
+            //bossRoomBoxCollider.transform.position = new Vector3(324.160004f, 16.0599995f, 0);
         }
     }
 }

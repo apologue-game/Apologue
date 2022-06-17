@@ -15,6 +15,7 @@ public class SicklemanAI : MonoBehaviour
     public GameObject healthBarGO;
     int sicklemanWeaponSpecificID = 1;
     public GameObject sickleWeaponPrefab;
+    public bool firstStrike = true;
 
     //Targeting
     GameObject karasu;
@@ -73,6 +74,7 @@ public class SicklemanAI : MonoBehaviour
     //Teleport strike
     public bool currentlyTeleporting = false;
     Throwable weapon;
+    GameObject weaponGO;
     public Transform sickleWeapon;
     public bool weaponThrow = false;
     public bool weaponTraveling = false;
@@ -150,11 +152,17 @@ public class SicklemanAI : MonoBehaviour
     {
         if (sickleman.inCombat)
         {
+            if (firstStrike)
+            {
+                currentDecision = decisions[0];
+                firstStrike = false;
+            }
             currentTarget = karasuTransform;
         }
         if (!sickleman.inCombat)
         {
             currentTarget = null;
+            sickleman.currentHealth = sickleman.maxHealth;
             healthBar.SetHealth(sickleman.maxHealth);
             if (transform.position.x != spawn.transform.position.x)
             {
@@ -274,6 +282,19 @@ public class SicklemanAI : MonoBehaviour
             }
             else if (currentDecision.Id == 3)
             {
+                for (int i = 0; i < Throwables.throwables[sicklemanWeaponSpecificID].Count; i++)
+                {
+                    if (!Throwables.throwables[sicklemanWeaponSpecificID][i].inUse)
+                    {
+                        weapon = Throwables.throwables[sicklemanWeaponSpecificID][i];
+                        break;
+                    }
+                }
+                if (weapon is null)
+                {
+                    currentDecision = null;
+                    decisions.Remove(teleportAttack);
+                }
                 currentlyAttacking = true;
                 TeleportStrikeAttack();
             }
@@ -408,9 +429,14 @@ public class SicklemanAI : MonoBehaviour
         }
         if (weapon is null)
         {
-            Instantiate(sickleWeaponPrefab);
-            ThrowSickle();
-            return;
+            //weaponGO = Instantiate(sickleWeaponPrefab);
+            //weaponGO.transform.position = sickleWeapon.position;
+            //weaponGO.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            //weaponGO.GetComponent<Throwable>().inUse = true;
+            //weaponThrow = true;
+            //weaponTraveling = true;
+            //StartCoroutine(WeaponTravelDuration());
+            //return;
         }
         weapon.transform.position = sickleWeapon.position;
         weapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;

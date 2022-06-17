@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class CaveRoom : MonoBehaviour
 {
     public Tilemap caveRoomTilemap;
+    public SicklemanAI sicklemanAI;
 
     public List<IEnemy> enemyList;
     public bool enemiesDefeated;
@@ -66,6 +67,7 @@ public class CaveRoom : MonoBehaviour
                 foreach (IEnemy enemy in enemyList)
                 {
                     enemy.inCombat = false;
+                    sicklemanAI.firstStrike = true;
                 }
             }
             StaminaBar.inCombat = false;

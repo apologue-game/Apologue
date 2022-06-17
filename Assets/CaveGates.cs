@@ -8,7 +8,6 @@ public class CaveGates : MonoBehaviour
     public bool enemiesDefeated;
     public int enemyCount;
 
-    public Animator firstEntrance;
     public Animator entrance;
     public Animator exit;
     public bool exitOpened = false;
@@ -45,8 +44,6 @@ public class CaveGates : MonoBehaviour
             if (enemyCount > 0)
             {
                 StaminaBar.inCombat = true;
-                firstEntrance.Play(CLOSEGATEANIMATION);
-                StartCoroutine(IdleAfterClosing());
             }
 
             foreach (IEnemy enemy in enemyList)
@@ -71,7 +68,6 @@ public class CaveGates : MonoBehaviour
                 {
                     enemy.inCombat = false;
                 }
-                firstEntrance.Play(OPENGATEANIMATION);
                 StartCoroutine(IdleAfterOpeningEntrance());
             }
             StaminaBar.inCombat = false;
@@ -85,8 +81,6 @@ public class CaveGates : MonoBehaviour
             {
                 StaminaBar.inCombat = false;
                 enemiesDefeated = true;
-                firstEntrance.Play(OPENGATEANIMATION);
-                StartCoroutine(IdleAfterOpeningFirstEntrance());
                 entrance.Play(OPENANIMATION);
                 StartCoroutine(IdleAfterOpeningEntrance());
             }
@@ -96,13 +90,13 @@ public class CaveGates : MonoBehaviour
     IEnumerator IdleAfterClosing()
     {
         yield return new WaitForSeconds(0.517f);
-        firstEntrance.Play(IDLEENTRANCECLOSEDANIMATION);
+        //firstEntrance.Play(IDLEENTRANCECLOSEDANIMATION);
     }
 
     IEnumerator IdleAfterOpeningFirstEntrance()
     {
         yield return new WaitForSeconds(0.517f);
-        firstEntrance.Play(IDLEENTRANCEOPENANIMATION);
+        //firstEntrance.Play(IDLEENTRANCEOPENANIMATION);
     }
 
     IEnumerator IdleAfterOpeningEntrance()
