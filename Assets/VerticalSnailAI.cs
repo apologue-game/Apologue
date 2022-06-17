@@ -24,6 +24,7 @@ public class VerticalSnailAI : MonoBehaviour, IEnemy
     public IEnemy.EnemyType enemyType { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     #endregion
     public bool isDead { get; set; }
+    public bool isStaggered { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     void Awake()
     {

@@ -13,7 +13,7 @@ public class SamuraiAI : MonoBehaviour
     Samurai samurai;
     public bool staggered = false;
     public float staggerTimer = 0f;
-    public float staggerDuration = 0.5f;
+    public float staggerDuration = 1f;
     public HealthBar healthBar;
     public float jumpForce;
     public bool minimumRangeForJumpingAttack = false;
@@ -144,7 +144,7 @@ public class SamuraiAI : MonoBehaviour
         if (!samurai.inCombat)
         {
             currentTarget = null;
-            healthBar.SetHealth(15);
+            healthBar.SetHealth(samurai.maxHealth);
             if (transform.position.x != spawn.transform.position.x)
             {
                 transform.position = spawn.transform.position;
@@ -184,6 +184,12 @@ public class SamuraiAI : MonoBehaviour
             return;
         }
 
+        if (samurai.isStaggered)
+        {
+            staggered = true;
+            staggerTimer = Time.time + staggerDuration - 0.48f;
+            attackDecision = AttackDecision.none;
+        }
         if (staggered)
         {
             AnimatorSwitchState(STAGGERANIMATION);
@@ -191,7 +197,16 @@ public class SamuraiAI : MonoBehaviour
             {
                 return;
             }
-            staggered = false;  
+            samurai.isStaggered = false;
+            staggered = false;
+            currentlyAttacking = false;
+            if (!grounded)
+            {
+                return;
+            }
+            
+            attackDecision = AttackDecision.none;
+            currentlyJumpingForward = false;
         }
 
         if (!currentlyAttacking)

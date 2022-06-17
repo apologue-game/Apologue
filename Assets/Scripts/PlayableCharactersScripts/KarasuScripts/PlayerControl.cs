@@ -35,7 +35,7 @@ public class PlayerControl : MonoBehaviour
     public float crouchMoveOnMovingPlatformSpeed = 0f;
     public GameObject attackControls;
     public GameObject basicControls;
-
+    
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
     public static PlayerInput playerInput;
@@ -563,9 +563,32 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public float helperInputX;
     //Movement
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
+        if (grounded)
+        {
+            if (attackState == AttackState.notAttacking || attackState == AttackState.lightAttackSword2 || attackState == AttackState.lightAttackAxe2)
+            {
+                inputX = callbackContext.ReadValue<Vector2>().x;
+                if (onASlope && inputX < 0)
+                {
+                    inputX = 0;
+                }
+                if (hangingOnTheWall || onASlope)
+                {
+                    return;
+                }
+                return;
+            }
+            helperInputX = callbackContext.ReadValue<Vector2>().x;
+            if (helperInputX != inputX)
+            {
+                inputX = 0;
+            }
+            return;
+        }
         inputX = callbackContext.ReadValue<Vector2>().x;
         if (onASlope && inputX < 0)
         {
@@ -792,13 +815,29 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
+
+        if (callbackContext.performed && attackState == AttackState.heavyAttackSword1)
+        {
+            staminaBar.currentStamina -= 70;
+            staminaBar.regenerationDelay = Time.time + 1.25f;
+            attackState = AttackState.lightAttackSword3;
+            animationState = AnimationState.swordLight3;
+            return;
+        }
+
         if (callbackContext.performed  && attackState == AttackState.notAttacking)
         {
             staminaBar.currentStamina -= 60;
             staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.lightAttackSword3;
             animationState = AnimationState.swordLight3;
+            movementSpeed = 0;
         }
+    }
+
+    public void SwordLight3Finished()
+    {
+        movementSpeed = movementSpeedHelper;
     }
 
     public void OnSwordMediumAttack1(InputAction.CallbackContext callbackContext)
@@ -922,16 +961,17 @@ public class PlayerControl : MonoBehaviour
         {
             return;
         }
+
         if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
         {
             staminaBar.currentStamina -= 70;
             staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.lightAttackAxe3;
             animationState = AnimationState.axeLight3;
-            Debug.Log("Current attack state:" + attackState);
+            movementSpeed = 0;
         }
     }
-
+    
     public void OnAxeMediumAttack1(InputAction.CallbackContext callbackContext)
     {
         if (!StaminaCheck(40))
@@ -950,25 +990,6 @@ public class PlayerControl : MonoBehaviour
     void AxeMediumAttackDash()
     {
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed * axeMediumAttackDashSpeed, rigidBody2D.velocity.y);
-
-        //if (facingRight)
-        //{
-        //    RaycastHit2D[] hits = Physics2D.LinecastAll(transform.position, transform.position + new Vector3(axeMedium1DashLength, 0.5f, 0), enemiesLayers);
-        //    if (hits.Length > 0)
-        //    {
-        //        rigidBody2D.velocity = Vector2.zero;
-        //    }
-        //    Debug.Log("Array length: " + hits.Length);
-        //}
-        //if (!facingRight)
-        //{
-        //    RaycastHit2D[] hits = Physics2D.LinecastAll(transform.position, transform.position - new Vector3(axeMedium1DashLength, -0.5f, 0), enemiesLayers);
-        //    if (hits.Length > 0)
-        //    {
-        //        rigidBody2D.velocity = Vector2.zero;
-        //    }
-        //    Debug.Log("Array length: " + hits.Length);
-        //}
     }
 
     public void OnAxeMediumAttack2(InputAction.CallbackContext callbackContext)
@@ -1236,17 +1257,20 @@ public class PlayerControl : MonoBehaviour
 
     public void Flip()
     {
-        if (grounded)
+        if (attackState == AttackState.notAttacking || attackState == AttackState.cannotAttack || attackState == AttackState.lightAttackAxe2 || attackState == AttackState.lightAttackSword2)
         {
-            CreateDust();
-        }
-        //Switch the way the player is labeled as facing.
-        facingRight = !facingRight;
+            if (grounded)
+            {
+                CreateDust();
+            }
+            //Switch the way the player is labeled as facing.
+            facingRight = !facingRight;
 
-        //Multiply the player's x local scale by -1.
-        theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+            //Multiply the player's x local scale by -1.
+            theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+        }
     }   
 
     IEnumerator ParryWindow()

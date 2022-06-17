@@ -30,6 +30,7 @@ public class Shieldman : MonoBehaviour, IEnemy
     public float currentHealth { get; set; }
     public IEnemy.EnemyType enemyType { get; set; }
     public bool inCombat { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool isStaggered { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public bool shieldBroken = false;
     public bool isBlocking = false;

@@ -59,7 +59,6 @@ public class Samurai : MonoBehaviour, IEnemy
             return;
         }
         currentHealth -= damage;
-        Debug.Log(currentHealth);
         healthBar.SetHealth(currentHealth);
         //if (currentHealth <= 0)
         //{

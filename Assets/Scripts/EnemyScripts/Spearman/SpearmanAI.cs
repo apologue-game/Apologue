@@ -12,10 +12,15 @@ public class SpearmanAI : MonoBehaviour
     Spearman spearman;
     public bool staggered = false;
     public float staggerTimer = 0f;
-    public float staggerDuration = 0.5f;
+    public float staggerDuration = 1f;
     public HealthBar healthBar;
     public HealthBar shieldHealthBar;
     public GameObject scrap;
+
+    public bool grounded = false;
+    public Transform groundCheck;
+    public float groundCheckRange = 0.1f;
+    public LayerMask whatIsGround;
 
     //Targeting
     GameObject karasu;
@@ -142,11 +147,25 @@ public class SpearmanAI : MonoBehaviour
             attackDecision = AttackDecision.none;
             AnimatorSwitchState(IDLEANIMATION);
         }
+        grounded = false;
+        //Colliders->check to see if the player is currently on the ground
+        Collider2D[] collidersGround = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRange, whatIsGround);
+        for (int i = 0; i < collidersGround.Length; i++)
+        {
+            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap")
+            {
+                grounded = true;
+            }
+        }
+
         //Exceptions
         if (spearman.isDead)
         {
-            rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
-            AnimatorSwitchState(DEATHANIMATION);
+            if (grounded)
+            {
+                rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                AnimatorSwitchState(DEATHANIMATION);
+            }
             return;
         }
         if (KarasuEntity.dead || currentTarget == null)
@@ -168,7 +187,15 @@ public class SpearmanAI : MonoBehaviour
             {
                 return;
             }
+            spearman.isStaggered = false;
             staggered = false;
+            currentlyAttacking = false;
+            if (!grounded)
+            {
+                return;
+            }
+
+            attackDecision = AttackDecision.none;
         }
 
         if (Spearman.blocking)

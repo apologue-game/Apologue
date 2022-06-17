@@ -6,6 +6,7 @@ using static KarasuEntity;
 
 public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
 {
+    public Transform karasuTransform;
     public FixedJoint2D fixedJoint2D;
     public Rigidbody2D rigidBody2D;
     Vector2 move;
@@ -40,6 +41,29 @@ public class SecondPlatformingSectionMovingPlatform : MonoBehaviour
             
             return;
         }
+        if (movingTowardsIndex == 4)
+        {
+            speed = 0.03f;
+        }
+        else
+        {
+            speed = 0.06f;
+        }
+
+        if (movingTowardsIndex == 5)
+        {
+            if (karasuTransform.position.x < 278.02f)
+            {
+                //Too slow
+                //ReloadSceenFromLastCheckpoint
+            }
+        }
+
+        if (movingTowardsIndex == 6)
+        {
+            speed = 0.08f;
+        }
+
         if (activated)
         {
             if (Vector2.Distance(transform.position, positions[movingTowardsIndex].position) < 0.05f)

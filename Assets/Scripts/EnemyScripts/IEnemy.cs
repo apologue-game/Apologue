@@ -19,6 +19,8 @@ public interface IEnemy
 
     bool inCombat { get; set; }
 
+    bool isStaggered { get; set; }
+
     enum EnemyType
     {
         weak,
