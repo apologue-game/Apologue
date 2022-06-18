@@ -16,6 +16,8 @@ public class HwachaArrow : MonoBehaviour
     float newDistance;
     int hwachaIndex = 0;
 
+    PlayerControl playerControl;
+
     private void Awake()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
@@ -24,6 +26,8 @@ public class HwachaArrow : MonoBehaviour
 
     private void Start()
     {
+        playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+
         GameObject[] hwachaList = GameObject.FindGameObjectsWithTag("Hwacha");
         if (hwachaList.Length > 0)
         {
@@ -60,6 +64,7 @@ public class HwachaArrow : MonoBehaviour
     {
         if (collision.name == "ParryCollider")
         {
+            playerControl.staminaBar.currentStamina += 25;
             Physics2D.IgnoreCollision(arrowCollider, hwachaBoxCollider, false);
             parried = true;
             rigidBody2D.velocity = Vector2.zero;
@@ -74,12 +79,12 @@ public class HwachaArrow : MonoBehaviour
             karasuEntity.TakeDamage(18, null);
             //particle effects
         }
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Hwacha") && parried)
         {
             collision.GetComponent<IEnemy>().TakeDamage(18, null);
             GameMaster.DestroyGameObject(gameObject);
         }
-        if (collision.CompareTag("Archer"))
+        if (collision.CompareTag("Archer") && parried)
         {
             collision.GetComponent<IEnemy>().TakeDamage(18, true);
             GameMaster.DestroyGameObject(gameObject);

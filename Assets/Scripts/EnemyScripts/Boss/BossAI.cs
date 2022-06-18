@@ -537,6 +537,7 @@ public class BossAI : MonoBehaviour
         {
             if (enemy.name == "ParryCollider")
             {
+                playerControl.staminaBar.currentStamina += 25;
                 boss.BossStagger();
                 attackDecision = AttackDecision.none;
                 return;
@@ -584,6 +585,7 @@ public class BossAI : MonoBehaviour
         {
             if (enemy.name == "ParryCollider")
             {
+                playerControl.staminaBar.currentStamina += 25;
                 boss.BossStagger();
                 attackDecision = AttackDecision.none;
                 rigidBody2D.velocity = Vector2.zero;
@@ -657,6 +659,7 @@ public class BossAI : MonoBehaviour
         {
             if (enemy.name == "ParryCollider")
             {
+                playerControl.staminaBar.currentStamina += 25;
                 boss.BossStagger();
                 attackDecision = AttackDecision.none;
                 parriedOrBlocked = true;
@@ -778,6 +781,10 @@ public class BossAI : MonoBehaviour
 
     void Flip()
     {
+        if (currentlyAttacking)
+        {
+            return;
+        }
         facingLeft = !facingLeft;
 
         Vector3 theScale = transform.localScale;

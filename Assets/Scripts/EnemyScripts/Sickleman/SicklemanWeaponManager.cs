@@ -8,6 +8,7 @@ public class SicklemanWeaponManager : MonoBehaviour
     SicklemanAI sicklemanAI;
     GameObject playerKarasu;
     GameObject parryCollider;
+    PlayerControl playerControl;
 
     //Attacks
     //Sickleman basic attack
@@ -33,6 +34,7 @@ public class SicklemanWeaponManager : MonoBehaviour
 
         playerKarasu = GameObject.FindGameObjectWithTag("Player");
         parryCollider = playerKarasu.transform.Find("ParryCollider").gameObject;
+        playerControl = playerKarasu.GetComponent<PlayerControl>();
 
         //Attack types
         basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
@@ -47,24 +49,9 @@ public class SicklemanWeaponManager : MonoBehaviour
         {
             if (parryCollider.activeInHierarchy)
             {
+                playerControl.staminaBar.currentStamina += 25;
                 return;
             }
-            //if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.basic)
-            //{
-            //    collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);
-            //}
-            //else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.scream)
-            //{
-            //    collision.GetComponent<KarasuEntity>().TakeDamage(screamAttack.AttackDamage, screamAttack.AttackMake);
-            //}
-            //else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.stomp)
-            //{
-            //    collision.GetComponent<KarasuEntity>().TakeDamage(stompAttack.AttackDamage, stompAttack.AttackMake);
-            //}            
-            //else if (sicklemanAI.attackDecision == SicklemanAI.AttackDecision.teleportStrike)
-            //{
-            //    collision.GetComponent<KarasuEntity>().TakeDamage(teleportStrikeAttack.AttackDamage, teleportStrikeAttack.AttackMake);
-            //}
             if (sicklemanAI.currentDecision.Id == 0)
             {
                 collision.GetComponent<KarasuEntity>().TakeDamage(basicAttack.AttackDamage, basicAttack.AttackMake);

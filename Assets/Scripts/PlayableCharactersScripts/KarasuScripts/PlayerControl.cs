@@ -158,7 +158,7 @@ public class PlayerControl : MonoBehaviour
     public float swordHeavyAttack1JumpForce;
 
     //Axe attacks
-    public static bool axePickedUp = true; //Axe attacks only usable after finding the axe
+    public static bool axePickedUp = false; //Axe attacks only usable after finding the axe
 
     //Parry and block
     public Transform parryCollider;
@@ -798,7 +798,7 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnSwordLightAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(40))
+        if (!StaminaCheck(30))
         {
             return;
         }
@@ -813,7 +813,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordLightAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(15))
+        if (!StaminaCheck(10))
         {
             return;
         }
@@ -834,7 +834,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(60) || interactionIconPrefab.activeSelf)
+        if (!StaminaCheck(45) || interactionIconPrefab.activeSelf)
         {
             return;
         }
@@ -865,7 +865,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordMediumAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(50))
+        if (!StaminaCheck(40))
         {
             return;
         }
@@ -885,7 +885,7 @@ public class PlayerControl : MonoBehaviour
     
     public void OnSwordMediumAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(20))
+        if (!StaminaCheck(15))
         {
             return;
         }
@@ -902,7 +902,7 @@ public class PlayerControl : MonoBehaviour
     
     public void OnSwordHeavyAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(30))
+        if (!StaminaCheck(20))
         {
             return;
         }
@@ -943,7 +943,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(50))
+        if (!StaminaCheck(35))
         {
             return;
         }
@@ -958,7 +958,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(15))
+        if (!StaminaCheck(10))
         {
             return;
         }
@@ -980,7 +980,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(70) || interactionIconPrefab.activeSelf)
+        if (!StaminaCheck(50) || interactionIconPrefab.activeSelf)
         {
             return;
         }
@@ -997,7 +997,7 @@ public class PlayerControl : MonoBehaviour
     
     public void OnAxeMediumAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(40))
+        if (!StaminaCheck(30))
         {
             return;
         }
@@ -1017,7 +1017,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeMediumAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(20))
+        if (!StaminaCheck(10))
         {
             return;
         }
@@ -1048,7 +1048,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeHeavyAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(50))
+        if (!StaminaCheck(25))
         {
             return;
         }

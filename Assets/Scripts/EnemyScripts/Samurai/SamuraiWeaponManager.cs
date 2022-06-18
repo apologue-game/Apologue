@@ -8,6 +8,7 @@ public class SamuraiWeaponManager : MonoBehaviour
     SamuraiAI samuraiAI;
     GameObject playerKarasu;
     GameObject parryCollider;
+    PlayerControl playerControl;
 
     //Attacks
     //Samurai basic attack
@@ -35,6 +36,7 @@ public class SamuraiWeaponManager : MonoBehaviour
 
         playerKarasu = GameObject.FindGameObjectWithTag("Player");
         parryCollider = playerKarasu.transform.Find("ParryCollider").gameObject;
+        playerControl = playerKarasu.GetComponent<PlayerControl>();
 
         //Attack types
         basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
@@ -48,6 +50,7 @@ public class SamuraiWeaponManager : MonoBehaviour
         {
             if (parryCollider.activeInHierarchy)
             {
+                playerControl.staminaBar.currentStamina += 25;
                 samuraiAI.SamuraiParryStagger();
                 return;
             }

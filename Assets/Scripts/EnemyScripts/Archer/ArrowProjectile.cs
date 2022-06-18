@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArrowProjectile : MonoBehaviour
 {
     System.Random rnd = new System.Random();
-
+    PlayerControl playerControl;
     FemaleArcherAI femaleArcherAI;
     KarasuEntity karasuEntity;
     Rigidbody2D rigidBody2D;
@@ -28,6 +28,7 @@ public class ArrowProjectile : MonoBehaviour
 
     private void Start()
     {
+        playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         GameObject[] archerList = GameObject.FindGameObjectsWithTag("Archer");
         if (archerList.Length > 0)
         {
@@ -117,6 +118,7 @@ public class ArrowProjectile : MonoBehaviour
     {
         if (collision.name == "ParryCollider")
         {
+            playerControl.staminaBar.currentStamina += 25;
             Physics2D.IgnoreCollision(arrowCollider, archerCollider, false);
             parried = true;
             rigidBody2D.velocity = Vector2.zero;

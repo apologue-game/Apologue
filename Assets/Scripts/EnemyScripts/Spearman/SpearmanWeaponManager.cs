@@ -8,6 +8,7 @@ public class SpearmanWeaponManager : MonoBehaviour
     SpearmanAI spearmanAI;
     GameObject playerKarasu;
     GameObject parryCollider;
+    PlayerControl playerControl;
 
     //Attacks
     //Spearman basic attack
@@ -33,6 +34,7 @@ public class SpearmanWeaponManager : MonoBehaviour
 
         playerKarasu = GameObject.FindGameObjectWithTag("Player");
         parryCollider = playerKarasu.transform.Find("ParryCollider").gameObject;
+        playerControl = playerKarasu.GetComponent<PlayerControl>();
 
         //Attack types
         basicAttack = new AttackSystem(basicAttackDamage, basicAttackType);
@@ -43,11 +45,11 @@ public class SpearmanWeaponManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Spearman hit: " + collision.name);
-        if (collision.GetComponent<KarasuEntity>() != null/* && !parried*/)
+        if (collision.GetComponent<KarasuEntity>() != null)
         {
             if (parryCollider.activeInHierarchy)
             {
+                playerControl.staminaBar.currentStamina += 25;
                 spearmanAI.SpearmanParryStagger();
                 return;
             }
