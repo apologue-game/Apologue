@@ -228,14 +228,16 @@ MonoBehaviour:
   randomNumber: 0
   healthBar: {fileID: 1924039498390655346}
   healthBarGO: {fileID: 7198366679632391238}
-  sickleWeaponPrefab: {fileID: 0}
+  sickleWeaponPrefab: {fileID: 434128439921226488, guid: e5a071bc6a137f14bbdb68b20f183c75, type: 3}
+  spriteRenderer: {fileID: 1401634801434604528}
+  invulnerableWhileTeleporting: 0
   spawn: {fileID: 0}
   groundCheck: {fileID: 3303638951493857136}
   groundCheckRange: 0.1
   whatIsGround:
     serializedVersion: 2
     m_Bits: 2164737
-  movementSpeed: 150
+  movementSpeed: 80
   dashSpeed: 50
   flipDistance: 0.12
   direction: 0
@@ -249,6 +251,7 @@ MonoBehaviour:
   stompingSpeed: 500
   jumpForce: 1000
   currentlyTeleporting: 0
+  weapon: {fileID: 0}
   sickleWeapon: {fileID: 1401634801228774927}
   weaponThrow: 0
   weaponTraveling: 0

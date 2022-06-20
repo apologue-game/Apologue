@@ -8,6 +8,7 @@ public class FemaleArcherAI : MonoBehaviour
     FemaleArcher femaleArcher;
     Animator animator;
     public HealthBar healthBar;
+    public Rigidbody2D rigidBody2D;
 
     //Targeting
     GameObject karasu;
@@ -38,6 +39,11 @@ public class FemaleArcherAI : MonoBehaviour
     public Transform arrowPointMiddle;
     public Transform arrowPointUp;
     public Transform arrowPointDown;
+
+    public Transform groundCheck;
+    float groundCheckRange = 0.11f;
+    public LayerMask whatIsGround;
+    public bool grounded = false;
 
     //Animations manager
     string oldState = "";
@@ -83,8 +89,21 @@ public class FemaleArcherAI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Collider2D[] collidersGround = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRange, whatIsGround);
+        for (int i = 0; i < collidersGround.Length; i++)
+        {
+            if (collidersGround[i].name == "PlatformsTilemap" || collidersGround[i].name == "GroundTilemap")
+            {
+                grounded = true;
+            }
+        }
         if (femaleArcher.isDead)
         {
+            if (grounded)
+            {
+                rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+            boxCollider2D.enabled = false;
             return;
         }
         if (femaleArcher.inCombat)

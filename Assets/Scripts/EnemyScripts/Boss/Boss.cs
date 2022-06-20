@@ -24,6 +24,8 @@ public class Boss : MonoBehaviour, IEnemy
     bool beforeDeath = false;
     bool executed = false;
 
+    public bool endGameMenuCalled = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -112,7 +114,13 @@ public class Boss : MonoBehaviour, IEnemy
 
     public IEnumerator Death()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(1.5f);
+        if (!endGameMenuCalled)
+        {
+            endGameMenuCalled = true;
+            PlayerControl.PauseGameSimulation();
+        }
+
         //GameMaster.DestroyGameObject(gameObject);
         //GameMaster.DestroyGameObject(bossAI.spawn);
     }

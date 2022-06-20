@@ -67,7 +67,7 @@ public class CaveRoom : MonoBehaviour
                 foreach (IEnemy enemy in enemyList)
                 {
                     enemy.inCombat = false;
-                    sicklemanAI.firstStrike = true;
+                    //sicklemanAI.firstStrike = true;
                 }
             }
             StaminaBar.inCombat = false;

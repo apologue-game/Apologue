@@ -14,6 +14,6 @@ public class Throwable : MonoBehaviour
 
     private void Start()
     {
-        Throwables.AddToObjectPool(this);
+        //Throwables.AddToObjectPool(this);
     }
 }

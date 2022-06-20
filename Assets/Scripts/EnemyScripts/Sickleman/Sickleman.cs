@@ -54,7 +54,7 @@ public class Sickleman : MonoBehaviour, IEnemy
 
     public void TakeDamage(float damage, bool? specialInteraction)
     {
-        if (isDead)
+        if (isDead || sicklemanAI.invulnerableWhileTeleporting)
         {
             return;
         }
@@ -65,7 +65,7 @@ public class Sickleman : MonoBehaviour, IEnemy
             StartCoroutine(Death());
             return;
         }
-        ShowHealthBar();
+        ShowHealthBars();
     }
 
     public void FadeOutHealthBars()
@@ -74,9 +74,17 @@ public class Sickleman : MonoBehaviour, IEnemy
         healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
         yellowHealthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
         healthBarShadingFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 1f, false);
+    }    
+    
+    public void HideHealthBars()
+    {
+        healthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 0f, false);
+        healthBarBorderGO.GetComponent<Image>().CrossFadeAlpha(0f, 0f, false);
+        yellowHealthBarFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 0f, false);
+        healthBarShadingFillGO.GetComponent<Image>().CrossFadeAlpha(0f, 0f, false);
     }
 
-    void ShowHealthBar()
+    public void ShowHealthBars()
     {
         healthBarFill.canvasRenderer.SetAlpha(1f);
         healthBarBorder.canvasRenderer.SetAlpha(1f);

@@ -13,9 +13,11 @@ public class SicklemanAI : MonoBehaviour
     Sickleman sickleman;
     public HealthBar healthBar;
     public GameObject healthBarGO;
-    int sicklemanWeaponSpecificID = 1;
+    //int sicklemanWeaponSpecificID = 1;
     public GameObject sickleWeaponPrefab;
-    public bool firstStrike = true;
+    //public bool firstStrike = true;
+    public SpriteRenderer spriteRenderer;
+    public bool invulnerableWhileTeleporting = false;
 
     //Targeting
     GameObject karasu;
@@ -73,7 +75,7 @@ public class SicklemanAI : MonoBehaviour
     public float jumpForce = 1000f;
     //Teleport strike
     public bool currentlyTeleporting = false;
-    Throwable weapon;
+    public Throwable weapon;
     GameObject weaponGO;
     public Transform sickleWeapon;
     public bool weaponThrow = false;
@@ -152,11 +154,11 @@ public class SicklemanAI : MonoBehaviour
     {
         if (sickleman.inCombat)
         {
-            if (firstStrike)
-            {
-                currentDecision = decisions[0];
-                firstStrike = false;
-            }
+            //if (firstStrike)
+            //{
+            //    currentDecision = decisions[0];
+            //    firstStrike = false;
+            //}
             currentTarget = karasuTransform;
         }
         if (!sickleman.inCombat)
@@ -282,19 +284,14 @@ public class SicklemanAI : MonoBehaviour
             }
             else if (currentDecision.Id == 3)
             {
-                for (int i = 0; i < Throwables.throwables[sicklemanWeaponSpecificID].Count; i++)
-                {
-                    if (!Throwables.throwables[sicklemanWeaponSpecificID][i].inUse)
-                    {
-                        weapon = Throwables.throwables[sicklemanWeaponSpecificID][i];
-                        break;
-                    }
-                }
-                if (weapon is null)
-                {
-                    currentDecision = null;
-                    decisions.Remove(teleportAttack);
-                }
+                //for (int i = 0; i < Throwables.throwables[sicklemanWeaponSpecificID].Count; i++)
+                //{
+                //    if (!Throwables.throwables[sicklemanWeaponSpecificID][i].inUse)
+                //    {
+                //        weapon = Throwables.throwables[sicklemanWeaponSpecificID][i];
+                //        break;
+                //    }
+                //}
                 currentlyAttacking = true;
                 TeleportStrikeAttack();
             }
@@ -419,25 +416,23 @@ public class SicklemanAI : MonoBehaviour
 
     void ThrowSickle()
     {
-        for (int i = 0; i < Throwables.throwables[sicklemanWeaponSpecificID].Count; i++)
-        {
-            if (!Throwables.throwables[sicklemanWeaponSpecificID][i].inUse)
-            {
-                weapon = Throwables.throwables[sicklemanWeaponSpecificID][i];
-                break;
-            }
-        }
-        if (weapon is null)
-        {
-            //weaponGO = Instantiate(sickleWeaponPrefab);
-            //weaponGO.transform.position = sickleWeapon.position;
-            //weaponGO.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            //weaponGO.GetComponent<Throwable>().inUse = true;
-            //weaponThrow = true;
-            //weaponTraveling = true;
-            //StartCoroutine(WeaponTravelDuration());
-            //return;
-        }
+        //for (int i = 0; i < Throwables.throwables[sicklemanWeaponSpecificID].Count; i++)
+        //{
+        //    if (!Throwables.throwables[sicklemanWeaponSpecificID][i].inUse)
+        //    {
+        //        //Debug.Log("Weapon " + Throwables.throwables[sicklemanWeaponSpecificID][i].name + " is in use: " + Throwables.throwables[sicklemanWeaponSpecificID][i].inUse);
+        //        weapon = Throwables.throwables[sicklemanWeaponSpecificID][i];
+        //        break;
+        //    }
+        //}
+        ////Debug.Log("Allocated weapon after the FOR loop: " + weapon.name);
+        //if (weapon is null)
+        //{
+        //    Debug.Log("This should be null: " + weapon);
+        //    weaponGO = Instantiate(sickleWeaponPrefab);
+        //    weapon = weaponGO.GetComponent<Throwable>();
+        //    Debug.Log("Weapon allocated after being null: " + weapon.name);
+        //}
         weapon.transform.position = sickleWeapon.position;
         weapon.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         weapon.inUse = true;
@@ -448,15 +443,18 @@ public class SicklemanAI : MonoBehaviour
 
     IEnumerator WeaponTravelDuration()
     {
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(0.8f);
         weaponTraveling = false;
         weapon.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 
     void DisappearThroughPortal()
     {
-        teleportOutOfBounds = new Vector3(transform.position.x, transform.position.y + 1000f, 0f);
-        transform.position = teleportOutOfBounds;
+        //teleportOutOfBounds = new Vector3(transform.position.x, transform.position.y + 1000f, 0f);
+        sickleman.HideHealthBars();
+        spriteRenderer.enabled = false;
+        invulnerableWhileTeleporting = true;
+        //transform.position = teleportOutOfBounds;
         StartCoroutine(TravelingThroughThePortal());
     }
 
@@ -469,6 +467,9 @@ public class SicklemanAI : MonoBehaviour
     void ExitPortal()
     {
         AnimatorSwitchState(PORTALEXITANIMATION);
+        sickleman.ShowHealthBars();
+        spriteRenderer.enabled = true;
+        invulnerableWhileTeleporting = false;
         if (facingLeft)
         {
             offsetTeleportExit = weapon.transform.position;

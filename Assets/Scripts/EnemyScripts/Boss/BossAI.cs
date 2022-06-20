@@ -694,16 +694,12 @@ public class BossAI : MonoBehaviour
     {
         CreateLungeDownAttackParticleEffect();
         Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(lungeAttackPosition.position, lungeDownAttackRange, 0f, enemiesLayers);
-        try
+        foreach (Collider2D enemy in hitEnemies)
         {
-            foreach (Collider2D enemy in hitEnemies)
+            if (enemy.GetComponent<KarasuEntity>() is not null)
             {
                 enemy.GetComponent<KarasuEntity>().TakeDamage(lungeDownAttack.AttackDamage, lungeDownAttack.AttackMake);
             }
-        }
-        catch (NullReferenceException nre)
-        {
-            Debug.LogError(nre);
         }
         attackDecision = AttackDecision.none;
         timeUntilNextDecision = Time.time + decisionTimer;
@@ -723,7 +719,10 @@ public class BossAI : MonoBehaviour
         {
             foreach (Collider2D enemy in hitEnemies)
             {
-                enemy.GetComponent<KarasuEntity>().TakeDamage(overheadAttack.AttackDamage, overheadAttack.AttackMake);
+                if (enemy.GetComponent<KarasuEntity>() is not null)
+                {
+                    enemy.GetComponent<KarasuEntity>().TakeDamage(overheadAttack.AttackDamage, overheadAttack.AttackMake); 
+                }
             }
         }
         catch (NullReferenceException nre)
@@ -798,7 +797,7 @@ public class BossAI : MonoBehaviour
         {
             return;
         }
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRange);
+        Gizmos.DrawWireCube(lungeDownAttackPosition.position, lungeDownAttackRange);
     }
 
     private void CreateLungeDownAttackParticleEffect()

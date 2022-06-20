@@ -9,7 +9,6 @@ public sealed class GameMaster : MonoBehaviour
 
     public GameObject karasuPlayerPrefab;
     public Transform respawnLocation;
-    Transform closestCheckpoint = null;
 
     public FixedJoint2D fixedJoint2D;
 

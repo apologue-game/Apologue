@@ -23,28 +23,6 @@ public class Room : MonoBehaviour
         enemyList = new List<IEnemy>();
     }
 
-    private void Update()
-    {
-        if (enemyList.Count > 0)
-        {
-            foreach (IEnemy enemy in enemyList)
-            {
-                if (enemy.isDead)
-                {
-                    enemyList.Remove(enemy);
-                }
-            }
-        }
-
-        if (enemyList.Count == 0)
-        {
-            StaminaBar.inCombat = false;
-            enemiesDefeated = true;
-            exit.Play(OPENGATEEXITANIMATION);
-            StartCoroutine(IdleAfterOpeningExit());
-        }
-    }
-
     //TODO: Optimization: disable a room if it's finished
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -61,6 +39,10 @@ public class Room : MonoBehaviour
         }
         else if (collision.GetComponent<IEnemy>() != null)
         {
+            if (transform.name == "VillageRoom")
+            {
+
+            }
             enemyList.Add(collision.GetComponent<IEnemy>());
             enemyCount++;
         }

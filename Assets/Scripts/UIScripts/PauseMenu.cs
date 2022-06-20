@@ -12,16 +12,22 @@ public class PauseMenu : MonoBehaviour
     PlayerControl playerControl;
     public static Vector3 currentPosition;
     public static Vector3 startingPosition;
+    public GameObject axeBar;
 
     private void Start()
     {
         playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         startingPosition = playerControl.transform.position;
+        if (PlayerControl.axePickedUp)
+        {
+            axeBar.SetActive(true);
+        }
     }
 
     public void Resume()
     {
         playerControl.pauseMenuPanel.SetActive(false);
+        playerControl.wellDonePanel.SetActive(false);
         if (playerControl.swordOrAxeStance)
         {
             PlayerControl.playerInput.SwitchCurrentActionMap("PlayerSword");
@@ -37,6 +43,7 @@ public class PauseMenu : MonoBehaviour
     public void ReloadScene()
     {
         playerControl.pauseMenuPanel.SetActive(false);
+        playerControl.wellDonePanel.SetActive(false);
         if (playerControl.swordOrAxeStance)
         {
             PlayerControl.playerInput.SwitchCurrentActionMap("PlayerSword");
@@ -48,12 +55,12 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         PlayerControl.isGamePaused = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        playerControl.transform.position = startingPosition;
     } 
     
     public void ReloadSceneFromLastCheckpoint()
     {
         playerControl.pauseMenuPanel.SetActive(false);
+        playerControl.wellDonePanel.SetActive(false);
         if (playerControl.swordOrAxeStance)
         {
             PlayerControl.playerInput.SwitchCurrentActionMap("PlayerSword");

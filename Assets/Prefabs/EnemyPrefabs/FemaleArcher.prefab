@@ -69,6 +69,7 @@ Transform:
   - {fileID: 267415268108993190}
   - {fileID: 267415267734420273}
   - {fileID: 2528849922712104693}
+  - {fileID: 4138702591030656863}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -111,7 +112,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 496549353
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5dba6cb87eadfb3409a5a61a6ffc5bc9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -225,11 +226,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 6507266581626426304}
+  rigidBody2D: {fileID: 267415267380888266}
   currentTarget: {fileID: 0}
   hDistance: 0
   vDistance: 0
   facingLeft: 1
-  targetBeneathArcher: 0
   targetInLine: 0
   boxCollider2D: {fileID: 267415267380888277}
   spawn: {fileID: 0}
@@ -240,6 +241,11 @@ MonoBehaviour:
   arrowPointMiddle: {fileID: 267415267367965895}
   arrowPointUp: {fileID: 267415268108993190}
   arrowPointDown: {fileID: 267415267734420273}
+  groundCheck: {fileID: 4138702591030656863}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 67584
+  grounded: 0
 --- !u!1 &267415267734420272
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +308,37 @@ Transform:
   m_Father: {fileID: 267415267380888265}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -24.458}
+--- !u!1 &2667866886624318339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4138702591030656863}
+  m_Layer: 18
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4138702591030656863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2667866886624318339}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.163, y: -0.737, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 267415267380888265}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6020856046309611482
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PlayerControl : MonoBehaviour
 {
     //Helpers
+    public static PlayerControl playerControl;
     public GameObject shadow;
     public StaminaBar staminaBar;
     public float comboWindow = 0.3f;
@@ -34,12 +35,17 @@ public class PlayerControl : MonoBehaviour
     public GameObject basicControls;
     public Button resumeButton;
     public static bool lastCheckpoint = false;
-    
+    public Color staminaDepletedColor;
+    private Color normalColor = new Color(1f, 1f, 1f, 1f);
+    private float staminaDepletedColorTimer = 0f;
+    public bool staminaDepleted = false;
+
     //Self references
     public static ApologuePlayerInput_Actions playerinputActions; 
     public static PlayerInput playerInput;
     Rigidbody2D rigidBody2D;
-    Animator animator;      
+    Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     //Particle and audio system
     public ParticleSystem movementAndJumpDust;
@@ -129,6 +135,7 @@ public class PlayerControl : MonoBehaviour
     public enum AttackState
     {
         notAttacking,
+        canUseNextAttack,
         cannotAttack,
         lightAttackSword1,
         lightAttackSword2,
@@ -170,7 +177,7 @@ public class PlayerControl : MonoBehaviour
     //Utilities
     //Pause menu
     public GameObject pauseMenuPanel;
-    public GameObject tooltipPanel;
+    public GameObject wellDonePanel;
     public static bool isGamePaused = false;
 
     //Animation manager
@@ -225,6 +232,7 @@ public class PlayerControl : MonoBehaviour
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerControl = this;
 
         ceilingCheck = transform.Find("CeilingCheck");
 
@@ -270,7 +278,11 @@ public class PlayerControl : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
+    { 
+        if (!isGamePaused)
+        {
+            Cursor.visible = false;
+        }
         AnimatorSwitchState(animationState);
         if (KarasuEntity.dead)
         {
@@ -479,6 +491,11 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+        if (Time.time > staminaDepletedColorTimer && staminaDepleted)
+        {
+            spriteRenderer.color = normalColor;
+            staminaDepleted = false;
+        }
         if (KarasuEntity.dead)
         {
             joint2D.enabled = false;
@@ -630,7 +647,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(20))
+        if (callbackContext.performed && !StaminaCheck(20))
         {
             return;
         }
@@ -688,7 +705,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnRoll(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(25))
+        if (callbackContext.performed && !StaminaCheck(15))
         {
             return;
         }
@@ -757,7 +774,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSlide(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(10))
+        if (callbackContext.performed && !StaminaCheck(10))
         {
             return;
         }
@@ -798,22 +815,25 @@ public class PlayerControl : MonoBehaviour
     //Combat system
     public void OnSwordLightAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(30))
+        if (callbackContext.performed && !StaminaCheck(30))
         {
             return;
         }
-        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackSword2_Available)
+        if (callbackContext.performed && !mediumAttackSword2_Available)
         {
-            staminaBar.currentStamina -= 40;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.lightAttackSword1;
-            animationState = AnimationState.swordLight1;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 30;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.lightAttackSword1;
+                animationState = AnimationState.swordLight1; 
+            }
         }
     }
 
     public void OnSwordLightAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(10))
+        if (callbackContext.performed && !StaminaCheck(10))
         {
             return;
         }
@@ -824,37 +844,43 @@ public class PlayerControl : MonoBehaviour
             NotAttacking();
         }
 
-        if (callbackContext.performed && attackState == AttackState.notAttacking)
+        if (callbackContext.performed)
         {
-            holdingSwordLightAttack2 = true;
-            attackState = AttackState.lightAttackSword2;
-            animationState = AnimationState.swordLight2;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                holdingSwordLightAttack2 = true;
+                attackState = AttackState.lightAttackSword2;
+                animationState = AnimationState.swordLight2;
+            }
         }
     }
 
     public void OnSwordLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(45) || interactionIconPrefab.activeSelf)
+        if (callbackContext.performed && !StaminaCheck(40) || interactionIconPrefab.activeSelf)
         {
             return;
         }
 
         if (callbackContext.performed && attackState == AttackState.heavyAttackSword1)
         {
-            staminaBar.currentStamina -= 70;
+            staminaBar.currentStamina -= 40;
             staminaBar.regenerationDelay = Time.time + 1.25f;
             attackState = AttackState.lightAttackSword3;
             animationState = AnimationState.swordLight3;
             return;
         }
 
-        if (callbackContext.performed  && attackState == AttackState.notAttacking)
+        if (callbackContext.performed)
         {
-            staminaBar.currentStamina -= 60;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.lightAttackSword3;
-            animationState = AnimationState.swordLight3;
-            movementSpeed = 0;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 40;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.lightAttackSword3;
+                animationState = AnimationState.swordLight3;
+                movementSpeed = 0; 
+            }
         }
     }
 
@@ -865,53 +891,62 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordMediumAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(40))
+        if (callbackContext.performed && !StaminaCheck(30))
         {
             return;
         }
-        if (callbackContext.performed  && attackState == AttackState.notAttacking &&!mediumAttackSword2_Available && inputX != 0)
+        if (callbackContext.performed &&!mediumAttackSword2_Available && inputX != 0)
         {
-            staminaBar.currentStamina -= 50;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.mediumAttackSword1;
-            animationState = AnimationState.swordMedium1;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 30;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.mediumAttackSword1;
+                animationState = AnimationState.swordMedium1; 
+            }
         }
     }
-    
+
+    public float swordMediumDashStrength = 0f;
     void SwordMediumAttackDash()
     {
-        rigidBody2D.velocity = new Vector2(inputX * movementSpeed * 2.15f, rigidBody2D.velocity.y);
+        rigidBody2D.velocity = new Vector2(inputX * movementSpeed * swordMediumDashStrength, rigidBody2D.velocity.y);
     }
     
     public void OnSwordMediumAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(15))
+        if (callbackContext.performed && !StaminaCheck(10))
         {
             return;
         }
-        if (callbackContext.performed  && attackState == AttackState.notAttacking && mediumAttackSword2_Available)
+        if (callbackContext.performed && mediumAttackSword2_Available)
         {
-            staminaBar.currentStamina -= 20;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.mediumAttackSword2;
-            animationState = AnimationState.swordMedium2;
-            mediumAttackSword2_Available = false;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack || attackState == AttackState.mediumAttackSword1)
+            {
+                staminaBar.currentStamina -= 10;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.mediumAttackSword2;
+                animationState = AnimationState.swordMedium2;
+                mediumAttackSword2_Available = false; 
+            }
         }
     }
 
-    
     public void OnSwordHeavyAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(20))
+        if (callbackContext.performed && !StaminaCheck(20))
         {
             return;
         }
-        if (callbackContext.performed  && attackState == AttackState.notAttacking && !heavyAttackSword2_Available)
+        if (callbackContext.performed)
         {
-            staminaBar.currentStamina -= 30;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.heavyAttackSword1;
-            animationState = AnimationState.swordHeavy1;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 20;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.heavyAttackSword1;
+                animationState = AnimationState.swordHeavy1; 
+            }
         }
     }
 
@@ -943,22 +978,25 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeLightAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(35))
+        if (callbackContext.performed && !StaminaCheck(25))
         {
             return;
         }
-        if (callbackContext.performed && attackState == AttackState.notAttacking)
+        if (callbackContext.performed)
         {
-            staminaBar.currentStamina -= 50;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.lightAttackAxe1;
-            animationState = AnimationState.axeLight1;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 25;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.lightAttackAxe1;
+                animationState = AnimationState.axeLight1; 
+            }
         }
     }
 
     public void OnAxeLightAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(10))
+        if (callbackContext.performed && !StaminaCheck(10))
         {
             return;
         }
@@ -969,44 +1007,52 @@ public class PlayerControl : MonoBehaviour
             NotAttacking();
         }
 
-        
-        if (callbackContext.performed && attackState == AttackState.notAttacking)
+        if (callbackContext.performed)
         {
-            holdingAxeLightAttack2 = true;
-            attackState = AttackState.lightAttackAxe2;
-            animationState = AnimationState.axeLight2;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                holdingAxeLightAttack2 = true;
+                attackState = AttackState.lightAttackAxe2;
+                animationState = AnimationState.axeLight2; 
+            }
         }
     }
 
     public void OnAxeLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(50) || interactionIconPrefab.activeSelf)
+        if (callbackContext.performed && !StaminaCheck(45) || interactionIconPrefab.activeSelf)
         {
             return;
         }
 
-        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available)
+        if (callbackContext.performed && !mediumAttackAxe2_Available)
         {
-            staminaBar.currentStamina -= 70;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.lightAttackAxe3;
-            animationState = AnimationState.axeLight3;
-            movementSpeed = 0;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 45;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.lightAttackAxe3;
+                animationState = AnimationState.axeLight3;
+                movementSpeed = 0; 
+            }
         }
     }
     
     public void OnAxeMediumAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(30))
+        if (callbackContext.performed && !StaminaCheck(20))
         {
             return;
         }
-        if (callbackContext.performed && attackState == AttackState.notAttacking && !mediumAttackAxe2_Available && inputX != 0)
+        if (callbackContext.performed && !mediumAttackAxe2_Available && inputX != 0)
         {
-            staminaBar.currentStamina -= 40;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.mediumAttackAxe1;
-            animationState = AnimationState.axeMedium1;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 20;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.mediumAttackAxe1;
+                animationState = AnimationState.axeMedium1; 
+            }
         }
     }
 
@@ -1017,48 +1063,57 @@ public class PlayerControl : MonoBehaviour
 
     public void OnAxeMediumAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(10))
+        if (callbackContext.performed && !StaminaCheck(10))
         {
             return;
         }
-        if (callbackContext.performed && attackState == AttackState.notAttacking && mediumAttackAxe2_Available)
+        if (callbackContext.performed && mediumAttackAxe2_Available)
         {
-            staminaBar.currentStamina -= 20;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.mediumAttackAxe2;
-            animationState = AnimationState.axeMedium2;
-            mediumAttackAxe2_Available = false;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 10;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.mediumAttackAxe2;
+                animationState = AnimationState.axeMedium2;
+                mediumAttackAxe2_Available = false; 
+            }
         }
     }
 
     public void OnAxeHeavyAttack1(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(40))
+        if (callbackContext.performed && !StaminaCheck(40))
         {
             return;
         }
-        if (callbackContext.performed && attackState == AttackState.notAttacking && !heavyAttackAxe2_Available && !mediumAttackAxe2_Available)
+        if (callbackContext.performed && !heavyAttackAxe2_Available && !mediumAttackAxe2_Available)
         {
-            staminaBar.currentStamina -= 40;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.heavyAttackAxe1;
-            animationState = AnimationState.axeHeavy1;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack)
+            {
+                staminaBar.currentStamina -= 40;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.heavyAttackAxe1;
+                animationState = AnimationState.axeHeavy1; 
+            }
         }
     }
 
     public void OnAxeHeavyAttack2(InputAction.CallbackContext callbackContext)
     {
-        if (!StaminaCheck(25))
+        if (callbackContext.performed && !StaminaCheck(15))
         {
             return;
         }
-        if (callbackContext.performed/* && attackState == AttackState.notAttacking*/ && heavyAttackAxe2_Available)
+        if (callbackContext.performed && heavyAttackAxe2_Available)
         {
-            staminaBar.currentStamina -= 50;
-            staminaBar.regenerationDelay = Time.time + 1.25f;
-            attackState = AttackState.heavyAttackAxe2;
-            animationState = AnimationState.axeHeavy2;
-            heavyAttackAxe2_Available = false;
+            if (attackState == AttackState.notAttacking || attackState == AttackState.canUseNextAttack || attackState == AttackState.heavyAttackAxe1)
+            {
+                staminaBar.currentStamina -= 15;
+                staminaBar.regenerationDelay = Time.time + 1.25f;
+                attackState = AttackState.heavyAttackAxe2;
+                animationState = AnimationState.axeHeavy2;
+                heavyAttackAxe2_Available = false; 
+            }
         }
     }
 
@@ -1120,11 +1175,29 @@ public class PlayerControl : MonoBehaviour
 
     public bool StaminaCheck(float actionStaminaCost)
     {
-        if (actionStaminaCost <= staminaBar.currentStamina)
+        //if (actionStaminaCost <= staminaBar.currentStamina)
+        //{
+        //    return true;
+        //}
+        //if (!staminaDepleted)
+        //{
+        //    StaminaDepleted_ActionBlocked_IndicatorTimer();
+        //}
+        //return false;
+        if (staminaBar.currentStamina > 10)
         {
             return true;
         }
         return false;
+    }
+
+
+    public float staminaDepletedColorDuration = 0f;
+    void StaminaDepleted_ActionBlocked_IndicatorTimer()
+    {
+        staminaDepleted = true;
+        staminaDepletedColorTimer = Time.time + staminaDepletedColorDuration;
+        spriteRenderer.color = staminaDepletedColor;
     }
 
     private void Slopes()
@@ -1175,7 +1248,6 @@ public class PlayerControl : MonoBehaviour
             onASlope = false;
         }
     }
-    
 
     public void PauseGame(InputAction.CallbackContext callbackContext)
     {
@@ -1183,14 +1255,8 @@ public class PlayerControl : MonoBehaviour
         {
             if (isGamePaused == true)
             {
-                if (!tooltipPanel.activeInHierarchy)
-                {
-                    pauseMenuPanel.SetActive(false);
-                }
-                else
-                {
-                    tooltipPanel.SetActive(false);
-                }
+                pauseMenuPanel.SetActive(false);
+                wellDonePanel.SetActive(false);
 
                 if (swordOrAxeStance)
                 {
@@ -1208,13 +1274,54 @@ public class PlayerControl : MonoBehaviour
             {
                 pauseMenuPanel.SetActive(true);
                 playerInput.SwitchCurrentActionMap("UI");
+                isGamePaused = true;
                 if (playerInput.currentControlScheme == "Gamepad")
                 {
                     resumeButton.Select();
                 }
+                else
+                {
+                    Cursor.visible = true;
+                }
                 Time.timeScale = 0f;
-                isGamePaused = true;
             }
+        }
+    }
+
+    public static void PauseGameSimulation()
+    {
+        if (isGamePaused == true)
+        {
+            playerControl.pauseMenuPanel.SetActive(false);
+            playerControl.wellDonePanel.SetActive(false);
+
+            if (playerControl.swordOrAxeStance)
+            {
+                playerInput.SwitchCurrentActionMap("PlayerSword");
+            }
+            else
+            {
+                playerInput.SwitchCurrentActionMap("PlayerAxe");
+            }
+
+            Time.timeScale = 1f;
+            isGamePaused = false;
+        }
+        else
+        {
+            playerControl.pauseMenuPanel.SetActive(true);
+            playerControl.wellDonePanel.SetActive(true);
+            playerInput.SwitchCurrentActionMap("UI");
+            isGamePaused = true;
+            if (playerInput.currentControlScheme == "Gamepad")
+            {
+                playerControl.resumeButton.Select();
+            }
+            else
+            {
+                Cursor.visible = true;
+            }
+            Time.timeScale = 0f;
         }
     }
 
@@ -1278,6 +1385,11 @@ public class PlayerControl : MonoBehaviour
     public void NotAttacking()
     {
         attackState = AttackState.notAttacking;
+    }
+
+    void CanUseNextAttack()
+    {
+        attackState = AttackState.canUseNextAttack;
     }
 
     public void Flip()

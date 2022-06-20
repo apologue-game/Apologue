@@ -167,6 +167,7 @@ public class SpearmanAI : MonoBehaviour
                 rigidBody2D.constraints = RigidbodyConstraints2D.FreezeAll;
                 AnimatorSwitchState(DEATHANIMATION);
             }
+            boxCollider2D.enabled = false;
             return;
         }
         if (KarasuEntity.dead || currentTarget == null)

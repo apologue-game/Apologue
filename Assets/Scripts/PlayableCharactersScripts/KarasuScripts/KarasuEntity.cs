@@ -18,6 +18,7 @@ public class KarasuEntity : MonoBehaviour
     private Color takeDamageColor = new Color(1f, 0.45f, 0.55f, 0.6f);
     private Color normalColor = new Color(1f, 1f, 1f, 1f);
     private float takeDamageTimer = 3;
+    public bool takingDamage = false;
     public int maxHealth = 125;
     public float currentHealth;
 
@@ -54,8 +55,9 @@ public class KarasuEntity : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= takeDamageTimer)
+        if (Time.time >= takeDamageTimer && takingDamage) 
         {
+            takingDamage = false;
             spriteRenderer.color = normalColor;
         }
         if (Time.time >= nextTimeVulnerable)
@@ -93,6 +95,7 @@ public class KarasuEntity : MonoBehaviour
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
             spriteRenderer.color = takeDamageColor;
+            takingDamage = true;
             takeDamageTimer = Time.time + invincibilityWindow;
             nextTimeVulnerable = Time.time + invincibilityWindow;
         }

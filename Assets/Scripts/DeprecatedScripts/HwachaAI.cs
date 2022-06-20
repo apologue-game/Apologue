@@ -99,6 +99,7 @@ public class HwachaAI : MonoBehaviour
         //Exceptions
         if (hwacha.isDead)
         {
+            boxCollider2D.enabled = false;
             return;
         }
         if (hwacha.isTakingDamage || KarasuEntity.dead)
