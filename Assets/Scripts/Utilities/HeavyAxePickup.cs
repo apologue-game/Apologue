@@ -6,11 +6,14 @@ using UnityEngine.InputSystem;
 public class HeavyAxePickup : Interactable
 {
     public GameObject axeBar;
+    public SpriteRenderer spriteRenderer;
 
     public override void Interact()
     {
         PlayerControl.axePickedUp = true;
         axeBar.SetActive(true);
-        GameMaster.DestroyGameObject(gameObject);
+        active = false;
+        spriteRenderer.enabled = false;
+        //GameMaster.DestroyGameObject(gameObject);
     }
 }

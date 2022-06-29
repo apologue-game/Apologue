@@ -5,9 +5,9 @@ using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
     const float swordLight1Damage =  30;
-    const float swordLight2Damage = 3;
+    const float swordLight2Damage = 4;
     const float swordLight3Damage = 6;
-    const float swordMedium1Damage = 4;
+    const float swordMedium1Damage = 7;
     const float swordMedium2Damage = 40;
     const float swordHeavy1Damage = 20;
     //const float swordHeavy2Damage = 40;

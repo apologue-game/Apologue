@@ -857,7 +857,11 @@ public class PlayerControl : MonoBehaviour
 
     public void OnSwordLightAttack3(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.performed && !StaminaCheck(40) || interactionIconPrefab.activeSelf)
+        if (callbackContext.performed && !StaminaCheck(40))
+        {
+            return;
+        }
+        if (interactionIconPrefab.activeInHierarchy)
         {
             return;
         }
@@ -910,6 +914,10 @@ public class PlayerControl : MonoBehaviour
     public float swordMediumDashStrength = 0f;
     void SwordMediumAttackDash()
     {
+        if (isRolling)
+        {
+            isRolling = false;
+        }
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed * swordMediumDashStrength, rigidBody2D.velocity.y);
     }
     
@@ -1058,6 +1066,10 @@ public class PlayerControl : MonoBehaviour
 
     void AxeMediumAttackDash()
     {
+        if (isRolling)
+        {
+            isRolling = false;
+        }
         rigidBody2D.velocity = new Vector2(inputX * movementSpeed * axeMediumAttackDashSpeed, rigidBody2D.velocity.y);
     }
 

@@ -138,6 +138,8 @@ public class SpearmanAI : MonoBehaviour
             healthBar.SetHealth(spearman.maxHealth);
             shieldHealthBar.SetHealth(spearman.shieldMaxHealth);
             transform.position = spawn.transform.position;
+            spearman.shield = true;
+            spearman.shieldBreak = false;
             if (!facingLeft)
             {
                 healthBar.Flip();
@@ -181,7 +183,7 @@ public class SpearmanAI : MonoBehaviour
             {
                 AnimatorSwitchState(STAGGERANIMATION);
             }
-            else
+            else if (!spearman.shield)
             {
                 AnimatorSwitchState(STAGGERNOSHIELDANIMATION);
             }
